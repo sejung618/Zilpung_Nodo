@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
 
     @GetMapping("/zilpung")
-    @ResponseBody
     public String index() {
-        return "안녕하세요 sbb에 오신것을 환영합니다.";
+        return "main";
     }
 
     @GetMapping("/")

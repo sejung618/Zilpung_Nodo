@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootmorph.min.css}">
     <!-- sbb CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
     <title>ZIBZIP에 어서와!</title>
 </head>
 <body>
 <!-- 네비게이션바 -->
-<nav th:replace="~{Mm/navbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar :: navbarFragment}"></nav>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 <th:block layout:fragment="INDate"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->

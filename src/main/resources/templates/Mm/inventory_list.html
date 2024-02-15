@@ -1,4 +1,4 @@
-<html layout:decorate="~{Mm/layout}">
+<html layout:decorate="~{/layout}">
 <div layout:fragment="INDate" class="container my-3">
     <div class="row my-3">
 		<div class="col-6">
@@ -9,7 +9,7 @@
 	    </div>
     </div>
 	<table class="table">
-		<thead class="table-dark">
+		<thead class="table-primary">
 			<tr>
 				<th>No.</th>
 				<th>일자</th>
@@ -41,7 +41,6 @@
 		</tbody>
 		
 	</table>
-	456154
     <!-- 페이징처리 시작 -->
     <div th:if="${!paging.isEmpty()}">
         <ul class="pagination justify-content-center">
