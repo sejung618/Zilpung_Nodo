@@ -13,7 +13,6 @@ import lombok.Setter;
 @Entity
 public class Account {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String AC_Code; // 거래처 코드(AC + 연도(ex 2024 = 24) + 월(01~12) + 순번(001~999)
 
 	
