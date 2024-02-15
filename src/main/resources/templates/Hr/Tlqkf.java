@@ -1,5 +1,5 @@
 package templates.Hr;
 
-public class Controller {
+public class Tlqkf {
 //test controller
 }
