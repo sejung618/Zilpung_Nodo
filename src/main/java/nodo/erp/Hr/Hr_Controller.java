@@ -74,8 +74,9 @@ public class Hr_Controller {
 	            model.addAttribute("Hr_Form", inf); // 에러가 발생하면 모델에 Hr_Form 추가
 	            return "Hr/Emp_Add";
 	        }
-	        this.hr_Service.create(inf.getEmpName(), inf.getEmpAdd());
-	        return "redirect:/";
+	        this.hr_Service.create(inf.getEmpName(), inf.getEmpSsn(), inf.getEmpAdd(), inf.getEmpPhone(), inf.getEmpMail(), 
+	        		inf.getEmpDate(), inf.getEmpSpot(), inf.getEmpPosition(), inf.getDepCode());
+	        return "redirect:/Hr/list";
 	    }
 
 }
