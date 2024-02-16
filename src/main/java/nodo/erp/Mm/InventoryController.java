@@ -92,7 +92,7 @@ public class InventoryController {
         Inventory inventory = this.inventoryService.getInventory(id); {
        
         this.inventoryService.modify(inventory, inf.getINDate(),inf.getININame(),inf.getINPName(),inf.getINQuantity(),inf.getINPNum(),inf.getINICode(),inf.getINStandard());
-        return String.format("redirect:/inventory/detail/%s", id);
+        return String.format("redirect:/inventory/list", id);
     
         }
 	}
@@ -102,7 +102,7 @@ public class InventoryController {
 		Inventory inventory = this.inventoryService.getInventory(id);
       
         this.inventoryService.delete(inventory);
-        return "redirect:/Mm";
+        return "redirect:/inventory/list";
     }
 }
     

@@ -1,52 +1,57 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="INDate" class="container my-3">
-	<table class="table">
-		<thead class="table-dark">
-			<tr>
-				<th>일자</th>
-				<th>품목명</th>
-				<th>품목코드</th>
-				<th>담당자</th>
-				<th>담당자사번</th>
-				<th>수량</th>
-				<th>규격</th>
-			</tr>	
-		</thead>
-		<body>
-			<th>
-				<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INDate}">
-			</th>
-			<th>
-				<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.ININame}"></a>
-			</th>
-			<th>
-				<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INICode}"></a>
-			</th>
-			<th>
-				<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INPName}"></a>
-			</th>
-			<th>
-				<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INPNum}"></a>
-			</th>
-			<th>
-				<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INQuantity}"></a>
-			</th>
-			<th>
-				<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INStandard}"></a>
-			</th>
-		</body>
-	</table>
-	<a th:href="@{|/inventory/modify/${inventory.id}|}" class="btn btn-primary my-2"> 수정</a>
-	<a href="javascript:void(0);" th:data-uri="@{|/inventory/delete/${inventory.id}|}" class="delete btn btn-primary my-2" sec:authorize="isAuthenticated()" th:text="삭제"></a>
-	</dvi>
-	<script type='text/javascript'>
-	const delete_elements = document.getElementsByClassName("delete");
-	Array.from(delete_elements).forEach(function(element) {
-	    element.addEventListener('click', function() {
-	        if(confirm("정말로 삭제하시겠습니까?")) {
-	            location.href = this.dataset.uri;
-	        };
-	    });
-	});
+<div layout:fragment="content" class="container my-3">
+   <div class="my-3 border-bottom">
+        <div>
+            <h4>수정 및 삭제</h4>
+        </div>
+    </div>
+   <table class="table">
+      <thead class="table-primary">
+         <tr>
+            <th>일자-No.</th>
+            <th>품목명</th>
+            <th>품목코드</th>
+            <th>담당자</th>
+            <th>담당자사번</th>
+            <th>수량</th>
+            <th>규격</th>
+         </tr>   
+      </thead>
+      <body>
+         <th>
+            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INDate}">
+         </th>
+         <th>
+            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.ININame}">
+         </th>
+         <th>
+            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INICode}">
+         </th>
+         <th>
+            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INPName}">
+         </th>
+         <th>
+            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INPNum}">
+         </th>
+         <th>
+            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INQuantity}">
+         </th>
+         <th>
+            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INStandard}">
+         </th>
+      </body>
+   </table>
+   <a th:href="@{|/inventory/modify/${inventory.id}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
+   <a href="javascript:void(0);" th:data-uri="@{|/inventory/delete/${inventory.id}|}" class="delete btn btn-primary my-2" sec:authorize="isAuthenticated()" th:text="삭제" style="left: 85%;"></a>
+   </dvi>
+   <script type='text/javascript'>
+   const delete_elements = document.getElementsByClassName("delete");
+   Array.from(delete_elements).forEach(function(element) {
+       element.addEventListener('click', function() {
+           if(confirm("정말로 삭제하시겠습니까?")) {
+               location.href = this.dataset.uri;
+           };
+       });
+   });
 </script>
 </html>
