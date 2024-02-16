@@ -1,5 +1,7 @@
 package nodo.erp.Hr;
 
+import java.sql.Date;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -13,6 +15,21 @@ public class Hr_Form {
     @Size(max=200)
     private String EmpName;
 
-    @NotEmpty(message="내용은 필수항목입니다.")
+    @NotEmpty(message="주민번호는 필수항목입니다.")
+    private String EmpSsn;
+    
+    @NotEmpty(message="주소은 필수항목입니다.")
     private String EmpAdd;
+    
+    private String EmpPhone;
+    
+    private String EmpMail;
+    
+    private Date EmpDate;
+    
+    private String EmpSpot;
+    
+    private String EmpPosition;
+    
+    private String DepCode;
 }
