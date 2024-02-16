@@ -1,5 +1,7 @@
 package nodo.erp.Hr;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +49,18 @@ public class Hr_Service {
 		return this.hr_Repository.findAll();
 	}
 
-	public void create(String EmpName, String EmpAdd) {
+	public void create(String EmpName, String EmpSsn, String EmpAdd, String EmpPhone, 
+			String EmpMail,Date EmpDate, String EmpSpot, String EmpPosition, String DepCode) {
 		Hr_Dto_Emp q = new Hr_Dto_Emp();
 		q.setEmpName(EmpName);
+		q.setEmpSsn(EmpSsn);
 		q.setEmpAdd(EmpAdd);
-		q.setEmpDate(LocalDateTime.now());
+		q.setEmpPhone(EmpPhone);
+		q.setEmpMail(EmpMail);
+		q.setEmpDate(EmpDate);
+		q.setEmpSpot(EmpSpot);
+		q.setEmpPosition(EmpPosition);
+		q.setDepCode(DepCode);
 		this.hr_Repository.save(q);
 	}
 
