@@ -13,9 +13,8 @@ import lombok.Setter;
 @Entity
 public class Account {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String AC_Code; // 거래처 코드(AC + 연도(ex 2024 = 24) + 월(01~12) + 순번(001~999)
-
 	
 	@Column(length = 30)
 	private String AC_Company; // 회사 상호명
@@ -42,7 +41,7 @@ public class Account {
 	private Integer AC_Price;
 	
 	@Column(columnDefinition = "NUMERIC(4,2) NOT NULL")
-	private float VAT = 10.0f;
+	private float VAT;
 	
 	@Column(length = 10)
 	private String AC_Date;

@@ -16,4 +16,9 @@ public class MainController {
     public String root() {
         return "redirect:/zilpung";
     }
+    
+    @GetMapping("/zilpung/SD")
+    public String SD() {
+    	return "SD";
+    }
 }

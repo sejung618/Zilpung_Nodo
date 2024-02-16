@@ -1,0 +1,36 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		
+<table class="table">
+	<th class="table-blue">
+		</th>
+				<th>번호</th>
+				<th> 거래처 회사코드 </th>
+				<th> 거래처 상호명 </th>
+				<th> 대표이사 성함</th>
+				<th> 물품명 </th>
+				<th> 첫 거래날짜 </th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="Account, loop:${AccList}">
+				<td th:text="${loop.count}"></td>
+				<td th:text="${Account.AC_Code}"></td>
+				<td>
+					<a th:href="@{|/Account/detail/${Account.AC_Code}|}" th:text="${Account.AC_Company}"></a>
+				</td>
+			
+				
+				
+				<td th:text="${Account.AC_Name}"></td>
+				
+				<td th:text="${Account.AC_Item}"></td>
+				
+				<td th:text="${Account.AC_Date}"></td>	
+			
+			</tr>
+		</tbody>
+	</table>
+	<a th:href="@{/zilpung/SD/account/create}" class="btn btn-primary">거래처 추가하기</a>
+	</div>
+</html>
