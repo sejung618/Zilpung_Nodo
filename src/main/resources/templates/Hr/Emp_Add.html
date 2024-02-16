@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout}">
 	
-	<div layout:fragment="INDate" class="container">
+	<div layout:fragment="content" class="container">
 	<h5 class="my-3 border-bottom pd-2">사원 추가</h5>
 	<form th:object="${Hr_Form}" method="post">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
