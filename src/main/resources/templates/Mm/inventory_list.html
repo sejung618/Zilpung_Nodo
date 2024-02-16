@@ -11,8 +11,8 @@
 	<table class="table">
 		<thead class="table-primary">
 			<tr>
-				<th>No.</th>
-				<th>일자</th>
+				<th>번호</th>
+				<th>일자-No.</th>
 				<th>품목명</th>
 				<th>품목코드</th>
 				<th>수량</th>
@@ -64,7 +64,7 @@
     </div>
     <!-- 페이징처리 끝 -->
     <div class="col-6">
-		<a th:href="@{/inventory/create}" class="btn btn-primary"> 재고조정</a>
+		<a th:href="@{/inventory/create}" class="btn btn-primary" style="left: 180%;"> 재고조정</a>
 	</div>
 	<form th:action="@{/inventory/list}" method="get" id="searchForm">
         <input type="hidden" id="kw" name="kw" th:value="${kw}">
