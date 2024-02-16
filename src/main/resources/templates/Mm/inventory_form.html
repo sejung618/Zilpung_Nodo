@@ -1,5 +1,5 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="INDate" class="container">
+<div layout:fragment="content" class="container">
 	<h5 class="my-3 border-bottom pd-2">재고조정</h5>
 	<form th:object="${inventoryForm}" method="post">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
@@ -33,6 +33,6 @@
 			<label for="INStandard" class="form-label">규격</label>
 			<input type="text" name="INStandard" id="INStandard" class="form-control">
 		</div>
-		<input type="submit" value="저장하기" class="btn btn-primary my-2">
+		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
 	</form>
 </div>
