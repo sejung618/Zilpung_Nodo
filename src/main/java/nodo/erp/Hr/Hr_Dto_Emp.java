@@ -26,6 +26,9 @@ public class Hr_Dto_Emp {
 	private Integer EmpId;
 
 	@Column(length = 50)
+	private String EmpNum;	//사번@
+	
+	@Column(length = 50)
 	private String EmpName;	//이름@
 	
 	@Column(length = 50)
@@ -40,7 +43,7 @@ public class Hr_Dto_Emp {
 	@Column(length = 50)
 	private String EmpMail;		//이메일@
 	
-	private String EmpDate;	//입사일자@
+	private Date EmpDate;	//입사일자@
 	
 	@Column(length = 50)
 	private String EmpSpot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
@@ -52,6 +55,6 @@ public class Hr_Dto_Emp {
 	private String DepCode;		//@부서번호
 	
 	@Column(length = 50)
-	private String EmpVaca;		//연차갯수
+	private Integer EmpVaca;		//연차갯수
 
 }

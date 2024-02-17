@@ -25,7 +25,7 @@ public class Emp_Form {
     
     private String EmpMail;
     
-    private String EmpDate;
+    private Date EmpDate;
     
     private String EmpSpot;
     
