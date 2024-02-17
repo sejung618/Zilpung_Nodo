@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Hr_Form {
+public class Emp_Form {
 
 	@NotEmpty(message="제목은 필수항목입니다.")
     @Size(max=200)
@@ -25,7 +25,7 @@ public class Hr_Form {
     
     private String EmpMail;
     
-    private Date EmpDate;
+    private String EmpDate;
     
     private String EmpSpot;
     

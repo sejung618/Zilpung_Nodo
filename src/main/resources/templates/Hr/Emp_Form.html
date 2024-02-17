@@ -2,7 +2,7 @@
 
 <div layout:fragment="content" class="container">
 	<h5 class="my-3 border-bottom pd-2">사원 추가</h5>
-	<form th:object="${Hr_Form}" method="post">
+	<form th:action="@{/Hr/create}" th:object="${emp_Form}" method="post">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
@@ -29,7 +29,7 @@
 		</div>
 		<div class="mb-3">
 			<label for="EmpDate" class="form-label">입사일자</label>
-			<input type="date" th:field="*{EmpDate}" name="EmpDate" id="EmpDate" class="form-control" >
+			<input type="text" th:field="*{EmpDate}" name="EmpDate" id="EmpDate" class="form-control" >
 		</div>
 
 		<div class="form-group mb-3">
