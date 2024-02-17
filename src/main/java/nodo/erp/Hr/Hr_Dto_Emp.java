@@ -51,10 +51,8 @@ public class Hr_Dto_Emp {
 	@Column(length = 50)
 	private String EmpPosition; //@직책 (팀장 부팀장)
 	
-	@Column(length = 50)
 	private String DepCode;		//@부서번호
 	
-	@Column(length = 50)
 	private Integer EmpVaca;		//연차갯수
 
 }
