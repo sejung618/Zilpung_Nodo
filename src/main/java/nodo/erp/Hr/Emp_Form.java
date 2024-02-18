@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 public class Emp_Form {
 
-	@NotEmpty(message="제목은 필수항목입니다.")
-    @Size(max=200)
+	@NotEmpty(message="이름은 필수항목입니다.")
+    @Size(max=50)
     private String EmpName;
 
     @NotEmpty(message="주민번호는 필수항목입니다.")

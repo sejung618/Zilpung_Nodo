@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -24,7 +23,14 @@ import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.DataNotFoundException;
+
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +40,7 @@ public class Hr_Service {
 
 	@PersistenceContext
     private EntityManager entityManager;
+	private final PasswordEncoder passwordEncoder;
 	
 	public List<Hr_Dto_Emp> getList() {
 		return this.hr_Repository.findAll();
@@ -57,13 +64,14 @@ public class Hr_Service {
 		q.setEmpSpot(EmpSpot);
 		q.setEmpPosition(EmpPosition);
 		q.setDepCode(DepCode);
-		q.setEmpId(generateEmpId());
+		q.setId(generateEmpId());
 		q.setEmpNum(stre + Num);
 		q.setEmpVaca(vaca(strv));
+        q.setPassword(passwordEncoder.encode(stre + Num));
 		this.hr_Repository.save(q);
 	}
 	 private Integer generateEmpId() {
-	        jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(e.EmpId) FROM Hr_Dto_Emp e");
+	        jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(e.Id) FROM Hr_Dto_Emp e");
 	        Integer maxId = (Integer) query.getSingleResult();
 	        return (maxId == null) ? 1 : maxId + 1;
 	    }
@@ -81,6 +89,15 @@ public class Hr_Service {
 		 return (int) (15+ y*0.5);
 	 }
 
-
+	 public Hr_Dto_Emp getEmpDetail(Integer id) {  
+	        Optional<Hr_Dto_Emp> EmpDetail = this.hr_Repository.findById(id);
+	        if (EmpDetail.isPresent()) {
+	            return EmpDetail.get();
+	        } else {
+	            throw new DataNotFoundException("question not found");
+	        }
+	    }
 	
+	 
+	 
 }

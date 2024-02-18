@@ -59,4 +59,17 @@ public class Hr_Controller {
 	    return "redirect:/Hr/list";
 	}
 	
+    @GetMapping(value = "/detail/{id}")
+    public String EmpDetail(Model model, @PathVariable("id") Integer id) {
+    	Hr_Dto_Emp hr_Dto_Emp = this.hr_Service.getEmpDetail(id);
+        model.addAttribute("Hr_Dto_Emp", hr_Dto_Emp);
+    	
+    	return "Hr/Emp_detail";
+    }
+	
+    @GetMapping("/login")
+    public String login() {
+        return "Hr/login_form";
+    }
+    
 }

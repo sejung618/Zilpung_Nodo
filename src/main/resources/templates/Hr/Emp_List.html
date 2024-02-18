@@ -26,7 +26,9 @@
 
 		<tbody>
 			<tr class="text-center table-active" th:each="Emplist : ${EmpList}">
-				<td th:text="${Emplist.EmpNum}"></td>
+				<td>
+					<a th:href="@{|/Hr/detail/${Emplist.Id}|}" th:text="${Emplist.EmpNum}"></a>
+				</td>
 				<td th:text="${Emplist.EmpName}"></td>
 				<td th:text="${Emplist.EmpDate}"></td>
 				<td th:text="${Emplist.DepCode}"></td>
