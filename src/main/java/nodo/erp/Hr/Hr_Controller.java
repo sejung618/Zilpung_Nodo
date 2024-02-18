@@ -61,11 +61,11 @@ public class Hr_Controller {
 	
     @GetMapping(value = "/detail/{id}")
     public String EmpDetail(Model model, @PathVariable("id") Integer id) {
-    	Hr_Dto_Emp hr_Dto_Emp = this.hr_Service.getEmpDetail(id);
-        model.addAttribute("Hr_Dto_Emp", hr_Dto_Emp);
+    	Hr_Dto_Emp empDtail = this.hr_Service.getEmpDetail(id);
+        model.addAttribute("empDtail", empDtail);
     	
-    	return "Hr/Emp_detail";
-    }
+    	return "Hr/Emp_List";
+    }				
 	
     @GetMapping("/login")
     public String login() {

@@ -21,7 +21,7 @@ import jakarta.persistence.ManyToMany;
 public class Hr_Dto_Dep {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	private String depCode;
 	
