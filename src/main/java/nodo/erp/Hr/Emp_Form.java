@@ -13,23 +13,23 @@ public class Emp_Form {
 
 	@NotEmpty(message="이름은 필수항목입니다.")
     @Size(max=50)
-    private String EmpName;
+    private String empname;
 
     @NotEmpty(message="주민번호는 필수항목입니다.")
-    private String EmpSsn;
+    private String empssn;
     
     @NotEmpty(message="주소은 필수항목입니다.")
-    private String EmpAdd;
+    private String empadd;
     
-    private String EmpPhone;
+    private String empphone;
     
-    private String EmpMail;
+    private String empmail;
     
-    private Date EmpDate;
+    private Date empdate;
     
-    private String EmpSpot;
+    private String empspot;
     
-    private String EmpPosition;
+    private String empposition;
     
-    private String DepCode;
+    private String depcode;
 }

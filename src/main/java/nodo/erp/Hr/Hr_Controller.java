@@ -25,12 +25,19 @@ public class Hr_Controller {
 
 	private final Hr_Service hr_Service;
 	
-	@GetMapping("/list")
-	public String Emplist(Model model) {
-		List<Hr_Dto_Emp> EmpList = this.hr_Service.getList();
-		model.addAttribute("EmpList", EmpList);
-		return "Hr/Emp_List";
-	}
+//	@GetMapping("/list")
+//	public String Emplist(Model model) {
+//		List<Hr_Dto_Emp> EmpList = this.hr_Service.getList();
+//		model.addAttribute("EmpList", EmpList);
+//		return "Hr/Emp_List";
+//	}
+	//페이징
+	 @GetMapping("/list")
+	    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+	        Page<Hr_Dto_Emp> paging = this.hr_Service.getList(page);
+	        model.addAttribute("paging", paging);
+	        return "Hr/Emp_List";
+	    }
 
 	@GetMapping("/create")
     public String EmpCreate(Emp_Form emp_Form) {
@@ -43,10 +50,10 @@ public class Hr_Controller {
 	    if (bindingResult.hasErrors()) {
 	        return "Hr/Emp_Form";
 	    }
-	    this.hr_Service.create(emp_Form.getEmpName(), emp_Form.getEmpSsn(), 
-	    		emp_Form.getEmpAdd(), emp_Form.getEmpPhone(), emp_Form.getEmpMail(),
-	    		emp_Form.getEmpDate(), emp_Form.getEmpSpot(), emp_Form.getEmpPosition(), 
-	    		emp_Form.getDepCode());
+	    this.hr_Service.create(emp_Form.getEmpname(), emp_Form.getEmpssn(), 
+	    		emp_Form.getEmpadd(), emp_Form.getEmpphone(), emp_Form.getEmpmail(),
+	    		emp_Form.getEmpdate(), emp_Form.getEmpspot(), emp_Form.getEmpposition(), 
+	    		emp_Form.getDepcode());
 	    
 	    return "redirect:/Hr/list";
 	}
@@ -56,7 +63,7 @@ public class Hr_Controller {
     	Hr_Dto_Emp empDtail = this.hr_Service.getEmpDetail(id);
         model.addAttribute("empDtail", empDtail);
     	
-    	return "Hr/Emp_List";
+    	return "Hr/Emp_detail";
     }				
 	
    	

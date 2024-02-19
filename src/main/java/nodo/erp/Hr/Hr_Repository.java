@@ -16,5 +16,5 @@ public interface Hr_Repository extends JpaRepository<Hr_Dto_Emp, Integer>{
     
    
     
-    Optional<Hr_Dto_Emp> findByEmpNum(String empNum);
+    Optional<Hr_Dto_Emp> findByEmpnum(String empnum);
 }

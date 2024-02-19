@@ -21,18 +21,18 @@ public class UserSecurityService implements UserDetailsService {
     private final Hr_Repository hr_Repository;
 
     @Override
-    public UserDetails loadUserByUsername(String empNum) throws UsernameNotFoundException {
-        Optional<Hr_Dto_Emp> _siteUser = this.hr_Repository.findByEmpNum(empNum);
+    public UserDetails loadUserByUsername(String empnum) throws UsernameNotFoundException {
+        Optional<Hr_Dto_Emp> _siteUser = this.hr_Repository.findByEmpnum(empnum);
         if (_siteUser.isEmpty()) {
             throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
         }
         Hr_Dto_Emp siteUser = _siteUser.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if ("admin".equals(empNum)) {
+        if ("admin".equals(empnum)) {
             authorities.add(new SimpleGrantedAuthority(EmpRole.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(EmpRole.USER.getValue()));
         }
-        return new User(siteUser.getEmpNum(), siteUser.getPassword(), authorities);
+        return new User(siteUser.getEmpnum(), siteUser.getPassword(), authorities);
     }
 }
