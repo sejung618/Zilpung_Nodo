@@ -1,9 +1,6 @@
 <html layout:decorate="~{layout}">
 
 <head>
-	
-
-
 </head>
 
 <body>
@@ -26,14 +23,10 @@
 
 			<tbody>
 				<tr class="text-center table-active" th:each="Emplist : ${EmpList}">
-
 					<td>
 						<a th:href="@{|/Hr/detail/${Emplist.Id}|}" th:text="${Emplist.EmpNum}"></a>
 					</td>
-					<td>
-						<a href="#" th:onclick="'showemp(\'' + ${Emplist.id} + '\')'" th:text="${Emplist.EmpName}"></a>
-					</td>
-
+					<td th:text="${Emplist.EmpName}"></td>
 					<td th:text="${Emplist.EmpDate}"></td>
 					<td th:text="${Emplist.DepCode}"></td>
 					<td th:text="${Emplist.EmpPosition}"></td>
@@ -44,15 +37,7 @@
 
 			<tbody>
 				<tr class="text-center table-active" th:each="Emplist : ${empDtail}">
-					<!--모달 Test
-				<td>
-					<a th:onclick="'openModal(' + *{Emplist.id} + ')'"></a>
-				</td>  [[${Emplist.id}]]
-				test end-->
-					<td>
-						<a th:href="@{|/Hr/detail/${Emplist.Id}|}" th:text="${Emplist.EmpNum}"></a>
-					</td>
-
+					<td th:text="${Emplist.EmpNum}"></td>
 					<td th:text="${Emplist.EmpName}"></td>
 					<td th:text="${Emplist.EmpDate}"></td>
 					<td th:text="${Emplist.DepCode}"></td>
@@ -70,22 +55,7 @@
 		</div>
 
 
-		<!--모달창-->
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <!-- 각 항목을 한 줄씩 출력 -->
-                <div th:each="Emplist : ${empDtail}">
-                    <p th:text="'Date: ' + ${Emplist.EmpDate}"></p>
-                    <p th:text="'Department Code: ' + ${Emplist.DepCode}"></p>
-                    <p th:text="'Employee Position: ' + ${Emplist.EmpPosition}"></p>
-                    <p th:text="'Employee Spot: ' + ${Emplist.EmpSpot}"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 		<!--
 	검색 자바스크립트
@@ -106,36 +76,7 @@
 	</script>
 	-->
 
-		<!--모달 스크립트-->
-		<script th:inline="javascript">
-			function showemp123(id) {
-				$('#empDtail').modal('show');
-				$('#empId').val(/*[[${id}]]*/ id);
 
-			}
-		</script>
-
-
-		<script>
-			function showemp(employeeId) {
-				// 모달 열기 코드
-				$('#myModal').modal('show');
-
-				// 여기에 직원의 정보를 불러와서 모달에 표시하는 코드 추가
-				$.ajax({
-					type: 'GET',
-					url: '/Hr/detail/' + employeeId,
-					success: function (data) {
-						// 성공적으로 데이터를 불러왔을 때 모달 내용을 업데이트
-						$('#myModal .modal-body').html(data);
-					},
-					error: function () {
-						// 데이터를 불러오는데 실패했을 때의 처리
-						console.error('Failed to load employee details.');
-					}
-				});
-			}
-		</script>
 	</div>
 
 </body>

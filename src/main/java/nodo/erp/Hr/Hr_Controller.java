@@ -37,20 +37,12 @@ public class Hr_Controller {
         return "Hr/Emp_Form";
     }
 	
-	/*
-	 * @PostMapping("/create") public String EmpCreate(@Valid Hr_Form hr_Form,
-	 * BindingResult bindingResult, Model model) { 
-	 * if (bindingResult.hasErrors()) {
-	 * model.addAttribute("Hr_Form", hr_Form); 
-	 * return "Hr/Emp_Add"; }
-	 */
 	
 	@PostMapping("/create")
 	public String EmpCreate(@Valid Emp_Form emp_Form, BindingResult bindingResult) {
 	    if (bindingResult.hasErrors()) {
 	        return "Hr/Emp_Form";
 	    }
-	    
 	    this.hr_Service.create(emp_Form.getEmpName(), emp_Form.getEmpSsn(), 
 	    		emp_Form.getEmpAdd(), emp_Form.getEmpPhone(), emp_Form.getEmpMail(),
 	    		emp_Form.getEmpDate(), emp_Form.getEmpSpot(), emp_Form.getEmpPosition(), 
@@ -67,6 +59,8 @@ public class Hr_Controller {
     	return "Hr/Emp_List";
     }				
 	
+   	
+    
     @GetMapping("/login")
     public String login() {
         return "Hr/login_form";
