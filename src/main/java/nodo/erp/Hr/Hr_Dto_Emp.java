@@ -23,35 +23,38 @@ import jakarta.persistence.ManyToMany;
 public class Hr_Dto_Emp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer EmpId;
+	private Integer id;
 
 	@Column(length = 50)
-	private String EmpName;	//이름@
+	private String empNum;	//사번@
 	
 	@Column(length = 50)
-	private String EmpSsn;	//주민번호@
+	private String empName;	//이름@
+	
+	@Column(length = 50)
+	private String empSsn;	//주민번호@
 
 	@Column(length = 50)
-	private String EmpAdd;	//주소@
+	private String empAdd;	//주소@
 	
 	@Column(length = 50)
-	private String EmpPhone;	//폰번호@
+	private String empPhone;	//폰번호@
 	
 	@Column(length = 50)
-	private String EmpMail;		//이메일@
+	private String empMail;		//이메일@
 	
-	private Date EmpDate;	//입사일자@
-	
-	@Column(length = 50)
-	private String EmpSpot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
+	private Date empDate;	//입사일자@
 	
 	@Column(length = 50)
-	private String EmpPosition; //@직책 (팀장 부팀장)
+	private String empSpot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
 	
 	@Column(length = 50)
-	private String DepCode;		//@부서번호
+	private String empPosition; //@직책 (팀장 부팀장)
 	
-	@Column(length = 50)
-	private String EmpVaca;		//연차갯수
+	private String depCode;		//@부서번호
+	
+	private Integer empVaca;		//연차갯수
+	
+	private String password;
 
 }
