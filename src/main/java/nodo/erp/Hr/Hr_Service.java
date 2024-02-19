@@ -37,6 +37,8 @@ import java.util.Optional;
 public class Hr_Service {
 
 	private final Hr_Repository hr_Repository;
+	
+	private final Dep_Repository dep_Repository;
 
 	@PersistenceContext
     private EntityManager entityManager;
@@ -47,7 +49,7 @@ public class Hr_Service {
 	}
 
 	public void create(String empname, String empssn, String empadd, String empphone, 
-			String empmail,Date empdate, String empspot, String empposition, String depcode) {
+			String empmail,Date empdate, String empspot, String empposition, Hr_Dto_Dep depcode) {
 		SimpleDateFormat formatv = new SimpleDateFormat("yyyy");
         String strv = formatv.format(empdate);
         SimpleDateFormat formate = new SimpleDateFormat("yy");
@@ -101,6 +103,15 @@ public class Hr_Service {
 	 public Page<Hr_Dto_Emp> getList(int page) {
 	        Pageable pageable = PageRequest.of(page, 10);
 	        return this.hr_Repository.findAll(pageable);
+	    }
+	 
+	 public Hr_Dto_Dep getName(String depcode) {
+	        Optional<Hr_Dto_Dep> depname = this.dep_Repository.findByDepname(depcode);
+	        if (depname.isPresent()) {
+	            return depname.get();
+	        } else {
+	            throw new DataNotFoundException("siteuser not found");
+	        }
 	    }
 	 
 }

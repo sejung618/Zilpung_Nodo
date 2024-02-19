@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import nodo.erp.Hr.Hr_Service;
+import nodo.erp.Hr.Hr_Dto_Dep;
 
 @RequestMapping("/Hr")
 @RequiredArgsConstructor
@@ -24,6 +26,8 @@ import org.springframework.web.server.ResponseStatusException;
 public class Hr_Controller {
 
 	private final Hr_Service hr_Service;
+	
+	
 	
 //	@GetMapping("/list")
 //	public String Emplist(Model model) {
@@ -47,13 +51,14 @@ public class Hr_Controller {
 	
 	@PostMapping("/create")
 	public String EmpCreate(@Valid Emp_Form emp_Form, BindingResult bindingResult) {
-	    if (bindingResult.hasErrors()) {
+		Hr_Dto_Dep depcode = this.hr_Service.getName(emp_Form.getDepcode());
+		if (bindingResult.hasErrors()) {
 	        return "Hr/Emp_Form";
 	    }
 	    this.hr_Service.create(emp_Form.getEmpname(), emp_Form.getEmpssn(), 
 	    		emp_Form.getEmpadd(), emp_Form.getEmpphone(), emp_Form.getEmpmail(),
 	    		emp_Form.getEmpdate(), emp_Form.getEmpspot(), emp_Form.getEmpposition(), 
-	    		emp_Form.getDepcode());
+	    		depcode);
 	    
 	    return "redirect:/Hr/list";
 	}
