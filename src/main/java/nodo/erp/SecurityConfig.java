@@ -15,7 +15,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+		http.csrf().disable()
+		.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
 				.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
 				.formLogin((formLogin) -> 
 				formLogin.loginPage("/Hr/login")
