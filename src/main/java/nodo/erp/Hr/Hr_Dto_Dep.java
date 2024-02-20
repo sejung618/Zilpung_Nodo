@@ -23,7 +23,7 @@ public class Hr_Dto_Dep {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String depCode;
+	private String depcode;
 	
-	 private String depName;
+	 private String depname;
 }
