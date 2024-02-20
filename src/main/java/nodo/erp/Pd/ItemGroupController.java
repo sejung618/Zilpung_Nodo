@@ -27,9 +27,9 @@ public class ItemGroupController {
         return "Pd/itemgroup_list";
     }
 	
-	@GetMapping(value = "/detail/{IgCode}")
-    public String detail(Model model, @PathVariable("IgCode") String IgCode) {
-        ItemGroup itemGroup = this.itemGroupService.getItemGroup(IgCode);
+	@GetMapping(value = "/detail/{id}")
+    public String detail(Model model, @PathVariable("id") Integer id) {
+        ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
         model.addAttribute("itemGroup", itemGroup);
 		return "Pd/itemgroup_detail";
     }

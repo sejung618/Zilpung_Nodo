@@ -4,7 +4,7 @@
 		<form th:action="@{/account/update/${account.AC_Code}}" th:object="${accUpdateForm}" method="post">
 			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 				<div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
-			</div>	-->
+			</div>
 			
 			<div class="mb-3">
 				<label for="jb-input-text">변경 상호명 - 30자까지 입력 가능합니다.</label>
