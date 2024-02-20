@@ -50,22 +50,32 @@ public class AccController {
 		return "redirect:/account/list";
 	}
 	
-	@GetMapping("/update/{AC_Code}")
-	public String AccUpdate(Model model, AccUpdateForm accUpdateForm, @PathVariable("AC_Code") Integer AC_Code) {
-		Account account = accService.getAccount(AC_Code);
-		model.addAttribute("account", account);
+	@GetMapping("/update/{id}")
+	public String AccUpdate(AccUpdateForm accUpdateForm, @PathVariable("id") Integer id) {
+		Account account = this.accService.getAccount(id);
+		
+		accUpdateForm.setAC_Company(account.getAC_Company());
+		accUpdateForm.setAC_Address(account.getAC_Address());
+		accUpdateForm.setAC_Name(account.getAC_Name());
+		accUpdateForm.setAC_Phone(account.getAC_Phone());
+		accUpdateForm.setAC_Price(account.getAC_Price());
+		
 		return "Sd/acc_update";
 	}
 	
-	@PostMapping("/update/{AC_Code}")
-	public String AccountUpdate(@PathVariable("AC_Code") String AC_Code, @Valid Account account) {
-		this.accService.update(AC_Code, account.getAC_Company(), account.getAC_Address(), account.getAC_Name(), account.getAC_Phone(), account.getAC_Item(), account.getAC_Icode(), account.getVAT(), account.getAC_Date(), account.getAC_Price(), account.getAC_Num());
+	@PostMapping("/update/{id}")
+	public String AccountUpdate(@PathVariable("id") Integer id, @Valid AccUpdateForm accUpdateForm, BindingResult bindResult) {
+		Account account = this.accService.getAccount(id);
+		if(bindResult.hasErrors()) {
+			return "Sd/acc_update";
+		}
+		this.accService.update(account, accUpdateForm.getAC_Company(), accUpdateForm.getAC_Address(), accUpdateForm.getAC_Name(), accUpdateForm.getAC_Phone(), accUpdateForm.getAC_Price());
 		return "redirect:/account/list";
 	}
 	
-	@GetMapping("/delete/{AC_Code}")
-	public String AccDelete(@PathVariable("AC_Code") String AC_Code) {
-		this.accService.delete(AC_Code);
+	@GetMapping("/delete/{id}")
+	public String AccDelete(@PathVariable("id") Integer id) {
+		this.accService.delete(id);
 		return "redirect:/account/list";
 	}
 }

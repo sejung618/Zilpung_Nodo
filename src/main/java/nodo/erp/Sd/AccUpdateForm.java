@@ -1,6 +1,7 @@
 package nodo.erp.Sd;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,6 @@ public class AccUpdateForm {
 	@NotEmpty(message="대표이사 연락처 입력은 필수입니다.")
 	private String AC_Phone;
 	
-	@NotEmpty(message="물품가격 입력은 필수입니다.")
-	private String AC_Price;
+	@NotNull(message="물품가격 입력은 필수입니다.")
+	private Integer AC_Price;
 }

@@ -58,8 +58,9 @@ public class InventoryService {
 	}
 
 	private Integer generateInvNum(String ymd) {
-		jakarta.persistence.Query query = entityManager
-				.createQuery("SELECT MAX(CAST(SUBSTRING(i.INDate,-3) AS int)) FROM Inventory i WHERE SUBSTRING(i.INDate, 1, 6) = :ymd");
+		jakarta.persistence.Query query = entityManager.createQuery
+				("SELECT MAX(CAST(SUBSTRING(i.INDate,-3) AS int)) "
+						+ "FROM Inventory i WHERE SUBSTRING(i.INDate, 1, 6) = :ymd");
 		query.setParameter("ymd", ymd);
 		Integer maxNum = (Integer) query.getSingleResult();
 
@@ -101,6 +102,7 @@ public class InventoryService {
 		inventory.setCreateDate(LocalDateTime.now());
 		this.inventoryRepository.save(inventory);
 	}
+	
 	
 	public void delete(Inventory inventory) {
         this.inventoryRepository.delete(inventory);
