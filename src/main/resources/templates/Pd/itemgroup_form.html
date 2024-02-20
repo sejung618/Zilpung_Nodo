@@ -1,0 +1,20 @@
+<html layout:decorate="~{layout}">
+	
+<div layout:fragment="content" class="container">
+    <h5 class="my-3 border-bottom pb-2">품목그룹 등록</h5>
+    <form th:action="@{/basic/itemgroup/create}" th:object="${itemGroupForm}" method="post">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+		</div>
+        <div class="pb-3 my-3 border-bottom">
+            <label for="content" style="margin-right:10px;">품목그룹명</label>
+            <input type="text" name="IgName" id="IgName" class="form-control" style="width:50%">
+        </div>
+        <div style="display:flex;">
+        	<input type="submit" value="저장" class="btn btn-primary">
+        	<!-- input type="submit" value="취소" class="btn" -->
+        </div>
+    </form>
+</div>
+
+</html>

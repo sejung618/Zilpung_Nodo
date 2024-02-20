@@ -29,7 +29,7 @@
 		</div>
 		<div class="mb-3">
 			<label for="empdate" class="form-label">입사일자</label>
-			<input type="date" th:field="*{empdate}" name="empdate" id="empdate" class="form-control" >
+			<input type="date" th:field="*{empdate}" name="empdate" id="empdate" class="form-control" required>
 		</div>
 
 		<div class="form-group mb-3">
@@ -57,7 +57,7 @@
 		<div class="form-group mb-3">
 			<label for="depcode" class="form-label mt-4">부서</label>
 			<select class="form-select" name="depcode" id="depcode">
-				<option value="-">-</option>
+				<!--<option value="-">-</option>-->
 				<option value="101">인사</option>
 				<option value="102">품질</option>
 				<option value="103">영업</option>

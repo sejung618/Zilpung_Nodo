@@ -11,7 +11,7 @@
     </div>
 	<table class="table">
 		<thead class="table-primary">
-			<tr>
+			<tr class="text-center">
 				<th>번호</th>
 				<th>일자-No.</th>
 				<th>품목명</th>
@@ -21,7 +21,7 @@
 			</tr>	
 		</thead>
 		<tbody>
-			<tr th:each="inventory, loop : ${paging}">
+			<tr class="text-center table-active" th:each="inventory, loop : ${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<th>
 					<a th:href="@{|/inventory/detail/${inventory.id}|}" th:text="${inventory.INDate}"></a>
