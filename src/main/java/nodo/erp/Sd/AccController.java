@@ -30,7 +30,7 @@ public class AccController {
 	}
 	
 	@GetMapping(value = "/detail/{id}") // AC_Code >> id
-	public String detail(Model model, @PathVariable("id") String id) {
+	public String detail(Model model, @PathVariable("id") Integer id) {
 		Account account = this.accService.getAccount(id);
 		model.addAttribute("account", account);
 		return "Sd/Acc_detail";
@@ -51,7 +51,7 @@ public class AccController {
 	}
 	
 	@GetMapping("/update/{AC_Code}")
-	public String AccUpdate(Model model, AccUpdateForm accUpdateForm, @PathVariable("AC_Code") String AC_Code) {
+	public String AccUpdate(Model model, AccUpdateForm accUpdateForm, @PathVariable("AC_Code") Integer AC_Code) {
 		Account account = accService.getAccount(AC_Code);
 		model.addAttribute("account", account);
 		return "Sd/acc_update";

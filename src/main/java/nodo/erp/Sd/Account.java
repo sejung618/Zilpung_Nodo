@@ -18,7 +18,7 @@ public class Account {
 	private Integer id;
 	
 	//@Column(unique = true)
-	private String AC_Code;
+	private String AC_Code; 
 	
 	@Column(length = 30)
 	private String AC_Company; // 회사명

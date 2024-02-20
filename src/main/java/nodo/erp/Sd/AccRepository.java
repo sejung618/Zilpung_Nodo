@@ -4,6 +4,6 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AccRepository extends JpaRepository<Account, String> {
+public interface AccRepository extends JpaRepository<Account, Integer> {
 
 }

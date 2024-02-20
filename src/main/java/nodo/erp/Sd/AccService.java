@@ -20,8 +20,8 @@ public class AccService {
 		return this.accRepository.findAll();
 	}
 	
-	public Account getAccount(String AC_Code) {
-		Optional<Account> account = this.accRepository.findById(AC_Code);
+	public Account getAccount(Integer AC_Code) {
+		Optional<Account> account = this.accRepository.findById(AC_Code); 
 		if(account.isPresent()) {
 			return account.get();
 		} else {
