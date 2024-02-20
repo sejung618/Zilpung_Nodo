@@ -37,6 +37,8 @@ import java.util.Optional;
 public class Hr_Service {
 
 	private final Hr_Repository hr_Repository;
+	
+	private final Dep_Repository dep_Repository;
 
 	@PersistenceContext
     private EntityManager entityManager;
@@ -46,27 +48,27 @@ public class Hr_Service {
 		return this.hr_Repository.findAll();
 	}
 
-	public void create(String EmpName, String EmpSsn, String EmpAdd, String EmpPhone, 
-			String EmpMail,Date EmpDate, String EmpSpot, String EmpPosition, String DepCode) {
+	public void create(String empname, String empssn, String empadd, String empphone, 
+			String empmail,Date empdate, String empspot, String empposition, Hr_Dto_Dep depart) {
 		SimpleDateFormat formatv = new SimpleDateFormat("yyyy");
-        String strv = formatv.format(EmpDate);
+        String strv = formatv.format(empdate);
         SimpleDateFormat formate = new SimpleDateFormat("yy");
-        String stre = formate.format(EmpDate);
+        String stre = formate.format(empdate);
         String Num = String.format("%05d", generateEmpId());
         
         Hr_Dto_Emp q = new Hr_Dto_Emp();
-		q.setEmpName(EmpName);
-		q.setEmpSsn(EmpSsn);
-		q.setEmpAdd(EmpAdd);
-		q.setEmpPhone(EmpPhone);
-		q.setEmpMail(EmpMail);
-		q.setEmpDate(EmpDate);
-		q.setEmpSpot(EmpSpot);
-		q.setEmpPosition(EmpPosition);
-		q.setDepCode(DepCode);
+		q.setEmpname(empname);
+		q.setEmpssn(empssn);
+		q.setEmpadd(empadd);
+		q.setEmpphone(empphone);
+		q.setEmpmail(empmail);
+		q.setEmpdate(empdate);
+		q.setEmpspot(empspot);
+		q.setEmpposition(empposition);
+		q.setDepart(depart);
 		q.setId(generateEmpId());
-		q.setEmpNum(stre + Num);
-		q.setEmpVaca(vaca(strv));
+		q.setEmpnum(stre + Num);
+		q.setEmpvaca(vaca(strv));
         q.setPassword(passwordEncoder.encode(stre + Num));
 		this.hr_Repository.save(q);
 	}
@@ -98,6 +100,18 @@ public class Hr_Service {
 	        }
 	    }
 	
+	 public Page<Hr_Dto_Emp> getList(int page) {
+	        Pageable pageable = PageRequest.of(page, 10);
+	        return this.hr_Repository.findAll(pageable);
+	    }
 	 
+	 public Hr_Dto_Dep getDepCode(String depcode) {
+	        Optional<Hr_Dto_Dep> hr_Dto_Dep = this.dep_Repository.findByDepcode(depcode);
+	        if (hr_Dto_Dep.isPresent()) {
+	            return hr_Dto_Dep.get();
+	        } else {
+	            throw new DataNotFoundException("siteuser not found");
+	        }
+	    }
 	 
 }

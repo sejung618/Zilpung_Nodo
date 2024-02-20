@@ -26,34 +26,35 @@ public class Hr_Dto_Emp {
 	private Integer id;
 
 	@Column(length = 50)
-	private String empNum;	//사번@
+	private String empnum;	//사번@
 	
 	@Column(length = 50)
-	private String empName;	//이름@
+	private String empname;	//이름@
 	
 	@Column(length = 50)
-	private String empSsn;	//주민번호@
+	private String empssn;	//주민번호@
 
 	@Column(length = 50)
-	private String empAdd;	//주소@
+	private String empadd;	//주소@
 	
 	@Column(length = 50)
-	private String empPhone;	//폰번호@
+	private String empphone;	//폰번호@
 	
 	@Column(length = 50)
-	private String empMail;		//이메일@
+	private String empmail;		//이메일@
 	
-	private Date empDate;	//입사일자@
-	
-	@Column(length = 50)
-	private String empSpot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
+	private Date empdate;	//입사일자@
 	
 	@Column(length = 50)
-	private String empPosition; //@직책 (팀장 부팀장)
+	private String empspot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
 	
-	private String depCode;		//@부서번호
+	@Column(length = 50)
+	private String empposition; //@직책 (팀장 부팀장)
 	
-	private Integer empVaca;		//연차갯수
+	@ManyToOne
+	private Hr_Dto_Dep depart;		//@부서
+	
+	private Integer empvaca;		//연차갯수
 	
 	private String password;
 

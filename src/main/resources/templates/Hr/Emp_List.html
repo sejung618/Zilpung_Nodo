@@ -1,18 +1,6 @@
 <html layout:decorate="~{layout}">
 
 <head>
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-	<!-- Popper.js (modified for Bootstrap 5) -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<!-- Bootstrap JS -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-
-
 </head>
 
 <body>
@@ -34,67 +22,52 @@
 			</thead>
 
 			<tbody>
-				<tr class="text-center table-active" th:each="Emplist : ${EmpList}">
-
+				<tr class="text-center table-active" th:each="Emplist : ${paging}">
 					<td>
-						<a th:href="@{|/Hr/detail/${Emplist.Id}|}" th:text="${Emplist.EmpNum}"></a>
+						<a th:href="@{|/Hr/detail/${Emplist.id}|}" th:text="${Emplist.empnum}"></a>
 					</td>
-					<td>
-						<a href="#" th:onclick="'showemp(\'' + ${Emplist.id} + '\')'" th:text="${Emplist.EmpName}"></a>
-					</td>
-
-					<td th:text="${Emplist.EmpDate}"></td>
-					<td th:text="${Emplist.DepCode}"></td>
-					<td th:text="${Emplist.EmpPosition}"></td>
-					<td th:text="${Emplist.EmpSpot}"></td>
+					<td th:text="${Emplist.empname}"></td>
+					<td th:text="${Emplist.empdate}"></td>
+					<td ><span th:if="${Emplist.depart != null}" th:text="${Emplist.depart.depname}"></span></td>
+					<td th:text="${Emplist.empposition}"></td>
+					<td th:text="${Emplist.empspot}"></td>
 
 				</tr>
 			</tbody>
 
-			<tbody>
-				<tr class="text-center table-active" th:each="Emplist : ${empDtail}">
-					<!--모달 Test
-				<td>
-					<a th:onclick="'openModal(' + *{Emplist.id} + ')'"></a>
-				</td>  [[${Emplist.id}]]
-				test end-->
-					<td>
-						<a th:href="@{|/Hr/detail/${Emplist.Id}|}" th:text="${Emplist.EmpNum}"></a>
-					</td>
-
-					<td th:text="${Emplist.EmpName}"></td>
-					<td th:text="${Emplist.EmpDate}"></td>
-					<td th:text="${Emplist.DepCode}"></td>
-					<td th:text="${Emplist.EmpPosition}"></td>
-					<td th:text="${Emplist.EmpSpot}"></td>
-
-				</tr>
-			</tbody>
+			
 		</table>
 		<!--테이블 끝-->
-
+		    <!-- 페이징처리 시작 -->
+    <div th:if="${!paging.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="page-link"
+                    th:href="@{|?page=${paging.number-1}|}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+            th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                th:classappend="${page == paging.number} ? 'active'" 
+                class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
 
 		<div class="col-6">
 			<a th:href="@{/Hr/create}" class="btn btn-primary">사원 추가</a>
 		</div>
 
 
-		<!--모달창-->
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <!-- 각 항목을 한 줄씩 출력 -->
-                <div th:each="Emplist : ${empDtail}">
-                    <p th:text="'Date: ' + ${Emplist.EmpDate}"></p>
-                    <p th:text="'Department Code: ' + ${Emplist.DepCode}"></p>
-                    <p th:text="'Employee Position: ' + ${Emplist.EmpPosition}"></p>
-                    <p th:text="'Employee Spot: ' + ${Emplist.EmpSpot}"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 		<!--
 	검색 자바스크립트
@@ -115,36 +88,7 @@
 	</script>
 	-->
 
-		<!--모달 스크립트-->
-		<script th:inline="javascript">
-			function showemp123(id) {
-				$('#empDtail').modal('show');
-				$('#empId').val(/*[[${id}]]*/ id);
 
-			}
-		</script>
-
-
-		<script>
-			function showemp(employeeId) {
-				// 모달 열기 코드
-				$('#myModal').modal('show');
-
-				// 여기에 직원의 정보를 불러와서 모달에 표시하는 코드 추가
-				$.ajax({
-					type: 'GET',
-					url: '/Hr/detail/' + employeeId,
-					success: function (data) {
-						// 성공적으로 데이터를 불러왔을 때 모달 내용을 업데이트
-						$('#myModal .modal-body').html(data);
-					},
-					error: function () {
-						// 데이터를 불러오는데 실패했을 때의 처리
-						console.error('Failed to load employee details.');
-					}
-				});
-			}
-		</script>
 	</div>
 
 </body>
