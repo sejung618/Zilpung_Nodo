@@ -1,0 +1,33 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		<h1>거래처 현황</h1>
+		<table class="table">
+			<thead class="table-primary">
+				<tr>
+					<th>번호</th>
+					<th> 거래처 회사코드 </th>
+					<th> 거래처 상호명 </th>
+					<th> 대표이사 성함</th>
+					<th> 물품명 </th>
+					<th> 첫 거래날짜 </th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				<tr th:each="Account, loop:${AccList}">
+				<td th:text="${loop.count}"></td>
+				<td th:text="${Account.AC_Code}"></td>
+				<td>
+					<a th:href="@{|/account/detail/${Account.id}|}" th:text="${Account.AC_Company}"></a>
+				</td>
+				<td th:text="${Account.AC_Name}"></td>
+				
+				<td th:text="${Account.AC_Item}"></td>
+				
+				<td th:text="${Account.AC_Date}"></td>	
+				</tr>
+			</tbody>
+		</table>
+		<a th:href="@{/account/create}" class="btn btn-primary">거래처 추가</a>
+	</div>
+</html>
