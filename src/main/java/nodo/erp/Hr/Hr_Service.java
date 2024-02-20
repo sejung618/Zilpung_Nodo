@@ -110,7 +110,7 @@ public class Hr_Service {
 	        if (hr_Dto_Dep.isPresent()) {
 	            return hr_Dto_Dep.get();
 	        } else {
-	            throw new DataNotFoundException("siteuser not found");
+	            throw new DataNotFoundException("depcode not found");
 	        }
 	    }
 	 

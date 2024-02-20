@@ -31,12 +31,12 @@
 
 						<tbody>
 				<tr class="text-center table-active" th:each="Emplist : ${empDtail}">
-					<td th:text="${Emplist.EmpNum}"></td>
-					<td th:text="${Emplist.EmpName}"></td>
-					<td th:text="${Emplist.EmpDate}"></td>
-					<td th:text="${Emplist.DepCode}"></td>
-					<td th:text="${Emplist.EmpPosition}"></td>
-					<td th:text="${Emplist.EmpSpot}"></td>
+					<td th:text="${Emplist.empnum}"></td>
+					<td th:text="${Emplist.empname}"></td>
+					<td th:text="${Emplist.empdate}"></td>
+					<td ><span th:if="${Emplist.depart != null}" th:text="${Emplist.depart.depname}"></span></td>
+					<td th:text="${Emplist.empposition}"></td>
+					<td th:text="${Emplist.empspot}"></td>
 
 				</tr>
 			</tbody>
