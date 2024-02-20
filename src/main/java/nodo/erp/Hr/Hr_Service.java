@@ -49,7 +49,7 @@ public class Hr_Service {
 	}
 
 	public void create(String empname, String empssn, String empadd, String empphone, 
-			String empmail,Date empdate, String empspot, String empposition, Hr_Dto_Dep depcode) {
+			String empmail,Date empdate, String empspot, String empposition, Hr_Dto_Dep depart) {
 		SimpleDateFormat formatv = new SimpleDateFormat("yyyy");
         String strv = formatv.format(empdate);
         SimpleDateFormat formate = new SimpleDateFormat("yy");
@@ -65,7 +65,7 @@ public class Hr_Service {
 		q.setEmpdate(empdate);
 		q.setEmpspot(empspot);
 		q.setEmpposition(empposition);
-		q.setDepcode(depcode);
+		q.setDepart(depart);
 		q.setId(generateEmpId());
 		q.setEmpnum(stre + Num);
 		q.setEmpvaca(vaca(strv));
@@ -105,10 +105,10 @@ public class Hr_Service {
 	        return this.hr_Repository.findAll(pageable);
 	    }
 	 
-	 public Hr_Dto_Dep getName(String depcode) {
-	        Optional<Hr_Dto_Dep> depname = this.dep_Repository.findByDepname(depcode);
-	        if (depname.isPresent()) {
-	            return depname.get();
+	 public Hr_Dto_Dep getDepCode(String depcode) {
+	        Optional<Hr_Dto_Dep> hr_Dto_Dep = this.dep_Repository.findByDepcode(depcode);
+	        if (hr_Dto_Dep.isPresent()) {
+	            return hr_Dto_Dep.get();
 	        } else {
 	            throw new DataNotFoundException("siteuser not found");
 	        }

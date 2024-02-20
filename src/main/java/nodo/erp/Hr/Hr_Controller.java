@@ -51,14 +51,14 @@ public class Hr_Controller {
 	
 	@PostMapping("/create")
 	public String EmpCreate(@Valid Emp_Form emp_Form, BindingResult bindingResult) {
-		Hr_Dto_Dep depcode = this.hr_Service.getName(emp_Form.getDepcode());
+		Hr_Dto_Dep depart = this.hr_Service.getDepCode(emp_Form.getDepcode());
 		if (bindingResult.hasErrors()) {
 	        return "Hr/Emp_Form";
 	    }
 	    this.hr_Service.create(emp_Form.getEmpname(), emp_Form.getEmpssn(), 
 	    		emp_Form.getEmpadd(), emp_Form.getEmpphone(), emp_Form.getEmpmail(),
 	    		emp_Form.getEmpdate(), emp_Form.getEmpspot(), emp_Form.getEmpposition(), 
-	    		depcode);
+	    		depart);
 	    
 	    return "redirect:/Hr/list";
 	}

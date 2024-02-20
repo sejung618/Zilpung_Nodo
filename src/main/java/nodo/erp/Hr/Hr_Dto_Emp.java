@@ -52,7 +52,7 @@ public class Hr_Dto_Emp {
 	private String empposition; //@직책 (팀장 부팀장)
 	
 	@ManyToOne
-	private Hr_Dto_Dep depcode;		//@부서번호
+	private Hr_Dto_Dep depart;		//@부서
 	
 	private Integer empvaca;		//연차갯수
 	
