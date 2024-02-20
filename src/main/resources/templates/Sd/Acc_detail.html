@@ -1,7 +1,6 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="content" class="container my-3">
-	<h1 class="border-bottom py-2" th:text="${account.AC_Company}"></h1>
-	
+	<div layout:fragment="content" class="container my-3">
+		<h1 class="border-bottom py-2" th:text="${account.AC_Company}"></h1>
 	<h2 th:text="|대표이사|"></h2>
 	<div class="card my-3">
 	<div class="card-body">
@@ -35,23 +34,26 @@
 			<div class="card-body">
 			<div class="card-text" style="white-space: pre-line;" th:text="${account.AC_Price}"></div>
 	</div>
+	
+	<h7 th:text="|부가세율|"></h7>
+		<div class="card my-3">
+			<div class="card-body">
+			<div class="card-text" style="white-space: pre-line;" th:text="${account.VAT}"></div>
+	</div>
+	
 </div>
 	
-	<h7 th:text="|회사 전화번호|"></h7>
+	<h8 th:text="|회사 전화번호|"></h8>
 		<div class="card my-3">
 			<div class="card-body">
 			<div class="card-text" style="white-space: pre-line;" th:text="${account.AC_Num}"></div>
 	</div>
 </div>
 <div class="my-3">
-	<a th:href="@{|/zilpung/SD/account/update/${AC_Code}|}" class="btn btn-primary">거래처 정보수정</a>
-	
-		
-	</a>
+	<a th:href="@{|/account/update/${id}|}" class="btn btn-primary">거래처 정보수정</a>
+	<a th:data-uri="@{|/account/delete/${id}|}" class="delete btn btn-primary">거래처 삭제</a>
 	
 </div>
-
-
 
 </div>
 

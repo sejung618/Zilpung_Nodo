@@ -1,8 +1,8 @@
 <html layout:decorate="~{/layout}">
 	<div layout:fragment="content" class="container my-3">
-		<h5 class="my-3 border-bottom pb-2">거래처 추가</h5>
-		<form th:action="@{/zilpung/SD/account/create}" th:object="${accountCreateForm}"  method="post">
-				<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+		<h1 class="my-3 border-bottom pb-2">거래처 추가</h1>
+		<form th:action="@{/account/create}" th:object="${accCreateForm}" method="post">
+			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         	</div>
 			<div class="mb-3">
@@ -46,15 +46,17 @@
 				<input type="text" name="AC_Price" id="AC_Price" class="form-control">
 			</div>
 			
-				<div class="mb-3">
+			
+			<div class="mb-3">
 				<label for="jb-input-text">첫 거래날짜 yyyy-mm-dd</label>
-				<input type="text" name="AC_Date" id="AC_Date" class="form-control">
+				<input type="date" name="AC_Date" id="AC_Date" class="form-control">
 			</div>
 			
 			<div class="mb-3">
 				<input type="submit" value="거래처 추가하기" class="btn btn-primary my-2">
 			</div>
+			
+			
+		</form>
 	</div>
 </html>
-		
-		

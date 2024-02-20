@@ -1,17 +1,18 @@
-package nodo.erp.Sd.Account;
+package nodo.erp.Sd;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AccountCreateForm {
-
+public class AccCreateForm {
+	
 	private String AC_Code;
 	
-	@NotEmpty(message="상호명은 입력 필수입니다.")
+	private float VAT;
+	
+	@NotEmpty(message = "상호명 입력은 필수입니다.")
 	private String AC_Company;
 	
 	@NotEmpty(message="거래처 주소 입력은 필수입니다.")
@@ -37,7 +38,4 @@ public class AccountCreateForm {
 	
 	@NotEmpty(message="첫 거래날짜 입력은 필수입니다.")
 	private String AC_Date;
-	
-	private float VAT;
-	
 }
