@@ -1,0 +1,48 @@
+<html layout:decorate="~{layout}">
+
+<head>
+
+	<style>
+		th,
+		td {
+			border: 2px solid rgb(222, 222, 222);
+
+		}
+	</style>
+
+</head>
+
+<body>
+	<div layout:fragment="content" class="container my-3">
+		<h1>사원 정보</h1>
+
+		<!--테이블 시작-->
+		<table class="table">
+
+			<thead class="table-primary">
+				<tr class="text-center">
+					<th>사번</th>
+					<th>이름</th>
+					<th>입사일</th>
+					<th>부서</th>
+					<th>직책</th>
+					<th>직위</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr class="text-center table-active">
+					<td th:text="${empDtail.empnum}"></td>
+					<td th:text="${empDtail.empname}"></td>
+					<td th:text="${empDtail.empdate}"></td>
+					<td><span th:if="${empDtail.depart != null}" th:text="${empDtail.depart.depname}"></span></td>
+					<td th:text="${empDtail.empposition}"></td>
+					<td th:text="${empDtail.empspot}"></td>
+
+				</tr>
+			</tbody>
+
+
+		</table>
+		
+		

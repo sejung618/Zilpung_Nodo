@@ -1,0 +1,48 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		<h1 class="my-3 border-bottom pb-2">거래처 추가</h1>
+		<form th:action="@{/account/update/${account.AC_Code}}" th:object="${accUpdateForm}" method="post">
+			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+				<div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+			</div>	-->
+			
+			<div class="mb-3">
+				<label for="jb-input-text">변경 상호명 - 30자까지 입력 가능합니다.</label>
+				<input th:text="${account.AC_Company} "type="text" name="AC_Company" id="AC_Company" class="form-control">
+			</div>
+			
+			<div class="mb-3">
+				<label for="jb-input-text">변경 주소 - 100자까지 입력 가능합니다.</label>
+				<input th:text="${account.AC_Address} "type="text" name="AC_Address" id="AC_Address" class="form-control">
+			</div>
+			
+			<div class="mb-3">
+				<label for="jb-input-text">대표이사 성함 - 20자까지 입력 가능합니다.</label>
+				<input th:text="${account.AC_Name}" type="text" name="AC_Name" id="AC_Name" class="form-control">
+			</div>
+			
+			<div class="mb-3">
+				<label for="jb-input-text">변경 후 제품단가 - 0 ~ 9999999 입력가능합니다.</label>
+				<input th:text="${account.AC_Price} "type="text" name="AC_Price" id="AC_Price" class="form-control">
+			</div>
+			
+			<div class="mb-3">
+				<label for="jb-input-text">대표이사 연락처 - 010-1234-1234 형식으로 입력해주세요.</label>
+				<input th:text="${account.AC_Phone} "type="text" name="AC_Phone" id="AC_Phone" class="form-control">
+			</div>
+			
+			<input type="hidden" name="AC_Item" id="AC_Item" th:value="${account.AC_Item}" >
+			<input type="hidden" name="AC_Icode" id="AC_Icode" th:value="${account.AC_Icode}">
+			<input type="hidden" name="AC_Num" id="AC_Num" th:value="${account.AC_Num}">
+			<input type="hidden" name="AC_Date" id="AC_Date" th:value="${account.AC_Date}">
+			<input type="hidden" name="VAT" id="VAT" th:value="${account.VAT}">
+			
+			
+			<div class="mb-3">
+			<input type="submit" value="수정완료" class="btn btn-primary my-2">
+			</div>
+			
+		</form>
+		
+	</div>
+</html>

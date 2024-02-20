@@ -12,11 +12,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.DataNotFoundException;
 
 @RequiredArgsConstructor
 @Service
@@ -24,14 +27,26 @@ public class InventoryService {
 	
 	private final InventoryRepository inventoryRepository;
 	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
 	public List<Inventory> getList() {
 		return this.inventoryRepository.findAll();
 		
 	}
 	
-	public void create(String INDate, String ININame, String INPName, Integer INQuantity, String INPNum, String INICode, String INStandard) {
+	public void create(String INDate, String ININame, String INPName, Integer INQuantity, String INPNum, String INICode,
+			String INStandard) {
+
+		String yy = INDate.substring(2, 4);
+		String mm = INDate.substring(5, 7);
+		String dd = INDate.substring(8, 10);
+		String ymd = yy + mm + dd;
+		String Num = String.format("%03d", generateInvNum(ymd));
+
 		Inventory i = new Inventory();
-		i.setINDate(INDate);
+
+		i.setINDate(ymd + "-" + Num);
 		i.setININame(ININame);
 		i.setINPName(INPName);
 		i.setINQuantity(INQuantity);
@@ -40,6 +55,15 @@ public class InventoryService {
 		i.setINStandard(INStandard);
 		i.setCreateDate(LocalDateTime.now());
 		this.inventoryRepository.save(i);
+	}
+
+	private Integer generateInvNum(String ymd) {
+		jakarta.persistence.Query query = entityManager
+				.createQuery("SELECT MAX(CAST(SUBSTRING(i.INDate,-3) AS int)) FROM Inventory i WHERE SUBSTRING(i.INDate, 1, 6) = :ymd");
+		query.setParameter("ymd", ymd);
+		Integer maxNum = (Integer) query.getSingleResult();
+
+		return (maxNum == null) ? 1 : maxNum + 1;
 	}
 	
 	public Page<Inventory> getList(int page, String kw) {
@@ -61,14 +85,20 @@ public class InventoryService {
 	}
 	
 	public void modify(Inventory inventory, String INDate, String ININame, String INPName, Integer INQuantity, String INPNum, String INICode, String INStandard) {
-		inventory.setINDate(INDate);
-		inventory.setINICode(INICode);
+		String yy = INDate.substring(2, 4);
+		String mm = INDate.substring(5, 7);
+		String dd = INDate.substring(8, 10);
+		String ymd = yy + mm + dd;
+		String Num = String.format("%03d", generateInvNum(ymd));
+
+		inventory.setINDate(ymd + "-" + Num);
 		inventory.setININame(ININame);
 		inventory.setINPName(INPName);
-		inventory.setINPNum(INPNum);
 		inventory.setINQuantity(INQuantity);
+		inventory.setINPNum(INPNum);
+		inventory.setINICode(INICode);
 		inventory.setINStandard(INStandard);
-		inventory.setModifyDate(LocalDateTime.now());
+		inventory.setCreateDate(LocalDateTime.now());
 		this.inventoryRepository.save(inventory);
 	}
 	

@@ -17,7 +17,7 @@ public class Inventory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 10)
+	@Column(length = 15)
 	private String INDate;
 	
 	@Column(length = 10)
