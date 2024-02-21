@@ -93,9 +93,9 @@ public class Hr_Service {
 	 }
 
 	 public Hr_Dto_Emp getEmpDetail(Integer id) {  
-	        Optional<Hr_Dto_Emp> EmpDetail = this.hr_Repository.findById(id);
-	        if (EmpDetail.isPresent()) {
-	            return EmpDetail.get();
+	        Optional<Hr_Dto_Emp> empDetail = this.hr_Repository.findById(id);
+	        if (empDetail.isPresent()) {
+	            return empDetail.get();
 	        } else {
 	            throw new DataNotFoundException("question not found");
 	        }
@@ -116,11 +116,18 @@ public class Hr_Service {
 	    }
 	 
 	 
-	 public void modify(Hr_Dto_Emp hr_Dto_emp,String empname) {
+	 public void modify(Hr_Dto_Emp hr_Dto_emp,String empname, String empadd,String empphone,String empmail) {
 		 Hr_Dto_Emp m = this.hr_Repository.findById(hr_Dto_emp.getId()).orElse(null);
 		m.setEmpname(empname);
-		
+		m.setEmpadd(empadd);
+		m.setEmpphone(empphone);
+		m.setEmpmail(empmail);
 		this.hr_Repository.save(m);
 	}
+	 
+	 public void delete(Hr_Dto_Emp hr_Dto_Emp) {
+	        this.hr_Repository.delete(hr_Dto_Emp);
+	    }
+	 
 	 
 }
