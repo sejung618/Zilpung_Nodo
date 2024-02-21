@@ -2,7 +2,7 @@
 
 <div layout:fragment="content" class="container">
 	<h5 class="my-3 border-bottom pd-2">사원 추가</h5>
-	<form th:action="@{/Hr/create}" th:object="${emp_Form}" method="post">
+	<form th:object="${emp_Form}" method="post">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
@@ -36,7 +36,7 @@
 			<label for="empspot" class="form-label mt-4">직위</label>
 			<select class="form-select" name="empspot" id="empspot">
 				<option value="-">-</option>
-				<option value="인턴">인턴</option>
+				<option value="인턴" selected>인턴</option>
 				<option value="사원">사원</option>
 				<option value="대리">대리</option>
 				<option value="과장">과장</option>
@@ -48,21 +48,31 @@
 			<label for="empposition" class="form-label mt-4">직책</label>
 			<select class="form-select" name="empposition" id="empposition">
 				<option value="-">-</option>
-				<option value="팀원">팀원</option>
+				<option value="팀원" selected>팀원</option>
 				<option value="부팀장">부팀장</option>
 				<option value="팀장">팀장</option>
 			</select>
 		</div>
-
+<!--
 		<div class="form-group mb-3">
 			<label for="depcode" class="form-label mt-4">부서</label>
 			<select class="form-select" name="depcode" id="depcode">
-				<!--<option value="-">-</option>-->
+				<option value="-">-</option>
 				<option value="101">인사</option>
 				<option value="102">품질</option>
 				<option value="103">영업</option>
 				<option value="104">생산</option>
 				<option value="105">자재</option>
+			</select>
+		</div>
+		-->
+		
+		
+		<div class="form-group mb-3">
+			<label for="depcode" class="form-label mt-4">부서</label>
+			<select class="form-select" name="depcode" id="depcode">
+				 <option th:each="dep : ${deplist}" th:value="${dep.depcode}" th:text="${dep.depname}"></option>
+				
 			</select>
 		</div>
 

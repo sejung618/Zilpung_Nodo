@@ -27,16 +27,16 @@
 					<a th:href="@{|/inventory/detail/${inventory.id}|}" th:text="${inventory.INDate}"></a>
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.ININame}"></a>
+					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.ININame}">
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INICode}"></a>
+					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INICode}">
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INQuantity}"></a>
+					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INQuantity}">
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INStandard}"></a>
+					<th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INStandard}">
 				</th>
 			</tr>
 		</tbody>
@@ -87,4 +87,5 @@ btn_search.addEventListener('click', function() {
     document.getElementById('searchForm').submit();
 });
 </script>
+</div>
 </html>

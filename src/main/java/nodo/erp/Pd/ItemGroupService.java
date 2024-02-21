@@ -19,8 +19,8 @@ public class ItemGroupService {
 		return this.itemGroupRepository.findAll();
 	}
 	
-	public ItemGroup getItemGroup(String IgCode) {
-		Optional<ItemGroup> itemGroup = this.itemGroupRepository.findById(IgCode);
+	public ItemGroup getItemGroup(Integer id) {
+		Optional<ItemGroup> itemGroup = this.itemGroupRepository.findById(id);
 		if (itemGroup.isPresent()) {
             return itemGroup.get();
         } else {

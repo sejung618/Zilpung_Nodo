@@ -13,7 +13,7 @@
 	        <tr th:each="itemGroup, loop : ${itemGroupList}">
 				<td th:text="${loop.count}"></td>
 	            <td>
-					<a th:href="@{|/basic/itemgroup/detail/${itemGroup.IgCode}|}" th:text="${itemGroup.IgCode}"></a>
+					<a th:href="@{|/basic/itemgroup/detail/${itemGroup.id}|}" th:text="${itemGroup.IgCode}"></a>
 				</td>
 	            <td th:text="${itemGroup.IgName}"></td>
 	        </tr>

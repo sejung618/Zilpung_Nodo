@@ -16,12 +16,15 @@ public class AccService {
 
 	private final AccRepository accRepository;
 	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
 	public List<Account> getList() {
 		return this.accRepository.findAll();
 	}
 	
-	public Account getAccount(Integer AC_Code) {
-		Optional<Account> account = this.accRepository.findById(AC_Code); 
+	public Account getAccount(Integer id) {
+		Optional<Account> account = this.accRepository.findById(id); 
 		if(account.isPresent()) {
 			return account.get();
 		} else {
@@ -32,7 +35,6 @@ public class AccService {
 			String AC_Item, String AC_Icode, float VAT, String AC_Date, int AC_Price, String AC_Num) {
 		
 		Account acc = new Account();
-		
 		String ym = AC_Date.substring(2, 7);
 		String am = String.format("%04d", generateAC_Code(ym));
 
@@ -47,45 +49,38 @@ public class AccService {
 		acc.setAC_Num(AC_Num);
 		acc.setAC_Phone(AC_Phone);
 		acc.setAC_Price(AC_Price);
-	
+		
 		this.accRepository.save(acc);
 	}
 	
-	@PersistenceContext
-	private EntityManager entityManager;
-	private Integer generateAC_Code(String ac) {
-	    jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(CAST(SUBSTRING(acc.AC_Code, 10, 14) AS int)) From Account acc WHERE SUBSTRING(acc.AC_Code, 4, 7) = :ac");
-	    query.setParameter("ac", ac);
+
+	
+	private Integer generateAC_Code(String ym) {
+	    jakarta.persistence.Query query = entityManager.createQuery(
+	            "SELECT MAX(CAST(SUBSTRING(i.AC_Code,-4) AS int)) "
+	                    + "FROM Account i WHERE SUBSTRING(i.AC_Code, 4, 5) = :ym");
+	    query.setParameter("ym", ym);
 	    Integer maxNum = (Integer) query.getSingleResult();
-	    
+	    System.out.println(maxNum);
+
 	    return (maxNum == null) ? 1 : maxNum + 1;
 	}
-	public void update(String AC_Code,String AC_Company, String AC_Address, String AC_Name, String AC_Phone, 
-			String AC_Item, String AC_Icode, float VAT, String AC_Date, int AC_Price, String AC_Num) {
-		Account acc = new Account();
-		
-		acc.setAC_Code(AC_Code);
-		
+	
+	public void update(Account account,String AC_Company, String AC_Address, String AC_Name, String AC_Phone, 
+			 Integer AC_Price) {
+		Account acc = this.accRepository.findById(account.getId()).orElse(null);
 		acc.setAC_Company(AC_Company);
 		acc.setAC_Address(AC_Address);
-		acc.setVAT(VAT);
-		acc.setAC_Date(AC_Date);
-		acc.setAC_Icode(AC_Icode);
-		acc.setAC_Item(AC_Item);
 		acc.setAC_Name(AC_Name);
-		acc.setAC_Num(AC_Num);
 		acc.setAC_Phone(AC_Phone);
 		acc.setAC_Price(AC_Price);
 		
-		
 		this.accRepository.save(acc);
 	}
 	
-	public void delete(String AC_Code) {
+	public void delete(Integer id) {
 		Account acc = new Account();
-		
-		acc.setAC_Code(AC_Code);
-		
+		acc.setId(id);
 		this.accRepository.delete(acc);
 	}
 }
