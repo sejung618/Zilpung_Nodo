@@ -1,0 +1,345 @@
+<!-- Sidebar -->
+        <ul th:fragment="sidebarFragment" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">ZIBZIP ERP</div>
+            </a>
+
+            <div style="width:100%; height:90%;" class="scrollBar">
+
+                <!-- 구분선 -->
+                <hr class="sidebar-divider my-0">
+                
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">
+                        <i class="fa-solid fa-chalkboard mx-1" style="width:20px;"></i>
+                        <span>대시보드</span></a>
+                </li>
+
+                <!-- 구분선 -->
+                <hr class="sidebar-divider">
+
+                <!-- 기초 관리 시작 -->
+                <div class="sidebar-heading">
+                    기초 관리
+                </div>
+                <!-- 부서 관리 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        <i class="fa-solid fa-users mx-1" style="width:20px;"></i>
+                        <span>부서 관리</span>
+                    </a>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">부서 관리</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 품목 관리 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                        aria-expanded="true" aria-controls="collapase">
+                        <i class="fa-solid fa-gift mx-1" style="width:20px;"></i>
+                        <span>품목 관리</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">품목그룹 관리</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">품목 관리</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 거래처 관리 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                        aria-expanded="true" aria-controls="collapseThree">
+                        <i class="fa-solid fa-handshake mx-1" style="width:20px;"></i>
+                        <span>거래처 관리</span>
+                    </a>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">거래처 관리</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 창고 관리 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                        aria-expanded="true" aria-controls="collapseFour">
+                        <i class="fa-solid fa-warehouse mx-1" style="width:20px;"></i>
+                        <span>창고 관리</span>
+                    </a>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">창고 관리</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 기초 관리 끝 -->
+
+                <!-- 구분선 -->
+                <hr class="sidebar-divider">
+
+                <!-- 인사 관리 시작 -->
+                <div class="sidebar-heading">
+                    인사 관리
+                </div>
+                <!-- 주메뉴 1 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHrOne"
+                        aria-expanded="true" aria-controls="collapseHrOne">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>주메뉴 1</span>
+                    </a>
+                    <div id="collapseHrOne" class="collapse" aria-labelledby="headingHrOne" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">중간메뉴 1</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">중간메뉴 2</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 주메뉴 2 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHrTwo"
+                        aria-expanded="true" aria-controls="collapseHrTwo">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>주메뉴 2</span>
+                    </a>
+                    <div id="collapseHrTwo" class="collapse" aria-labelledby="headingHrTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">중간메뉴 1</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">중간메뉴 2</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 주메뉴 3 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHrThree"
+                        aria-expanded="true" aria-controls="collapseHrThree">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>주메뉴 3</span>
+                    </a>
+                    <div id="collapseHrThree" class="collapse" aria-labelledby="headingHrThree" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">중간메뉴 1</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">중간메뉴 2</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 인사 관리 끝 -->
+
+                <!-- 구분선 -->
+                <hr class="sidebar-divider">
+
+                <!-- 생산 관리 시작 -->
+                <div class="sidebar-heading">
+                    생산 관리
+                </div>
+                <!-- BOM(소요량) -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePdOne"
+                        aria-expanded="true" aria-controls="collapsePdOne">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>BOM·BOR</span>
+                    </a>
+                    <div id="collapsePdOne" class="collapse" aria-labelledby="headingPdOne" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">BOM·BOR</h6>
+                            <a class="collapse-item" href="#">BOM 입력</a>
+                            <a class="collapse-item" href="#">BOM 조회</a>
+                            <a class="collapse-item" href="#">소요량 계산</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 작업지시서 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePdTwo"
+                        aria-expanded="true" aria-controls="collapsePdTwo">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>작업지시서</span>
+                    </a>
+                    <div id="collapsePdTwo" class="collapse" aria-labelledby="headingPdcollapsePdTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">작업지시서</h6>
+                            <a class="collapse-item" href="#">작업지시서 조회</a>
+                            <a class="collapse-item" href="#">작업지시서 입력</a>
+                            <a class="collapse-item" href="#">작업지시서 현황</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 생산불출·입고 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePdThree"
+                        aria-expanded="true" aria-controls="collapsePdThree">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>생산불출·입고</span>
+                    </a>
+                    <div id="collapsePdThree" class="collapse" aria-labelledby="headingPdThree" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">생산불출</h6>
+                            <a class="collapse-item" href="#">생산불출 조회</a>
+                            <a class="collapse-item" href="#">생산불출 입력</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">생산입고</h6>
+                            <a class="collapse-item" href="#">생산입고 조회</a>
+                            <a class="collapse-item" href="#">생산입고 입력</a>
+                            <a class="collapse-item" href="#">생산입고 현황</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 생산 관리 끝 -->
+
+                <!-- 구분선 -->
+                <hr class="sidebar-divider">
+
+                <!-- 재고·유통 시작 -->
+                <div class="sidebar-heading">
+                    재고·유통
+                </div>
+                <!-- 주메뉴 1 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMmOne"
+                        aria-expanded="true" aria-controls="collapseMmOne">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>주메뉴 1</span>
+                    </a>
+                    <div id="collapseMmOne" class="collapse" aria-labelledby="headingMmOne" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">중간메뉴 1</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">중간메뉴 2</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 주메뉴 2 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMmTwo"
+                        aria-expanded="true" aria-controls="collapseMmTwo">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>주메뉴 2</span>
+                    </a>
+                    <div id="collapseMmTwo" class="collapse" aria-labelledby="headingMmTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">중간메뉴 1</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">중간메뉴 2</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 주메뉴 3 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMmThree"
+                        aria-expanded="true" aria-controls="collapseMmThree">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>주메뉴 3</span>
+                    </a>
+                    <div id="collapseMmThree" class="collapse" aria-labelledby="headingMmThree" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">중간메뉴 1</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">중간메뉴 2</h6>
+                            <a class="collapse-item" href="#">서브 메뉴 1</a>
+                            <a class="collapse-item" href="#">서브 메뉴 2</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 재고·유통 끝 -->
+
+                <!-- 구분선 -->
+                <hr class="sidebar-divider">
+
+                <!-- 영업 관리 시작 -->
+                <div class="sidebar-heading">
+                    영업 관리
+                </div>
+                <!-- 구매 관리 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSdOne"
+                        aria-expanded="true" aria-controls="collapseSdOne">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>구매 관리</span>
+                    </a>
+                    <div id="collapseSdOne" class="collapse" aria-labelledby="headingSdOne" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">발주</h6>
+                            <a class="collapse-item" href="#">발주 신청</a>
+                            <a class="collapse-item" href="#">발주 조회</a>
+                            <a class="collapse-item" href="#">발주 현황</a>
+                            <a class="collapse-item" href="#">미입고 현황</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">구매</h6>
+                            <a class="collapse-item" href="#">구매 신청</a>
+                            <a class="collapse-item" href="#">구매 조회</a>
+                            <a class="collapse-item" href="#">구매 현황</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 판매 관리 -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSdTwo"
+                        aria-expanded="true" aria-controls="collapseSdTwo">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>판매 관리</span>
+                    </a>
+                    <div id="collapseSdTwo" class="collapse" aria-labelledby="headingSdTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">판매</h6>
+                            <a class="collapse-item" href="#">판매 입력</a>
+                            <a class="collapse-item" href="#">판매 조회</a>
+                            <a class="collapse-item" href="#">판매 현황</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">예약</h6>
+                            <a class="collapse-item" href="#">예약 신청</a>
+                            <a class="collapse-item" href="#">예약 조회</a>
+                            <a class="collapse-item" href="#">예약 현황</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- 구매관리 끝 -->
+
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
