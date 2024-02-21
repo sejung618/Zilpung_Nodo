@@ -24,6 +24,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
+import nodo.erp.Sd.Account;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -113,5 +114,13 @@ public class Hr_Service {
 	            throw new DataNotFoundException("depcode not found");
 	        }
 	    }
+	 
+	 
+	 public void modify(Hr_Dto_Emp hr_Dto_emp,String empname) {
+		 Hr_Dto_Emp m = this.hr_Repository.findById(hr_Dto_emp.getId()).orElse(null);
+		m.setEmpname(empname);
+		
+		this.hr_Repository.save(m);
+	}
 	 
 }

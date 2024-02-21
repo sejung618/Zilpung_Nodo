@@ -71,17 +71,32 @@ public class Hr_Controller {
     	return "Hr/Emp_detail";
     }				
 	
-//    @GetMapping("/modify/{id}")
-//    public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
-//        Question question = this.questionService.getQuestion(id);
+    @GetMapping("/modify/{id}")
+    public String EmpModify(Emp_modify_Form emp_modify_Form, @PathVariable("id") Integer id) {
+    	Hr_Dto_Emp modify = this.hr_Service.getEmpDetail(id);
 //        if(!question.getAuthor().getUsername().equals(principal.getName())) {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 //        }
-//        questionForm.setSubject(question.getSubject());
-//        questionForm.setContent(question.getContent());
-//        return "Hr/Emp_Form";
-//    }
-//    
+    	emp_modify_Form.setEmpname(modify.getEmpname());
+        return "Hr/Emp_modify_Form";
+    }
+    
+    @PostMapping("/modify/{id}")
+	public String EmpUpdate(@Valid Emp_modify_Form emp_modify_Form, @PathVariable("id") Integer id,  BindingResult bindResult) {
+    	Hr_Dto_Emp hr_Dto_Emp = this.hr_Service.getEmpDetail(id);
+    	
+    	if(bindResult.hasErrors()) {
+			return "Hr/Emp_modify_Form";
+		}
+		this.hr_Service.modify(hr_Dto_Emp, emp_modify_Form.getEmpname());
+		return "redirect:/Hr/list";
+	}
+    
+    
+    
+    
+    
+    
     
     
     @GetMapping("/login")
