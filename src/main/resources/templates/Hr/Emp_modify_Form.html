@@ -1,0 +1,37 @@
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container">
+	<h5 class="my-3 border-bottom pd-2">사원 정보수정</h5>
+	<form th:object="${emp_modify_Form}" method="post">
+		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+
+		<div class="mb-3">
+			<label for="empname" class="form-label">이름</label>
+			<input type="text" th:field="*{empname}" name="empname" id="empname" class="form-control"
+				style="width: 30%;">
+		</div>
+
+		<div class="mb-3">
+			<label for="empadd" class="form-label">주소</label>
+			<input type="text" th:field="*{empadd}" name="empadd" id="empadd" class="form-control">
+		</div>
+
+		<div class="mb-3">
+			<label for="empphone" class="form-label">폰번호</label>
+			<input type="tel" th:field="*{empphone}" name="empphone" id="empphone" class="form-control">
+		</div>
+		
+		<div class="mb-3">
+			<label for="empmail" class="form-label">이메일</label>
+			<input type="email" th:field="*{empmail}" name="empmail" id="empmail" class="form-control">
+		</div>
+
+		<div class="mb-3">
+			<input type="submit" value="저장하기" class="btn btn-primary my-2">
+		</div>
+	</form>
+</div>
+
+</html>
