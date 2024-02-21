@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 import java.security.Principal;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-import nodo.erp.Hr.Hr_Service;
-import nodo.erp.Hr.Hr_Dto_Dep;
 
 @RequestMapping("/Hr")
 @RequiredArgsConstructor
@@ -44,7 +38,10 @@ public class Hr_Controller {
 	    }
 
 	@GetMapping("/create")
-    public String EmpCreate(Emp_Form emp_Form) {
+    public String EmpCreate(Model model, Emp_Form emp_Form) {
+		List<Hr_Dto_Dep> deplist = this.hr_Service.getdepList();
+		model.addAttribute("deplist", deplist);
+		
         return "Hr/Emp_Form";
     }
 	
@@ -106,9 +103,6 @@ public class Hr_Controller {
         this.hr_Service.delete(emp);
         return "redirect:/";
     }
-    
-    
-    
     
     
     @GetMapping("/login")
