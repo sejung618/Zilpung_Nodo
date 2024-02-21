@@ -1,4 +1,4 @@
-package nodo.erp.Mm;
+package nodo.erp.Mm.Inventory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
