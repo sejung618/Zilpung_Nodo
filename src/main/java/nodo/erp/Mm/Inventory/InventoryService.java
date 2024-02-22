@@ -99,7 +99,7 @@ public class InventoryService {
 		inventory.setINPNum(INPNum);
 		inventory.setINICode(INICode);
 		inventory.setINStandard(INStandard);
-		inventory.setCreateDate(LocalDateTime.now());
+		inventory.setModifyDate(LocalDateTime.now());
 		this.inventoryRepository.save(inventory);
 	}
 	

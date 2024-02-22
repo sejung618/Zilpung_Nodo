@@ -1,5 +1,7 @@
 package nodo.erp.Mm;
 
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -40,4 +42,9 @@ public class WarehousingForm {
 	
 	@NotEmpty(message="납기일자는 필수항목입니다.") 
 	private String WHDT;		//납기일자
+	
+	private LocalDateTime createDate; 		
+	
+	private LocalDateTime modifyDate;
+	
 }

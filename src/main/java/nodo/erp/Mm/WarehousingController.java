@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import nodo.erp.Mm.Inventory.Inventory;
-import nodo.erp.Mm.Inventory.InventoryForm;
 
 
 @RequestMapping("/warehousing")
