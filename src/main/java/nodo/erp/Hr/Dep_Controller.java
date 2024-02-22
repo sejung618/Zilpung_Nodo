@@ -19,69 +19,60 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class Dep_Controller {
+
+	private final Dep_Service dep_Service;
+
+	@GetMapping("/list")
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+		Page<Hr_Dto_Dep> paging = this.dep_Service.getdepList(page);
+		model.addAttribute("paging", paging);
+		return "Hr/Dep_List";
+	}
+
+	@GetMapping("/create")
+	public String depCreate(Dep_Form dep_Form) {
+		return "Hr/Dep_Form";
+	}
+
+	@PostMapping("/create")
+	public String EmpCreate(@Valid Dep_Form dmp_Form, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "Hr/Dep_Form";
+		}
+		this.dep_Service.create(dmp_Form.getDepcode(), dmp_Form.getDepname());
+
+		return "redirect:/dep/list";
+	}
+
+	@GetMapping("/modify/{id}")
+	public String depModify(Dep_Form dep_Form, @PathVariable("id") Integer id) {
+		Hr_Dto_Dep hr_Dto_Dep = this.dep_Service.getFindByIdDep(id);
+
+		dep_Form.setDepcode(hr_Dto_Dep.getDepcode());
+		dep_Form.setDepname(hr_Dto_Dep.getDepname());
+
+		return "Hr/Dep_Form";
+	}
+
+	@PostMapping("/modify/{id}")
+	public String depModify(@Valid Dep_Form dep_Form, @PathVariable("id") Integer id, BindingResult bindResult) {
+		Hr_Dto_Dep hr_Dto_Dep = this.dep_Service.getFindByIdDep(id);
+
+		if (bindResult.hasErrors()) {
+			return "Hr/Dep_Form";
+		}
+		this.dep_Service.modify(hr_Dto_Dep, dep_Form.getDepcode(), dep_Form.getDepname());
+		return "redirect:/dep/list";
+	}
 	
-	private final Hr_Service hr_Service;
 
-	 @GetMapping("/list")
-	    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
-	        Page<Hr_Dto_Dep> paging = this.hr_Service.getdepList(page);
-	        model.addAttribute("paging", paging);
-	        return "Hr/Dep_List";
+
+	    @GetMapping("/delete/{id}")
+	    public String questionDelete(@PathVariable("id") Integer id) {
+	    	Hr_Dto_Dep dep = this.dep_Service.getFindByIdDep(id);
+
+	        this.dep_Service.delete(dep);
+	        return "redirect:/dep/list";
 	    }
-	 
-//	 @GetMapping("/create")
-//	    public String EmpCreate(Model model, Emp_Form emp_Form) {
-//			List<Hr_Dto_Dep> deplist = this.hr_Service.getdepList();
-//			model.addAttribute("deplist", deplist);
-//			
-//	        return "Hr/Emp_Form";
-//	    }
-//	
-//	 @PostMapping("/create")
-//		public String EmpCreate(@Valid Emp_Form emp_Form, BindingResult bindingResult) {
-//			Hr_Dto_Dep depart = this.hr_Service.getDepCode(emp_Form.getDepcode());
-//			if (bindingResult.hasErrors()) {
-//		        return "Hr/Emp_Form";
-//		    }
-//		    this.hr_Service.create(emp_Form.getEmpname(), emp_Form.getEmpssn(), 
-//		    		emp_Form.getEmpadd(), emp_Form.getEmpphone(), emp_Form.getEmpmail(),
-//		    		emp_Form.getEmpdate(), emp_Form.getEmpspot(), emp_Form.getEmpposition(), 
-//		    		depart);
-//		    
-//		    return "redirect:/Hr/list";
-//		}
-//	 
-//	 @GetMapping("/modify/{id}")
-//	    public String EmpModify(Emp_modify_Form emp_modify_Form, @PathVariable("id") Integer id) {
-//	    	Hr_Dto_Emp empDtail = this.hr_Service.getEmpDetail(id);
-////	        if(!question.getAuthor().getUsername().equals(principal.getName())) {
-////	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-////	        }
-//	    	emp_modify_Form.setEmpname(empDtail.getEmpname());
-//	    	emp_modify_Form.setEmpadd(empDtail.getEmpadd());
-//	    	emp_modify_Form.setEmpphone(empDtail.getEmpphone());
-//	    	emp_modify_Form.setEmpmail(empDtail.getEmpmail());
-//	        return "Hr/Emp_modify_Form";
-//	    }
-//	    
-//	    @PostMapping("/modify/{id}")
-//		public String EmpModify(@PathVariable("id") Integer id ,@Valid Emp_modify_Form emp_modify_Form,  BindingResult bindResult) {
-//	    	Hr_Dto_Emp hr_Dto_Emp = this.hr_Service.getEmpDetail(id);
-//	    	
-//	    	if(bindResult.hasErrors()) {
-//				return "Hr/Emp_modify_Form";
-//			}
-//			this.hr_Service.modify(hr_Dto_Emp, emp_modify_Form.getEmpname(), emp_modify_Form.getEmpadd(),emp_modify_Form.getEmpphone(),emp_modify_Form.getEmpmail());
-//			return "redirect:/Hr/list";
-//		}
-//	    
-//	    @GetMapping("/delete/{id}")
-//	    public String questionDelete(@PathVariable("id") Integer id) {
-//	    	Hr_Dto_Emp emp = this.hr_Service.getEmpDetail(id);
-//
-//	        this.hr_Service.delete(emp);
-//	        return "redirect:/";
-//	    }
-//	    
+	    
 }
-

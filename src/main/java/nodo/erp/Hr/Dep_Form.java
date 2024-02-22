@@ -11,11 +11,11 @@ import lombok.Setter;
 @Setter
 public class Dep_Form {
 	
-	@NotEmpty(message="이름은 필수항목입니다.")
+	@NotEmpty(message="부서코드는 필수항목입니다.")
     @Size(max=50)
     private String depcode;
 
-    @NotEmpty(message="주민번호는 필수항목입니다.")
+    @NotEmpty(message="부서이름은 필수항목입니다.")
     private String depname;
 
 }
