@@ -51,30 +51,30 @@ public class WarehousingController {
 	}
 	
 	@GetMapping("/modify/{id}")
-	public String warehousingModify(WarehousingForm warehousingForm, @PathVariable("id") Integer id) {
+	public String warehousingModify(WarehousingUpdateForm wf, @PathVariable("id") Integer id) {
 		Warehousing warehousing = this.warehousingService.getWarehousing(id);
-		warehousingForm.setWHDate(warehousing.getWHDate());
-		warehousingForm.setWHAName(warehousing.getWHAName());
-		warehousingForm.setWHACode(warehousing.getWHACode());
-		warehousingForm.setWHIName(warehousing.getWHIName());
-		warehousingForm.setWHICode(warehousing.getWHICode());
-		warehousingForm.setWHPName(warehousing.getWHPName());
-		warehousingForm.setWHPNum(warehousing.getWHPNum());
-		warehousingForm.setWHDT(warehousing.getWHDT());
-		warehousingForm.setWHCAmount(warehousing.getWHCAmount());
-		warehousingForm.setWHLocation(warehousing.getWHLocation());
-		warehousingForm.setWHState(warehousing.getWHState());
-		return "Mm/warehousing_form";
+		
+		wf.setWHAName(warehousing.getWHAName());
+		wf.setWHACode(warehousing.getWHACode());
+		wf.setWHIName(warehousing.getWHIName());
+		wf.setWHICode(warehousing.getWHICode());
+		wf.setWHPName(warehousing.getWHPName());
+		wf.setWHPNum(warehousing.getWHPNum());
+		wf.setWHDT(warehousing.getWHDT());
+		wf.setWHCAmount(warehousing.getWHCAmount());
+		wf.setWHLocation(warehousing.getWHLocation());
+		wf.setWHState(warehousing.getWHState());
+		return "Mm/warehousing_update";
 	}
 	
 	@PostMapping("/modify/{id}")
-    public String warehousingModify(@Valid WarehousingForm warehousingForm, BindingResult br, @PathVariable("id") Integer id) {
+    public String warehousingModify(@Valid WarehousingUpdateForm wf, BindingResult br, @PathVariable("id") Integer id) {
         if (br.hasErrors()) {
-            return "Mm/warehousing_form";
+            return "Mm/warehousing_update";
         }
         Warehousing warehousing = this.warehousingService.getWarehousing(id); {
        
-        this.warehousingService.modify(warehousing, warehousingForm.getWHDate(),warehousingForm.getWHAName(),warehousingForm.getWHACode(),warehousingForm.getWHIName(),warehousingForm.getWHICode(),warehousingForm.getWHPName(),warehousingForm.getWHPNum(),warehousingForm.getWHDT(),warehousingForm.getWHCAmount(),warehousingForm.getWHLocation(),warehousingForm.getWHState());
+        this.warehousingService.modify(warehousing, wf.getWHAName(),wf.getWHACode(),wf.getWHIName(),wf.getWHICode(),wf.getWHPName(),wf.getWHPNum(),wf.getWHDT(),wf.getWHCAmount(),wf.getWHLocation(),wf.getWHState());
         return String.format("redirect:/warehousing/list", id);
     
         }

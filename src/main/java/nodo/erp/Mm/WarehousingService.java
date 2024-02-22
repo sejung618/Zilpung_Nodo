@@ -103,15 +103,8 @@ public class WarehousingService {
 		}
 	}
 	
-	public void modify(Warehousing wh, String WHDate, String WHAName, String WHACode, String WHIName, String WHICode, String WHPName, String WHPNum, String WHDT, Integer WHCAmount, String WHLocation, String WHState) {
+	public void modify(Warehousing wh, String WHAName, String WHACode, String WHIName, String WHICode, String WHPName, String WHPNum, String WHDT, Integer WHCAmount, String WHLocation, String WHState) {
 		
-		String yy = WHDate.substring(2, 4);
-		String mm = WHDate.substring(5, 7);
-		String dd = WHDate.substring(8, 10);
-		String ymd = yy + mm + dd;
-		String Num = String.format("%03d", generateWHNum(ymd));
-		
-		wh.setWHDate(ymd + "-" + Num);
 		wh.setWHAName(WHAName);
 		wh.setWHACode(WHACode);
 		wh.setWHIName(WHIName);
