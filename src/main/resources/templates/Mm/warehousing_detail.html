@@ -1,0 +1,76 @@
+<html layout:decorate="~{/layout}">
+<div layout:fragment="content" class="container my-3">
+   <div class="my-3 border-bottom">
+        <div>
+            <h1>수정 및 삭제</h1>
+        </div>
+    </div>
+   <table class="table">
+      <thead class="table-primary">
+         <tr class="text-center">
+            <th>일자-No.</th>
+            <th>거래처명</th>
+            <th>거래처코드</th>
+            <th>품목명</th>
+            <th>품목명코드</th>
+            <th>담당자</th>
+            <th>담당자사번</th>
+            <th>납기일자</th>
+            <th>입고수량</th>
+            <th>입고위치</th>
+            <th>진행상태</th>
+         </tr>   
+      </thead>
+      <body>
+		  <tr class="text-center table-active">
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHDate}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHAName}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHACode}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHIName}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHICode}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHPName}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHPNum}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHDT}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHCAmount}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHLocation}">
+         </th>
+         <th>
+            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHState}">
+         </th>
+         </tr>
+      </body-->
+   </table>
+   <a th:href="@{|/warehousing/modify/${warehousing.id}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
+   <a href="javascript:void(0);" th:data-uri="@{|/warehousing/delete/${warehousing.id}|}" class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
+   <!-- sec:authorize="isAuthenticated()" 삭제에 넣기 -->
+   <script type='text/javascript'>
+   const delete_elements = document.getElementsByClassName("delete");
+   Array.from(delete_elements).forEach(function(element) {
+       element.addEventListener('click', function() {
+           if(confirm("정말로 삭제하시겠습니까?")) {
+               location.href = this.dataset.uri;
+           };
+       });
+   });
+</script>
+</div>
+</html>

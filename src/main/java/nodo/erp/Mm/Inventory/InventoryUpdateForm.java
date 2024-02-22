@@ -7,10 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class InventoryForm {
-	@NotEmpty(message="일자는 필수항목입니다.") 
-	private String INDate;
-	
+public class InventoryUpdateForm {
 	@NotEmpty(message="품목명은 필수항목입니다.")
 	private String ININame;
 	

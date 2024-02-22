@@ -1,0 +1,54 @@
+<html layout:decorate="~{/layout}">
+<div layout:fragment="content" class="container">
+	<h5 class="my-3 border-bottom pd-2">입고</h5>
+	<form th:object="${warehousingUpdateForm}" method="post">
+		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+		<div class="mb-3">
+			<label for="WHAName" class="form-label">거래처명</label>
+			<input type="text" th:field="*{WHAName}" name="WHAName" id="WHAName" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHACode" class="form-label">거래처코드</label>
+			<input type="text" th:field="*{WHACode}" name="WHACode" id="WHACode" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHIName" class="form-label">품목명</label>
+			<input type="text" th:field="*{WHIName}" name="WHIName" id="WHIName" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHICode" class="form-label">품목코드</label>
+			<input type="text" th:field="*{WHICode}" name="WHICode" id="WHICode" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHPName" class="form-label">담당자</label>
+			<input type="text" th:field="*{WHPName}" name="WHPName" id="WHPName" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHPNum" class="form-label">담당자사번</label>
+			<input type="text" th:field="*{WHPNum}" name="WHPNum" id="WHPNum" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHDT" class="form-label">납기일자</label>
+			<input type="date" th:field="*{WHDT}" name="WHDT" id="WHDT" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHCAmount" class="form-label">입고수량</label>
+			<input type="text" th:field="*{WHCAmount}" name="WHCAmount" id="WHCAmount" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="WHLocation" class="form-label">입고위치</label>
+			<input type="text" th:field="*{WHLocation}" name="WHLocation" id="WHLocation" class="form-control">
+		</div>
+		<div class="form-group mb-3">
+			<label for="WHState" class="form-label">진행상태</label>
+			<select class="form-select" th:field="*{WHState}" name="WHState" id="WHState">
+				<option value="-">-</option>
+				<option value="미입고">미입고</option>
+				<option value="입고">입고</option>
+			</select>
+		</div>
+		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
+	</form>
+</div>

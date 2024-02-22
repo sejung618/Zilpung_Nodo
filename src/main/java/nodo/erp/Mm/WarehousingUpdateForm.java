@@ -9,10 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class WarehousingForm {
-	@NotEmpty(message="입고일자는 필수항목입니다.") 
-	private String WHDate;		//입고일자
-	
+public class WarehousingUpdateForm {
 	@NotEmpty(message="담당자는 필수항목입니다.") 
 	private String WHPName;		//담당자
 	
@@ -42,9 +39,5 @@ public class WarehousingForm {
 	
 	@NotEmpty(message="납기일자는 필수항목입니다.") 
 	private String WHDT;		//납기일자
-	
-	private LocalDateTime createDate; 		
-	
-	private LocalDateTime modifyDate;
 	
 }

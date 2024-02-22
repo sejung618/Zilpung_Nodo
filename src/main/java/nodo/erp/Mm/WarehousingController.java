@@ -3,11 +3,16 @@ package nodo.erp.Mm;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 
 @RequestMapping("/warehousing")
 @RequiredArgsConstructor
@@ -24,4 +29,62 @@ public class WarehousingController {
 		return "Mm/warehousing_list";
 	}
 
+	@GetMapping("/create")
+	public String warehousingCreate(WarehousingForm warehousingForm){
+		return "Mm/warehousing_form";
+	}
+	
+	@PostMapping("/create")
+	public String warehousingCreate(@Valid WarehousingForm warehousingForm, BindingResult br) {
+		if (br.hasErrors()) {
+			return "Mm/warehousing_form"; 
+		}
+		this.warehousingService.create(warehousingForm.getWHDate(),warehousingForm.getWHAName(), warehousingForm.getWHACode(), warehousingForm.getWHIName(), warehousingForm.getWHICode(), warehousingForm.getWHPName(), warehousingForm.getWHPNum(), warehousingForm.getWHDT(), warehousingForm.getWHCAmount(), warehousingForm.getWHLocation(), warehousingForm.getWHState());
+		return "redirect:/warehousing/list";
+	}
+	
+	@GetMapping(value = "/detail/{id}")
+	public String detail(Model model, @PathVariable("id") Integer id) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(id);
+		model.addAttribute("warehousing", warehousing);
+		return "Mm/warehousing_detail";
+	}
+	
+	@GetMapping("/modify/{id}")
+	public String warehousingModify(WarehousingUpdateForm wf, @PathVariable("id") Integer id) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(id);
+		
+		wf.setWHAName(warehousing.getWHAName());
+		wf.setWHACode(warehousing.getWHACode());
+		wf.setWHIName(warehousing.getWHIName());
+		wf.setWHICode(warehousing.getWHICode());
+		wf.setWHPName(warehousing.getWHPName());
+		wf.setWHPNum(warehousing.getWHPNum());
+		wf.setWHDT(warehousing.getWHDT());
+		wf.setWHCAmount(warehousing.getWHCAmount());
+		wf.setWHLocation(warehousing.getWHLocation());
+		wf.setWHState(warehousing.getWHState());
+		return "Mm/warehousing_update";
+	}
+	
+	@PostMapping("/modify/{id}")
+    public String warehousingModify(@Valid WarehousingUpdateForm wf, BindingResult br, @PathVariable("id") Integer id) {
+        if (br.hasErrors()) {
+            return "Mm/warehousing_update";
+        }
+        Warehousing warehousing = this.warehousingService.getWarehousing(id); {
+       
+        this.warehousingService.modify(warehousing, wf.getWHAName(),wf.getWHACode(),wf.getWHIName(),wf.getWHICode(),wf.getWHPName(),wf.getWHPNum(),wf.getWHDT(),wf.getWHCAmount(),wf.getWHLocation(),wf.getWHState());
+        return String.format("redirect:/warehousing/list", id);
+    
+        }
+	}
+	
+	@GetMapping("/delete/{id}")
+    public String inventoryDelete(@PathVariable("id") Integer id) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(id);
+      
+        this.warehousingService.delete(warehousing);
+        return "redirect:/warehousing/list";
+    }
 }
