@@ -49,19 +49,17 @@ public class Hr_Service {
 		return this.hr_Repository.findAll();
 	}
 	
+	public List<Hr_Dto_Dep> getdepList() {
+		return this.dep_Repository.findAll();
+	}
+	
 	 public Page<Hr_Dto_Emp> getList(int page) {
 	        Pageable pageable = PageRequest.of(page, 10);
 	        return this.hr_Repository.findAll(pageable);
 	    }
 	 
-	public List<Hr_Dto_Dep> getdepList() {
-		return this.dep_Repository.findAll();
-	}
-	
-	 public Page<Hr_Dto_Dep> getdepList(int page) {
-	        Pageable pageable = PageRequest.of(page, 10);
-	        return this.dep_Repository.findAll(pageable);
-	    }
+	 
+
 
 	public void create(String empname, String empssn, String empadd, String empphone, 
 			String empmail,Date empdate, String empspot, String empposition, Hr_Dto_Dep depart) {

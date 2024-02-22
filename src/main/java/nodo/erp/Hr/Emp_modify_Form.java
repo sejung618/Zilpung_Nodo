@@ -16,9 +16,9 @@ public class Emp_modify_Form {
 	@NotEmpty(message="주소는 필수항목입니다.")
     private String empadd;
 
-	@NotEmpty(message="주소는 필수항목입니다.")
+	@NotEmpty(message="번호는 필수항목입니다.")
     private String empphone;
 	
-	@NotEmpty(message="주소는 필수항목입니다.")
+	@NotEmpty(message="이메일은 필수항목입니다.")
     private String empmail;
 }
