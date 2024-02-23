@@ -1,8 +1,7 @@
-package nodo.erp.Hr;
+package nodo.erp.Hr.Entity;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,17 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.List;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
+
 import jakarta.persistence.ManyToOne;
-import java.util.Set;
-import jakarta.persistence.ManyToMany;
+
 
 @Getter
 @Setter
 @Entity
-public class Hr_Dto_Emp {
+public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -52,7 +48,7 @@ public class Hr_Dto_Emp {
 	private String empposition; //@직책 (팀장 부팀장)
 	
 	@ManyToOne
-	private Hr_Dto_Dep depart;		//@부서
+	private Department depart;		//@부서
 	
 	private Integer empvaca;		//연차갯수
 	

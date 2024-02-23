@@ -1,4 +1,4 @@
-package nodo.erp.Hr;
+package nodo.erp.Hr.Dto;
 
 
 import jakarta.validation.constraints.NotEmpty;
