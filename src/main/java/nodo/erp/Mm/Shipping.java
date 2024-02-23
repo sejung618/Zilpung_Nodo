@@ -1,6 +1,7 @@
-package nodo.erp.Mm.Warehousing;
+package nodo.erp.Mm;
 
 import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,47 +13,46 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Warehousing {
+public class Shipping {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer WHid;		//번호
+	private Integer SPid;		//번호
 	
 	@Column(length = 15)
-	private String WHDate;		//입고일자
-	
-	@Column(length = 10)
-	private String WHPName;		//담당자
-	
-	@Column(length = 13)
-	private String WHPNum;		//담당사번
+	private String SPDate;		//출고일자
 	
 	@Column(length = 30)
-	private String WHAName;		//거래처명
+	private String SPAName;		//거래처명
 	
 	@Column(length = 30)
-	private String WHACode;		//거래처코드
+	private String SPACode;		//거래처코드
 	
 	@Column(length = 30)
-	private String WHIName;		//품목명
+	private String SPIName;		//품목명
 	
 	@Column(length = 11)
-	private String WHICode;		//품목코드
+	private String SPICode;		//품목코드
+	
+	@Column(length = 10)
+	private String SPPName;		//담당자
+	
+	@Column(length = 13)
+	private String SPPNum;		//담당사번
+	
+	@Column(length = 20)
+	private String SPDT;		//납기일자
 	
 	@Column(length = 7)
-	private Integer WHCAmount;		//입고수량
-	
-	@Column(length = 20)
-	private String WHState;		//진행상태
+	private Integer SPCAmount;		//출고수량
 	
 	@Column(length = 30)
-	private String WHLocation;		//입고위치
+	private String SPLocation;		//출고위치
 	
 	@Column(length = 20)
-	private String WHDT;		//납기일자
+	private String SPState;		//진행상태
 	
 	private LocalDateTime createDate; 		
 	
 	private LocalDateTime modifyDate;
-	
-
 }

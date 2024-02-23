@@ -64,16 +64,16 @@ public class InventoryController {
 		return "redirect:/inventory/list";
 	}
 	
-	@GetMapping(value = "/detail/{id}")
-	public String detail(Model model, @PathVariable("id") Integer id) {
-		Inventory inventory = this.inventoryService.getInventory(id);
+	@GetMapping(value = "/detail/{INid}")
+	public String detail(Model model, @PathVariable("INid") Integer INid) {
+		Inventory inventory = this.inventoryService.getInventory(INid);
 		model.addAttribute("inventory", inventory);
 		return "Mm/inventory_detail";
 	}
     
-	@GetMapping("/modify/{id}")
-	public String inventoryModify(InventoryUpdateForm inf, @PathVariable("id") Integer id) {
-		Inventory inventory = this.inventoryService.getInventory(id);
+	@GetMapping("/modify/{INid}")
+	public String inventoryModify(InventoryUpdateForm inf, @PathVariable("INid") Integer INid) {
+		Inventory inventory = this.inventoryService.getInventory(INid);
 	
 		inf.setINICode(inventory.getINICode());
 		inf.setININame(inventory.getININame());
@@ -84,22 +84,22 @@ public class InventoryController {
 		return "Mm/inventory_update";
 	}
 	
-	@PostMapping("/modify/{id}")
-    public String inventoryModify(@Valid InventoryUpdateForm inf, BindingResult br, @PathVariable("id") Integer id) {
+	@PostMapping("/modify/{INid}")
+    public String inventoryModify(@Valid InventoryUpdateForm inf, BindingResult br, @PathVariable("INid") Integer INid) {
         if (br.hasErrors()) {
             return "Mm/inventory_update";
         }
-        Inventory inventory = this.inventoryService.getInventory(id); {
+        Inventory inventory = this.inventoryService.getInventory(INid); {
        
         this.inventoryService.modify(inventory, inf.getININame(),inf.getINPName(),inf.getINQuantity(),inf.getINPNum(),inf.getINICode(),inf.getINStandard());
-        return String.format("redirect:/inventory/list", id);
+        return String.format("redirect:/inventory/list", INid);
     
         }
 	}
 	
-	@GetMapping("/delete/{id}")
-    public String inventoryDelete(@PathVariable("id") Integer id) {
-		Inventory inventory = this.inventoryService.getInventory(id);
+	@GetMapping("/delete/{INid}")
+    public String inventoryDelete(@PathVariable("INid") Integer INid) {
+		Inventory inventory = this.inventoryService.getInventory(INid);
       
         this.inventoryService.delete(inventory);
         return "redirect:/inventory/list";

@@ -20,31 +20,31 @@
       <body>
 		  <tr class="text-center table-active">
          <th>
-            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INDate}">
+            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INDate}">
          </th>
          <th>
-            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.ININame}">
+            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.ININame}">
          </th>
          <th>
-            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INICode}">
+            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INICode}">
          </th>
          <th>
-            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INPName}">
+            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INPName}">
          </th>
          <th>
-            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INPNum}">
+            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INPNum}">
          </th>
          <th>
-            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INQuantity}">
+            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INQuantity}">
          </th>
          <th>
-            <th:text="@{|/inventory/${inventory.id}|}" th:text="${inventory.INStandard}">
+            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INStandard}">
          </th>
          </tr>
       </body>
    </table>
-   <a th:href="@{|/inventory/modify/${inventory.id}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
-   <a href="javascript:void(0);" th:data-uri="@{|/inventory/delete/${inventory.id}|}" class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
+   <a th:href="@{|/inventory/modify/${inventory.INid}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
+   <a href="javascript:void(0);" th:data-uri="@{|/inventory/delete/${inventory.INid}|}" class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
    <!-- sec:authorize="isAuthenticated()"  삭제에 넣기 -->
 
    <script type='text/javascript'>

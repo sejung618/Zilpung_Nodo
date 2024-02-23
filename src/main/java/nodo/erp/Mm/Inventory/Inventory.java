@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Inventory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;		//번호
+	private Integer INid;		//번호
 	
 	@Column(length = 15)
 	private String INDate;		//일자

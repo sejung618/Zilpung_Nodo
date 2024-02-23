@@ -1,6 +1,6 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content" class="container my-3">
-	<h1>입고 현황</h1>
+	<h1>출고 현황</h1>
     <div class="row my-3">
 		<div class="col-6">
 		    <div class="input-group" style="left: 100%;">
@@ -17,30 +17,30 @@
 				<th>거래처명</th>
 				<th>품목명</th>
 				<th>납기일자</th>
-				<th>입고수량</th>
+				<th>출고수량</th>
 				<th>진행상태</th>
 			</tr>	
 		</thead>
 		<tbody>
-			<tr class="text-center table-active" th:each="warehousing, loop : ${paging}">
+			<tr class="text-center table-active" th:each="shipping, loop : ${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<th>
-					<a th:href="@{|/warehousing/detail/${warehousing.WHid}|}" th:text="${warehousing.WHDate}"></a>
+					<a th:href="@{|/shipping/detail/${shipping.SPid}|}" th:text="${shipping.SPDate}"></a>
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHAName}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPAName}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHIName}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPIName}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHDT}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPDT}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHCAmount}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPCAmount}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHState}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPState}">
 				</th>
 			</tr>
 		</tbody>
@@ -68,9 +68,9 @@
     </div>
     <!-- 페이징처리 끝 -->
     <div class="col-6">
-		<a th:href="@{/warehousing/create}" class="btn btn-primary" style="left: 180%;"> 입고</a>
+		<a th:href="@{/shipping/create}" class="btn btn-primary" style="left: 180%;"> 입고</a>
 	</div>
-	<form th:action="@{/warehousing/list}" method="get" id="searchForm">
+	<form th:action="@{/shipping/list}" method="get" id="searchForm">
         <input type="hidden" id="kw" name="kw" th:value="${kw}">
         <input type="hidden" id="page" name="page" th:value="${paging.number}">
     </form>

@@ -1,4 +1,4 @@
-package nodo.erp.Mm;
+package nodo.erp.Mm.Warehousing;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -43,16 +43,16 @@ public class WarehousingController {
 		return "redirect:/warehousing/list";
 	}
 	
-	@GetMapping(value = "/detail/{id}")
-	public String detail(Model model, @PathVariable("id") Integer id) {
-		Warehousing warehousing = this.warehousingService.getWarehousing(id);
+	@GetMapping(value = "/detail/{WHid}")
+	public String detail(Model model, @PathVariable("WHid") Integer WHid) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
 		model.addAttribute("warehousing", warehousing);
 		return "Mm/warehousing_detail";
 	}
 	
-	@GetMapping("/modify/{id}")
-	public String warehousingModify(WarehousingUpdateForm wf, @PathVariable("id") Integer id) {
-		Warehousing warehousing = this.warehousingService.getWarehousing(id);
+	@GetMapping("/modify/{WHid}")
+	public String warehousingModify(WarehousingUpdateForm wf, @PathVariable("WHid") Integer WHid) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
 		
 		wf.setWHAName(warehousing.getWHAName());
 		wf.setWHACode(warehousing.getWHACode());
@@ -67,22 +67,22 @@ public class WarehousingController {
 		return "Mm/warehousing_update";
 	}
 	
-	@PostMapping("/modify/{id}")
-    public String warehousingModify(@Valid WarehousingUpdateForm wf, BindingResult br, @PathVariable("id") Integer id) {
+	@PostMapping("/modify/{WHid}")
+    public String warehousingModify(@Valid WarehousingUpdateForm wf, BindingResult br, @PathVariable("WHid") Integer WHid) {
         if (br.hasErrors()) {
             return "Mm/warehousing_update";
         }
-        Warehousing warehousing = this.warehousingService.getWarehousing(id); {
+        Warehousing warehousing = this.warehousingService.getWarehousing(WHid); {
        
         this.warehousingService.modify(warehousing, wf.getWHAName(),wf.getWHACode(),wf.getWHIName(),wf.getWHICode(),wf.getWHPName(),wf.getWHPNum(),wf.getWHDT(),wf.getWHCAmount(),wf.getWHLocation(),wf.getWHState());
-        return String.format("redirect:/warehousing/list", id);
+        return String.format("redirect:/warehousing/list", WHid);
     
         }
 	}
 	
-	@GetMapping("/delete/{id}")
-    public String inventoryDelete(@PathVariable("id") Integer id) {
-		Warehousing warehousing = this.warehousingService.getWarehousing(id);
+	@GetMapping("/delete/{WHid}")
+    public String inventoryDelete(@PathVariable("WHid") Integer WHid) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
       
         this.warehousingService.delete(warehousing);
         return "redirect:/warehousing/list";

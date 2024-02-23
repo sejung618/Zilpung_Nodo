@@ -6,7 +6,7 @@
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
 		<div class="mb-3">
-			<label for="WHDate" class="form-label">일자-No.</label>
+			<label for="WHDate" class="form-label">일자</label>
 			<input type="date" th:field="*{WHDate}" name="WHDate" id="WHDate" class="form-control">
 		</div>
 		<div class="mb-3">

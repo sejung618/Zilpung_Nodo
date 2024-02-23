@@ -76,8 +76,8 @@ public class InventoryService {
 	}
 	
 	//디테일
-	public Inventory getInventory(Integer id) {
-		Optional<Inventory> inventory = this.inventoryRepository.findById(id);
+	public Inventory getInventory(Integer INid) {
+		Optional<Inventory> inventory = this.inventoryRepository.findById(INid);
 		if(inventory.isPresent()) {
 			return inventory.get();
 		} else {
