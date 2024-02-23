@@ -1,6 +1,6 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content" class="container">
-	<h5 class="my-3 border-bottom pd-2">재고조정</h5>
+	<h5 class="my-3 border-bottom pd-2">재고조정수정</h5>
 	<form th:object="${inventoryUpdateForm}" method="post">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
