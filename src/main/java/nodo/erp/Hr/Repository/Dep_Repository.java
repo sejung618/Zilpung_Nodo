@@ -7,14 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import nodo.erp.Hr.Entity.Dep_Entity;
+import nodo.erp.Hr.Entity.Department;
 
 
-public interface Dep_Repository extends JpaRepository<Dep_Entity, Integer> {
-	Optional<Dep_Entity> findByDepcode(String depcode);
+public interface Dep_Repository extends JpaRepository<Department, Integer> {
+	Optional<Department> findByDepcode(String depcode);
 	
-	Page<Dep_Entity> findAll(Pageable pageable);
-    Page<Dep_Entity> findAll(Specification<Dep_Entity> spec, Pageable pageable);
+	Page<Department> findAll(Pageable pageable);
+    Page<Department> findAll(Specification<Department> spec, Pageable pageable);
     
 	
 }

@@ -5,19 +5,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import nodo.erp.Hr.Entity.Emp_Entity;
+import nodo.erp.Hr.Entity.Employee;
 
 import java.util.Optional;
-import java.util.List;
 
 
 
-public interface Emp_Repository extends JpaRepository<Emp_Entity, Integer>{
 
-	Page<Emp_Entity> findAll(Pageable pageable);
-    Page<Emp_Entity> findAll(Specification<Emp_Entity> spec, Pageable pageable);
+public interface Emp_Repository extends JpaRepository<Employee, Integer>{
+
+	Page<Employee> findAll(Pageable pageable);
+    Page<Employee> findAll(Specification<Employee> spec, Pageable pageable);
     
    
     
-    Optional<Emp_Entity> findByEmpnum(String empnum);
+    Optional<Employee> findByEmpnum(String empnum);
 }

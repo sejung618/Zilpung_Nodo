@@ -24,8 +24,8 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
-import nodo.erp.Hr.Entity.Dep_Entity;
-import nodo.erp.Hr.Entity.Emp_Entity;
+import nodo.erp.Hr.Entity.Department;
+import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Repository.Dep_Repository;
 import nodo.erp.Hr.Repository.Emp_Repository;
 import nodo.erp.Sd.Account;
@@ -41,7 +41,7 @@ import java.util.Optional;
 @Service
 public class Emp_Service {
 
-	private final Emp_Repository hr_Repository;
+	private final Emp_Repository emp_Repository;
 	
 	private final Dep_Repository dep_Repository;
 
@@ -49,31 +49,31 @@ public class Emp_Service {
     private EntityManager entityManager;
 	private final PasswordEncoder passwordEncoder;
 	
-	public List<Emp_Entity> getList() {
-		return this.hr_Repository.findAll();
+	public List<Employee> getList() {
+		return this.emp_Repository.findAll();
 	}
 	
-	public List<Dep_Entity> getdepList() {
+	public List<Department> getdepList() {
 		return this.dep_Repository.findAll();
 	}
 	
-	 public Page<Emp_Entity> getList(int page) {
+	 public Page<Employee> getList(int page) {
 	        Pageable pageable = PageRequest.of(page, 10);
-	        return this.hr_Repository.findAll(pageable);
+	        return this.emp_Repository.findAll(pageable);
 	    }
 	 
 	 
 
 
 	public void create(String empname, String empssn, String empadd, String empphone, 
-			String empmail,Date empdate, String empspot, String empposition, Dep_Entity depart) {
+			String empmail,Date empdate, String empspot, String empposition, Department depart) {
 		SimpleDateFormat formatv = new SimpleDateFormat("yyyy");
         String strv = formatv.format(empdate);
         SimpleDateFormat formate = new SimpleDateFormat("yy");
         String stre = formate.format(empdate);
         String Num = String.format("%05d", generateEmpId());
         
-        Emp_Entity q = new Emp_Entity();
+        Employee q = new Employee();
 		q.setEmpname(empname);
 		q.setEmpssn(empssn);
 		q.setEmpadd(empadd);
@@ -87,11 +87,12 @@ public class Emp_Service {
 		q.setEmpnum(stre + Num);
 		q.setEmpvaca(vaca(strv));
         //q.setPassword(passwordEncoder.encode(stre + Num));
-		q.setPassword(passwordEncoder.encode("0000"));
-		this.hr_Repository.save(q);
+		q.setPassword(passwordEncoder.encode("aa"));
+		
+		this.emp_Repository.save(q);
 	}
 	 private Integer generateEmpId() {
-	        jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(e.Id) FROM Hr_Dto_Emp e");
+	        jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(e.Id) FROM Employee e");
 	        Integer maxId = (Integer) query.getSingleResult();
 	        return (maxId == null) ? 1 : maxId + 1;
 	    }
@@ -109,8 +110,8 @@ public class Emp_Service {
 		 return (int) (15+ y*0.5);
 	 }
 
-	 public Emp_Entity getEmpDetail(Integer id) {  
-	        Optional<Emp_Entity> empDetail = this.hr_Repository.findById(id);
+	 public Employee getEmpDetail(Integer id) {  
+	        Optional<Employee> empDetail = this.emp_Repository.findById(id);
 	        if (empDetail.isPresent()) {
 	            return empDetail.get();
 	        } else {
@@ -120,8 +121,8 @@ public class Emp_Service {
 	
 
 	 
-	 public Dep_Entity getDepCode(String depcode) {
-	        Optional<Dep_Entity> hr_Dto_Dep = this.dep_Repository.findByDepcode(depcode);
+	 public Department getDepCode(String depcode) {
+	        Optional<Department> hr_Dto_Dep = this.dep_Repository.findByDepcode(depcode);
 	        if (hr_Dto_Dep.isPresent()) {
 	            return hr_Dto_Dep.get();
 	        } else {
@@ -130,23 +131,23 @@ public class Emp_Service {
 	    }
 	 
 	 
-	 public void modify(Emp_Entity hr_Dto_emp,String empname, String empadd,String empphone,String empmail) {
-		 Emp_Entity m = this.hr_Repository.findById(hr_Dto_emp.getId()).orElse(null);
+	 public void modify(Employee hr_Dto_emp,String empname, String empadd,String empphone,String empmail) {
+		 Employee m = this.emp_Repository.findById(hr_Dto_emp.getId()).orElse(null);
 		m.setEmpname(empname);
 		m.setEmpadd(empadd);
 		m.setEmpphone(empphone);
 		m.setEmpmail(empmail);
-		this.hr_Repository.save(m);
+		this.emp_Repository.save(m);
 	}
 	 
-	 public void passmodify(Emp_Entity hr_Dto_emp ,String pass) {
-		 Emp_Entity m = this.hr_Repository.findById(hr_Dto_emp.getId()).orElse(null);
-		m.setEmpname(pass);
-		this.hr_Repository.save(m);
+	 public void passmodify(Employee hr_Dto_emp ,String pass) {
+		 Employee m = this.emp_Repository.findById(hr_Dto_emp.getId()).orElse(null);
+		m.setPassword(passwordEncoder.encode(pass));
+		this.emp_Repository.save(m);
 	}
 	 
-	 public void delete(Emp_Entity hr_Dto_Emp) {
-	        this.hr_Repository.delete(hr_Dto_Emp);
+	 public void delete(Employee hr_Dto_Emp) {
+	        this.emp_Repository.delete(hr_Dto_Emp);
 	    }
 	 
 	 
