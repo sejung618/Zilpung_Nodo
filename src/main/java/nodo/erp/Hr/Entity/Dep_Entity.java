@@ -1,4 +1,4 @@
-package nodo.erp.Hr;
+package nodo.erp.Hr.Entity;
 
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
@@ -18,7 +18,7 @@ import jakarta.persistence.ManyToMany;
 @Getter
 @Setter
 @Entity
-public class Hr_Dto_Dep {
+public class Dep_Entity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

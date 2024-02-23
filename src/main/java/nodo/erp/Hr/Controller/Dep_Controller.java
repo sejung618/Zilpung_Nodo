@@ -1,4 +1,4 @@
-package nodo.erp.Hr;
+package nodo.erp.Hr.Controller;
 
 import java.util.List;
 
@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.Hr.Dto.Dep_Form;
+import nodo.erp.Hr.Entity.Dep_Entity;
+import nodo.erp.Hr.Service.Dep_Service;
 
 @RequestMapping("/dep")
 @RequiredArgsConstructor
@@ -24,7 +27,7 @@ public class Dep_Controller {
 
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-		Page<Hr_Dto_Dep> paging = this.dep_Service.getdepList(page);
+		Page<Dep_Entity> paging = this.dep_Service.getdepList(page);
 		model.addAttribute("paging", paging);
 		return "Hr/Dep_List";
 	}
@@ -46,7 +49,7 @@ public class Dep_Controller {
 
 	@GetMapping("/modify/{id}")
 	public String depModify(Dep_Form dep_Form, @PathVariable("id") Integer id) {
-		Hr_Dto_Dep hr_Dto_Dep = this.dep_Service.getFindByIdDep(id);
+		Dep_Entity hr_Dto_Dep = this.dep_Service.getFindByIdDep(id);
 
 		dep_Form.setDepcode(hr_Dto_Dep.getDepcode());
 		dep_Form.setDepname(hr_Dto_Dep.getDepname());
@@ -56,7 +59,7 @@ public class Dep_Controller {
 
 	@PostMapping("/modify/{id}")
 	public String depModify(@Valid Dep_Form dep_Form, @PathVariable("id") Integer id, BindingResult bindResult) {
-		Hr_Dto_Dep hr_Dto_Dep = this.dep_Service.getFindByIdDep(id);
+		Dep_Entity hr_Dto_Dep = this.dep_Service.getFindByIdDep(id);
 
 		if (bindResult.hasErrors()) {
 			return "Hr/Dep_Form";
@@ -69,7 +72,7 @@ public class Dep_Controller {
 
 	    @GetMapping("/delete/{id}")
 	    public String questionDelete(@PathVariable("id") Integer id) {
-	    	Hr_Dto_Dep dep = this.dep_Service.getFindByIdDep(id);
+	    	Dep_Entity dep = this.dep_Service.getFindByIdDep(id);
 
 	        this.dep_Service.delete(dep);
 	        return "redirect:/dep/list";
