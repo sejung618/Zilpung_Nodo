@@ -1,0 +1,54 @@
+<html layout:decorate="~{/layout}">
+<div layout:fragment="content" class="container">
+	<h5 class="my-3 border-bottom pd-2">수정</h5>
+	<form th:object="${shippingUpdateForm}" method="post">
+		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+		<div class="mb-3">
+			<label for="SPAName" class="form-label">거래처명</label>
+			<input type="text" th:field="*{SPAName}" name="SPAName" id="SPAName" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPACode" class="form-label">거래처코드</label>
+			<input type="text" th:field="*{SPACode}" name="SPACode" id="SPACode" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPIName" class="form-label">품목명</label>
+			<input type="text" th:field="*{SPIName}" name="SPIName" id="SPIName" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPICode" class="form-label">품목코드</label>
+			<input type="text" th:field="*{SPICode}" name="SPICode" id="SPICode" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPPName" class="form-label">담당자</label>
+			<input type="text" th:field="*{SPPName}" name="SPPName" id="SPPName" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPPNum" class="form-label">담당자사번</label>
+			<input type="text" th:field="*{SPPNum}" name="SPPNum" id="SPPNum" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPDT" class="form-label">납기일자</label>
+			<input type="date" th:field="*{SPDT}" name="SPDT" id="SPDT" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPCAmount" class="form-label">출고수량</label>
+			<input type="text" th:field="*{SPCAmount}" name="SPCAmount" id="SPCAmount" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="SPLocation" class="form-label">출고위치</label>
+			<input type="text" th:field="*{SPLocation}" name="SPLocation" id="SPLocation" class="form-control">
+		</div>
+		<div class="form-group mb-3">
+			<label for="SPState" class="form-label">진행상태</label>
+			<select class="form-select" th:field="*{SPState}" name="SPState" id="SPState">
+				<option value="-">-</option>
+				<option value="미출고">미출고</option>
+				<option value="출고">출고</option>
+			</select>
+		</div>
+		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
+	</form>
+</div>

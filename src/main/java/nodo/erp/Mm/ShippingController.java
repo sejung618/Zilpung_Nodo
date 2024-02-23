@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Mm.Warehousing.Warehousing;
+import nodo.erp.Mm.Warehousing.WarehousingUpdateForm;
 
 
 @RequestMapping("/shipping")
@@ -50,6 +51,44 @@ public class ShippingController {
 		model.addAttribute("shipping", shipping);
 		return "Mm/shipping_detail";
 	}
+	
+	@GetMapping("/modify/{SPid}")
+	public String shippingModify(ShippingUpdateForm sf, @PathVariable("SPid") Integer SPid) {
+		Shipping shipping = this.shippingService.getShipping(SPid);
+		
+		sf.setSPAName(shipping.getSPAName());
+		sf.setSPACode(shipping.getSPACode());
+		sf.setSPIName(shipping.getSPIName());
+		sf.setSPICode(shipping.getSPICode());
+		sf.setSPPName(shipping.getSPPName());
+		sf.setSPPNum(shipping.getSPPNum());
+		sf.setSPDT(shipping.getSPDT());
+		sf.setSPCAmount(shipping.getSPCAmount());
+		sf.setSPLocation(shipping.getSPLocation());
+		sf.setSPState(shipping.getSPState());
+		return "Mm/shipping_update";
+	}
+	
+	@PostMapping("/modify/{SPid}")
+    public String shippingModify(@Valid ShippingUpdateForm sf, BindingResult br, @PathVariable("SPid") Integer SPid) {
+        if (br.hasErrors()) {
+            return "Mm/shipping_update";
+        }
+        Shipping shipping = this.shippingService.getShipping(SPid); {
+       
+        this.shippingService.modify(shipping, sf.getSPAName(), sf.getSPACode(), sf.getSPIName(), sf.getSPICode(), sf.getSPPName(), sf.getSPPNum(), sf.getSPDT(), sf.getSPCAmount(), sf.getSPLocation(), sf.getSPState());
+        return String.format("redirect:/shipping/list", SPid);
+    
+        }
+	}
+	
+	@GetMapping("/delete/{SPid}")
+    public String shippingDelete(@PathVariable("SPid") Integer SPid) {
+		Shipping shipping = this.shippingService.getShipping(SPid);
+      
+        this.shippingService.delete(shipping);
+        return "redirect:/shipping/list";
+    }
 	
 	
 }

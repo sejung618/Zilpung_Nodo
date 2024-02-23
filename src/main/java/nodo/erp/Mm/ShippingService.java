@@ -94,12 +94,32 @@ public class ShippingService {
     }
 	
 	//디테일
-		public Shipping getShipping(Integer SPid) {
-			Optional<Shipping> shipping = this.shippingRepository.findById(SPid);
-			if(shipping.isPresent()) {
-				return shipping.get();
-			} else {
-				throw new DataNotFoundException("shipping not found");
-			}
+	public Shipping getShipping(Integer SPid) {
+		Optional<Shipping> shipping = this.shippingRepository.findById(SPid);
+		if(shipping.isPresent()) {
+			return shipping.get();
+		} else {
+			throw new DataNotFoundException("shipping not found");
 		}
+	}
+	
+	public void modify(Shipping sp, String SPAName, String SPACode, String SPIName, String SPICode, String SPPName, String SPPNum, String SPDT, Integer SPCAmount, String SPLocation, String SPState) {
+		
+		sp.setSPAName(SPAName);
+		sp.setSPACode(SPACode);
+		sp.setSPIName(SPIName);
+		sp.setSPICode(SPICode);
+		sp.setSPPName(SPPName);
+		sp.setSPPNum(SPPNum);
+		sp.setSPDT(SPDT);
+		sp.setSPCAmount(SPCAmount);
+		sp.setSPLocation(SPLocation);
+		sp.setSPState(SPState);
+		sp.setModifyDate(LocalDateTime.now());
+		this.shippingRepository.save(sp);
+	}
+	
+	public void delete(Shipping shipping) {
+        this.shippingRepository.delete(shipping);
+    }
 }

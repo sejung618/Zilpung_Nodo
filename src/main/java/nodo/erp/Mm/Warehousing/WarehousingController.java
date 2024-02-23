@@ -81,7 +81,7 @@ public class WarehousingController {
 	}
 	
 	@GetMapping("/delete/{WHid}")
-    public String inventoryDelete(@PathVariable("WHid") Integer WHid) {
+    public String warehousingDelete(@PathVariable("WHid") Integer WHid) {
 		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
       
         this.warehousingService.delete(warehousing);
