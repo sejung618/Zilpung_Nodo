@@ -1,4 +1,4 @@
-package nodo.erp.Mm;
+package nodo.erp.Mm.Shipping;
 
 import java.time.LocalDateTime;
 

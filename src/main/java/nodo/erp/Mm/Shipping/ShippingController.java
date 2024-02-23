@@ -1,4 +1,4 @@
-package nodo.erp.Mm;
+package nodo.erp.Mm.Shipping;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
