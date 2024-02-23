@@ -1,10 +1,6 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content" class="container my-3">
-   <div class="my-3 border-bottom">
-        <div>
-            <h1>수정 및 삭제</h1>
-        </div>
-    </div>
+  	<h5 class="my-3 border-bottom pd-2">수정 및 삭제</h5>
    <table class="table">
       <thead class="table-primary">
          <tr class="text-center">
@@ -24,43 +20,43 @@
       <body>
 		  <tr class="text-center table-active">
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHDate}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHDate}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHAName}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHAName}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHACode}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHACode}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHIName}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHIName}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHICode}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHICode}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHPName}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHPName}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHPNum}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHPNum}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHDT}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHDT}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHCAmount}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHCAmount}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHLocation}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHLocation}">
          </th>
          <th>
-            <th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHState}">
+            <th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHState}">
          </th>
          </tr>
-      </body-->
+      </body>
    </table>
-   <a th:href="@{|/warehousing/modify/${warehousing.id}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
-   <a href="javascript:void(0);" th:data-uri="@{|/warehousing/delete/${warehousing.id}|}" class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
+   <a th:href="@{|/warehousing/modify/${warehousing.WHid}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
+   <a href="javascript:void(0);" th:data-uri="@{|/warehousing/delete/${warehousing.WHid}|}" class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
    <!-- sec:authorize="isAuthenticated()" 삭제에 넣기 -->
    <script type='text/javascript'>
    const delete_elements = document.getElementsByClassName("delete");

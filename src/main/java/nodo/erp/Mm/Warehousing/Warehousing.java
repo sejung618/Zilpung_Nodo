@@ -1,4 +1,4 @@
-package nodo.erp.Mm;
+package nodo.erp.Mm.Warehousing;
 
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Warehousing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;		//번호
+	private Integer WHid;		//번호
 	
 	@Column(length = 15)
 	private String WHDate;		//입고일자

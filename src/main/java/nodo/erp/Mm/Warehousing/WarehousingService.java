@@ -1,4 +1,4 @@
-package nodo.erp.Mm;
+package nodo.erp.Mm.Warehousing;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -94,8 +94,8 @@ public class WarehousingService {
     }
 	
 	//디테일
-	public Warehousing getWarehousing(Integer id) {
-		Optional<Warehousing> warehousing = this.warehousingRepository.findById(id);
+	public Warehousing getWarehousing(Integer WHid) {
+		Optional<Warehousing> warehousing = this.warehousingRepository.findById(WHid);
 		if(warehousing.isPresent()) {
 			return warehousing.get();
 		} else {

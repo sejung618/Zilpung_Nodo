@@ -1,52 +1,51 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content" class="container my-3">
-	<h5 class="my-3 border-bottom pd-2">재고조정조회</h5>
-    <div class="form-inline">
-	<select id="searchType" name="searchType">
-		<option value="all">전체</option>
-		<option value="d">일자</option> 
-		<option value="in">품목명</option>
-		<option value="ic">품목코드</option>
-		<option value="pn">담당자</option>
-		<option value="pc">담당사번</option>
-	</select>
-	<input type="text" id="search_kw" class="form-control" th:value="${kw}">
-	<button class="btn btn-outline-secondary" type="button" id="btn_search">검색</button>
-	</div>
+	<h5 class="my-3 border-bottom pd-2">출고현황</h5>
+    <div class="row my-3">
+		<div class="col-6">
+		    <div class="input-group" style="left: 100%;">
+		        <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+		        <button class="btn btn-outline-secondary" type="button" id="btn_search">검색</button>
+		    </div>
+	    </div>
+    </div>
 	<table class="table">
 		<thead class="table-primary">
 			<tr class="text-center">
 				<th>번호</th>
 				<th>일자-No.</th>
+				<th>거래처명</th>
 				<th>품목명</th>
-				<th>품목코드</th>
-				<th>수량</th>
-				<th>규격</th>
+				<th>납기일자</th>
+				<th>출고수량</th>
+				<th>진행상태</th>
 			</tr>	
 		</thead>
 		<tbody>
-			<tr class="text-center table-active" th:each="inventory, loop : ${paging}">
+			<tr class="text-center table-active" th:each="shipping, loop : ${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<th>
-					<a th:href="@{|/inventory/detail/${inventory.INid}|}" th:text="${inventory.INDate}"></a>
+					<a th:href="@{|/shipping/detail/${shipping.SPid}|}" th:text="${shipping.SPDate}"></a>
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.ININame}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPAName}">
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INICode}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPIName}">
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INQuantity}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPDT}">
 				</th>
 				<th>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INStandard}">
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPCAmount}">
+				</th>
+				<th>
+					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPState}">
 				</th>
 			</tr>
 		</tbody>
-		
 	</table>
-    <!-- 페이징처리 시작 -->
+	<!-- 페이징처리 시작 -->
     <div th:if="${!paging.isEmpty()}">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
@@ -69,9 +68,9 @@
     </div>
     <!-- 페이징처리 끝 -->
     <div class="col-6">
-		<a th:href="@{/inventory/create}" class="btn btn-primary" style="left: 180%;"> 재고조정</a>
+		<a th:href="@{/shipping/create}" class="btn btn-primary" style="left: 180%;"> 입고</a>
 	</div>
-	<form th:action="@{/inventory/list}" method="get" id="searchForm">
+	<form th:action="@{/shipping/list}" method="get" id="searchForm">
         <input type="hidden" id="kw" name="kw" th:value="${kw}">
         <input type="hidden" id="page" name="page" th:value="${paging.number}">
     </form>
@@ -93,3 +92,6 @@ btn_search.addEventListener('click', function() {
 </script>
 </div>
 </html>
+
+
+

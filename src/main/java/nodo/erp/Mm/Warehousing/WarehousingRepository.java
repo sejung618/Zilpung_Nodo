@@ -1,4 +1,4 @@
-package nodo.erp.Mm;
+package nodo.erp.Mm.Warehousing;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

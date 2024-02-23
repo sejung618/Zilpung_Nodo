@@ -1,6 +1,6 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content" class="container my-3">
-	<h1>입고 현황</h1>
+	<h5 class="my-3 border-bottom pd-2">입고현황</h5>
     <div class="row my-3">
 		<div class="col-6">
 		    <div class="input-group" style="left: 100%;">
@@ -25,22 +25,22 @@
 			<tr class="text-center table-active" th:each="warehousing, loop : ${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<th>
-					<a th:href="@{|/warehousing/detail/${warehousing.id}|}" th:text="${warehousing.WHDate}"></a>
+					<a th:href="@{|/warehousing/detail/${warehousing.WHid}|}" th:text="${warehousing.WHDate}"></a>
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHAName}">
+					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHAName}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHIName}">
+					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHIName}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHDT}">
+					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHDT}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHCAmount}">
+					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHCAmount}">
 				</th>
 				<th>
-					<th:text="@{|/warehousing/${warehousing.id}|}" th:text="${warehousing.WHState}">
+					<th:text="@{|/warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHState}">
 				</th>
 			</tr>
 		</tbody>
