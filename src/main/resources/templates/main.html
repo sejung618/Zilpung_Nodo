@@ -21,6 +21,8 @@
 		<a th:text="${#authentication.principal.Empid}"></a> <br>
 		<a>사번: </a>
 		<a th:text="${#authentication.principal.username}"></a>
+		
+		
 	</div>
 	
 	<div sec:authorize="isAnonymous()">

@@ -34,19 +34,21 @@
 				</tr>
 			</tbody>
 		</table>
-		<!--<a th:href="@{/Hr/Pass/{id}(id=${empDtail.id})}" th:text="비밀번호 변경"></a>-->
-		<div class="my-3">
+		
+		<div class="my-3"sec:authorize="isAuthenticated()" 
+		th:if="${empDtail.id != null and #authentication.principal.Empid == empDtail.id}">
 			<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary" th:text="수정"></a>
-			<a th:href="@{|/Hr/pass/${empDtail.id}|}" class="btn btn-primary" th:text="비밀번호수정"></a>
-			<!--<a th:href="@{|/Hr/Pass/${empDtail.id}|}" class="btn btn-primary" th:text="비밀번호 변경"></a>-->
+			
+			<a th:href="@{|/Hr/pass/${empDtail.id}|}" class="btn btn-primary" th:text="비밀번호변경"></a>
+			
 			<a href="javascript:void(0);" th:data-uri="@{|/Hr/delete/${empDtail.id}|}"
 				class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
-				
-			<!--th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}" 
-                sec:authorize="isAuthenticated()"-->
+
+			
 		</div>
 
 	</div>
+
 
 	<script layout:fragment="script" type='text/javascript'>
 		const delete_elements = document.getElementsByClassName("delete");
@@ -58,4 +60,6 @@
 			});
 		});
 	</script>
+
+
 </body>

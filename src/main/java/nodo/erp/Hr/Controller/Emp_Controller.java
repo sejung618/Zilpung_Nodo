@@ -139,10 +139,13 @@ public class Emp_Controller {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/pass/{id}")
 	public String EmpPassModify(@PathVariable("id") Integer id ,@Valid Emp_Pass_Form emp_Pass_Form,  BindingResult bindingResult,Principal principal) {
+    	Employee emp = this.emp_Service.getEmpDetail(id);
+    	if (!emp.getEmpnum().equals(principal.getName())) {
+    		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+    	}
     	if(bindingResult.hasErrors()) {
     		return "Hr/Emp_Pass_Form";
     	}			
-    	Employee emp = this.emp_Service.getEmpDetail(id);
     	System.out.println(emp.getPassword());
     	System.out.println(emp_Pass_Form.getPass());
     	if (!passwordEncoder.matches(emp_Pass_Form.getPass(), emp.getPassword()))  {
@@ -157,9 +160,6 @@ public class Emp_Controller {
             return "Hr/Emp_Pass_Form";
         }
     	
-    	if (!emp.getEmpnum().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
     	
 		this.emp_Service.passmodify(emp, emp_Pass_Form.getNewpass());
 		return "redirect:/";

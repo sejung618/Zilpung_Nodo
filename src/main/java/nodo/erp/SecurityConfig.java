@@ -43,17 +43,12 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-//	@Bean
-//	public PasswordEncoder passwordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
-	
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-	    // NoOpPasswordEncoder.getInstance()는 비밀번호를 인코딩하지 않음
-	    return NoOpPasswordEncoder.getInstance();
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
-	 
+	
+
 	
 	@Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
