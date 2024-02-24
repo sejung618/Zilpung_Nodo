@@ -87,11 +87,9 @@
 				</a>
 			</div>
 		</li>
-
-		<div>
-		
-		<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/Hr/login}">로그인</a>
-		</div>
+		<li sec:authorize="isAnonymous()">
+			<a class="nav-link" th:href="@{/Hr/login}">로그인</a>
+		</li>
 	</ul>
 
 </nav>

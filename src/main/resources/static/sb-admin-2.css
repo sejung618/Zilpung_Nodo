@@ -1530,7 +1530,7 @@ pre code {
 
 .table thead th {
   vertical-align: bottom;
-  border-bottom: 2px solid #e3e6f0;
+  border-bottom: 1px solid #a3b6ee !important;
 }
 
 .table tbody + tbody {
@@ -1567,9 +1567,15 @@ pre code {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.table-hover tbody tr:hover {
+.table-hover-td tbody tr:hover {
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
+}
+
+.table-hover-td tbody tr:hover td {
+	border-color:white;
+	border-top-color:inherit;
+	border-bottom-color:inherit;
 }
 
 .table-primary,
@@ -1603,7 +1609,7 @@ pre code {
 .table-secondary th,
 .table-secondary td,
 .table-secondary thead th,
-.table-secondary tbody + tbody {
+.table-secondary  {
   border-color: #c0c1c8;
 }
 
@@ -1625,7 +1631,7 @@ pre code {
 .table-success th,
 .table-success td,
 .table-success thead th,
-.table-success tbody + tbody {
+.table-success  {
   border-color: #89e2c2;
 }
 
@@ -1647,7 +1653,7 @@ pre code {
 .table-info th,
 .table-info td,
 .table-info thead th,
-.table-info tbody + tbody {
+.table-info  {
   border-color: #96dbe4;
 }
 
@@ -1669,7 +1675,7 @@ pre code {
 .table-warning th,
 .table-warning td,
 .table-warning thead th,
-.table-warning tbody + tbody {
+.table-warning  {
   border-color: #fadf9b;
 }
 
@@ -1691,7 +1697,7 @@ pre code {
 .table-danger th,
 .table-danger td,
 .table-danger thead th,
-.table-danger tbody + tbody {
+.table-danger  {
   border-color: #f3a199;
 }
 
@@ -1713,7 +1719,7 @@ pre code {
 .table-light th,
 .table-light td,
 .table-light thead th,
-.table-light tbody + tbody {
+.table-light  {
   border-color: #fbfcfd;
 }
 
@@ -1735,7 +1741,7 @@ pre code {
 .table-dark th,
 .table-dark td,
 .table-dark thead th,
-.table-dark tbody + tbody {
+.table-dark  {
   border-color: #a9aab1;
 }
 
@@ -4167,6 +4173,7 @@ input[type="button"].btn-block {
 
 .navbar-nav {
   display: flex;
+    align-items: center;
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
@@ -9803,7 +9810,7 @@ a.text-dark:hover, a.text-dark:focus {
   .table-dark th,
   .table-dark td,
   .table-dark thead th,
-  .table-dark tbody + tbody {
+  .table-dark  {
     border-color: #e3e6f0;
   }
   .table .thead-dark th {

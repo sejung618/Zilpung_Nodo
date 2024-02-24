@@ -1,7 +1,7 @@
 <html layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="container my-3">
-	<table class="table">
+	<table class="table table-bordered table-hover-td">
 
 		<thead class="table-primary">
 			<tr class="text-center">
@@ -13,7 +13,7 @@
 		</thead>
 
 		<tbody>
-			<tr class="text-center table-active" th:each="deplist : ${paging}">
+			<tr class="text-center" th:each="deplist : ${paging}">
 				<td th:text="${deplist.depcode}" >
 				</td>
 				<td th:text="${deplist.depname}"></td>
