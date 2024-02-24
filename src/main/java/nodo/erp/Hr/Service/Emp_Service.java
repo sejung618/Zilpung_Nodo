@@ -87,7 +87,7 @@ public class Emp_Service {
 		q.setEmpnum(stre + Num);
 		q.setEmpvaca(vaca(strv));
         //q.setPassword(passwordEncoder.encode(stre + Num));
-		q.setPassword(passwordEncoder.encode("aa"));
+		q.setPassword(passwordEncoder.encode("0000"));
 		
 		this.emp_Repository.save(q);
 	}
