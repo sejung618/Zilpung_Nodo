@@ -1,6 +1,7 @@
 package nodo.erp.Hr.Dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +28,7 @@ public class Emp_Form {
     private String empmail;
     
     @NotNull(message="입사일은 필수항목입니다.")
-    private Date empdate;
+    private LocalDate empdate;
     
     private String empspot;
     

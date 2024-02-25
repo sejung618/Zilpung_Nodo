@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-
+//부서관리 테이블
 @Getter
 @Setter
 @Entity
