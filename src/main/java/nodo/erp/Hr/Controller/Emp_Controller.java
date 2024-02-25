@@ -146,8 +146,6 @@ public class Emp_Controller {
     	if(bindingResult.hasErrors()) {
     		return "Hr/Emp_Pass_Form";
     	}			
-    	System.out.println(emp.getPassword());
-    	System.out.println(emp_Pass_Form.getPass());
     	if (!passwordEncoder.matches(emp_Pass_Form.getPass(), emp.getPassword()))  {
     		bindingResult.rejectValue("pass", "passwordInCorrect", 
                     "비밀번호가 틀렸습니다.");

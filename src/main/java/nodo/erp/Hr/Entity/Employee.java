@@ -1,6 +1,6 @@
 package nodo.erp.Hr.Entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +12,7 @@ import lombok.Setter;
 
 import jakarta.persistence.ManyToOne;
 
-
+//사원 관리 테이블
 @Getter
 @Setter
 @Entity
@@ -39,7 +39,7 @@ public class Employee {
 	@Column(length = 50)
 	private String empmail;		//이메일@
 	
-	private Date empdate;	//입사일자@
+	private LocalDate empdate;	//입사일자@
 	
 	@Column(length = 50)
 	private String empspot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
@@ -49,8 +49,6 @@ public class Employee {
 	
 	@ManyToOne
 	private Department depart;		//@부서
-	
-	private Integer empvaca;		//연차갯수
 	
 	private String password;
 

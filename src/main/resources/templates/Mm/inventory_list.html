@@ -13,7 +13,7 @@
 	<input type="text" id="search_kw" class="form-control" th:value="${kw}">
 	<button class="btn btn-outline-secondary" type="button" id="btn_search">검색</button>
 	</div>
-	<table class="table">
+	<table class="table table-bordered table-hover-td">
 		<thead class="table-primary">
 			<tr class="text-center">
 				<th>번호</th>
@@ -25,7 +25,7 @@
 			</tr>	
 		</thead>
 		<tbody>
-			<tr class="text-center table-active" th:each="inventory, loop : ${paging}">
+			<tr class="text-center" th:each="inventory, loop : ${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<th>
 					<a th:href="@{|/inventory/detail/${inventory.INid}|}" th:text="${inventory.INDate}"></a>
