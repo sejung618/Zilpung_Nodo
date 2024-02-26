@@ -7,6 +7,7 @@
 			<tr class="text-center">
 				<th>사원번호</th>
 				<th>사원이름</th>
+				<th>출근 일</th>
 				<th>출근시간</th>
 				<th>퇴근시간</th>
 			</tr>
@@ -16,6 +17,7 @@
 			<tr class="text-center" th:each="List : ${AttList}">
 				<td th:text="${List.employee.id}"></td>
 				<td th:text="${List.employee.empname}"></td>
+				<td th:text="${List.day}"></td>
 				<td th:text="${List.checkInTime}"></td>
 				<td th:text="${List.checkOutTime}"></td>
 
@@ -29,9 +31,12 @@
 
 	</table>
 
-	<div class="col-6">
+	<div class="col-6" style="display: flex;">
 		<form th:action="@{/Attendance/checkin}" method="post">
-			<button type="submit" class="btn btn-primary">출근</button>
+			<button type="submit" class="btn btn-primary">출근</button>	
+		</form>
+		<form th:action="@{/Attendance/checkout}" method="post">
+			<button type="submit" class="btn btn-primary mx-1">퇴근</button>
 		</form>
 	</div>
 

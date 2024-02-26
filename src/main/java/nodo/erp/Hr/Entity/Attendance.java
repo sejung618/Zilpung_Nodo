@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 //출퇴근 관리 테이블
 @Getter
@@ -25,8 +26,8 @@ public class Attendance {
     @ManyToOne
     private Employee employee;
 
-    
-    private LocalDateTime checkInTime;	//출근시간
-    private LocalDateTime checkOutTime;	//퇴근시간
+    private LocalDate day;
+    private LocalTime checkInTime;	//출근시간
+    private LocalTime checkOutTime;	//퇴근시간
 
 }

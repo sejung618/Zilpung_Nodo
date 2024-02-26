@@ -40,9 +40,19 @@ public class Att_Controller {
 	@PostMapping("/checkin")
 	public String checkIn(Authentication authentication) {
 		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee siteUser = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
-		att_Service.checkin(siteUser);
+		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+		att_Service.checkin(employee);
 		return "redirect:/Attendance/list";
 	}
 
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/checkout")
+	public String checkOut(Authentication authentication) {
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+		
+		att_Service.checkout(employee);
+		return "redirect:/Attendance/list";
+	}
+	
 }
