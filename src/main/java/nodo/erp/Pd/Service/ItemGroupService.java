@@ -1,4 +1,4 @@
-package nodo.erp.Pd;
+package nodo.erp.Pd.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import nodo.erp.DataNotFoundException;
-
+import nodo.erp.Pd.Entity.ItemGroup;
+import nodo.erp.Pd.Repository.ItemGroupRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
