@@ -67,10 +67,10 @@ public class Emp_Service {
 
 	public void create(String empname, String empssn, String empadd, String empphone, 
 			String empmail,LocalDate empdate, String empspot, String empposition, Department depart) {
-		SimpleDateFormat formatv = new SimpleDateFormat("yyyy");
-        String strv = formatv.format(empdate);
-        SimpleDateFormat formate = new SimpleDateFormat("yy");
-        String stre = formate.format(empdate);
+		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
+        String strv = formatter1.format(empdate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy");
+        String stre = formatter.format(empdate);
         String Num = String.format("%05d", generateEmpId());
         
         Employee q = new Employee();
