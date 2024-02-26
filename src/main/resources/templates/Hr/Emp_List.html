@@ -7,7 +7,7 @@
 		<h1>사원 정보</h1>
 
 		<!--테이블 시작-->
-		<table class="table">
+		<table class="table table-bordered table-hover-td">
 
 			<thead class="table-primary">
 				<tr class="text-center">
@@ -21,7 +21,7 @@
 			</thead>
 
 			<tbody>
-				<tr class="text-center table-active" th:each="Emplist : ${paging}">
+				<tr class="text-center" th:each="Emplist : ${paging}">
 					<td>
 						<a th:href="@{|/Hr/detail/${Emplist.id}|}" th:text="${Emplist.empnum}"></a>
 					</td>

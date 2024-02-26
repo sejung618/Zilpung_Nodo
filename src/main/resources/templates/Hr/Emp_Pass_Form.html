@@ -1,0 +1,35 @@
+<html layout:decorate="~{/layout}">
+
+<div layout:fragment="content" class="container">
+	<h5 class="my-3 border-bottom pd-2">사원 정보수정</h5>
+	<form th:object="${emp_Pass_Form}" method="post">
+		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+
+		<div class="mb-3">
+			<label for="pass" class="form-label">현재 비밀번호</label>
+			<input type="password" th:field="*{pass}" name="pass" id="pass" class="form-control"style="width: 30%;">
+				
+		</div>
+
+		<div class="mb-3">
+			<label for="newpass" class="form-label">새 비밀번호</label>
+			<input type="password" th:field="*{newpass}" name="newpass" id="newpass" class="form-control">
+		</div>
+
+		<div class="mb-3">
+			<label for="newpass2" class="form-label">새 비밀번호 확인</label>
+			<input type="password" th:field="*{newpass2}" name="newpass2" id="newpass2" class="form-control">
+		</div>
+		
+
+		<div class="mb-3">
+			<input type="submit" value="저장하기" class="btn btn-primary my-2">
+		</div>
+	</form>
+</div>
+
+
+
+</html>

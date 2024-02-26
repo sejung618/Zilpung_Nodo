@@ -11,6 +11,24 @@
 	<div style="width:100px; height:100px; border:1px black solid;">
 		콘텐츠 자리
 	</div>
+	
+	<!--authentication.principal 테스트용-->
+	<div sec:authorize="isAuthenticated()">
+
+		<a th:text="${#authentication.principal.Empname}"></a>
+		<a>님! 반갑습니다</a> <br>
+		<a>아이디: </a>
+		<a th:text="${#authentication.principal.Empid}"></a> <br>
+		<a>사번: </a>
+		<a th:text="${#authentication.principal.username}"></a>
+		
+		
+	</div>
+	
+	<div sec:authorize="isAnonymous()">
+
+		<a>로그아웃 상태</a>
+	</div>
 
 </div>
          

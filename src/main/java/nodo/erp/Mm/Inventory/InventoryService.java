@@ -76,8 +76,8 @@ public class InventoryService {
 	}
 	
 	//디테일
-	public Inventory getInventory(Integer id) {
-		Optional<Inventory> inventory = this.inventoryRepository.findById(id);
+	public Inventory getInventory(Integer INid) {
+		Optional<Inventory> inventory = this.inventoryRepository.findById(INid);
 		if(inventory.isPresent()) {
 			return inventory.get();
 		} else {
@@ -85,21 +85,15 @@ public class InventoryService {
 		}
 	}
 	
-	public void modify(Inventory inventory, String INDate, String ININame, String INPName, Integer INQuantity, String INPNum, String INICode, String INStandard) {
-		String yy = INDate.substring(2, 4);
-		String mm = INDate.substring(5, 7);
-		String dd = INDate.substring(8, 10);
-		String ymd = yy + mm + dd;
-		String Num = String.format("%03d", generateInvNum(ymd));
-
-		inventory.setINDate(ymd + "-" + Num);
+	public void modify(Inventory inventory, String ININame, String INPName, Integer INQuantity, String INPNum, String INICode, String INStandard) {
+		
 		inventory.setININame(ININame);
 		inventory.setINPName(INPName);
 		inventory.setINQuantity(INQuantity);
 		inventory.setINPNum(INPNum);
 		inventory.setINICode(INICode);
 		inventory.setINStandard(INStandard);
-		inventory.setCreateDate(LocalDateTime.now());
+		inventory.setModifyDate(LocalDateTime.now());
 		this.inventoryRepository.save(inventory);
 	}
 	
