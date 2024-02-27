@@ -49,6 +49,5 @@ public class Account {
 	
 	@Column(length = 10)
 	private String AC_Date; // 첫 거래날짜
-	
 
 }

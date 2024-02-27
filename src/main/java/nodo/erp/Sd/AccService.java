@@ -1,14 +1,25 @@
 package nodo.erp.Sd;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import groovyjarjarantlr4.v4.runtime.atn.SemanticContext.Predicate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
-import nodo.erp.Sd.Account;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +31,7 @@ public class AccService {
 	private EntityManager entityManager;
 	
 	public List<Account> getList() {
+		
 		return this.accRepository.findAll();
 	}
 	
@@ -82,5 +94,19 @@ public class AccService {
 		Account acc = new Account();
 		acc.setId(id);
 		this.accRepository.delete(acc);
+	}
+	
+	private Specification<Account> search(String ac) {
+		return new Specification<>() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public jakarta.persistence.criteria.Predicate toPredicate(Root<Account> a, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				query.distinct(true);
+				return cb.or(cb.like(a.get("AC_Company"), "%" + ac + "%"),
+						cb.like(a.get("AC_Name"),  "%" + ac + "%"),
+						cb.like(a.get("AC_Item"), "%" + ac + "%"));
+			}
+		};
+		
 	}
 }

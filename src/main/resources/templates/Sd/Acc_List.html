@@ -3,7 +3,8 @@
 		<h1>거래처 현황</h1>
 		<table class="table">
 			<thead class="table-primary">
-				<tr>
+				<tr class="text-center">
+				
 					<th>번호</th>
 					<th> 거래처 회사코드 </th>
 					<th> 거래처 상호명 </th>
@@ -14,7 +15,7 @@
 			</thead>
 			<tbody>
 				
-				<tr th:each="Account, loop:${AccList}">
+				<tr class="text-center table-active" th:each="Account, loop:${AccList}">
 				<td th:text="${loop.count}"></td>
 				<td th:text="${Account.AC_Code}"></td>
 				<td>
