@@ -20,7 +20,8 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
-import nodo.erp.Mm.Warehousing.Warehousing;
+import nodo.erp.Hr.Entity.Employee;
+
 
 
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class ShippingService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public void create(String SPDate, String SPAName, String SPACode, String SPIName, String SPICode, String SPPName, String SPPNum, String SPDT, Integer SPCAmount, String SPLocation, String SPState) {
+	public void create(String SPDate, String SPAName, String SPACode, String SPIName, String SPICode, String SPPName, String SPPNum, String SPDT, Integer SPCAmount, String SPLocation, String SPState, Employee empname) {
 		Shipping wh = new Shipping();
 		
 		String yy = SPDate.substring(2, 4);
@@ -53,6 +54,7 @@ public class ShippingService {
 		wh.setSPLocation(SPLocation);//출고위치
 		wh.setSPState(SPState); //진행상태
 		wh.setCreateDate(LocalDateTime.now());
+		wh.setEmployee(empname);
 		this.shippingRepository.save(wh);
 	}
 	
