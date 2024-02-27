@@ -1,6 +1,8 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content" class="container my-3">
-	<h5 class="my-3 border-bottom pd-2">수정 및 삭제</h5>
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">수정 및 삭제</h1>
+	</div>
    	<table class="table table-bordered table-hover-td">
       <thead class="table-primary">
          <tr class="text-center">
@@ -15,27 +17,27 @@
       </thead>
       <body>
 		  <tr class="text-center">
-         <th>
+         <td>
             <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INDate}">
-         </th>
-         <th>
+         </td>
+         <td>
             <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.ININame}">
-         </th>
-         <th>
+         </td>
+         <td>
             <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INICode}">
-         </th>
-         <th>
+         </td>
+         <td>
             <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INPName}">
-         </th>
-         <th>
+         </td>
+         <td>
             <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INPNum}">
-         </th>
-         <th>
+         </td>
+         <td>
             <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INQuantity}">
-         </th>
-         <th>
+         </td>
+         <td>
             <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INStandard}">
-         </th>
+         </td>
          </tr>
       </body>
    </table>

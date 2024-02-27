@@ -1,72 +1,78 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content" class="container my-3">
-   <h5 class="my-3 border-bottom pd-2">수정 및 삭제</h5>
-   <table class="table table-bordered table-hover-td">
-      <thead class="table-primary">
-         <tr class="text-center">
-            <th>일자-No.</th>
-            <th>거래처명</th>
-            <th>거래처코드</th>
-            <th>품목명</th>
-            <th>품목명코드</th>
-            <th>담당자</th>
-            <th>담당자사번</th>
-            <th>납기일자</th>
-            <th>춠고수량</th>
-            <th>출고위치</th>
-            <th>진행상태</th>
-         </tr>   
-      </thead>
-      <body>
-		  <tr class="text-center">
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPDate}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPAName}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPACode}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPIName}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPICode}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPPName}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPPNum}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPDT}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPCAmount}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPLocation}">
-         </th>
-         <th>
-            <th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPState}">
-         </th>
-         </tr>
-      </body>
-   </table>
-   <a th:href="@{|/shipping/modify/${shipping.SPid}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
-   <a href="javascript:void(0);" th:data-uri="@{|/shipping/delete/${shipping.SPid}|}" class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
-   
-   <script type='text/javascript'>
-   const delete_elements = document.getElementsByClassName("delete");
-   Array.from(delete_elements).forEach(function(element) {
-       element.addEventListener('click', function() {
-           if(confirm("정말로 삭제하시겠습니까?")) {
-               location.href = this.dataset.uri;
-           };
-       });
-   });
-</script>
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">수정 및 삭제</h1>
+	</div>
+	<table class="table table-bordered table-hover-td">
+		<thead class="table-primary">
+			<tr class="text-center">
+				<th>일자-No.</th>
+				<th>거래처명</th>
+				<th>거래처코드</th>
+				<th>품목명</th>
+				<th>품목명코드</th>
+				<th>담당자</th>
+				<th>담당자사번</th>
+				<th>납기일자</th>
+				<th>춠고수량</th>
+				<th>출고위치</th>
+				<th>진행상태</th>
+			</tr>
+		</thead>
+
+		<body>
+			<tr class="text-center">
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPDate}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPAName}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPACode}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPIName}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPICode}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPPName}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPPNum}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPDT}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPCAmount}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPLocation}">
+				</td>
+				<td>
+					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPState}">
+				</td>
+			</tr>
+		</body>
+	</table>
+	<a th:href="@{|/shipping/modify/${shipping.SPid}|}" class="btn btn-primary my-2"
+		style="left: 85%; margin-right: 5px;"> 수정</a>
+	<a href="javascript:void(0);" th:data-uri="@{|/shipping/delete/${shipping.SPid}|}"
+		class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
+
+	<script type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
 </div>
+
 </html>

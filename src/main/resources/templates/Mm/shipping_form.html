@@ -1,7 +1,10 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="content" class="container">
-	<h5 class="my-3 border-bottom pd-2">출고</h5>
-	<form th:object="${shippingForm}" method="post">
+<div layout:fragment="content">
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">출고</h1>
+	</div>
+
+	<form th:object="${shippingForm}" method="post" style="width:500px;">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
