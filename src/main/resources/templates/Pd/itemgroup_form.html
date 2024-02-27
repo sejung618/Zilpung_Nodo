@@ -6,7 +6,7 @@
 		<h1 class="h3 mb-0 text-gray-800">품목그룹 등록</h1>
 	</div>
 	
-    <form th:action="@{/basic/itemgroup/create}" th:object="${itemGroupForm}" method="post" Style="width:30%;">
+    <form th:action="@{/basic/itemgroup/create}" th:object="${itemGroupForm}" method="post" Style="width:400px;">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
 		</div>
@@ -19,13 +19,6 @@
         	<a href="/basic/itemgroup/list" class="btn mx-2 border-primary text-primary">취소</a>
         </div>
     </form>
-    
-    <script>
-		$("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
-		$("#BS_ItemManage div").children("a:eq(1)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
-		$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
-		// $("#BS_ItemManage_a").attr("class", "nav-link"); 
-	</script>
     
 </div>
 
