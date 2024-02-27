@@ -20,6 +20,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
+import nodo.erp.Hr.Entity.Employee;
 
 @RequiredArgsConstructor
 @Service
@@ -36,7 +37,7 @@ public class InventoryService {
 	}
 	
 	public void create(String INDate, String ININame, String INPName, Integer INQuantity, String INPNum, String INICode,
-			String INStandard) {
+			String INStandard, Employee empname) {
 
 		String yy = INDate.substring(2, 4);
 		String mm = INDate.substring(5, 7);
@@ -54,6 +55,7 @@ public class InventoryService {
 		i.setINICode(INICode);
 		i.setINStandard(INStandard);
 		i.setCreateDate(LocalDateTime.now());
+		i.setEmployee(empname);
 		this.inventoryRepository.save(i);
 	}
 
