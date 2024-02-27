@@ -26,6 +26,15 @@ public class Att_Service {
 	public List<Attendance> getList() {
 		return this.att_Repository.findAll();
 	}
+	
+	public Attendance getdetailList(Employee employee) {
+		 Optional<Attendance> Detail = this.att_Repository.findByEmployee(employee);
+		 if (Detail.isPresent()) {
+	            return Detail.get();
+	        } else {
+	            throw new DataNotFoundException("question not found");
+	        }
+	}
 
 	public void checkin(Employee employee) {
 		// 해당 날짜와 아이디로 이미 체크인한 기록이 있는지 확인
