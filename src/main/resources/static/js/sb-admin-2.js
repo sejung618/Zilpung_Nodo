@@ -54,19 +54,3 @@
   });
 
 })(jQuery); // End of use strict
-
-
-$(document).ready(function(){
-    // 현재 URL에서 "AC" 파라미터 값 가져오기
-    var url=window.location.href;
-    console.log(url.includes('itemgroup'));
-    
-    
-    // 만약 "AC" 값이 존재하면 collapse 열기
-    if(url.includes('itemgroup')){
-        $("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
-		$("#BS_ItemManage div").children("a:eq(0)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
-		$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
-		$("#BS_ItemManage_a").attr("class", "nav-link"); 
-    }
-});
