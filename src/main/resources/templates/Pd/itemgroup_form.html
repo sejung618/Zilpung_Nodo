@@ -20,6 +20,13 @@
         </div>
     </form>
     
+    <script>
+		$("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
+		$("#BS_ItemManage div").children("a:eq(1)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
+		$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
+		// $("#BS_ItemManage_a").attr("class", "nav-link"); 
+	</script>
+    
 </div>
 
 </html>
