@@ -1,7 +1,9 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="content" class="container">
-	<h5 class="my-3 border-bottom pd-2">입고</h5>
-	<form th:object="${warehousingForm}" method="post">
+<div layout:fragment="content">
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">입고</h1>
+	</div>
+	<form th:object="${warehousingForm}" method="post" style="width:500px;">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
@@ -25,14 +27,31 @@
 			<label for="WHICode" class="form-label">품목코드</label>
 			<input type="text" th:field="*{WHICode}" name="WHICode" id="WHICode" class="form-control">
 		</div>
+		
 		<div class="mb-3">
+			<label for="jb-input-text">담당사번</label>
+			<select name="WHPNum" id="WHPNum" class="form-control">
+				<option value="">담당사번을 선택해주세요</option>
+				<option th:each="employee : ${empList}" th:value="${employee.empnum}" th:text="${employee.empnum}"
+					th:data-empname="${employee.empname}"></option>
+			</select>
+		</div>
+
+		<div class="mb-3">
+			<label for="WHPName" class="form-label">담당자</label>
+			<input type="text" th:field="*{WHPName}" name="WHPName" id="WHPName" class="form-control WHPName">
+		</div>
+		
+		<!--div class="mb-3">
 			<label for="WHPName" class="form-label">담당자</label>
 			<input type="text" th:field="*{WHPName}" name="WHPName" id="WHPName" class="form-control">
 		</div>
 		<div class="mb-3">
 			<label for="WHPNum" class="form-label">담당자사번</label>
 			<input type="text" th:field="*{WHPNum}" name="WHPNum" id="WHPNum" class="form-control">
-		</div>
+		</div-->
+		
+		
 		<div class="mb-3">
 			<label for="WHDT" class="form-label">납기일자</label>
 			<input type="date" th:field="*{WHDT}" name="WHDT" id="WHDT" class="form-control">
@@ -54,5 +73,18 @@
 			</select>
 		</div>
 		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
-	</form>
+	
+		<script th:inline="javascript">
+
+			$(document).ready(function () {
+				$('#WHPNum').change(function () {
+					var valueempname = $(this).find(':selected').attr("data-empname");
+
+					$('.WHPName').val(valueempname);
+
+				});
+			});
+		</script>
+
+</form>
 </div>

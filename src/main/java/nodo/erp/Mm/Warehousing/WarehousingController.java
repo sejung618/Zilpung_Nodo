@@ -1,6 +1,7 @@
 package nodo.erp.Mm.Warehousing;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,9 @@ public class WarehousingController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
-	public String warehousingCreate(WarehousingForm warehousingForm){
+	public String warehousingCreate(Model model, WarehousingForm warehousingForm){
+		List<Employee> empList = this.emp_Service.getList();
+		model.addAttribute("empList", empList);
 		return "Mm/warehousing_form";
 	}
 	
@@ -68,9 +71,10 @@ public class WarehousingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{WHid}")
-	public String warehousingModify(WarehousingUpdateForm wf, @PathVariable("WHid") Integer WHid, Principal principal) {
+	public String warehousingModify(Model model, WarehousingUpdateForm wf, @PathVariable("WHid") Integer WHid, Principal principal) {
 		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
-		
+		List<Employee> empList = this.emp_Service.getList();
+		model.addAttribute("empList", empList);
 		if(!warehousing.getEmployee().getEmpnum().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }

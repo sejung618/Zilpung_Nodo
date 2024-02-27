@@ -1,7 +1,10 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="content" class="container">
-	<h5 class="my-3 border-bottom pd-2">출고</h5>
-	<form th:object="${shippingForm}" method="post">
+<div layout:fragment="content">
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">출고</h1>
+	</div>
+
+	<form th:object="${shippingForm}" method="post" style="width:500px;">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
@@ -25,14 +28,32 @@
 			<label for="SPICode" class="form-label">품목코드</label>
 			<input type="text" th:field="*{SPICode}" name="SPICode" id="SPICode" class="form-control">
 		</div>
+
+
 		<div class="mb-3">
+			<label for="jb-input-text">담당사번</label>
+			<select name="SPPNum" id="SPPNum" class="form-control">
+				<option value="">담당사번을 선택해주세요</option>
+				<option th:each="employee : ${empList}" th:value="${employee.empnum}" th:text="${employee.empnum}"
+					th:data-empname="${employee.empname}"></option>
+			</select>
+		</div>
+
+		<div class="mb-3">
+			<label for="SPPName" class="form-label">담당자</label>
+			<input type="text" th:field="*{SPPName}" name="SPPName" id="SPPName" class="form-control SPPName">
+		</div>
+
+		<!--div class="mb-3">
 			<label for="SPPName" class="form-label">담당자</label>
 			<input type="text" th:field="*{SPPName}" name="SPPName" id="SPPName" class="form-control">
 		</div>
 		<div class="mb-3">
 			<label for="SPPNum" class="form-label">담당자사번</label>
 			<input type="text" th:field="*{SPPNum}" name="SPPNum" id="SPPNum" class="form-control">
-		</div>
+		</div-->
+
+
 		<div class="mb-3">
 			<label for="SPDT" class="form-label">납기일자</label>
 			<input type="date" th:field="*{SPDT}" name="SPDT" id="SPDT" class="form-control">
@@ -54,5 +75,18 @@
 			</select>
 		</div>
 		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
+
+		<script th:inline="javascript">
+
+			$(document).ready(function () {
+				$('#SPPNum').change(function () {
+					var valueempname = $(this).find(':selected').attr("data-empname");
+
+					$('.SPPName').val(valueempname);
+
+				});
+			});
+		</script>
+
 	</form>
 </div>
