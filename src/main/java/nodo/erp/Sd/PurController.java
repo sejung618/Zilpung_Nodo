@@ -2,8 +2,8 @@ package nodo.erp.Sd;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +15,16 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import nodo.erp.Sd.PurService;
+import nodo.erp.Sd.PurCreateForm;
+
 @RequestMapping("/purchase")
+
 @RequiredArgsConstructor
 @Controller
 public class PurController {
 	
-	@Autowired
 	private final PurService purService;
-	@Autowired
 	private final AccService accService;
 	
 	@GetMapping("/list")
@@ -43,15 +45,16 @@ public class PurController {
 	public String PurCreate(Model model, PurCreateForm purCreateForm) {
 		List<Account> AccList = this.accService.getList();
 		model.addAttribute("AccList", AccList);
+		
 		return "Sd/pur_create";
 	}
-	
+		
 	@PostMapping("/create")
 	public String PurchaseCreate(@Valid PurCreateForm purCreateForm, BindingResult bindResult) {
 		if(bindResult.hasErrors()) {
 			return "Sd/pur_create";
 		}
-		this.purService.create(purCreateForm.getPC_Num(), purCreateForm.getPC_Date(), purCreateForm.getAccount(), purCreateForm.getPC_Item(), purCreateForm.getPC_Icode(), Integer.parseInt(purCreateForm.getPC_Count()), Integer.parseInt(purCreateForm.getPC_Price()), Integer.parseInt(purCreateForm.getPC_CP()), Integer.parseInt(purCreateForm.getPC_VAT()), Integer.parseInt(purCreateForm.getPC_VATSUM()));
+		this.purService.create(purCreateForm.getPC_Num(), purCreateForm.getPC_Date(), purCreateForm.getPC_Code(), purCreateForm.getPC_Company(), purCreateForm.getPC_Item(), purCreateForm.getPC_Icode(), Integer.parseInt(purCreateForm.getPC_Count()), Integer.parseInt(purCreateForm.getPC_Price()), Integer.parseInt(purCreateForm.getPC_CP()) , Integer.parseInt(purCreateForm.getPC_VAT()), Integer.parseInt(purCreateForm.getPC_VATSUM()));
 		return "redirect:/purchase/list";
 	}
 	
@@ -84,7 +87,5 @@ public class PurController {
 		this.purService.delete(id);
 		return "redirect:/purchase/list";
 	}
-	
-	
 
 }
