@@ -16,16 +16,15 @@
 			
 			<tbody>
 				<tr class="text-center table-active" th:each="Purchase, loop:${PurList}">
-				<tr class="text-center" th:each="Purchase, loop:${PurList}">
 					<td th:text="${loop.count}"></td>
 					<td>
-						<a th:href="@{|/purchase/detail/${Purchase.id}|}" th:text="{Purchase.PC_Num}"> </a> 
+						<a th:href="@{|/purchase/detail/${Purchase.id}|}" th:text="${Purchase.PC_Num}"> </a> 
 					</td>
-					<td th:text="{Purchase.PC_Company}"></td>
-					<td th:text="{Purchase.PC_Item}"></td>
-					<td th:text="{Purchase.PC_Count}"></td>
-					<td th:text="{Purchase.PC_VATSUM}"></td>
-					 </tr>
+					<td th:text="${Purchase.PC_Company}"></td>
+					<td th:text="${Purchase.PC_Item}"></td>
+					<td th:text="${Purchase.PC_Count}"></td>
+					<td th:text="${Purchase.PC_VATSUM}"></td>
+					 
 				</tr>
 			</tbody>
 		</table>
