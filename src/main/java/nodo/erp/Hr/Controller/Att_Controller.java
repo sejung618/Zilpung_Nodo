@@ -49,14 +49,18 @@ public class Att_Controller {
 
 	}
 	
-	@GetMapping("/detail/{id}")
-	public String Attlist(Model model, Authentication authentication,@PathVariable("id") Integer id) {
+	@GetMapping("/detail")
+	public String Attlist1(Model model, Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			// 로그인한 사용자에게만 허용
-			Employee employee = this.emp_Service.getEmpDetail(id);
+			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
 			Attendance AttList = this.att_Service.getdetailList(employee);
+			
 			model.addAttribute("AttList", AttList);
 			return "Hr/Att_detail";
+			
+			
 		} else {
 			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리
 			return "redirect:/Hr/login";
@@ -95,7 +99,7 @@ public class Att_Controller {
 			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
 			att_Service.checkin(employee);
 			Integer id = customUserDetails.getEmpid();
-			return "redirect:/Attendance/detail/" + id;
+			return "redirect:/Attendance/detail";
 		} else {
 			return "redirect:/Hr/login";
 		}
@@ -108,7 +112,7 @@ public class Att_Controller {
 			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
 			att_Service.checkout(employee);
 			Integer id = customUserDetails.getEmpid();
-			return "redirect:/Attendance/detail/" + id;
+			return "redirect:/Attendance/detail";
 		} else {
 			return "redirect:/Hr/login";
 		}

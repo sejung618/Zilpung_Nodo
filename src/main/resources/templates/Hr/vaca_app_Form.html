@@ -1,0 +1,45 @@
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container">
+	<h5 class="my-3 border-bottom pd-2">휴가 신청</h5>
+	<form th:object="${vaca_app_Form}" method="post">
+		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+
+
+		<div class="mb-3">
+			<label for="startdate" class="form-label">휴가 시작일</label>
+			<input type="date" th:field="*{startdate}" name="startdate" id="startdate" class="form-control" required>
+		</div>
+
+		<div class="mb-3">
+			<label for="enddate" class="form-label">휴가 종료일</label>
+			<input type="date" th:field="*{enddate}" name="enddate" id="enddate" class="form-control" required>
+		</div>
+
+		<div class="form-group mb-3">
+			<label for="leavetype" class="form-label mt-4">휴가 종류</label>
+			<select class="form-select" name="leavetype" id="leavetype">
+				<option value="연차">연차</option>
+				<option value="병가">병가</option>
+				<option value="경조휴가">경조휴가</option>
+			</select>
+		</div>
+
+		<!--
+	
+	
+		<div class="form-group mb-3">
+			<label for="depcode" class="form-label mt-4">부서</label>
+			<select class="form-select" name="depcode" id="depcode">
+				 <option th:each="dep : ${deplist}" th:value="${dep.depcode}" th:text="${dep.depname}"></option>
+				
+			</select>
+		</div>
+	-->
+		<input type="submit" value="저장하기" class="btn btn-primary my-2">
+	</form>
+</div>
+
+</html>

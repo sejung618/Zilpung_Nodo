@@ -32,7 +32,9 @@ public class Att_Service {
 		 if (Detail.isPresent()) {
 	            return Detail.get();
 	        } else {
-	            throw new DataNotFoundException("question not found");
+	        	checkin(employee);
+	        	return null;
+//	            throw new DataNotFoundException("employee not found");
 	        }
 	}
 

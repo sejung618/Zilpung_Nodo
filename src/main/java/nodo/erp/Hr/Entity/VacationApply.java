@@ -23,7 +23,8 @@ public class VacationApply {
 	@ManyToOne
 	private Employee employee;
 
-	private LocalDate startDate;	//휴가 시작날짜
-	private LocalDate endDate;		//휴가 끝날짜
-	private String leaveType;		//휴가 종류
+	private LocalDate startdate;	//휴가 시작날짜
+	private LocalDate enddate;		//휴가 끝날짜
+	private long period;		//후가 기간
+	private String leavetype;		//휴가 종류
 }

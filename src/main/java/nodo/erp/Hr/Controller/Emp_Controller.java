@@ -128,7 +128,6 @@ public class Emp_Controller {
     @GetMapping("/pass/{id}")
     public String EmpPassModify(Emp_Pass_Form emp_Pass_Form, @PathVariable("id") Integer id,Principal principal ) {
     	Employee emp = this.emp_Service.getEmpDetail(id);
-        
     	if(!emp.getEmpnum().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
@@ -157,7 +156,6 @@ public class Emp_Controller {
                     "2개의 패스워드가 일치하지 않습니다.");
             return "Hr/Emp_Pass_Form";
         }
-    	
     	
 		this.emp_Service.passmodify(emp, emp_Pass_Form.getNewpass());
 		return "redirect:/";
