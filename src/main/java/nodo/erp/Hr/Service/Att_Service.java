@@ -27,12 +27,14 @@ public class Att_Service {
 		return this.att_Repository.findAll();
 	}
 	
-	public Attendance getdetailList(Employee employee) {
-		 Optional<Attendance> Detail = this.att_Repository.findByEmployee(employee);
-		 if (Detail.isPresent()) {
-	            return Detail.get();
+	public List<Attendance> getdetailList(Employee employee) {
+		 List<Attendance> Detail = this.att_Repository.findByEmployee(employee);
+		 if (Detail != null) {
+	            return this.att_Repository.findByEmployee(employee);
 	        } else {
-	            throw new DataNotFoundException("question not found");
+	        	checkin(employee);
+	        	return null;
+//	            throw new DataNotFoundException("employee not found");
 	        }
 	}
 
