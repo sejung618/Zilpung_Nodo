@@ -1,5 +1,11 @@
 package nodo.erp.Mm.Inventory;
 
+import java.security.Principal;
+
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,10 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.data.domain.Page;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.Hr.CustomUserDetails;
+import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Service.Att_Service;
+import nodo.erp.Hr.Service.Emp_Service;
 
 @RequestMapping("/inventory")
 @RequiredArgsConstructor
@@ -27,6 +37,8 @@ public class InventoryController {
 	
 	
 	private final InventoryService inventoryService;
+	private final Emp_Service emp_Service;
+
 	
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -48,21 +60,24 @@ public class InventoryController {
 //		return "redirect:/inventory/list";
 //	}
 	
-	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
 	public String inventoryCreate(InventoryForm inventoryForm){
 		return "Mm/inventory_form";
 	}
 	
-	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String inventoryCreate(@Valid InventoryForm inf, BindingResult br) {
+	public String inventoryCreate(@Valid InventoryForm inf, BindingResult br, Authentication authentication) {
 		if (br.hasErrors()) {
 			return "Mm/inventory_form"; 
 		}
-		this.inventoryService.create(inf.getINDate(),inf.getININame(),inf.getINPName(),inf.getINQuantity(),inf.getINPNum(),inf.getINICode(),inf.getINStandard());
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+		this.inventoryService.create(inf.getINDate(),inf.getININame(),inf.getINPName(),inf.getINQuantity(),inf.getINPNum(),inf.getINICode(),inf.getINStandard(), employee);
 		return "redirect:/inventory/list";
 	}
+	
 	
 	@GetMapping(value = "/detail/{INid}")
 	public String detail(Model model, @PathVariable("INid") Integer INid) {
@@ -70,11 +85,16 @@ public class InventoryController {
 		model.addAttribute("inventory", inventory);
 		return "Mm/inventory_detail";
 	}
-    
-	@GetMapping("/modify/{INid}")
-	public String inventoryModify(InventoryUpdateForm inf, @PathVariable("INid") Integer INid) {
-		Inventory inventory = this.inventoryService.getInventory(INid);
 	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/modify/{INid}")
+	public String inventoryModify(InventoryUpdateForm inf, @PathVariable("INid") Integer INid, Principal principal) {
+		Inventory inventory = this.inventoryService.getInventory(INid);
+		
+		if(!inventory.getEmployee().getEmpnum().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        
 		inf.setINICode(inventory.getINICode());
 		inf.setININame(inventory.getININame());
 		inf.setINPName(inventory.getINPName());
@@ -83,24 +103,33 @@ public class InventoryController {
 		inf.setINStandard(inventory.getINStandard());
 		return "Mm/inventory_update";
 	}
-	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{INid}")
-    public String inventoryModify(@Valid InventoryUpdateForm inf, BindingResult br, @PathVariable("INid") Integer INid) {
+    public String inventoryModify(@Valid InventoryUpdateForm inf, BindingResult br, @PathVariable("INid") Integer INid, 
+            Principal principal) {
         if (br.hasErrors()) {
             return "Mm/inventory_update";
         }
         Inventory inventory = this.inventoryService.getInventory(INid); {
-       
+    	if(!inventory.getEmployee().getEmpnum().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
         this.inventoryService.modify(inventory, inf.getININame(),inf.getINPName(),inf.getINQuantity(),inf.getINPNum(),inf.getINICode(),inf.getINStandard());
         return String.format("redirect:/inventory/list", INid);
     
         }
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete/{INid}")
-    public String inventoryDelete(@PathVariable("INid") Integer INid) {
+    public String inventoryDelete(@PathVariable("INid") Integer INid, 
+            Principal principal) {
 		Inventory inventory = this.inventoryService.getInventory(INid);
-      
+		
+		if(!inventory.getEmployee().getEmpnum().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+		
         this.inventoryService.delete(inventory);
         return "redirect:/inventory/list";
     }
