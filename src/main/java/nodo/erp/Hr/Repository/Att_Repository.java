@@ -14,4 +14,7 @@ public interface Att_Repository extends JpaRepository<Attendance, Integer>{
 
 	boolean existsByEmployeeAndDay(Employee employee, LocalDate checkInday);
 	Optional<Attendance> findByDayAndEmployee(LocalDate checkInday,Employee employee);
+	
+	Optional<Attendance> findByEmployee(Employee employee);
+	
 }
