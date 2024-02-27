@@ -71,7 +71,7 @@
 	</div>
 	<!-- 페이징처리 끝 -->
 	<div class="col-6">
-		<a th:href="@{/shipping/create}" class="btn btn-primary" style="left: 180%;"> 입고</a>
+		<a th:href="@{/shipping/create}" class="btn btn-primary" style="left: 180%;"> 출고</a>
 	</div>
 	<form th:action="@{/shipping/list}" method="get" id="searchForm">
 		<input type="hidden" id="kw" name="kw" th:value="${kw}">

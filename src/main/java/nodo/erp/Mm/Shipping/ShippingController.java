@@ -1,6 +1,7 @@
 package nodo.erp.Mm.Shipping;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,9 @@ public class ShippingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
-	public String shippingCreate(ShippingForm shippingForm){
+	public String shippingCreate(Model model, ShippingForm shippingForm){
+		List<Employee> empList = this.emp_Service.getList();
+		model.addAttribute("empList", empList);
 		return "Mm/shipping_form";
 	}
 	
@@ -69,9 +72,10 @@ public class ShippingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{SPid}")
-	public String shippingModify(ShippingUpdateForm sf, @PathVariable("SPid") Integer SPid, Principal principal) {
+	public String shippingModify(Model model, ShippingUpdateForm sf, @PathVariable("SPid") Integer SPid, Principal principal) {
 		Shipping shipping = this.shippingService.getShipping(SPid);
-		
+		List<Employee> empList = this.emp_Service.getList();
+		model.addAttribute("empList", empList);
 		if(!shipping.getEmployee().getEmpnum().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
