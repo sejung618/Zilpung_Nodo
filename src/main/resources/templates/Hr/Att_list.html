@@ -1,0 +1,49 @@
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+	<table class="table table-bordered table-hover-td">
+
+		<thead class="table-primary">
+			<tr class="text-center">
+				<th>사원번호</th>
+				<th>사원이름</th>
+				<th>출근 일</th>
+				<th>출근시간</th>
+				<th>퇴근시간</th>
+				<th>근무시간</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="text-center" th:each="List : ${AttList}">
+				<td th:text="${List.employee.id}"></td>
+				<td th:text="${List.employee.empname}"></td>
+				<td th:text="${List.day}"></td>
+				<td th:text="${List.checkInTime}"></td>
+				<td th:text="${List.checkOutTime}"></td>
+				<td th:text="${List.workingtime}"></td>
+
+
+				<!--<td>
+					<a th:href="@{/dep/delete/{id}(id=${deplist.id})}" th:text="삭제"></a> /
+					<a th:href="@{/dep/modify/{id}(id=${deplist.id})}" th:text="수정"></a>
+				</td>-->
+			</tr>
+		</tbody>
+
+	</table>
+
+	<div class="col-6" style="display: flex;">
+		<form th:action="@{/Attendance/checkin}" method="post">
+			<button type="submit" class="btn btn-primary">출근</button>	
+		</form>
+		<form th:action="@{/Attendance/checkout}" method="post">
+			<button type="submit" class="btn btn-primary mx-1">퇴근</button>
+		</form>
+	</div>
+
+
+
+</div>
+
+</html>

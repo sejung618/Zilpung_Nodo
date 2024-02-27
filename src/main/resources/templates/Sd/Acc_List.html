@@ -1,10 +1,13 @@
 <html layout:decorate="~{/layout}">
 	<div layout:fragment="content" class="container my-3">
 		<h1>거래처 현황</h1>
-		<table class="table">
+		<table class="table table-bordered table-hover-td">
 			<thead class="table-primary">
 				<tr class="text-center">
+<<<<<<< HEAD
 				
+=======
+>>>>>>> branch 'Development' of https://github.com/sejung618/Zilpung_Nodo.git
 					<th>번호</th>
 					<th> 거래처 회사코드 </th>
 					<th> 거래처 상호명 </th>
@@ -15,7 +18,11 @@
 			</thead>
 			<tbody>
 				
+<<<<<<< HEAD
 				<tr class="text-center table-active" th:each="Account, loop:${AccList}">
+=======
+				<tr class="text-center" th:each="Account, loop:${AccList}">
+>>>>>>> branch 'Development' of https://github.com/sejung618/Zilpung_Nodo.git
 				<td th:text="${loop.count}"></td>
 				<td th:text="${Account.AC_Code}"></td>
 				<td>
