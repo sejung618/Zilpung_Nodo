@@ -20,6 +20,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
+import nodo.erp.Hr.Entity.Employee;
 
 
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class WarehousingService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public void create(String WHDate, String WHAName, String WHACode, String WHIName, String WHICode, String WHPName, String WHPNum, String WHDT, Integer WHCAmount, String WHLocation, String WHState) {
+	public void create(String WHDate, String WHAName, String WHACode, String WHIName, String WHICode, String WHPName, String WHPNum, String WHDT, Integer WHCAmount, String WHLocation, String WHState, Employee empname) {
 		Warehousing wh = new Warehousing();
 		
 		String yy = WHDate.substring(2, 4);
@@ -52,6 +53,7 @@ public class WarehousingService {
 		wh.setWHLocation(WHLocation);
 		wh.setWHState(WHState);
 		wh.setCreateDate(LocalDateTime.now());
+		wh.setEmployee(empname);
 		this.warehousingRepository.save(wh);
 	}
 	

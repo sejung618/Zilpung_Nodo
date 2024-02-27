@@ -34,7 +34,7 @@ public class ShippingService {
 	private EntityManager entityManager;
 	
 	public void create(String SPDate, String SPAName, String SPACode, String SPIName, String SPICode, String SPPName, String SPPNum, String SPDT, Integer SPCAmount, String SPLocation, String SPState, Employee empname) {
-		Shipping wh = new Shipping();
+		Shipping sp = new Shipping();
 		
 		String yy = SPDate.substring(2, 4);
 		String mm = SPDate.substring(5, 7);
@@ -42,20 +42,20 @@ public class ShippingService {
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
 		
-		wh.setSPDate(ymd + "-" + Num); //출고일자
-		wh.setSPAName(SPAName); //거래처명
-		wh.setSPACode(SPACode); //거래처코드
-		wh.setSPIName(SPIName); //품목명
-		wh.setSPICode(SPICode); //품목코드
-		wh.setSPPName(SPPName); //담당자
-		wh.setSPPNum(SPPNum);	//담당사번
-		wh.setSPDT(SPDT);		//납기일자
-		wh.setSPCAmount(SPCAmount);//출고수량
-		wh.setSPLocation(SPLocation);//출고위치
-		wh.setSPState(SPState); //진행상태
-		wh.setCreateDate(LocalDateTime.now());
-		wh.setEmployee(empname);
-		this.shippingRepository.save(wh);
+		sp.setSPDate(ymd + "-" + Num); //출고일자
+		sp.setSPAName(SPAName); //거래처명
+		sp.setSPACode(SPACode); //거래처코드
+		sp.setSPIName(SPIName); //품목명
+		sp.setSPICode(SPICode); //품목코드
+		sp.setSPPName(SPPName); //담당자
+		sp.setSPPNum(SPPNum);	//담당사번
+		sp.setSPDT(SPDT);		//납기일자
+		sp.setSPCAmount(SPCAmount);//출고수량
+		sp.setSPLocation(SPLocation);//출고위치
+		sp.setSPState(SPState); //진행상태
+		sp.setCreateDate(LocalDateTime.now());
+		sp.setEmployee(empname);
+		this.shippingRepository.save(sp);
 	}
 	
 	private Integer generateWHNum(String ymd) {
