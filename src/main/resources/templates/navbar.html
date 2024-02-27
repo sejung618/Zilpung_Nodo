@@ -76,29 +76,29 @@
 			</a>
 			<!-- Dropdown - User Information -->
 			<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-				<a class="dropdown-item my-1" href="#">
-					<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-					<span class="text-gray-600">프로필</span>
-				</a>
-				<a class="dropdown-item my-1" th:href="@{|/Attendance/detail/${#authentication.principal.Empid}|}">
-					<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-					<span class="text-gray-600">출·퇴근</span>
-				</a>
-				<a class="dropdown-item my-1" href="#">
-					<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-					<span class="text-gray-600">휴가</span>
-				</a>
-				<div class="dropdown-divider"></div>
-				<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-					<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-					<span class="text-gray-600">로그아웃</span>
-				</a>
+	            <a class="dropdown-item my-1" th:href="@{|/Hr/detail/${#authentication.principal.Empid}|}">
+	               <i class="fa-solid fa-address-card mr-2 text-gray-400" style="width:15px;"></i>
+	               <span class="text-gray-600">프로필</span>
+	            </a>
+	            <a class="dropdown-item my-1" th:href="@{|/Attendance/detail|}">
+	               <i class="fa-solid fa-business-time mr-2 text-gray-400" style="width:15px;"></i>
+	               <span class="text-gray-600">출·퇴근</span>
+	            </a>
+	            <a class="dropdown-item my-1" href="#">
+	               <i class="fa-solid fa-umbrella-beach mr-2 text-gray-400" style="width:15px;"></i>
+	               <span class="text-gray-600">휴가</span>
+	            </a>
+	            <div class="dropdown-divider"></div>
+	            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+	               <i class="fa-solid fa-right-from-bracket mr-2 text-gray-400" style="width:15px;"></i>
+	               <span class="text-gray-600">로그아웃</span>
+	            </a>
 			</div>
 		</li>
 		<li sec:authorize="isAnonymous()">
 			<a class="nav-link" th:href="@{/Hr/login}">
-				<i class="fa-solid fa-right-to-bracket mr-1"></i>
-				로그인
+				<i class="fa-solid fa-right-to-bracket mr-1 text-gray-400" style="width:15px;"></i>
+				<span class="text-gray-600">로그인</span>
 			</a>
 		</li>
 	</ul>
