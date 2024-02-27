@@ -1,71 +1,105 @@
-			<!-- 테스트 Modal-->
-	    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">모달 제목!!</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">모달 내용
-					<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary" th:text="수정"></a>
-				</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
-                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#Modal1" data-dismiss="modal">취소</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- 테스트 Modal--> 
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">모달 제목!!</h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">모달 내용
+				<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary" th:text="수정"></a>
+				<a  class="btn btn-primary" th:text="${empDtail.empnum}"></a>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
+				<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#Modal1"
+					data-dismiss="modal">취소</a>
+			</div>
+		</div>
+	</div>
+</div>
 
-    			<!-- 테스트 Modal-->
-	    <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">모달 제목!!</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">모달 내용sss
-					<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary" th:text="수정"></a>
-				</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
-                    <a class="btn btn-primary" href="#" >취소</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
-    <!-- 모달 창을 포함한 HTML 코드 -->
+<!-- 테스트 Modal-->
+<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">모달 제목!!</h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			
+			<div class="modal-body">
+				
+				
+				<form th:action="@{|/Hr/modify/${empDtail.id}|}" th:object="${emp_modify_Form}" method="post">
+						
+
+		<div class="mb-3">
+			<label for="empname" class="form-label">이름</label>
+			<input type="text"  name="empname" id="empname" class="form-control"
+				style="width: 30%;">
+		</div>
+
+		<div class="mb-3">
+			<label for="empadd" class="form-label">주소</label>
+			<input type="text" name="empadd" id="empadd" class="form-control">
+		</div>
+
+		<div class="mb-3">
+			<label for="empphone" class="form-label">폰번호</label>
+			<input type="tel"  name="empphone" id="empphone" class="form-control">
+		</div>
+		
+		<div class="mb-3">
+			<label for="empmail" class="form-label">이메일</label>
+			<input type="email"  name="empmail" id="empmail" class="form-control">
+		</div>
+
+		<div class="mb-3">
+			<input type="submit" value="저장하기" class="btn btn-primary my-2">
+		</div>
+	</form>
+				
+				
+				
+				
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
+				<a class="btn btn-primary" href="#">취소</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 모달 창을 포함한 HTML 코드 -->
 <div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
+	<div class="modal-dialog">
+		<div class="modal-content">
 
-      <!-- 모달 헤더 -->
-      <div class="modal-header">
-        <h4 class="modal-title">모달 창</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+			<!-- 모달 헤더 -->
+			<div class="modal-header">
+				<h4 class="modal-title">모달 창</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
 
-      <!-- 모달 본문 -->
-      <div class="modal-body">
-        <p>모달 내용이 여기에 들어갑니다.</p>
-      </div>
+			<!-- 모달 본문 -->
+			<div class="modal-body">
+				<p>모달 내용이 여기에 들어갑니다.</p>
+			</div>
 
-      <!-- 모달 푸터 -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-      </div>
+			<!-- 모달 푸터 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			</div>
 
-    </div>
-  </div>
+		</div>
+	</div>
 </div>
 
 <!-- JavaScript 코드 

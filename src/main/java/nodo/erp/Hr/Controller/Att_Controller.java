@@ -2,6 +2,7 @@ package nodo.erp.Hr.Controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,8 +56,7 @@ public class Att_Controller {
 			// 로그인한 사용자에게만 허용
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
-			Attendance AttList = this.att_Service.getdetailList(employee);
-			
+			 List<Attendance> AttList = this.att_Service.getdetailList(employee);
 			model.addAttribute("AttList", AttList);
 			return "Hr/Att_detail";
 			
