@@ -1,6 +1,7 @@
 package nodo.erp.Mm.Inventory;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -61,7 +62,9 @@ public class InventoryController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
-	public String inventoryCreate(InventoryForm inventoryForm){
+	public String inventoryCreate(Model model, InventoryForm inventoryForm){
+		List<Employee> empList = this.emp_Service.getList();
+		model.addAttribute("empList", empList);
 		return "Mm/inventory_form";
 	}
 	
@@ -87,9 +90,10 @@ public class InventoryController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{INid}")
-	public String inventoryModify(InventoryUpdateForm inf, @PathVariable("INid") Integer INid, Principal principal) {
+	public String inventoryModify(Model model, InventoryUpdateForm inf, @PathVariable("INid") Integer INid, Principal principal) {
 		Inventory inventory = this.inventoryService.getInventory(INid);
-		
+		List<Employee> empList = this.emp_Service.getList();
+		model.addAttribute("empList", empList);
 		if(!inventory.getEmployee().getEmpnum().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
