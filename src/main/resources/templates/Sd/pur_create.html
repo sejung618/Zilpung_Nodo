@@ -1,72 +1,92 @@
 <html layout:decorate="~{/layout}">
-	<div layout:fragment="content" class="container my-3">
-		<h1 class="my-3 border-bottom pb-2">거래처 추가</h1>
-		<form th:action="@{/purchase/create}" th:object="${purCreateForm}" method="post">
-			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-        	</div>
+<div layout:fragment="content" class="container my-3">
+	<h1 class="my-3 border-bottom pb-2">구매입력</h1>
+	<form id="form1" th:action="@{/purchase/create}" th:object="${purCreateForm}" method="post">
+		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+
+		<div class="mb-3">
+			<label for="jb-input-text">구매회사 코드 - 아래 체크박스에서 회사코드를 선택해주세요</label>
+			<select name="PC_Code" id="PC_Code" class="form-control" style="width: 50%;">
+				<option value="">구매회사 코드를 선택해주세요</option>
+				<option th:each="account : ${AccList}" th:value="${account.AC_Code}" th:text="${account.AC_Code}"
+					th:data-AC-Company="${account.AC_Company}" th:data-AC-Item="${account.AC_Item}"
+					th:data-AC-Icode="${account.AC_Icode}" th:data-AC-Price="${account.AC_Price}"></option>
+			</select>
+		</div>
+
+		<div>
+			회사명 - <input type="text" id="PC_Company" name="PC_Company"  class="form-control PC_Company">
+		</div>
+
+		<div>
+			제품명 - <input type="text"  if="PC_Item" name="PC_Item" class="form-control PC_Item">
+		</div>
+
+		<div>
+			제품코드 - <input type="text" id="PC_Icode" name="PC_Icode"  class="form-control PC_Icode">
+		</div>
+
+		<div>
+			제품가격 - <input type="text" id="PC_Price" name="PC_Price" class="form-control PC_Price">
+		</div>
+		
+		<div>
 			
-			<div class="mb-3">
-				<label for="jb-input-text">구매회사 코드 - 아래 체크박스에서 회사코드를 선택해주세요</label>
-				<select name="PC_Code" id="PC_Code" class="form-control" style="width: 50%;">
-					<option value="">구매회사 코드를 선택해주세요</option>
-					<option th:each="account : ${AccList}" th:value="${account.AC_Code}" th:text="${account.AC_Code}"></option>
-				</select>				
+		</div>
+
+		<div class="mb-3">
+			<label for="jb-input-text">물품 구매 수량을 입력해주세요(1 ~ 999까지만 입력가능합니다.)</label>
+			<input type="text" name="PC_Count" id="PC_Count" th:field="*{PC_Count}" class="form-control"
+				style="width: 50%;">
+		</div>
+		
+		<div class="mb-3">
+				<label for="jb-input-text">구매 신청날짜</label>
+				<input type="date" name="PC_Date" id="PC_Date" th:field="*{PC_Date}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
-				<label for="jb-input-text">물품 구매 수량을 입력해주세요(1 ~ 999까지만 입력가능합니다.)</label>
-				<input type="text" name="PC_Count" id="PC_Count" th:field="*{PC_Count}" class="form-control" style="width: 50%;">
-			</div>
+		<input type="hidden" name="PC_CP" id="PC_CP" th:value="${PC_CP}" class="form-control">
+		<input type="hidden" name="PC_VAT" id="PC_VAT" th:field="*{PC_VAT}" class="form-control">
+		<input type="hidden" name="PC_VATSUM" id="PC_VATSUM" th:field="*{PC_VATSUM}" class="form-control">
+		
+		
+		
+
+		<div class="mb-3">
+			<input type="button" onclick="formSubmit();" value="구매신청 완료" class="btn btn-primary my-2">
+		</div>
+
+
+		<script th:inline="javascript">
+			$(document).ready(function () {
+				$('#PC_Code').change(function () {
+					var valueAC_Company = $(this).find(':selected').attr("data-AC-Company");
+					var valueAC_Item = $(this).find(':selected').attr("data-AC-Item");
+					var valueAC_Icode = $(this).find(':selected').attr("data-AC-Icode");
+					var valueAC_Price = $(this).find(':selected').attr("data-AC-Price");
+
+					// 각 값을 PC_Company, PC_Item, PC_Icode, PC_Price에 할당합니다.
+					$('.PC_Company').val(valueAC_Company);
+					$('.PC_Item').val(valueAC_Item);
+					$('.PC_Icode').val(valueAC_Icode);
+					$('.PC_Price').val(valueAC_Price);
+
+				});
+			});
 			
-			<div class="mb-3">
-				<input type="submit" value="구매신청 완료" class="btn btn-primary my-2">
-			</div>
-			
-			<script>
-				var PC_CodeSelect = document.getElementById('PC_Code');
+			function formSubmit(){
+				$('#PC_CP').val( parseInt($('.PC_Price').val()) * parseInt($('#PC_Count').val()) );
+				$('#PC_VAT').val( parseInt($('#PC_CP').val()) / 10 );
+				$('#PC_VATSUM').val( parseInt($('#PC_CP').val()) + parseInt($('#PC_VAT').val()) );
 				
-				PC_CodeSelect.addEventListener('change', function() {
-					var selectedAC_Code = PC_CodeSelect.value; // 선택된 AC_Code 값
-					var xhr = new XMLHttpRequest();
-					xhr.open('GET', '/getData?AC_Code=' + selectedAC_Code, true);
-					xhr.onreadystatechange = function() {
-						if (xhr.readyState === XMLHttpRequest.DONE) {
-							if (xhr.status === 200) {
-								var responseData = JSON.parse(xhr.responseText);
-								var PC_Company = responseData.AC_Company;
-								var PC_Item = responseData.AC_Item;
-								var PC_Icode = responseData.AC_Icode;
-								var PC_Price = responseData.AC_Price;
-								
-								document.getElementById('PC_Company').value = PC_Company;
-								document.getElementById('PC_Item').value = PC_Item;
-								document.getElementById('PC_Icode').value = PC_Icode;
-								document.getElementById('PC_Price').value = PC_Price;
-								} else {
-									console.error('서버 요청 중 오류발생');
-									}
-								}
-							};
-    					xhr.send();
-    				});
-			</script>
-			
-			<div class="mb-3">
-				<input name="PC_Company" id="PC_Company" th:field="*{PC_Company}" class="form-control" style="width: 50%;">
-			</div>
-			
-			<div class="mb-3">
-				<input name="PC_Item" id="PC_Item" th:field="*{PC_Item}" class="form-control" style="width: 50%;">
-			</div>
-			
-			<div class="mb-3">
-				<input name="PC_Icode" id="PC_Icode" th:field="*{PC_Icode}" class="form-control" style="width: 50%;">
-			</div>
-			
-			<div class="mb-3">
-				<input name="PC_Price" id="PC_Price" th:field="*{PC_Price}" class="form-control" style="width: 50%;">
-			</div>
-		</form>
-	</div>
+				 
+				document.getElementById("form1").submit();
+			}
+		</script>
+
+	</form>
+</div>
+
 </html>

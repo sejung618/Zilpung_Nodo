@@ -2,6 +2,7 @@ package nodo.erp.Sd;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,9 +29,11 @@ public class Purchase {
 	@Column(length = 30)
 	private String PC_Company; // 구매회사 명 - Account.AC_Company 가져와서 저장
 	
-	@ManyToOne
-	@JoinColumn(name = "PC_Code", referencedColumnName = "AC_Code")
-	private Account account;
+	/*@ManyToOne
+    @JoinColumn(name = "PC_Code", referencedColumnName = "AC_Code")
+    private Account account;*/
+	@Column(length = 20)
+	private String PC_Code;
 	
 	@Column(length = 30)
 	private String PC_Item; // 구매물품 - Account.AC_Item 가져와서 저장

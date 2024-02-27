@@ -16,7 +16,7 @@ public class PurCreateForm {
 	private String PC_Company;
 	
 	@NotEmpty(message = "회사 코드를 선택해주세요")
-	private Account account;
+	private String PC_Code;
 	
 	private String PC_Item;
 	
