@@ -1,0 +1,35 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		<h1>구매 현황</h1>
+		<table class="table">
+			<thead class="table-primary">
+				<tr class="text-center">
+					<th>번호</th>
+					<th>구매번호</th>
+					<th>구매 회사명</th>
+					<th>구매 물품명</th>
+					<th>구매 물품 수량</th>
+					<th>총 액</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="text-center table-active" th:each="Purchase, loop:${PurList}">
+					<td th:text="${loop.count}"></td>
+					<td>
+						<a th:href="@{|/purchase/detail/${Purchase.id}|}" th:text="{Purchase.PC_Num}"> </a> 
+					</td>
+					<td th:text="{Purchase.PC_Company}"></td>
+					<td th:text="{Purchase.PC_Item}"></td>
+					<td>
+						<span th:text="{Purchase.PC_Count + '개'}"></span>
+					</td>
+					<td>
+						<span th:text="{Purchase.PC_VATSUM + '원'}"></span>>
+					</td>
+					 
+				</tr>
+			</tbody>
+		</table>
+		<a th:href="@{/purchase/create}" class="btn btn-primary">구매 신청</a>
+	</div>
+</html>
