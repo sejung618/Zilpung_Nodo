@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Service.Emp_Service;
+import nodo.erp.Sd.AccService;
+import nodo.erp.Sd.Account;
 
 
 @RequestMapping("/warehousing")
@@ -31,6 +33,7 @@ public class WarehousingController {
 	
 	private final WarehousingService warehousingService;
 	private final Emp_Service emp_Service;
+	private final AccService accService;
 	
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -44,14 +47,20 @@ public class WarehousingController {
 	@GetMapping("/create")
 	public String warehousingCreate(Model model, WarehousingForm warehousingForm){
 		List<Employee> empList = this.emp_Service.getList();
+		List<Account> accList = this.accService.getList();
 		model.addAttribute("empList", empList);
+		model.addAttribute("accList", accList);
 		return "Mm/warehousing_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String warehousingCreate(@Valid WarehousingForm warehousingForm, BindingResult br, Authentication authentication) {
+	public String warehousingCreate(Model model, @Valid WarehousingForm warehousingForm, BindingResult br, Authentication authentication) {
 		if (br.hasErrors()) {
+			List<Employee> empList = this.emp_Service.getList();
+			List<Account> accList = this.accService.getList();
+			model.addAttribute("empList", empList);
+			model.addAttribute("accList", accList);
 			return "Mm/warehousing_form"; 
 		}
 		
@@ -74,7 +83,9 @@ public class WarehousingController {
 	public String warehousingModify(Model model, WarehousingUpdateForm wf, @PathVariable("WHid") Integer WHid, Principal principal) {
 		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
 		List<Employee> empList = this.emp_Service.getList();
+		List<Account> accList = this.accService.getList();
 		model.addAttribute("empList", empList);
+		model.addAttribute("accList", accList);
 		if(!warehousing.getEmployee().getEmpnum().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
@@ -94,8 +105,12 @@ public class WarehousingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{WHid}")
-    public String warehousingModify(@Valid WarehousingUpdateForm wf, BindingResult br, @PathVariable("WHid") Integer WHid, Principal principal) {
+    public String warehousingModify(Model model, @Valid WarehousingUpdateForm wf, BindingResult br, @PathVariable("WHid") Integer WHid, Principal principal) {
         if (br.hasErrors()) {
+        	List<Employee> empList = this.emp_Service.getList();
+    		List<Account> accList = this.accService.getList();
+    		model.addAttribute("empList", empList);
+    		model.addAttribute("accList", accList);
             return "Mm/warehousing_update";
         }
         Warehousing warehousing = this.warehousingService.getWarehousing(WHid); {

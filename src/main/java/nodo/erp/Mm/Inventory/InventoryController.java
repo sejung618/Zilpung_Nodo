@@ -70,8 +70,10 @@ public class InventoryController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String inventoryCreate(@Valid InventoryForm inf, BindingResult br, Authentication authentication) {
+	public String inventoryCreate(Model model, @Valid InventoryForm inf, BindingResult br, Authentication authentication) {
 		if (br.hasErrors()) {
+			List<Employee> empList = this.emp_Service.getList();
+			model.addAttribute("empList", empList);
 			return "Mm/inventory_form"; 
 		}
 		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -108,9 +110,11 @@ public class InventoryController {
 	}
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{INid}")
-    public String inventoryModify(@Valid InventoryUpdateForm inf, BindingResult br, @PathVariable("INid") Integer INid, 
+    public String inventoryModify(Model model, @Valid InventoryUpdateForm inf, BindingResult br, @PathVariable("INid") Integer INid, 
             Principal principal) {
         if (br.hasErrors()) {
+        	List<Employee> empList = this.emp_Service.getList();
+			model.addAttribute("empList", empList);
             return "Mm/inventory_update";
         }
         Inventory inventory = this.inventoryService.getInventory(INid); {

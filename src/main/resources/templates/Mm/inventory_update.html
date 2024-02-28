@@ -15,10 +15,11 @@
 			<label for="INICode" class="form-label">품목코드</label>
 			<input type="text" th:field="*{INICode}" name="INICode" id="INICode" class="form-control">
 		</div>
-		<div class="mb-3">
-			<label for="jb-input-text">담당사번</label>
-			<select name="INPNum" id="INPNum" class="form-control">
-				<option value="">담당사번을 선택해주세요</option>
+		
+		<div class="form-group mb-3">
+			<label for="INPNum" class="form-label">담당사번</label>
+			<select class="form-control" th:field="*{INPNum}" name="INPNum" id="INPNum">
+				<option value="-">-</option>
 				<option th:each="employee : ${empList}" th:value="${employee.empnum}" th:text="${employee.empnum}"
 					th:data-empname="${employee.empname}"></option>
 			</select>

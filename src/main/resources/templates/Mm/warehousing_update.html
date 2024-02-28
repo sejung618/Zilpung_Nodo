@@ -9,14 +9,33 @@
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
+		
+		
+		<div class="form-group mb-3">
+			<label for="WHACode" class="form-label">거래처코드</label>
+			<select class="form-control" th:field="*{WHACode}" name="WHACode" id="WHACode">
+				<option value="-">-</option>
+				<option th:each="account : ${accList}" th:value="${account.AC_Code}" th:text="${account.AC_Code}"
+					th:data-AC-Company="${account.AC_Company}"></option>
+			</select>
+		</div>
+		
 		<div class="mb-3">
+			<label for="WHAName" class="form-label">거래처명</label>
+			<input type="text" th:field="*{WHAName}" name="WHAName" id="WHAName" class="form-control WHAName">
+		</div>
+		
+		
+		<!--div class="mb-3">
 			<label for="WHAName" class="form-label">거래처명</label>
 			<input type="text" th:field="*{WHAName}" name="WHAName" id="WHAName" class="form-control">
 		</div>
 		<div class="mb-3">
 			<label for="WHACode" class="form-label">거래처코드</label>
 			<input type="text" th:field="*{WHACode}" name="WHACode" id="WHACode" class="form-control">
-		</div>
+		</div-->
+		
+		
 		<div class="mb-3">
 			<label for="WHIName" class="form-label">품목명</label>
 			<input type="text" th:field="*{WHIName}" name="WHIName" id="WHIName" class="form-control">
@@ -25,10 +44,11 @@
 			<label for="WHICode" class="form-label">품목코드</label>
 			<input type="text" th:field="*{WHICode}" name="WHICode" id="WHICode" class="form-control">
 		</div>
-		<div class="mb-3">
-			<label for="jb-input-text">담당사번</label>
-			<select name="WHPNum" id="WHPNum" class="form-control">
-				<option value="">담당사번을 선택해주세요</option>
+		
+		<div class="form-group mb-3">
+			<label for="WHPNum" class="form-label">담당사번</label>
+			<select class="form-control" th:field="*{WHPNum}" name="WHPNum" id="WHPNum">
+				<option value="-">-</option>
 				<option th:each="employee : ${empList}" th:value="${employee.empnum}" th:text="${employee.empnum}"
 					th:data-empname="${employee.empname}"></option>
 			</select>
@@ -60,7 +80,7 @@
 		</div>
 		<div class="form-group mb-3">
 			<label for="WHState" class="form-label">진행상태</label>
-			<select class="form-select" th:field="*{WHState}" name="WHState" id="WHState">
+			<select class="form-control" th:field="*{WHState}" name="WHState" id="WHState">
 				<option value="-">-</option>
 				<option value="미입고">미입고</option>
 				<option value="입고">입고</option>
@@ -69,7 +89,17 @@
 		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
 	
 	<script th:inline="javascript">
+			
+			$(document).ready(function () {
+				$('#WHACode').change(function () {
+					var valueAC_Company = $(this).find(':selected').attr("data-AC-Company");
 
+					$('.WHAName').val(valueAC_Company);
+
+				});
+			});
+
+			
 			$(document).ready(function () {
 				$('#WHPNum').change(function () {
 					var valueempname = $(this).find(':selected').attr("data-empname");
