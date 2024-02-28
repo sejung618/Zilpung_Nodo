@@ -1,24 +1,28 @@
-package nodo.erp.Pd.Entity;
+package nodo.erp.Pp.ItemGroup;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 public class ItemGroup {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 6)
+	@Column(unique = true, length = 6)
 	private String IgCode;
 
-	@Column(unique = true, length = 10)
+	@Column(length = 10)
 	private String IgName;
 }
+

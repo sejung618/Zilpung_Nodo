@@ -1,0 +1,29 @@
+<html layout:decorate="~{layout}">
+	
+<div layout:fragment="content" class="m-3">
+	
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">품목그룹 수정</h1>
+	</div>
+	
+    <form th:object="${itemGroupForm}" method="post" Style="width:400px;">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+		</div>
+		<div class="pb-3 my-3 border-bottom">
+            <label for="content" style="margin-right:10px;">품목그룹코드</label>
+            <input type="text" name="IgName" id="IgName" class="form-control" th:value="${itemGroupForm.igCode}" disabled>
+        </div>
+        <div class="pb-3 my-3 border-bottom">
+            <label for="content" style="margin-right:10px;">품목그룹명</label>
+            <input type="text" name="IgName" id="IgName" class="form-control" th:value="${itemGroupForm.igName}">
+        </div>
+        <div style="display:flex;">
+        	<input type="submit" value="저장" class="btn btn-primary">
+        	<a href="/basic/itemgroup/list" class="btn mx-2 border-primary text-primary">취소</a>
+        </div>
+    </form>
+    
+</div>
+
+</html>
