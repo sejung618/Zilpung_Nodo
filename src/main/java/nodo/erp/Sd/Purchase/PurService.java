@@ -73,18 +73,6 @@ public class PurService {
 		return (maxNum == null) ? 1 : maxNum + 1;
 	}
 	
-	public void update(Purchase purchase, Integer PC_Count, Integer PC_Price, Integer PC_CP, Integer PC_VAT, Integer PC_VATSUM) {
-		Purchase pur = this.purRepositroy.findById(purchase.getId()).orElse(null);
-		
-		pur.setPC_Count(PC_Count);
-		pur.setPC_Price(PC_Price);
-		pur.setPC_CP(PC_Count * PC_Price);
-		pur.setPC_VAT(PC_CP / 10);
-        pur.setPC_VATSUM(PC_CP + PC_VAT);
-        
-        this.purRepositroy.save(pur);
-	}
-	
 	
 	 public void delete(Integer id) {
 		 Purchase pur = new Purchase();
