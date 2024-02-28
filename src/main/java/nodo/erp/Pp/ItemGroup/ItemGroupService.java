@@ -1,4 +1,4 @@
-package nodo.erp.Pd.Service;
+package nodo.erp.Pp.ItemGroup;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import nodo.erp.DataNotFoundException;
-import nodo.erp.Pd.Entity.ItemGroup;
-import nodo.erp.Pd.Repository.ItemGroupRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,5 +32,14 @@ public class ItemGroupService {
         ig.setIgCode(IgCode);
         ig.setIgName(IgName);
         this.itemGroupRepository.save(ig);
+    }
+	
+	public void modify(ItemGroup ig, String IgName) {
+		ig.setIgName(IgName);
+		this.itemGroupRepository.save(ig);
+	}
+	
+	public void delete(ItemGroup ig) {
+        this.itemGroupRepository.delete(ig);
     }
 }

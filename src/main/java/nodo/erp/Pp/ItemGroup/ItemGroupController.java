@@ -1,4 +1,4 @@
-package nodo.erp.Pd.Controller;
+package nodo.erp.Pp.ItemGroup;
 
 import java.util.List;
 
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import nodo.erp.Pd.DTO.ItemGroupForm;
-import nodo.erp.Pd.Entity.ItemGroup;
-import nodo.erp.Pd.Service.ItemGroupService;
 
 @RequestMapping("/basic/itemgroup")
 @RequiredArgsConstructor
@@ -27,25 +24,25 @@ public class ItemGroupController {
     public String list(Model model) {
 		List<ItemGroup> itemGroupList = this.itemGroupService.getList();
 		model.addAttribute("itemGroupList", itemGroupList);
-        return "Pd/itemgroup_list";
+        return "Pp/itemgroup_list";
     }
 	
 	@GetMapping(value = "/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
         ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
         model.addAttribute("itemGroup", itemGroup);
-		return "Pd/itemgroup_detail";
+		return "Pp/itemgroup_detail";
     }
 	
 	@GetMapping("/create")
 	public String ItemGroupCreate(ItemGroupForm itemGroupForm) {
-		return "Pd/itemgroup_form";
+		return "Pp/itemgroup_form";
 	}
 	
 	@PostMapping("/create")
     public String ItemGroupCreate(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-            return "Pd/itemgroup_form";
+            return "Pp/itemgroup_form";
         }
 		
 		List<ItemGroup> itemGroupList = this.itemGroupService.getList();
@@ -59,4 +56,31 @@ public class ItemGroupController {
 		}
         return "redirect:/basic/itemgroup/list";
     }
+	
+	@GetMapping("/modify/{id}")
+	public String ItemGroupModify(@PathVariable("id") Integer id, ItemGroupForm itemGroupForm, Model model) {
+		ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
+		itemGroupForm.setIgCode(itemGroup.getIgCode());
+		itemGroupForm.setIgName(itemGroup.getIgName());
+		model.addAttribute("itemGroupForm", itemGroup);
+		return "Pp/itemgroup_modify";
+	}
+	
+	@PostMapping("/modify/{id}")
+	public String ItemGroupModify(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult, @PathVariable("id") Integer id) {
+		if (bindingResult.hasErrors()) {
+            return "question_form";
+        }
+		ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
+		this.itemGroupService.modify(itemGroup, itemGroupForm.getIgName());
+		return "redirect:/basic/itemgroup/list";
+	}
+	
+    @GetMapping("/delete/{id}")
+    public String itemGroupDelete(@PathVariable("id") Integer id) {
+        ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
+        this.itemGroupService.delete(itemGroup);
+        return "redirect:/basic/itemgroup/list";
+    }
+	
 }

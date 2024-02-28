@@ -3,20 +3,23 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
     var url=window.location.href;	// 현재 접속중인 페이지의 URL 값 가져오기 (url이라는 변수에 저장)
     
     // 기본사항 관리
-    	// 품목 관리: 품목그룹 조회
-	    if(url.includes('basic/itemgroup/list')){		// 괄호 안의 String이 발견되면 True 반환
-	        $("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
-			$("#BS_ItemManage div").children("a:eq(0)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
-			$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
-			$("#BS_ItemManage_a").attr("class", "nav-link");
-	    }
-    	// 품목 관리: 품목그룹 등록
-	    if(url.includes('basic/itemgroup/create')){
-	        $("#BS_ItemManage").attr("class", "collapse show");
-			$("#BS_ItemManage div").children("a:eq(1)").attr("class", "collapse-item active");
-			$("#BS_ItemManage_a").attr("aria-expanded", "true");
-			$("#BS_ItemManage_a").attr("class", "nav-link");
-	    }
+    	// 품목 관리
+    	if(url.includes('basic/itemgroup')){
+	    	// 품목 관리: 품목그룹 조회
+		    if( (url.includes('basic/itemgroup/list')) || (url.includes('basic/itemgroup/modify')) ){		// 괄호 안의 String이 발견되면 True 반환
+		        $("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
+				$("#BS_ItemManage div").children("a:eq(0)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
+				$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
+				$("#BS_ItemManage_a").attr("class", "nav-link");
+		    }
+	    	// 품목 관리: 품목그룹 등록
+		    if(url.includes('basic/itemgroup/create')){
+		        $("#BS_ItemManage").attr("class", "collapse show");
+				$("#BS_ItemManage div").children("a:eq(1)").attr("class", "collapse-item active");
+				$("#BS_ItemManage_a").attr("aria-expanded", "true");
+				$("#BS_ItemManage_a").attr("class", "nav-link");
+		    }
+		}
 	    // 거래처 관리: 거래처 관리
 	    if(url.includes('account/list')){
 	        $("#BS_AccManage").attr("class", "collapse show");

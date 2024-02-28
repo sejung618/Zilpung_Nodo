@@ -1,4 +1,4 @@
-package nodo.erp.Pd.DTO;
+package nodo.erp.Pp.ItemGroup;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;

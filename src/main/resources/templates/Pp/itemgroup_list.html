@@ -22,7 +22,7 @@
 	            <td th:text="${itemGroup.IgName}"></td>
 	            <td>
 					<a th:href="@{|/basic/itemgroup/modify/${itemGroup.id}|}"><img src="/img/pencil-solid.svg" alt="수정" style="height:15px"></a> / 
-					<a href="#"><img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px"></a>
+					<a class="delete" href="javascript:void(0);" th:data-uri="@{|/basic/itemgroup/delete/${itemGroup.id}|}"><img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px"></a>
 				</td>
 	        </tr>
 	    </tbody>
@@ -33,5 +33,16 @@
 	</div>
 	
 </div>
+
+<script layout:fragment="script" type='text/javascript'>
+	const delete_elements = document.getElementsByClassName("delete");
+	Array.from(delete_elements).forEach(function(element) {
+	    element.addEventListener('click', function() {
+	        if(confirm("정말로 삭제하시겠습니까?")) {
+	            location.href = this.dataset.uri;
+	        };
+	    });
+	});
+</script>
 
 </html>
