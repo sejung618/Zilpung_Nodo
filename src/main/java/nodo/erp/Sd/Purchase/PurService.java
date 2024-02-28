@@ -1,4 +1,4 @@
-package nodo.erp.Sd;
+package nodo.erp.Sd.Purchase;
 
 import java.util.List;
 import java.util.Optional;

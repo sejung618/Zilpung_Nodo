@@ -1,4 +1,4 @@
-package nodo.erp.Sd;
+package nodo.erp.Sd.Purchase;
 
 import java.util.List;
 
@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import nodo.erp.Sd.PurService;
-import nodo.erp.Sd.PurCreateForm;
+import nodo.erp.Sd.AccService;
+import nodo.erp.Sd.Account;
 
 @RequestMapping("/purchase")
 

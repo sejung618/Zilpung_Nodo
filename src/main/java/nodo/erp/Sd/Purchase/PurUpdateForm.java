@@ -1,4 +1,4 @@
-package nodo.erp.Sd;
+package nodo.erp.Sd.Purchase;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
