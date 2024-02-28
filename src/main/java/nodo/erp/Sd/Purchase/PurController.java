@@ -57,9 +57,6 @@ public class PurController {
 		return "redirect:/purchase/list";
 	}
 	
-	
-	
-	
 	@GetMapping("/delete/{id}")
 	public String PurDelete(@PathVariable("id") Integer id) {
 		this.purService.delete(id);
