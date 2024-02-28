@@ -57,28 +57,7 @@ public class PurController {
 		return "redirect:/purchase/list";
 	}
 	
-	@GetMapping("/update/{id}")
-	public String PurUpdate(PurUpdateForm purUpdateForm, @PathVariable("id") Integer id) {
-		Purchase pur = this.purService.getPurchase(id);
-		
-		purUpdateForm.setPC_Count(pur.getPC_Count());
-		purUpdateForm.setPC_Price(pur.getPC_Price());
-		purUpdateForm.setPC_CP(pur.getPC_CP());
-		purUpdateForm.setPC_VAT(pur.getPC_VAT());
-		purUpdateForm.setPC_VATSUM(pur.getPC_VATSUM());
-		
-		return "Sd/pur_update";
-	}
 	
-	@PostMapping("/update/{id}")
-	public String PurchaseUpdate(@PathVariable("id") Integer id, @Valid PurUpdateForm purUpdateForm, BindingResult bindResult) {
-		Purchase pur = this.purService.getPurchase(id);
-		if(bindResult.hasErrors()) {
-			return "Sd/pur_update";
-		}
-		this.purService.update(pur, purUpdateForm.getPC_Count(), purUpdateForm.getPC_Price(), purUpdateForm.getPC_CP(), purUpdateForm.getPC_VAT(), purUpdateForm.getPC_VATSUM());
-		return "redirect:/purchase/list";
-	}
 	
 	
 	@GetMapping("/delete/{id}")
