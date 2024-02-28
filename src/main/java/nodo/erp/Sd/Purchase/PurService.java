@@ -1,4 +1,4 @@
-package nodo.erp.Sd;
+package nodo.erp.Sd.Purchase;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,24 +65,12 @@ public class PurService {
 	
 	private Integer generatePCNum(String ymd) {
 		jakarta.persistence.Query query = entityManager.createQuery
-				("SELECT MAX(CAST(SUBSTRING(i.PC_Date,-3) AS int)) "
-						+ "FROM Purchase i WHERE SUBSTRING(i.PC_Date, 1, 6) = :ymd");
+				("SELECT MAX(CAST(SUBSTRING(i.PC_Num,-2) AS int)) "
+						+ "FROM Purchase i WHERE replace( SUBSTRING(i.PC_Num, 1, 6), '-','' ) = :ymd");
 		query.setParameter("ymd", ymd);
 		Integer maxNum = (Integer) query.getSingleResult();
 
 		return (maxNum == null) ? 1 : maxNum + 1;
-	}
-	
-	public void update(Purchase purchase, Integer PC_Count, Integer PC_Price, Integer PC_CP, Integer PC_VAT, Integer PC_VATSUM) {
-		Purchase pur = this.purRepositroy.findById(purchase.getId()).orElse(null);
-		
-		pur.setPC_Count(PC_Count);
-		pur.setPC_Price(PC_Price);
-		pur.setPC_CP(PC_Count * PC_Price);
-		pur.setPC_VAT(PC_CP / 10);
-        pur.setPC_VATSUM(PC_CP + PC_VAT);
-        
-        this.purRepositroy.save(pur);
 	}
 	
 	

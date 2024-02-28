@@ -73,7 +73,6 @@ public class AccService {
 	                    + "FROM Account i WHERE SUBSTRING(i.AC_Code, 4, 5) = :ym");
 	    query.setParameter("ym", ym);
 	    Integer maxNum = (Integer) query.getSingleResult();
-	    System.out.println(maxNum);
 
 	    return (maxNum == null) ? 1 : maxNum + 1;
 	}

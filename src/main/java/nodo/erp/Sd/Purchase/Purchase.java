@@ -1,4 +1,4 @@
-package nodo.erp.Sd;
+package nodo.erp.Sd.Purchase;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

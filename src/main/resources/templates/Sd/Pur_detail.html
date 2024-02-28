@@ -1,0 +1,28 @@
+<html layout:decorate="~{/layout}" >
+	<div layout:fragment="content" class="container my-3">
+		<h1 class="border-bottom py-2" th:text=" '구매번호 : ' + ${pur.PC_Num}"></h1>
+		
+		<h2 th:text="'구매회사(거래처) 정보'"></h2>
+		<div class="card my-3">
+			<div class="card-body">
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'회사명 - ' + pur.PC_Company +  '컴퍼니'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px;" th:value="${'회사 시리얼넘버 : ' + pur.PC_Code}" readonly/>
+			</div>
+		</div>
+		
+		<h3 th:text="'구매제품 정보'"></h3>
+		<div class="card my-3">
+			<div class="card-body">
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품명 : ' + pur.PC_Item}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품 구매갯수 : ' + pur.PC_Count + '개'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'제품가격 : '+ pur.PC_Price + '원'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'공급가액 : ' + pur.PC_CP + '원'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'부가세액 : ' + pur.PC_VAT + '원'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'총 액 : ' + pur.PC_VATSUM + '원'}" readonly/> 
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품 구매날짜 : ' + pur.PC_Date}" readonly/>
+			</div>
+		</div>
+</div>
+
+
+</html>

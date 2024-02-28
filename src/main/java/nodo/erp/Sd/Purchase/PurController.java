@@ -1,4 +1,4 @@
-package nodo.erp.Sd;
+package nodo.erp.Sd.Purchase;
 
 import java.util.List;
 
@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import nodo.erp.Sd.PurService;
-import nodo.erp.Sd.PurCreateForm;
+import nodo.erp.Sd.AccService;
+import nodo.erp.Sd.Account;
 
 @RequestMapping("/purchase")
 
@@ -57,30 +56,6 @@ public class PurController {
 		this.purService.create(purCreateForm.getPC_Num(), purCreateForm.getPC_Date(), purCreateForm.getPC_Code(), purCreateForm.getPC_Company(), purCreateForm.getPC_Item(), purCreateForm.getPC_Icode(), Integer.parseInt(purCreateForm.getPC_Count()), Integer.parseInt(purCreateForm.getPC_Price()), Integer.parseInt(purCreateForm.getPC_CP()) , Integer.parseInt(purCreateForm.getPC_VAT()), Integer.parseInt(purCreateForm.getPC_VATSUM()));
 		return "redirect:/purchase/list";
 	}
-	
-	@GetMapping("/update/{id}")
-	public String PurUpdate(PurUpdateForm purUpdateForm, @PathVariable("id") Integer id) {
-		Purchase pur = this.purService.getPurchase(id);
-		
-		purUpdateForm.setPC_Count(pur.getPC_Count());
-		purUpdateForm.setPC_Price(pur.getPC_Price());
-		purUpdateForm.setPC_CP(pur.getPC_CP());
-		purUpdateForm.setPC_VAT(pur.getPC_VAT());
-		purUpdateForm.setPC_VATSUM(pur.getPC_VATSUM());
-		
-		return "Sd/pur_update";
-	}
-	
-	@PostMapping("/update/{id}")
-	public String PurchaseUpdate(@PathVariable("id") Integer id, @Valid PurUpdateForm purUpdateForm, BindingResult bindResult) {
-		Purchase pur = this.purService.getPurchase(id);
-		if(bindResult.hasErrors()) {
-			return "Sd/pur_update";
-		}
-		this.purService.update(pur, purUpdateForm.getPC_Count(), purUpdateForm.getPC_Price(), purUpdateForm.getPC_CP(), purUpdateForm.getPC_VAT(), purUpdateForm.getPC_VATSUM());
-		return "redirect:/purchase/list";
-	}
-	
 	
 	@GetMapping("/delete/{id}")
 	public String PurDelete(@PathVariable("id") Integer id) {
