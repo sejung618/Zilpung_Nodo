@@ -12,14 +12,30 @@
 			<label for="SPDate" class="form-label">일자</label>
 			<input type="date" th:field="*{SPDate}" name="SPDate" id="SPDate" class="form-control">
 		</div>
+		
+		<div class="form-group mb-3">
+			<label for="SPACode" class="form-label">거래처코드</label>
+			<select class="form-control" th:field="*{SPACode}" name="SPACode" id="SPACode">
+				<option value="-">-</option>
+				<option th:each="account : ${accList}" th:value="${account.AC_Code}" th:text="${account.AC_Code}"
+					th:data-AC-Company="${account.AC_Company}"></option>
+			</select>
+		</div>
+
 		<div class="mb-3">
+			<label for="SPAName" class="form-label">거래처명</label>
+			<input type="text" th:field="*{SPAName}" name="SPAName" id="SPAName" class="form-control SPAName">
+		</div>
+		
+		<!--div class="mb-3">
 			<label for="SPAName" class="form-label">거래처명</label>
 			<input type="text" th:field="*{SPAName}" name="SPAName" id="SPAName" class="form-control">
 		</div>
 		<div class="mb-3">
 			<label for="SPACode" class="form-label">거래처코드</label>
 			<input type="text" th:field="*{SPACode}" name="SPACode" id="SPACode" class="form-control">
-		</div>
+		</div-->
+		
 		<div class="mb-3">
 			<label for="SPIName" class="form-label">품목명</label>
 			<input type="text" th:field="*{SPIName}" name="SPIName" id="SPIName" class="form-control">
@@ -30,10 +46,10 @@
 		</div>
 
 
-		<div class="mb-3">
-			<label for="jb-input-text">담당사번</label>
-			<select name="SPPNum" id="SPPNum" class="form-control">
-				<option value="">담당사번을 선택해주세요</option>
+		<div class="form-group mb-3">
+			<label for="SPPNum" class="form-label">담당사번</label>
+			<select class="form-control" th:field="*{SPPNum}" name="SPPNum" id="SPPNum">
+				<option value="-">-</option>
 				<option th:each="employee : ${empList}" th:value="${employee.empnum}" th:text="${employee.empnum}"
 					th:data-empname="${employee.empname}"></option>
 			</select>
@@ -68,7 +84,7 @@
 		</div>
 		<div class="form-group mb-3">
 			<label for="SPState" class="form-label">진행상태</label>
-			<select class="form-select" th:field="*{SPState}" name="SPState" id="SPState">
+			<select class="form-control" th:field="*{SPState}" name="SPState" id="SPState">
 				<option value="-">-</option>
 				<option value="미출고">미출고</option>
 				<option value="출고">출고</option>
@@ -77,7 +93,16 @@
 		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
 
 		<script th:inline="javascript">
+			
+			$(document).ready(function () {
+				$('#SPACode').change(function () {
+					var valueAC_Company = $(this).find(':selected').attr("data-AC-Company");
 
+					$('.SPAName').val(valueAC_Company);
+
+				});
+			});
+			
 			$(document).ready(function () {
 				$('#SPPNum').change(function () {
 					var valueempname = $(this).find(':selected').attr("data-empname");

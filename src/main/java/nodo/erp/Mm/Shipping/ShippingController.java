@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Service.Emp_Service;
+import nodo.erp.Sd.AccService;
+import nodo.erp.Sd.Account;
 
 
 
@@ -32,6 +34,7 @@ public class ShippingController {
 	
 	private final ShippingService shippingService;
 	private final Emp_Service emp_Service;
+	private final AccService accService;
 	
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -45,14 +48,20 @@ public class ShippingController {
 	@GetMapping("/create")
 	public String shippingCreate(Model model, ShippingForm shippingForm){
 		List<Employee> empList = this.emp_Service.getList();
+		List<Account> accList = this.accService.getList();
 		model.addAttribute("empList", empList);
+		model.addAttribute("accList", accList);
 		return "Mm/shipping_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String shippingCreate(@Valid ShippingForm shippingForm, BindingResult br, Authentication authentication) {
+	public String shippingCreate(Model model, @Valid ShippingForm shippingForm, BindingResult br, Authentication authentication) {
 		if (br.hasErrors()) {
+			List<Employee> empList = this.emp_Service.getList();
+			List<Account> accList = this.accService.getList();
+			model.addAttribute("empList", empList);
+			model.addAttribute("accList", accList);
 			return "Mm/shipping_form"; 
 		}
 		
@@ -75,7 +84,9 @@ public class ShippingController {
 	public String shippingModify(Model model, ShippingUpdateForm sf, @PathVariable("SPid") Integer SPid, Principal principal) {
 		Shipping shipping = this.shippingService.getShipping(SPid);
 		List<Employee> empList = this.emp_Service.getList();
+		List<Account> accList = this.accService.getList();
 		model.addAttribute("empList", empList);
+		model.addAttribute("accList", accList);
 		if(!shipping.getEmployee().getEmpnum().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
@@ -95,8 +106,12 @@ public class ShippingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{SPid}")
-    public String shippingModify(@Valid ShippingUpdateForm sf, BindingResult br, @PathVariable("SPid") Integer SPid, Principal principal) {
+    public String shippingModify(Model model, @Valid ShippingUpdateForm sf, BindingResult br, @PathVariable("SPid") Integer SPid, Principal principal) {
         if (br.hasErrors()) {
+        	List<Employee> empList = this.emp_Service.getList();
+    		List<Account> accList = this.accService.getList();
+    		model.addAttribute("empList", empList);
+    		model.addAttribute("accList", accList);
             return "Mm/shipping_update";
         }
         Shipping shipping = this.shippingService.getShipping(SPid); {

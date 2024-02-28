@@ -1,19 +1,10 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="content" class="container my-3">
+<div layout:fragment="content">
 	
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">재고조정 조회</h1>
 	</div>
-	
-    <div class="form-inline" style="justify-content:end;">
-		<select id="searchType" name="searchType">
-			<option value="all">전체</option>
-			<option value="INDate">일자</option> 
-			<option value="ININame">품목명</option>
-			<option value="INICode">품목코드</option>
-			<option value="INPName">담당자</option>
-			<option value="INPNum">담당사번</option>
-		</select>
+	<div class="form-inline" style="justify-content:end;">
 		<div class="input-group">
 			<input type="text" id="search_kw" class="form-control bg-light border-primary small" th:value="${kw}">
 			<div class="input-group-append">

@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Sd.Account;
 
 @Getter
 @Setter
@@ -59,5 +60,6 @@ public class Warehousing {
 	@ManyToOne
 	private Employee employee;
 	
-
+	@ManyToOne
+	private Account account;
 }
