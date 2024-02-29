@@ -31,21 +31,11 @@
 				<td>
 					<a th:href="@{|/shipping/detail/${shipping.SPid}|}" th:text="${shipping.SPDate}"></a>
 				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPAName}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPIName}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPDT}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPCAmount}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPState}">
-				</td>
+				<td th:text="${shipping.SPAName}"></td>
+				<td th:text="${shipping.SPIName}"></td>
+				<td th:text="${shipping.SPDT}"></td>
+				<td th:text="${shipping.SPCAmount}"></td>
+				<td th:text="${shipping.SPState}"></td>
 			</tr>
 		</tbody>
 	</table>

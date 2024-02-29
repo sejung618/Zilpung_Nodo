@@ -3,56 +3,46 @@
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">수정 및 삭제</h1>
 	</div>
-   	<table class="table table-bordered table-hover-td">
-      <thead class="table-primary">
-         <tr class="text-center">
-            <th>일자-No.</th>
-            <th>품목명</th>
-            <th>품목코드</th>
-            <th>담당자</th>
-            <th>담당자사번</th>
-            <th>수량</th>
-            <th>규격</th>
-         </tr>   
-      </thead>
-      <body>
-		  <tr class="text-center">
-         <td>
-            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INDate}">
-         </td>
-         <td>
-            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.ININame}">
-         </td>
-         <td>
-            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INICode}">
-         </td>
-         <td>
-            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INPName}">
-         </td>
-         <td>
-            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INPNum}">
-         </td>
-         <td>
-            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INQuantity}">
-         </td>
-         <td>
-            <th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INStandard}">
-         </td>
-         </tr>
-      </body>
-   </table>
-   <a th:href="@{|/inventory/modify/${inventory.INid}|}" class="btn btn-primary my-2" style="left: 85%; margin-right: 5px;" > 수정</a>
-   <a href="javascript:void(0);" th:data-uri="@{|/inventory/delete/${inventory.INid}|}" class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
+	<table class="table table-bordered table-hover-td">
+		<thead class="table-primary">
+			<tr class="text-center">
+				<th>일자-No.</th>
+				<th>품목명</th>
+				<th>품목코드</th>
+				<th>담당자</th>
+				<th>담당자사번</th>
+				<th>수량</th>
+				<th>규격</th>
+			</tr>
+		</thead>
 
-   <script type='text/javascript'>
-   const delete_elements = document.getElementsByClassName("delete");
-   Array.from(delete_elements).forEach(function(element) {
-       element.addEventListener('click', function() {
-           if(confirm("정말로 삭제하시겠습니까?")) {
-               location.href = this.dataset.uri;
-           };
-       });
-   });
-</script>
+		<body>
+			<tr class="text-center">
+				<td th:text="${inventory.INDate}"></td>
+				<td th:text="${inventory.ININame}"></td>
+				<td th:text="${inventory.INICode}"></td>
+				<td th:text="${inventory.INPName}"></td>
+				<td th:text="${inventory.INPNum}"></td>
+				<td th:text="${inventory.INQuantity}"></td>
+				<td th:text="${inventory.INStandard}"></td>
+			</tr>
+		</body>
+	</table>
+	<a th:href="@{|/inventory/modify/${inventory.INid}|}" class="btn btn-primary my-2"
+		style="left: 85%; margin-right: 5px;"> 수정</a>
+	<a href="javascript:void(0);" th:data-uri="@{|/inventory/delete/${inventory.INid}|}"
+		class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
+
+	<script type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
 </div>
+
 </html>
