@@ -44,11 +44,16 @@ public class Emp_Controller {
 //	}
 	//페이징
 	 @GetMapping("/list")
-	    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,
-	    		 @RequestParam(value = "kw", defaultValue = "") String kw) {
-	        Page<Employee> paging = this.emp_Service.getList(page,kw);
+	    public String list(Model model, 
+	    		@RequestParam(value="page", defaultValue="0") int page,
+	    		@RequestParam(value = "st", required = false, defaultValue = "") String st,
+	    		@RequestParam(value = "kw", defaultValue = "") String kw) {
+	        Page<Employee> paging = this.emp_Service.getList(page,kw,st);
+	        System.out.println(st);
+	        System.out.println(kw);
 	        model.addAttribute("paging", paging);
 	        model.addAttribute("kw", kw);
+	        model.addAttribute("st",st);
 	        return "/Hr/Emp_List";
 	    }
 
