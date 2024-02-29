@@ -44,9 +44,11 @@ public class Emp_Controller {
 //	}
 	//페이징
 	 @GetMapping("/list")
-	    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
-	        Page<Employee> paging = this.emp_Service.getList(page);
+	    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,
+	    		 @RequestParam(value = "kw", defaultValue = "") String kw) {
+	        Page<Employee> paging = this.emp_Service.getList(page,kw);
 	        model.addAttribute("paging", paging);
+	        model.addAttribute("kw", kw);
 	        return "/Hr/Emp_List";
 	    }
 
@@ -114,7 +116,7 @@ public class Emp_Controller {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
 //        }
         this.emp_Service.delete(emp);
-        return "redirect:/";
+        return "redirect:/Hr/logout";
     }
     
     
