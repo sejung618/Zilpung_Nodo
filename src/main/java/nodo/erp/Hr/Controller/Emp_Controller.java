@@ -36,24 +36,17 @@ public class Emp_Controller {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 		
-//	@GetMapping("/list")
-//	public String Emplist(Model model) {
-//		List<Hr_Dto_Emp> EmpList = this.hr_Service.getList();
-//		model.addAttribute("EmpList", EmpList);
-//		return "Hr/Emp_List";
-//	}
-	//페이징
 	 @GetMapping("/list")
 	    public String list(Model model, 
 	    		@RequestParam(value="page", defaultValue="0") int page,
 	    		@RequestParam(value = "st", required = false, defaultValue = "") String st,
-	    		@RequestParam(value = "kw", defaultValue = "") String kw) {
-	        Page<Employee> paging = this.emp_Service.getList(page,kw,st);
-	        System.out.println(st);
-	        System.out.println(kw);
+	    		@RequestParam(value = "kw", defaultValue = "") String kw,
+	    		@RequestParam(value = "sort", defaultValue = "id") String sort) {
+	        Page<Employee> paging = this.emp_Service.getList(page,kw,st,sort);
 	        model.addAttribute("paging", paging);
 	        model.addAttribute("kw", kw);
 	        model.addAttribute("st",st);
+	        model.addAttribute("sort",sort);
 	        return "/Hr/Emp_List";
 	    }
 

@@ -29,18 +29,33 @@
 			<input type="hidden" id="page" name="page" th:value="${paging.number}">
 		</form>
 
+	<div class="col-6">
+			<div class="input-group">
+				<div class="input-group-append">
+					<select class="custom-select" id="sortType" th:value="${sort}">
+						<option value="empposition">직책</option>
+						<option value="empnum">사번</option>
+						<option value="empname">이름</option>
+						<option value="depart.depname">부서</option>
+						<option value="empposition">직책</option>
+						<option value="empdate">입사일</option>
+						<option value="empm">입사월</option>
+					</select>
+				</div>
+				<button class="btn btn-outline-secondary" type="button" id="btn_sort">정렬</button>
+			</div>
+		</div>
+		<form th:action="@{/Hr/list}" method="get" id="sortForm">
+			<input type="hidden" id="sort" name="sort" th:value="${sort}">
+			<input type="hidden" id="page" name="page" th:value="${paging.number}">
+		</form>
+
 		<!--테이블 시작-->
 		<table class="table table-bordered table-hover-td">
 
 			<thead class="table-primary">
 				<tr class="text-center">
-					<th>
-						<a
-							th:href="@{|/Hr/list?page=${paging.number}&kw=${kw}&sort=empnum,${sort == 'empnum' ? (order == 'asc' ? 'desc' : 'asc') : 'asc'}|}">
-							사번
-							<span th:if="${sort == 'empnum'}" th:text="${order == 'asc' ? '▲' : '▼'}"></span>
-						</a>
-					</th>
+					<th>사번</th>
 					<th>이름</th>
 					<th>입사일</th>
 					<th>부서</th>
@@ -140,8 +155,8 @@
 
 
 
-		<!--
-	검색 자바스크립트-->
+		
+	<!--검색 자바스크립트-->
 		<script layout:fragment="script" type='text/javascript'>
 			const page_elements = document.getElementsByClassName("page-link");
 			Array.from(page_elements).forEach(function (element) {
@@ -156,6 +171,12 @@
 				document.getElementById('st').value = document.getElementById('searchType').value;
 				document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
 				document.getElementById('searchForm').submit();
+			});
+			const btn_search1 = document.getElementById("btn_sort");
+			btn_search1.addEventListener('click', function () {
+				document.getElementById('sort').value = document.getElementById('sortType').value;
+				document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+				document.getElementById('sortForm').submit();
 			});
 
 		</script>
@@ -206,6 +227,7 @@
 				searchInput.value = ""; // 입력 필드의 값을 빈 문자열로 설정하여 지움
 			});
 		</script>
+
 
 
 	</div>
