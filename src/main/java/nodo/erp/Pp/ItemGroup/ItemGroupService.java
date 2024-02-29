@@ -18,6 +18,18 @@ public class ItemGroupService {
 		return this.itemGroupRepository.findAll();
 	}
 	
+	public String getIgCodeIdByName(String IgName) {
+		String IgCode = "";
+		List<ItemGroup> itemGroupList = this.itemGroupRepository.findAll();
+		for(ItemGroup ig : itemGroupList) {
+			if((ig.getIgName()).equals(IgName)) {
+				IgCode = ig.getIgCode();
+				break;
+			}
+		}
+		return IgCode;
+	}
+	
 	public ItemGroup getItemGroup(Integer id) {
 		Optional<ItemGroup> itemGroup = this.itemGroupRepository.findById(id);
 		if (itemGroup.isPresent()) {
