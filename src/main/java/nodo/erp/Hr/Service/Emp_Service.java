@@ -58,7 +58,9 @@ public class Emp_Service {
 	}
 	
 	 public Page<Employee> getList(int page) {
-	        Pageable pageable = PageRequest.of(page, 10);
+		 	List<Sort.Order> sorts = new ArrayList<>();
+	        sorts.add(Sort.Order.desc("empspot")); //asc오름차순
+	        Pageable pageable = PageRequest.of(page, 10); //,Sort.by(sorts)
 	        return this.emp_Repository.findAll(pageable);
 	    }
 	 
@@ -83,7 +85,7 @@ public class Emp_Service {
 		q.setEmpspot(empspot);
 		q.setEmpposition(empposition);
 		q.setDepart(depart);
-		q.setId(generateEmpId());
+//		q.setId(generateEmpId());
 		q.setEmpnum(stre + Num);
 		//q.setEmpvaca(vaca(strv));
         //q.setPassword(passwordEncoder.encode(stre + Num));
@@ -149,6 +151,8 @@ public class Emp_Service {
 	 public void delete(Employee hr_Dto_Emp) {
 	        this.emp_Repository.delete(hr_Dto_Emp);
 	    }
+	 
+	 
 	 
 	 
 }

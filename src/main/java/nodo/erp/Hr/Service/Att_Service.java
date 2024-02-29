@@ -15,6 +15,9 @@ import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Attendance;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Repository.Att_Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +29,11 @@ public class Att_Service {
 	public List<Attendance> getList() {
 		return this.att_Repository.findAll();
 	}
+	
+	public Page<Attendance> getList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return this.att_Repository.findAll(pageable);
+    }
 	
 	public List<Attendance> getdetailList(Employee employee) {
 		 List<Attendance> Detail = this.att_Repository.findByEmployee(employee);

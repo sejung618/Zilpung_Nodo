@@ -114,7 +114,7 @@ public class Emp_Controller {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
 //        }
         this.emp_Service.delete(emp);
-        return "redirect:/";
+        return "redirect:/Hr/logout";
     }
     
     

@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Entity.Attendance;
@@ -31,17 +32,26 @@ public class Att_Controller {
 	private final Emp_Service emp_Service;
 
 //	@GetMapping("/list")
-//	public String Attlist(Model model) {
-//		List<Attendance> AttList = this.att_Service.getList();
-//		model.addAttribute("AttList", AttList);
-//		return "Hr/Att_list";
+//	public String Attlist(Model model, Authentication authentication) {
+//		if (authentication != null && authentication.isAuthenticated()) {
+//			// 로그인한 사용자에게만 허용
+//			List<Attendance> AttList = this.att_Service.getList();
+//			model.addAttribute("AttList", AttList);
+//			return "Hr/Att_list";
+//		} else {
+//			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리
+//			return "redirect:/Hr/login";
+//		}
+//
 //	}
+	
 	@GetMapping("/list")
-	public String Attlist(Model model, Authentication authentication) {
+	public String Attlist(Model model, Authentication authentication
+			,@RequestParam(value="page", defaultValue="0") int page) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			// 로그인한 사용자에게만 허용
-			List<Attendance> AttList = this.att_Service.getList();
-			model.addAttribute("AttList", AttList);
+			Page<Attendance> paging  = this.att_Service.getList(page);
+			model.addAttribute("paging", paging);
 			return "Hr/Att_list";
 		} else {
 			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리
@@ -49,6 +59,8 @@ public class Att_Controller {
 		}
 
 	}
+	
+	
 	
 	@GetMapping("/detail")
 	public String Attlist1(Model model, Authentication authentication) {
