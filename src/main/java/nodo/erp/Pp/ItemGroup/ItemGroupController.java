@@ -24,36 +24,37 @@ public class ItemGroupController {
     public String list(Model model) {
 		List<ItemGroup> itemGroupList = this.itemGroupService.getList();
 		model.addAttribute("itemGroupList", itemGroupList);
-        return "Pp/itemgroup_list";
+        return "Pp/itemgroup/itemgroup_list";
     }
 	
 	@GetMapping(value = "/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
         ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
         model.addAttribute("itemGroup", itemGroup);
-		return "Pp/itemgroup_detail";
+		return "Pp/itemgroup/itemgroup_detail";
     }
 	
 	@GetMapping("/create")
 	public String ItemGroupCreate(ItemGroupForm itemGroupForm) {
-		return "Pp/itemgroup_form";
-	}
-	
-	@PostMapping("/create")
-    public String ItemGroupCreate(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-            return "Pp/itemgroup_form";
-        }
-		
 		List<ItemGroup> itemGroupList = this.itemGroupService.getList();
 		if (itemGroupList.size() == 0) {
 			this.itemGroupService.create("IG-001", itemGroupForm.getIgName());
 		} else {
 			String FinalIgCode = itemGroupList.get(itemGroupList.size()-1).getIgCode();
 			int NewIgCodeNum = Integer.parseInt(FinalIgCode.substring(3)) + 1;
-			String NewIgCode = "IG-" + String.format("%03d", NewIgCodeNum); 
-			this.itemGroupService.create(NewIgCode, itemGroupForm.getIgName());
+			String NewIgCode = "IG-" + String.format("%03d", NewIgCodeNum);
+			itemGroupForm.setIgCode(NewIgCode);
 		}
+		return "Pp/itemgroup/itemgroup_form";
+	}
+	
+	@PostMapping("/create")
+    public String ItemGroupCreate(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+            return "Pp/itemgroup/itemgroup_form";
+        }
+		this.itemGroupService.create(itemGroupForm.getIgCode(), itemGroupForm.getIgName());
+		
         return "redirect:/basic/itemgroup/list";
     }
 	
@@ -63,13 +64,13 @@ public class ItemGroupController {
 		itemGroupForm.setIgCode(itemGroup.getIgCode());
 		itemGroupForm.setIgName(itemGroup.getIgName());
 		model.addAttribute("itemGroupForm", itemGroup);
-		return "Pp/itemgroup_modify";
+		return "Pp/itemgroup/itemgroup_modify";
 	}
 	
 	@PostMapping("/modify/{id}")
 	public String ItemGroupModify(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult, @PathVariable("id") Integer id) {
 		if (bindingResult.hasErrors()) {
-            return "question_form";
+            return "itemgroup_form";
         }
 		ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
 		this.itemGroupService.modify(itemGroup, itemGroupForm.getIgName());

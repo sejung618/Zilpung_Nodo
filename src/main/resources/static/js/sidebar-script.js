@@ -4,22 +4,41 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
     
     // 기본사항 관리
     	// 품목 관리
-    	if(url.includes('basic/itemgroup')){
-	    	// 품목 관리: 품목그룹 조회
-		    if( (url.includes('basic/itemgroup/list')) || (url.includes('basic/itemgroup/modify')) ){		// 괄호 안의 String이 발견되면 True 반환
-		        $("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
-				$("#BS_ItemManage div").children("a:eq(0)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
-				$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
-				$("#BS_ItemManage_a").attr("class", "nav-link");
-		    }
-	    	// 품목 관리: 품목그룹 등록
-		    if(url.includes('basic/itemgroup/create')){
-		        $("#BS_ItemManage").attr("class", "collapse show");
-				$("#BS_ItemManage div").children("a:eq(1)").attr("class", "collapse-item active");
-				$("#BS_ItemManage_a").attr("aria-expanded", "true");
-				$("#BS_ItemManage_a").attr("class", "nav-link");
-		    }
-		}
+    	if(url.includes('basic')){
+			// 품목그룹 관리
+			if(url.includes('itemgroup')){
+				// 품목그룹 등록
+			    if(url.includes('create')){
+			        $("#BS_ItemManage").attr("class", "collapse show");
+					$("#BS_ItemManage div").children("a:eq(0)").attr("class", "collapse-item active");
+					$("#BS_ItemManage_a").attr("aria-expanded", "true");
+					$("#BS_ItemManage_a").attr("class", "nav-link");
+			    }
+		    	// 품목그룹 조회
+			    if( (url.includes('list')) || (url.includes('basic/itemgroup/modify')) ){		// 괄호 안의 String이 발견되면 True 반환
+			        $("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
+					$("#BS_ItemManage div").children("a:eq(1)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
+					$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
+					$("#BS_ItemManage_a").attr("class", "nav-link");
+			    }
+			}	// End of includes('itemgroup')
+			if(url.includes('item/')){
+				// 품목 등록
+			    if(url.includes('create')){
+			        $("#BS_ItemManage").attr("class", "collapse show");
+					$("#BS_ItemManage div").children("a:eq(2)").attr("class", "collapse-item active");
+					$("#BS_ItemManage_a").attr("aria-expanded", "true");
+					$("#BS_ItemManage_a").attr("class", "nav-link");
+			    }
+		    	// 품목 조회
+			    if( (url.includes('list')) || (url.includes('basic/itemgroup/modify')) ){		// 괄호 안의 String이 발견되면 True 반환
+			        $("#BS_ItemManage").attr("class", "collapse show");		// 아코디언 메뉴 열기
+					$("#BS_ItemManage div").children("a:eq(3)").attr("class", "collapse-item active");	// 선택 메뉴 텍스트 변화
+					$("#BS_ItemManage_a").attr("aria-expanded", "true");		// 화살표 방향(▽)
+					$("#BS_ItemManage_a").attr("class", "nav-link");
+			    }
+			}	// End of includes('item')
+		}	// End of includes('basic')
 	    // 거래처 관리: 거래처 관리
 	    if(url.includes('account/list')){
 	        $("#BS_AccManage").attr("class", "collapse show");
@@ -28,14 +47,14 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 			$("#BS_AccManage_a").attr("class", "nav-link");
 	    }
      	// 창고 관리: 서브 메뉴 1
-	    if(url.includes('basic/storage/list')){
+	    if(url.includes('storage/list')){
 	        $("#BS_StorageMange").attr("class", "collapse show");
 			$("#BS_StorageMange div").children("a:eq(0)").attr("class", "collapse-item active");
 			$("#BS_StorageMange_a").attr("aria-expanded", "true");
 			$("#BS_StorageMange_a").attr("class", "nav-link");
 	    }
      	// 창고 관리: 서브 메뉴 2
-	    if(url.includes('basic/storage/create')){
+	    if(url.includes('storage/create')){
 	        $("#BS_StorageMange").attr("class", "collapse show");
 			$("#BS_StorageMange div").children("a:eq(1)").attr("class", "collapse-item active");
 			$("#BS_StorageMange_a").attr("aria-expanded", "true");
