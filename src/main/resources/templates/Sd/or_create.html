@@ -1,0 +1,122 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		<h1 class=" my-3 border-bottom pb-2">발주 신청</h1>
+		<form id="form1" th:action="@{/orders/create}" th:object="${orCreateForm}" method="post">
+			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+				<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+			</div>
+			
+			<div class="mb-3">
+				<label for="jb-input-text">발주할 내용의 구매정보 코드를 아래 체크박스에서 골라주세요.</label>
+				<select name="OR_Num" id="OR_Num" class="form-control" style="width: 50%;">
+					<option value="">구매정보 코드를 선택해주세요.</option>
+					<option th:each="purchase : ${PurList}" th:value="${'OR-' + purchase.PC_Num}" 
+					th:text="${purchase.PC_Num}"
+					th:data-PC-Company="${purchase.PC_Company}"
+					th:data-PC-Item="${purchase.PC_Item}"
+					th:data-PC-Icode="${purchase.PC_Icode}"
+					th:data-PC-Count="${purchase.PC_Count}"
+					th:data-PC-Price="${purchase.PC_Price}"
+					th:data-PC-CP="${purchase.PC_CP}"
+					th:data-PC-VAT="${purchase.PC_VAT}"
+					th:data-PC-VATSUM="${purchase.PC_VATSUM}"
+					th:data-PC-Code="${purchase.PC_Code}">
+					</option>
+				</select>	
+			</div>
+			
+			<div>
+				회사명 <input type="text" id="OR_Company" name="OR_Company"  class="form-control OR_Company">
+			</div>
+			
+			<div>
+				회사코드 <input type="text" id="OR_Code" name="OR_Code"  class="form-control OR_Code">
+			</div>
+			
+			<div>
+				발주 제품명 <input type="text" id="OR_Item" name="OR_Item"  class="form-control OR_Item">
+			</div>
+			
+			<div>
+				발주 제품코드 <input type="text" id="OR_Icode" name="OR_Icode"  class="form-control OR_Icode">
+			</div>
+			
+			<div>
+				발주 제품수량 <input type="text" id="OR_Count" name="OR_Count"  class="form-control OR_Count">
+			</div>
+			
+			<div>
+				발주 제품단가 <input type="text" id="OR_Price" name="OR_Price"  class="form-control OR_Price">
+			</div>
+			
+			<div>
+				공급가액 <input type="text" id="OR_CP" name="OR_CP"  class="form-control OR_CP">
+			</div>
+			
+			<div>
+				부가세액 <input type="text" id="OR_VAT" name="OR_VAT"  class="form-control OR_VAT">
+			</div>
+			
+			<div>
+				발주 총 액 <input type="text" id="OR_VATSUM" name="OR_VATSUM"  class="form-control OR_VATSUM">
+			</div>
+			
+			<div class="form-group mb-3">
+			<label for="SPState" class="form-label">금액 납부여부</label>
+			<select class="form-control" th:field="*{OR_Pay}" name="OR_Pay" id="OR_Pay">
+				<option value="-">-</option>
+				<option value="O">O</option>
+				<option value="X">X</option>
+			</select>
+		</div>
+			
+			<div class="mb-3">
+				<label for="jb-input-text">발주 신청날짜</label>
+				<input type="date" name="OR_Date" id="OR_Date" th:field="*{OR_Date}" class="form-control">
+			</div>
+			
+			<div class="mb-3">
+			<input type="button" onclick="formSubmit();" value="발주신청 완료" class="btn btn-primary my-2">
+		</div>
+			
+			<script th:inline="javascript">
+			$(document).ready(function () {
+				$('#OR_Num').change(function () {
+					// purchase 테이블에서 값을 가져오는 부분
+					var valuePC_Company = $(this).find(':selected').attr("data-PC-Company");
+					var valuePC_Item = $(this).find(':selected').attr("data-PC-Item");
+					var valuePC_Icode = $(this).find(':selected').attr("data-PC-Icode");
+					var valuePC_Code = $(this).find(':selected').attr("data-PC-Code");
+					var valuePC_Count = $(this).find(':selected').attr("data-PC-Count");
+					var valuePC_Price = $(this).find(':selected').attr("data-PC-Price");
+					var valuePC_CP = $(this).find(':selected').attr("data-PC-CP");
+					var valuePC_VAT = $(this).find(':selected').attr("data-PC-VAT");
+					var valuePC_VATSUM = $(this).find(':selected').attr("data-PC-VATSUM");
+					
+					
+					// 각 값을 orders 테이블에 할당하는 부분
+					$('.OR_Company').val(valuePC_Company);
+					$('.OR_Item').val(valuePC_Item);
+					$('.OR_Icode').val(valuePC_Icode);
+					$('.OR_Code').val(valuePC_Code);
+					$('.OR_Count').val(valuePC_Count);
+					$('.OR_Price').val(valuePC_Price);
+					$('.OR_CP').val(valuePC_CP);
+					$('.OR_VAT').val(valuePC_VAT);
+					$('.OR_VATSUM').val(valuePC_VATSUM);
+					
+				});
+			});
+			
+			function formSubmit(){
+				 <!--
+				  PC_Num과 OR_Num 뒤 10자리를 비교하여
+				  OR_Num에 10자리 데이터가 존재 할 경우 신청이 안된다 메시지 출력,
+				  데이터가 존재하지 않을 경우 신청이 완료되게하는 기능 추가예정
+				  -->
+				document.getElementById("form1").submit();
+			}
+			</script>
+		</form>
+	</div>
+</html>

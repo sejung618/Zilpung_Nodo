@@ -19,10 +19,35 @@
 				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'공급가액 : ' + pur.PC_CP + '원'}" readonly/>
 				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'부가세액 : ' + pur.PC_VAT + '원'}" readonly/>
 				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'총 액 : ' + pur.PC_VATSUM + '원'}" readonly/> 
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품 구매날짜 : ' + pur.PC_Date}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품 구매요청날짜 : ' + pur.PC_Date}" readonly/>
 			</div>
 		</div>
+		<!--
+		<div class="my-3">
+			<a th:data-uri="@{/orders/create/${pur.PC_Num}}" class="create btn btn-primary" data-pc-num="${pur.PC_Num}" data-or-num="${pur.OR_Num}">발주 신청</a>
+		</div>
+		-->
 </div>
+<!--
+<script layout:fragment="script" type="text/javascript">
+    const create_elements = document.getElementsByClassName("create");
+    Array.from(create_elements).forEach(function(element){
+        element.addEventListener('click', function(){
+            
+            let PC_Num_Last10 = this.dataset.PC_Num.substring(this.dataset.PC_Num.length - 10);
+            let OR_Num_Last10 = this.dataset.OR_Num.substring(this.dataset.OR_Num.length - 10);
 
+            if (PC_Num_Last10 === OR_Num_Last10) {
+                // 동일한 경우: 발주가 이미 완료된 상태이므로 추가 발주가 불가능합니다.
+                alert("해당 발주는 이미 완료된 상태이므로 추가 발주가 불가능합니다.");
+            } else {
+                // 동일하지 않은 경우: 추가 발주 가능
+                alert("이 데이터의 정보대로 발주를 신청하시겠습니까?");
+            }
 
+            location.href = this.dataset.uri;
+        });
+    });
+</script>
+-->
 </html>

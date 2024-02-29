@@ -29,7 +29,7 @@ public class OrService {
 	}
 	
 	public void create(String OR_Num, String OR_Date, String OR_Item, String OR_Icode, String OR_Company,
-			Integer OR_Count, Integer OR_Price, Integer OR_CP, float VAT, Integer OR_VAT, Integer OR_VATSUM, String OR_Pay) {
+			Integer OR_Count, Integer OR_Price, Integer OR_CP, float VAT, Integer OR_VAT, Integer OR_VATSUM, String OR_Pay, String OR_Code) {
 		Orders or = new Orders();
 		
 		or.setOR_Num(OR_Num);
@@ -44,6 +44,7 @@ public class OrService {
 	    or.setOR_VAT(OR_VAT);
 	    or.setOR_VATSUM(OR_VATSUM);
 	    or.setOR_Pay(OR_Pay);
+	    or.setOR_Code(OR_Code);
 	    
 	    this.orRepository.save(or);
 	}

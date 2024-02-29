@@ -55,7 +55,7 @@ public class OrController {
 				orCreateForm.getOR_Company(), Integer.parseInt(orCreateForm.getOR_Count()),
 				Integer.parseInt(orCreateForm.getOR_Price()), Integer.parseInt(orCreateForm.getOR_CP()),
 				orCreateForm.getVAT(), Integer.parseInt(orCreateForm.getOR_VAT()),
-				Integer.parseInt(orCreateForm.getOR_VATSUM()), orCreateForm.getOR_Pay());
+				Integer.parseInt(orCreateForm.getOR_VATSUM()), orCreateForm.getOR_Pay(), orCreateForm.getOR_Code());
 		return "redirect:/orders/list";
 	}
 	

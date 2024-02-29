@@ -1,18 +1,37 @@
 <html layout:decorate="~{/layout}">
-	<div layout:fragment="content" class="container my-3">
+	<div layout:fragment="content">
 		
 		<h1> 발주 현황 </h1>
-		<table class="table">
+		<table class="table table-bordered table hover-td">
 			<thead class="table-primary">
 				<tr class="text-center">
 					<th>번호</th>
 					<th>발주번호</th>
-					<th>발주 회사명</th>
+					<th>발주 회사명(회사코드)</th>
 					<th>발주 제품</th>
+					<th>발주 제품 수량(제품가격)</th>
+					<th>공급가액</th>
+					<th>총 액</th>
 					<th>발주 날짜</th>
+					<th>금액 납부 여부</th>
 				</tr>
 			</thead>
+			
+			<tbody>
+				<tr class="text-center table-active" th:each="Orders, loop:${OrList}">
+					<td th:text="${loop.count}"></td>
+					<td th:text="${Orders.OR_Num}"></td>
+					<td th:text="${Orders.OR_Company + '(' + Orders.OR_Code + ')'}"></td>
+					<td th:text="${Orders.OR_Item}"></td>
+					<td th:text="${Orders.OR_Count + '개' + '(' + Orders.OR_Price + ')'}"></td>
+					<td th:text="${Orders.OR_CP + '원'}"></td>
+					<td th:text="${Orders.OR_VATSUM + '원'}"></td>
+					<td th:text="${Orders.OR_Date}"></td>
+					<td th:text="${Orders.OR_Pay}"></td>
+				</tr>
+			</tbody>
 		</table>
-		
+		<a th:href="@{/orders/create}" class="btn btn-primary">발주 신청</a>
 	</div>
+	
 </html>
