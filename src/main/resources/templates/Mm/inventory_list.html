@@ -1,18 +1,27 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content">
-	
+
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">재고조정 조회</h1>
 	</div>
-	<div class="form-inline" style="justify-content:end;">
-		<div class="input-group">
-			<input type="text" id="search_kw" class="form-control bg-light border-primary small" th:value="${kw}">
-			<div class="input-group-append">
-				<button class="btn btn-primary" type="button" id="btn_search">
-					<i class="fas fa-search fa-sm" aria-hidden="true"></i>
-				</button>
+	<div class="form-inline" style="float:right;">
+		<form method="get" th:action="@{/inventory/list}" style="display:flex;">
+			<select class="form-control" id="category" name="category">
+				<option value="">검색조건</option>
+				<option value="INDate">일자</option>
+				<option value="ININame">품목명</option>
+				<option value="INICode">품목코드</option>
+			</select>
+			<div class="input-group">
+				<input type="text" id="search_kw" name="kw" class="form-control bg-light border-primary small"
+					th:value="${kw}" placeholder="검색어를 입력하세요.">
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="submit" id="btn_search">
+						<i class="fas fa-search fa-sm" aria-hidden="true"></i>
+					</button>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 	<table class="table table-bordered table-hover-td">
 		<thead class="table-primary">
@@ -23,7 +32,7 @@
 				<th>품목코드</th>
 				<th>수량</th>
 				<th>규격</th>
-			</tr>	
+			</tr>
 		</thead>
 		<tbody>
 			<tr class="text-center" th:each="inventory, loop : ${paging}">
@@ -31,66 +40,58 @@
 				<td>
 					<a th:href="@{|/inventory/detail/${inventory.INid}|}" th:text="${inventory.INDate}"></a>
 				</td>
-				<td>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.ININame}">
-				</td>
-				<td>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INICode}">
-				</td>
-				<td>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INQuantity}">
-				</td>
-				<td>
-					<th:text="@{|/inventory/${inventory.INid}|}" th:text="${inventory.INStandard}">
-				</td>
+				<td th:text="${inventory.ININame}"></td>
+				<td th:text="${inventory.INICode}"></td>
+				<td th:text="${inventory.INQuantity}"></td>
+				<td th:text="${inventory.INStandard}"></td>
 			</tr>
 		</tbody>
-		
+
 	</table>
-    <!-- 페이징처리 시작 -->
-    <div th:if="${!paging.isEmpty()}">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                 <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
-                    <span>이전</span>
-                </a>
-            </li>
-            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                th:classappend="${page == paging.number} ? 'active'" 
-                class="page-item">
-                <a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
-            </li>
-            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
-                    <span>다음</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <!-- 페이징처리 끝 -->
-    <div class="col-6">
+	<!-- 페이징처리 시작 -->
+	<div th:if="${!paging.isEmpty()}">
+		<ul class="pagination justify-content-center">
+			<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+					<span>이전</span>
+				</a>
+			</li>
+			<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+				th:if="${page >= paging.number-5 and page <= paging.number+5}"
+				th:classappend="${page == paging.number} ? 'active'" class="page-item">
+				<a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+			</li>
+			<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+					<span>다음</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 페이징처리 끝 -->
+	<div class="col-6">
 		<a th:href="@{/inventory/create}" class="btn btn-primary" style="left: 180%;"> 재고조정</a>
 	</div>
 	<form th:action="@{/inventory/list}" method="get" id="searchForm">
-        <input type="hidden" id="kw" name="kw" th:value="${kw}">
-        <input type="hidden" id="page" name="page" th:value="${paging.number}">
-    </form>
-</dvi>
-<script layout:fragment="script" type='text/javascript'>
-const page_elements = document.getElementsByClassName("page-link");
-Array.from(page_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        document.getElementById('page').value = this.dataset.page;
-        document.getElementById('searchForm').submit();
-    });
-});
-const btn_search = document.getElementById("btn_search");
-btn_search.addEventListener('click', function() {
-    document.getElementById('kw').value = document.getElementById('search_kw').value;
-    document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
-    document.getElementById('searchForm').submit();
-});
-</script>
+		<input type="hidden" id="kw" name="kw" th:value="${kw}">
+		<input type="hidden" id="page" name="page" th:value="${paging.number}">
+	</form>
+	</dvi>
+	<script layout:fragment="script" type='text/javascript'>
+		const page_elements = document.getElementsByClassName("page-link");
+		Array.from(page_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				document.getElementById('page').value = this.dataset.page;
+				document.getElementById('searchForm').submit();
+			});
+		});
+		const btn_search = document.getElementById("btn_search");
+		btn_search.addEventListener('click', function () {
+			document.getElementById('kw').value = document.getElementById('search_kw').value;
+			document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+			document.getElementById('searchForm').submit();
+		});
+	</script>
 </div>
+
 </html>

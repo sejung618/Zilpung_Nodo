@@ -24,39 +24,17 @@
 
 		<body>
 			<tr class="text-center">
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHDate}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHAName}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHACode}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHIName}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHICode}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHPName}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHPNum}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHDT}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHCAmount}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHLocation}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHState}">
-				</td>
+				<td th:text="${warehousing.WHDate}"></td>
+				<td th:text="${warehousing.WHAName}"></td>
+				<td th:text="${warehousing.WHACode}"></td>
+				<td th:text="${warehousing.WHIName}"></td>
+				<td th:text="${warehousing.WHICode}"></td>
+				<td th:text="${warehousing.WHPName}"></td>
+				<td th:text="${warehousing.WHPNum}"></td>
+				<td th:text="${warehousing.WHDT}"></td>
+				<td th:text="${warehousing.WHCAmount}"></td>
+				<td th:text="${warehousing.WHLocation}"></td>
+				<td th:text="${warehousing.WHState}"></td>
 			</tr>
 		</body>
 	</table>

@@ -1,5 +1,5 @@
 <html layout:decorate="~{/layout}">
-<div layout:fragment="content" >
+<div layout:fragment="content">
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">수정 및 삭제</h1>
 	</div>
@@ -22,39 +22,17 @@
 
 		<body>
 			<tr class="text-center">
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPDate}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPAName}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPACode}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPIName}">
-				</td>
-				<td>
-					<th:text="@{| /shipping/${shipping.SPid}|}" th:text="${shipping.SPICode}">
-				</td>
-				<td>
-					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPPName}">
-				</td>
-				<td>
-					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPPNum}">
-				</td>
-				<td>
-					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPDT}">
-				</td>
-				<td>
-					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPCAmount}">
-				</td>
-				<td>
-					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPLocation}">
-				</td>
-				<td>
-					<th:text="@{|/shipping/${shipping.SPid}|}" th:text="${shipping.SPState}">
-				</td>
+				<td th:text="${shipping.SPDate}"></td>
+				<td th:text="${shipping.SPAName}"></td>
+				<td th:text="${shipping.SPACode}"></td>
+				<td th:text="${shipping.SPIName}"></td>
+				<td th:text="${shipping.SPICode}"></td>
+				<td th:text="${shipping.SPPName}"></td>
+				<td th:text="${shipping.SPPNum}"></td>
+				<td th:text="${shipping.SPDT}"></td>
+				<td th:text="${shipping.SPCAmount}"></td>
+				<td th:text="${shipping.SPLocation}"></td>
+				<td th:text="${shipping.SPState}"></td>
 			</tr>
 		</body>
 	</table>

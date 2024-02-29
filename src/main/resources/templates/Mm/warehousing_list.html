@@ -33,21 +33,11 @@
 				<td>
 					<a th:href="@{|/warehousing/detail/${warehousing.WHid}|}" th:text="${warehousing.WHDate}"></a>
 				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHAName}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHIName}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHDT}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHCAmount}">
-				</td>
-				<td>
-					<th:text="@{| /warehousing/${warehousing.WHid}|}" th:text="${warehousing.WHState}">
-				</td>
+				<td th:text="${warehousing.WHAName}"></td>
+				<td th:text="${warehousing.WHIName}"></td>
+				<td th:text="${warehousing.WHDT}"></td>
+				<td th:text="${warehousing.WHCAmount}"></td>
+				<td th:text="${warehousing.WHState}"></td>
 			</tr>
 		</tbody>
 	</table>
