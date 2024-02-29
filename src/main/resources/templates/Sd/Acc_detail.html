@@ -31,13 +31,13 @@
 	<h6 th:text="|제품가격|"></h6>
 		<div class="card my-3">
 			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.AC_Price}"></div>
+			<div class="card-text" style="white-space: pre-line;" th:text="${account.AC_Price + '원'}"></div>
 		</div>
 	</div>
 	<h7 th:text="|부가세율|"></h7>
 		<div class="card my-3">
 			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.VAT}">%</div>
+			<div class="card-text" style="white-space: pre-line;" th:text="${account.VAT + '%'}">%</div>
 		</div>
 	
 	</div>

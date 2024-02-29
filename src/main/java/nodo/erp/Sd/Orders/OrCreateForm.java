@@ -10,6 +10,7 @@ public class OrCreateForm {
 	
 	private String OR_Num;
 	
+	@NotEmpty(message = "발주신청 날짜 입력은 필수입니다")
 	private String OR_Date;
 	
 	private String OR_Item;
@@ -32,7 +33,7 @@ public class OrCreateForm {
 	
 	private String OR_VATSUM;
 	
-	@NotEmpty(message = "드롭다운에서 O, X를 선택해주세요.")
+	@NotEmpty(message = "체크박스에서 O, X를 선택해주세요.")
 	private String OR_Pay;
 	
 	
