@@ -1,8 +1,41 @@
-<!--
 <html layout:decorate="~{layout}">
-	<div layout:fragment="content">
-		<div>품목그룹코드: [[${itemGroup.IgCode}]]</div>
-		<div>품목그룹명: [[${itemGroup.IgName}]]</div>
+
+<div layout:fragment="content" class="m-3">
+	
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">품목그룹 상세 정보</h1>
 	</div>
+
+	<table class="table table-bordered table-hover-td" style="width:300px;">
+	    <tbody class="table-group-divider">
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">품목그룹코드</th>
+	            <td th:text="${itemGroup.IgCode}"></td>
+	        </tr>
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">품목그룹명</th>
+	            <td th:text="${itemGroup.IgName}"></td>
+	        </tr>
+	    </tbody>
+	</table>
+	
+	<div style="display:flex;">
+		<a th:href="@{|/basic/itemgroup/modify/${itemGroup.id}|}" class="btn btn-primary">수정</a>
+		<a href="javascript:void(0);" th:data-uri="@{|/basic/itemgroup/delete/${itemGroup.id}|}" class="delete btn mx-2 border-primary text-primary">삭제</a>
+		<a href="/basic/itemgroup/list" class="btn border-primary text-primary">목록</a>
+	</div>
+	
+	<script type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
+
+</div>
+
 </html>
--->

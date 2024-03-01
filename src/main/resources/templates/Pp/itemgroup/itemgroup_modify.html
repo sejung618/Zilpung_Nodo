@@ -10,13 +10,13 @@
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
 		</div>
-		<div class="pb-3 my-3 border-bottom">
-            <label for="content" style="margin-right:10px;">품목그룹코드</label>
-            <input type="text" name="IgName" id="IgName" class="form-control" th:value="${itemGroupForm.igCode}" readonly>
+		<div class="my-3">
+            <label for="IgCode" style="margin-right:10px;">품목그룹코드</label>
+            <input type="text" th:field="*{IgCode}" name="IgCode" id="IgCode" class="form-control" readonly>
         </div>
         <div class="pb-3 my-3 border-bottom">
-            <label for="content" style="margin-right:10px;">품목그룹명</label>
-            <input type="text" name="IgName" id="IgName" class="form-control" th:value="${itemGroupForm.igName}">
+            <label for="IgName" style="margin-right:10px;">품목그룹명</label>
+            <input type="text" th:field="*{IgName}" name="IgName" id="IgName" class="form-control">
         </div>
         <div style="display:flex;">
         	<input type="submit" value="저장" class="btn btn-primary">

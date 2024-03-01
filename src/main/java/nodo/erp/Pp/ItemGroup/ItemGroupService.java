@@ -18,6 +18,15 @@ public class ItemGroupService {
 		return this.itemGroupRepository.findAll();
 	}
 	
+	public ItemGroup getItemGroup(Integer id) {
+		Optional<ItemGroup> itemGroup = this.itemGroupRepository.findById(id);
+		if (itemGroup.isPresent()) {
+            return itemGroup.get();
+        } else {
+            throw new DataNotFoundException("itemGroup not found");
+        }
+	}
+	
 	public String getIgCodeIdByName(String IgName) {
 		String IgCode = "";
 		List<ItemGroup> itemGroupList = this.itemGroupRepository.findAll();
@@ -28,15 +37,6 @@ public class ItemGroupService {
 			}
 		}
 		return IgCode;
-	}
-	
-	public ItemGroup getItemGroup(Integer id) {
-		Optional<ItemGroup> itemGroup = this.itemGroupRepository.findById(id);
-		if (itemGroup.isPresent()) {
-            return itemGroup.get();
-        } else {
-            throw new DataNotFoundException("itemGroup not found");
-        }
 	}
 	
 	public void create(String IgCode, String IgName) {

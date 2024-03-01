@@ -12,27 +12,38 @@
 		</div>
 		<div class="my-3">
             <label for="ItmName" style="margin-right:10px;">품목명</label>
-            <input type="text" th:field="*{ItmName}" class="form-control" id="ItemName">
+            <input type="text" th:field="*{ItmName}" class="form-control" id="ItmName">
         </div>
         <div class="my-3">
             <label for="ItmGroup" style="margin-right:10px;">품목그룹</label>
             <select class="form-control" th:field="*{ItmGroup}" name="ItmGroup" id="ItmGroup">
-				<option value="-">-</option>
-				<option th:each="itemGroup : ${itemGroupList}" th:value="${itemGroup.IgName}" th:text="${itemGroup.IgName}"></option>
+				<option value="">-</option>
+				<option th:each="itemGroup:${itemGroupList}" th:value="${itemGroup.IgName}" th:text="${itemGroup.IgName}" th:data-IgName="${itemGroup.IgName}"></option>
 			</select>
         </div>
         <div class="my-3">
-            <label for="ItmName" style="margin-right:10px;">분류</label>
-            <input type="text" th:field="*{ItmName}" class="form-control" id="ItemName">
+            <label for="ItmCategory" style="margin-right:10px;">분류</label>
+            <select class="form-control" th:field="*{ItmCategory}" name="ItmCategory" id="ItmCategory">
+				<option value="">-</option>
+				<option th:each="itemCategory:${itemCategoryList}" th:value="${itemCategory.IcName}" th:text="${itemCategory.IcName}" th:data-IgName="${itemCategory.IcName}"></option>
+			</select>
         </div>
-        
+        <div class="my-3">
+            <label for="ItmStandard" style="margin-right:10px;">규격</label>
+            <input type="text" th:field="*{ItmStandard}" class="form-control" id="ItmStandard">
+        </div>
+        <div class="my-3">
+            <label for="ItmSprice" style="margin-right:10px;">입고 단가</label>
+            <input type="number" min="0" step="10" th:field="*{ItmSprice}" class="form-control" id="ItmSprice">
+        </div>
         <div class="pb-3 my-3 border-bottom">
-            <label for="content" style="margin-right:10px;">품목그룹명</label>
-            <input type="text" name="IgName" id="IgName" class="form-control">
+            <label for="ItmRprice" style="margin-right:10px;">입고 단가</label>
+            <input type="number" min="0" step="10" th:field="*{ItmRprice}" class="form-control" id="ItmRprice">
         </div>
+
         <div style="display:flex;">
         	<input type="submit" value="저장" class="btn btn-primary">
-        	<a href="/basic/itemgroup/list" class="btn mx-2 border-primary text-primary">취소</a>
+        	<a href="/basic/item/list" class="btn mx-2 border-primary text-primary">취소</a>
         </div>
     </form>
     

@@ -1,0 +1,61 @@
+<html layout:decorate="~{layout}">
+	
+<div layout:fragment="content" class="m-3">
+	
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">품목 상세 정보</h1>
+	</div>
+	
+    <table class="table table-bordered table-hover-td" style="width:500px;">
+	    <tbody class="table-group-divider">
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">품목코드</th>
+	            <td th:text="${item.ItmCode}"></td>
+	        </tr>
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">품목명</th>
+	            <td th:text="${item.ItmName}"></td>
+	        </tr>
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">품목그룹</th>
+	            <td th:text="${item.ItmGroup}"></td>
+	        </tr>
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">분류</th>
+	            <td th:text="${item.ItmCategory}"></td>
+	        </tr>
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">규격</th>
+	            <td th:text="${item.ItmStandard}"></td>
+	        </tr>
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">입고단가</th>
+	            <td th:text="${item.ItmSprice}"></td>
+	        </tr>
+	        <tr>
+	            <th class="table-primary text-center" style="width:120px;">출고단가</th>
+	            <td th:text="${item.ItmRprice}"></td>
+	        </tr>
+	    </tbody>
+	</table>
+
+	<div style="display:flex;">
+		<a th:href="@{|/basic/item/modify/${item.ItmId}|}" class="btn btn-primary">수정</a>
+		<a href="javascript:void(0);" th:data-uri="@{|/basic/item/delete/${item.ItmId}|}" class="delete btn mx-2 border-primary text-primary">삭제</a>
+		<a href="/basic/item/list" class="btn border-primary text-primary">목록</a>
+	</div>
+
+	<script type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
+
+</div>
+
+</html>

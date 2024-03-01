@@ -38,7 +38,8 @@ public class ItemGroupController {
 	public String ItemGroupCreate(ItemGroupForm itemGroupForm) {
 		List<ItemGroup> itemGroupList = this.itemGroupService.getList();
 		if (itemGroupList.size() == 0) {
-			this.itemGroupService.create("IG-001", itemGroupForm.getIgName());
+			String NewIgCode = "IG-001";
+			itemGroupForm.setIgCode(NewIgCode);
 		} else {
 			String FinalIgCode = itemGroupList.get(itemGroupList.size()-1).getIgCode();
 			int NewIgCodeNum = Integer.parseInt(FinalIgCode.substring(3)) + 1;
@@ -70,7 +71,7 @@ public class ItemGroupController {
 	@PostMapping("/modify/{id}")
 	public String ItemGroupModify(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult, @PathVariable("id") Integer id) {
 		if (bindingResult.hasErrors()) {
-            return "itemgroup_form";
+            return "Pp/itemgroup/itemgroup_modify";
         }
 		ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
 		this.itemGroupService.modify(itemGroup, itemGroupForm.getIgName());
