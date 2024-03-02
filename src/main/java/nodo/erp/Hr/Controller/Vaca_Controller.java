@@ -61,12 +61,12 @@ public class Vaca_Controller {
 
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "st", required = false, defaultValue = "") String st,
-			@RequestParam(value = "kw", defaultValue = "") String kw) {
-		Page<VacationApply> paging = this.vacation_Service.getList(page, kw, st);
+			@RequestParam(value = "kw1", defaultValue = "") String kw1,
+			@RequestParam(value = "kw2", defaultValue = "") String kw2) {
+		Page<VacationApply> paging = this.vacation_Service.getList(page, kw1, kw2);
 		model.addAttribute("paging", paging);
-		model.addAttribute("kw", kw);
-		model.addAttribute("st", st);
+		model.addAttribute("kw", kw1);
+		model.addAttribute("st", kw2);
 		return "/Hr/vaca_app_list";
 	}
 

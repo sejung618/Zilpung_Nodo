@@ -29,6 +29,7 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
 import java.time.format.DateTimeFormatter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,9 +56,9 @@ public class Vacation_Service {
 		return this.vaca_App_Reository.findAll();
 	}
 
-	public Page<VacationApply> getList(int page, String kw, String searchType) {
+	public Page<VacationApply> getList(int page, String kw1, String kw2) {
 		Pageable pageable = PageRequest.of(page, 10);
-		Specification<VacationApply> spec = search(kw, searchType);
+		Specification<VacationApply> spec = search(kw1, kw2);
 		return this.vaca_App_Reository.findAll(spec, pageable);
 	}
 
@@ -127,33 +128,24 @@ public class Vacation_Service {
 	}
 
 	// 검색 메소드
-	public static Specification<VacationApply> search(String keyword, String searchType) {
-		return (Root<VacationApply> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
-			Join<VacationApply, Employee> d = root.join("employee", JoinType.LEFT);
-			if (keyword.matches("\\d{4}-\\d{2}-\\d{2}")) {
-				LocalDate searchDate = LocalDate.parse(keyword); // 문자열을 LocalDate로 변환
-				// 검색 날짜가 휴가 시작일과 종료일 사이에 포함되는지 확인
-				Expression<Boolean> startDateExpression = criteriaBuilder.lessThanOrEqualTo(root.get("startdate"),
-						searchDate);
-				Expression<Boolean> endDateExpression = criteriaBuilder.greaterThanOrEqualTo(root.get("enddate"),
-						searchDate);
-				return criteriaBuilder.and(startDateExpression, endDateExpression);
-			} else if (searchType.equals("empname")) {
-				return criteriaBuilder.like(d.get("empname"), "%" + keyword + "%");
-			} else if (searchType.equals("empnum")) {
-				return criteriaBuilder.like(d.get("empnum"), "%" + keyword + "%");
-			} else if (searchType.equals("leavetype")) {
-				return criteriaBuilder.like(root.get("leavetype"), "%" + keyword + "%");
-			} else {
+	public static Specification<VacationApply> search(String keyword1, String keyword2) {
+	    return (Root<VacationApply> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+	        Join<VacationApply, Employee> d = root.join("employee", JoinType.LEFT);
+	        Predicate predicate1 = criteriaBuilder.or(criteriaBuilder.like(d.get("empnum"), "%" + keyword1 + "%"),
+									criteriaBuilder.like(d.get("empname"), "%" + keyword1 + "%"));
+	        Predicate predicate2 = null; // predicate2를 먼저 초기화합니다.
 
-				return criteriaBuilder.or(criteriaBuilder.like(d.get("empnum"), "%" + keyword + "%"),
-						criteriaBuilder.like(d.get("empname"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("leavetype"), "%" + keyword + "%")
+	        if (keyword2.matches("\\d{4}-\\d{2}-\\d{2}")) {
+	            LocalDate searchDate = LocalDate.parse(keyword2); // 문자열을 LocalDate로 변환
+	            // 검색 날짜가 휴가 시작일과 종료일 사이에 포함되는지 확인
+	            Expression<Boolean> startDateExpression = criteriaBuilder.lessThanOrEqualTo(root.get("startdate"), searchDate);
+	            Expression<Boolean> endDateExpression = criteriaBuilder.greaterThanOrEqualTo(root.get("enddate"), searchDate);
+	            predicate2 = criteriaBuilder.and(startDateExpression, endDateExpression); // predicate2를 초기화합니다.
+	        } else {
+	            predicate2 = criteriaBuilder.like(d.get("empnum"), "%" + keyword2 + "%"); // predicate2를 초기화합니다.
+	        }
 
-				);
-			}
-
-		};
+	        return criteriaBuilder.and(predicate1, predicate2); // 두 개의 Predicate를 결합하여 반환합니다.
+	    };
 	}
-
 }
