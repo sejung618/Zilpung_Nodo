@@ -1,0 +1,29 @@
+<html layout:decorate="~{layout}">
+	
+<div layout:fragment="content" class="m-3">
+	
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">품목분류 등록</h1>
+	</div>
+	
+    <form th:action="@{/basic/itemcategory/create}" th:object="${itemCategoryForm}" method="post" Style="width:400px;">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+		</div>
+		<div class="my-3">
+            <label for="content" style="margin-right:10px;">품목분류코드</label>
+            <input type="text" th:field="*{IcCode}" class="form-control" readonly>
+        </div>
+        <div class="pb-3 my-3 border-bottom">
+            <label for="content" style="margin-right:10px;">품목분류명</label>
+            <input type="text" name="IcName" id="IcName" class="form-control">
+        </div>
+        <div style="display:flex;">
+        	<input type="submit" value="저장" class="btn btn-primary">
+        	<a href="/basic/itemcategory/list" class="btn mx-2 border-primary text-primary">취소</a>
+        </div>
+    </form>
+    
+</div>
+
+</html>

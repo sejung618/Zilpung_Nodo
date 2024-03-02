@@ -18,7 +18,9 @@
 	    <tbody class="table-group-divider">
 	        <tr class="text-center" th:each="itemGroup, loop:${itemGroupList}">
 				<td th:text="${loop.count}"></td>
-	            <td th:text="${itemGroup.IgCode}" class="text-primary"></td>
+	            <td>
+					<a th:href="@{|/basic/itemgroup/detail/${itemGroup.id}|}" th:text="${itemGroup.IgCode}"></a>
+				</td>
 	            <td th:text="${itemGroup.IgName}"></td>
 	            <td>
 					<a th:href="@{|/basic/itemgroup/modify/${itemGroup.id}|}"><img src="/img/pencil-solid.svg" alt="수정" style="height:15px"></a> / 

@@ -1,14 +1,14 @@
 package nodo.erp.Pp.Item;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import nodo.erp.Pp.ItemGroup.ItemGroup;
 
 @Getter
 @Setter
@@ -25,9 +25,7 @@ public class Item {
 	@Column(length = 30)
 	private String ItmName;
 	
-	@ManyToOne
-//	@JoinColumn(name="id")
-	private ItemGroup ItmGroup;
+	private String ItmGroup;
 	
 	@Column(length = 10)
 	private String ItmCategory;
@@ -40,5 +38,7 @@ public class Item {
 	
 	@Column(length = 10)
 	private Integer ItmRprice;
+	
+	private LocalDateTime createDate;
 	
 }
