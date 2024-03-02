@@ -2,6 +2,7 @@ package nodo.erp.Hr.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,10 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Entity.VacationApply;
 import nodo.erp.Hr.Repository.Vaca_App_Reository;
@@ -19,6 +22,13 @@ import java.net.URL;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Expression;
 import java.time.format.DateTimeFormatter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,9 +55,10 @@ public class Vacation_Service {
 		return this.vaca_App_Reository.findAll();
 	}
 
-	public Page<VacationApply> getList(int page) {
+	public Page<VacationApply> getList(int page, String kw, String searchType) {
 		Pageable pageable = PageRequest.of(page, 10);
-		return this.vaca_App_Reository.findAll(pageable);
+		Specification<VacationApply> spec = search(kw, searchType);
+		return this.vaca_App_Reository.findAll(spec, pageable);
 	}
 
 	// 휴일을 제외한 근무일 수 계산
@@ -113,6 +124,36 @@ public class Vacation_Service {
 		}
 		return holidays;
 
+	}
+
+	// 검색 메소드
+	public static Specification<VacationApply> search(String keyword, String searchType) {
+		return (Root<VacationApply> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+			Join<VacationApply, Employee> d = root.join("employee", JoinType.LEFT);
+			if (keyword.matches("\\d{4}-\\d{2}-\\d{2}")) {
+				LocalDate searchDate = LocalDate.parse(keyword); // 문자열을 LocalDate로 변환
+				// 검색 날짜가 휴가 시작일과 종료일 사이에 포함되는지 확인
+				Expression<Boolean> startDateExpression = criteriaBuilder.lessThanOrEqualTo(root.get("startdate"),
+						searchDate);
+				Expression<Boolean> endDateExpression = criteriaBuilder.greaterThanOrEqualTo(root.get("enddate"),
+						searchDate);
+				return criteriaBuilder.and(startDateExpression, endDateExpression);
+			} else if (searchType.equals("empname")) {
+				return criteriaBuilder.like(d.get("empname"), "%" + keyword + "%");
+			} else if (searchType.equals("empnum")) {
+				return criteriaBuilder.like(d.get("empnum"), "%" + keyword + "%");
+			} else if (searchType.equals("leavetype")) {
+				return criteriaBuilder.like(root.get("leavetype"), "%" + keyword + "%");
+			} else {
+
+				return criteriaBuilder.or(criteriaBuilder.like(d.get("empnum"), "%" + keyword + "%"),
+						criteriaBuilder.like(d.get("empname"), "%" + keyword + "%"),
+						criteriaBuilder.like(root.get("leavetype"), "%" + keyword + "%")
+
+				);
+			}
+
+		};
 	}
 
 }
