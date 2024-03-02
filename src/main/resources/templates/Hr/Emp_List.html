@@ -13,7 +13,7 @@
 						<option value="">전체</option>
 						<option value="empnum">사번</option>
 						<option value="empname">이름</option>
-						<option value="depart.depname">부서</option>
+						<option value="depname">부서</option>
 						<option value="empposition">직책</option>
 						<option value="empdate">입사일</option>
 						<option value="empm">입사월</option>
@@ -33,10 +33,10 @@
 			<div class="input-group">
 				<div class="input-group-append">
 					<select class="custom-select" id="sortType" th:value="${sort}">
-						<option value="empposition">직책</option>
 						<option value="empnum">사번</option>
+						<option value="empposition">직책</option>
 						<option value="empname">이름</option>
-						<option value="depart.depname">부서</option>
+						<option value="depname">부서</option>
 						<option value="empposition">직책</option>
 						<option value="empdate">입사일</option>
 						<option value="empm">입사월</option>
@@ -190,7 +190,7 @@
 					searchInput.type = "date";
 				} else if (selectedOption === "empm") {
 					searchInput.type = "month";
-				} else if (selectedOption === "depart.depname") {
+				} else if (selectedOption === "depname") {
 					// Create a new select element
 					var selectElement = document.createElement("select");
 					selectElement.id = "search_kw";

@@ -1,6 +1,34 @@
 <html layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="container my-3">
+
+
+	<div class="col-6">
+		<div class="input-group">
+			<div class="input-group-append">
+				휴가일<input type="date" id="search_kw2" class="form-control" th:value="${kw2}">
+				<!--<select class="custom-select" id="searchType" th:value="${st}">
+					<option value="">전체</option>
+					<option value="empnum">사번</option>
+					<option value="empname">이름</option>
+					<option value="date">휴가일</option>
+					<option value="leavetype">휴가종류</option>
+				</select>-->
+			</div>
+			이름or사번<input type="text" id="search_kw" class="form-control" th:value="${kw1}">
+			<button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+		</div>
+	</div>
+	<form th:action="@{/vacation/list}" method="get" id="searchForm">
+		<input type="hidden" id="kw1" name="kw1" th:value="${kw1}">
+		<input type="hidden" id="kw2" name="kw2" th:value="${kw2}">
+		<input type="hidden" id="page" name="page" th:value="${paging.number}">
+	</form>
+
+
+
+
+
 	<table class="table table-bordered table-hover-td">
 
 		<thead class="table-primary">
@@ -11,14 +39,14 @@
 				<th>휴가 종료날짜</th>
 				<th>휴가 일수</th>
 				<th>휴가 종류</th>
-				
+
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr class="text-center" th:each="vacalist : ${paging}">
-				<td > <span th:if="${vacalist.employee != null}" th:text="${vacalist.employee.empnum}"></span></td>
-				<td > <span th:if="${vacalist.employee != null}" th:text="${vacalist.employee.empname}"></span></td>
+				<td> <span th:if="${vacalist.employee != null}" th:text="${vacalist.employee.empnum}"></span></td>
+				<td> <span th:if="${vacalist.employee != null}" th:text="${vacalist.employee.empname}"></span></td>
 				<td th:text="${vacalist.startdate}"></td>
 				<td th:text="${vacalist.enddate}"></td>
 				<td th:text="${vacalist.period}"></td>
@@ -28,29 +56,57 @@
 
 	</table>
 	<!-- 페이징처리 시작 -->
-		<!--?page=0   페이지번호 1-->
-		<div th:if="${!paging.isEmpty()}">
-			<ul class="pagination justify-content-center">
-				<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-					<a class="page-link" th:href="@{|?page=${paging.number > 0 ? paging.number-1 : 0}|}">
-						<span>이전</span>
-					</a>
-				</li>
-				<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-					th:if="${page >= paging.number-4 and page <= paging.number+4}"
-					th:classappend="${page == paging.number} ? 'active'" class="page-item">
-					<a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>
-				</li>
-				<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-					<a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-						<span>다음</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<!-- 페이징처리 끝 -->
+	<!--?page=0   페이지번호 1-->
+	<div th:if="${!paging.isEmpty()}">
+		<ul class="pagination justify-content-center">
+			<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+					<span>이전</span>
+				</a>
+			</li>
+			<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+				th:if="${page >= paging.number-4 and page <= paging.number+4}"
+				th:classappend="${page == paging.number} ? 'active'" class="page-item">
+				<a th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+			</li>
+			<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+					<span>다음</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 페이징처리 끝 -->
+	<!--검색 자바스크립트-->
+	<script layout:fragment="script" type='text/javascript'>
+		const page_elements = document.getElementsByClassName("page-link");
+		Array.from(page_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				document.getElementById('page').value = this.dataset.page;
+				document.getElementById('searchForm').submit();
+			});
+		});
+		const btn_search = document.getElementById("btn_search");
+		btn_search.addEventListener('click', function () {
+			document.getElementById('kw1').value = document.getElementById('search_kw').value;
+			document.getElementById('kw2').value = document.getElementById('search_kw2').value;
+			document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+			document.getElementById('searchForm').submit();
+		});
+	</script>
+	<!--타입변경 스크립트-->
+	<script>
+		document.getElementById("searchType").addEventListener("change", function () {
+			var selectedOption = this.value;
+			var searchInput = document.getElementById("search_kw");
 
-		
+			if (selectedOption === "date") {
+				searchInput.type = "date";
+			}  else {
+				searchInput.type = "text";
+			}
+		});
+	</script>
 
 </div>
 

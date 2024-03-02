@@ -30,10 +30,10 @@ public class Vaca_Controller {
 	private final Emp_Service emp_Service;
 
 	@GetMapping("/create")
-	public String vacaCreate(Vaca_app_Form vaca_app_Form,Authentication authentication) {
+	public String vacaCreate(Vaca_app_Form vaca_app_Form, Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
-		return "Hr/vaca_app_Form";
-		}else {
+			return "Hr/vaca_app_Form";
+		} else {
 			return "redirect:/Hr/login";
 		}
 	}
@@ -47,8 +47,8 @@ public class Vaca_Controller {
 			}
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
-			
-			this.vacation_Service.create(employee,vaca_app_Form.getStartdate(), vaca_app_Form.getEnddate(),
+
+			this.vacation_Service.create(employee, vaca_app_Form.getStartdate(), vaca_app_Form.getEnddate(),
 					vaca_app_Form.getLeavetype());
 
 			return "redirect:/vacation/list";
@@ -60,12 +60,14 @@ public class Vaca_Controller {
 	}
 
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-		Page<VacationApply> paging = this.vacation_Service.getList(page);
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw1", defaultValue = "") String kw1,
+			@RequestParam(value = "kw2", defaultValue = "") String kw2) {
+		Page<VacationApply> paging = this.vacation_Service.getList(page, kw1, kw2);
 		model.addAttribute("paging", paging);
+		model.addAttribute("kw", kw1);
+		model.addAttribute("st", kw2);
 		return "/Hr/vaca_app_list";
 	}
-	
-	
 
 }

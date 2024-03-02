@@ -59,8 +59,6 @@ public class Emp_Service {
 
 	public Page<Employee> getList(int page, String kw, String searchType,String sort) {
 		List<Sort.Order> sorts = new ArrayList<>();
-		System.out.println(sort);
-
 		sorts.add(Sort.Order.desc(sort)); // asc오름차순
 		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
 		Specification<Employee> spec = search(kw, searchType);
@@ -150,7 +148,7 @@ public class Emp_Service {
 		this.emp_Repository.delete(hr_Dto_Emp);
 	}
 
-
+	//검색 메소드
 	public static Specification<Employee> search(String keyword, String searchType) {
 		return (Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
 			Join<Employee, Department> d = root.join("depart", JoinType.LEFT);
@@ -158,7 +156,7 @@ public class Emp_Service {
 				return criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%");
 			} else if (searchType.equals("empname")) {
 				return criteriaBuilder.like(root.get("empname"), "%" + keyword + "%");
-			} else if (searchType.equals("empssn")) {
+			} else if (searchType.equals("depname")) {
 				return criteriaBuilder.like(d.get("depname"), "%" + keyword + "%");
 			} else if (searchType.equals("empposition")) {
 				return criteriaBuilder.like(root.get("empposition"), "%" + keyword + "%");
@@ -176,7 +174,12 @@ public class Emp_Service {
 				return criteriaBuilder.or(criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%"),
 						criteriaBuilder.like(root.get("empname"), "%" + keyword + "%"),
 						criteriaBuilder.like(d.get("depname"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empposition"), "%" + keyword + "%"));
+						criteriaBuilder.like(root.get("empposition"), "%" + keyword + "%"),
+						criteriaBuilder.like(root.get("empadd"), "%" + keyword + "%"),
+						criteriaBuilder.like(root.get("empphone"), "%" + keyword + "%"),
+						criteriaBuilder.like(root.get("empmail"), "%" + keyword + "%"),
+						criteriaBuilder.like(root.get("empspot"), "%" + keyword + "%")
+						);
 			}
 
 		};
