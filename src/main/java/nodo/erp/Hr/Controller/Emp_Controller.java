@@ -61,10 +61,12 @@ public class Emp_Controller {
 
 	
 	@PostMapping("/create")
-	public String EmpCreate(@Valid Emp_Form emp_Form, BindingResult bindingResult) {
+	public String EmpCreate(@Valid Emp_Form emp_Form, BindingResult bindingResult,Model model) {
 		Department depart = this.emp_Service.getDepCode(emp_Form.getDepcode());
 		if (bindingResult.hasErrors()) {
-	        return "Hr/Emp_Form";
+			List<Department> deplist = this.emp_Service.getdepList();
+			model.addAttribute("deplist", deplist);
+			return "Hr/Emp_Form";
 	    }
 	    this.emp_Service.create(emp_Form.getEmpname(), emp_Form.getEmpssn(), 
 	    		emp_Form.getEmpadd(), emp_Form.getEmpphone(), emp_Form.getEmpmail(),
