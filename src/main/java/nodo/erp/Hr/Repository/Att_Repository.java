@@ -5,11 +5,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 import nodo.erp.Hr.Entity.Attendance;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Entity.VacationApply;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 public interface Att_Repository extends JpaRepository<Attendance, Integer>{
@@ -20,5 +23,6 @@ public interface Att_Repository extends JpaRepository<Attendance, Integer>{
 	List<Attendance> findByEmployee(Employee employee);
 	
 	Page<Attendance> findAll(Pageable pageable);
+	Page<Attendance> findAll(Specification<Attendance> spec,Pageable pageable);
 	
 }

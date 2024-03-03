@@ -2,8 +2,8 @@
 <html layout:decorate="~{layout}">
 	
 <div layout:fragment="content">
-
-	<!-- Page Heading -->
+<!--
+	 Page Heading 
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">대시보드</h1>
 	</div>
@@ -12,7 +12,7 @@
 		콘텐츠 자리
 	</div>
 	
-	<!--authentication.principal 테스트용-->
+	authentication.principal 테스트용
 	<div sec:authorize="isAuthenticated()">
 
 		<a th:text="${#authentication.principal.Empname}"></a>
@@ -29,6 +29,8 @@
 
 		<a>로그아웃 상태</a>
 	</div>
+	-->
+	<div th:replace="~{calendar}"></div>
 
 </div>
          

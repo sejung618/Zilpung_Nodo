@@ -11,12 +11,12 @@
 				<div class="input-group-append">
 					<select class="custom-select" id="searchType" th:value="${st}">
 						<option value="">전체</option>
-						<option value="empnum">사번</option>
-						<option value="empname">이름</option>
-						<option value="depname">부서</option>
-						<option value="empposition">직책</option>
-						<option value="empdate">입사일</option>
-						<option value="empm">입사월</option>
+						<option value="empnum" th:selected="${st=='empnum'}">사번</option>
+						<option value="empname" th:selected="${st=='empname'}">이름</option>
+						<option value="depname" th:selected="${st=='depname'}">부서</option>
+						<option value="empposition" th:selected="${st=='empposition'}">직책</option>
+						<option value="empdate" th:selected="${st=='empdate'}">입사일</option>
+						<option value="empm" th:selected="${st=='empm'}">입사월</option>
 					</select>
 				</div>
 				<input type="text" id="search_kw" class="form-control" th:value="${kw}">
@@ -29,7 +29,7 @@
 			<input type="hidden" id="page" name="page" th:value="${paging.number}">
 		</form>
 
-	<div class="col-6">
+		<div class="col-6">
 			<div class="input-group">
 				<div class="input-group-append">
 					<select class="custom-select" id="sortType" th:value="${sort}">
@@ -52,7 +52,6 @@
 
 		<!--테이블 시작-->
 		<table class="table table-bordered table-hover-td">
-
 			<thead class="table-primary">
 				<tr class="text-center">
 					<th>사번</th>
@@ -63,7 +62,6 @@
 					<th>직위</th>
 				</tr>
 			</thead>
-
 			<tbody>
 				<tr class="text-center" th:each="Emplist : ${paging}">
 					<td>
@@ -74,13 +72,11 @@
 					<td><span th:if="${Emplist.depart != null}" th:text="${Emplist.depart.depname}"></span></td>
 					<td th:text="${Emplist.empposition}"></td>
 					<td th:text="${Emplist.empspot}"></td>
-
 				</tr>
 			</tbody>
-
-
 		</table>
 		<!--테이블 끝-->
+
 		<!-- 페이징처리 시작 -->
 		<div th:if="${!paging.isEmpty()}">
 			<ul class="pagination justify-content-center">
@@ -101,51 +97,7 @@
 				</li>
 			</ul>
 		</div>
-		<!--?page=0   페이지번호 1
-	<div th:if="${!paging.isEmpty()}">
-		<ul class="pagination justify-content-center">
-			<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-				<a class="page-link" th:href="@{|?page=${paging.number > 0 ? paging.number-1 : 0}|}">
-					<span>이전</span>
-				</a>
-			</li>
-			<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-				th:if="${page >= paging.number-4 and page <= paging.number+4}"
-				th:classappend="${page == paging.number} ? 'active'" class="page-item">
-				<a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>
-			</li>
-			<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-				<a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-					<span>다음</span>
-				</a>
-			</li>
-		</ul>
-	</div>-->
-		<!--?page=0   페이지번호 0-->
-		<!--<div th:if="${!paging.isEmpty()}">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                <a class="page-link"
-                    th:href="@{|?page=${paging.number-1}|}">
-                    <span>이전</span>
-                </a>
-            </li>
-            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-            th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                th:classappend="${page == paging.number} ? 'active'" 
-                class="page-item">
-                <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
-            </li>
-            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                    <span>다음</span>
-                </a>
-            </li>
-        </ul>
-    </div>-->
 		<!-- 페이징처리 끝 -->
-
-		<!--검색폼-->
 
 
 		<div class="col-6">
@@ -155,8 +107,8 @@
 
 
 
-		
-	<!--검색 자바스크립트-->
+
+		<!--검색 자바스크립트-->
 		<script layout:fragment="script" type='text/javascript'>
 			const page_elements = document.getElementsByClassName("page-link");
 			Array.from(page_elements).forEach(function (element) {
@@ -220,14 +172,6 @@
 				}
 			});
 		</script>
-		<!--입력필드 초기화 스크립트 안댐...-->
-		<script>
-			document.getElementById("btn_search").addEventListener("click", function () {
-				var searchInput = document.getElementById("search_kw");
-				searchInput.value = ""; // 입력 필드의 값을 빈 문자열로 설정하여 지움
-			});
-		</script>
-
 
 
 	</div>

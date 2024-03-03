@@ -7,13 +7,6 @@
 		<div class="input-group">
 			<div class="input-group-append">
 				휴가일<input type="date" id="search_kw2" class="form-control" th:value="${kw2}">
-				<!--<select class="custom-select" id="searchType" th:value="${st}">
-					<option value="">전체</option>
-					<option value="empnum">사번</option>
-					<option value="empname">이름</option>
-					<option value="date">휴가일</option>
-					<option value="leavetype">휴가종류</option>
-				</select>-->
 			</div>
 			이름or사번<input type="text" id="search_kw" class="form-control" th:value="${kw1}">
 			<button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
@@ -107,6 +100,7 @@
 			}
 		});
 	</script>
+
 
 </div>
 

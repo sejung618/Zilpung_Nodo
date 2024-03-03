@@ -46,17 +46,16 @@ public class Att_Controller {
 //	}
 	
 	@GetMapping("/list")
-	public String Attlist(Model model, Authentication authentication
-			,@RequestParam(value="page", defaultValue="0") int page) {
-		if (authentication != null && authentication.isAuthenticated()) {
-			// 로그인한 사용자에게만 허용
-			Page<Attendance> paging  = this.att_Service.getList(page);
+	public String Attlist(Model model, Authentication authentication,
+			@RequestParam(value="page", defaultValue="0") int page,
+			@RequestParam(value = "kw1", defaultValue = "") String kw1,
+			@RequestParam(value = "kw2", defaultValue = "") String kw2) {
+			Page<Attendance> paging  = this.att_Service.getList(page,kw1,kw2);
 			model.addAttribute("paging", paging);
+			model.addAttribute("kw1", kw1);
+			model.addAttribute("kw2", kw2);
 			return "Hr/Att_list";
-		} else {
-			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리
-			return "redirect:/Hr/login";
-		}
+		
 
 	}
 	
@@ -110,7 +109,6 @@ public class Att_Controller {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
 			att_Service.checkin(employee);
-			Integer id = customUserDetails.getEmpid();
 			return "redirect:/Attendance/detail";
 		} else {
 			return "redirect:/Hr/login";
@@ -123,11 +121,12 @@ public class Att_Controller {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
 			att_Service.checkout(employee);
-			Integer id = customUserDetails.getEmpid();
 			return "redirect:/Attendance/detail";
 		} else {
 			return "redirect:/Hr/login";
 		}
 	}
 
+	
+	
 }
