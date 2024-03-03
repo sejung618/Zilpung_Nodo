@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Dto.Emp_Form;
 import nodo.erp.Hr.Dto.Emp_Pass_Form;
 import nodo.erp.Hr.Dto.Emp_modify_Form;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.Principal;
@@ -39,23 +41,28 @@ public class Emp_Controller {
 	 @GetMapping("/list")
 	    public String list(Model model, 
 	    		@RequestParam(value="page", defaultValue="0") int page,
-	    		@RequestParam(value = "st", required = false, defaultValue = "") String st,
+	    		@RequestParam(value = "st", defaultValue = "") String st,
 	    		@RequestParam(value = "kw", defaultValue = "") String kw,
 	    		@RequestParam(value = "sort", defaultValue = "id") String sort) {
 	        Page<Employee> paging = this.emp_Service.getList(page,kw,st,sort);
 	        model.addAttribute("paging", paging);
-	        model.addAttribute("kw", kw);
+	        model.addAttribute("kw",kw);
 	        model.addAttribute("st",st);
 	        model.addAttribute("sort",sort);
 	        return "/Hr/Emp_List";
 	    }
 
 	@GetMapping("/create")
-    public String EmpCreate(Model model, Emp_Form emp_Form) {
+    public String EmpCreate(Model model, Emp_Form emp_Form,Authentication authentication) {
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+		if(employee.getId() == 1) {
 		List<Department> deplist = this.emp_Service.getdepList();
 		model.addAttribute("deplist", deplist);
-		
         return "Hr/Emp_Form";
+        }else {
+        	return "redirect:/";
+        }
     }
 	
 
@@ -110,13 +117,19 @@ public class Emp_Controller {
     
     
     @GetMapping("/delete/{id}")
-    public String questionDelete(@PathVariable("id") Integer id) {
+    public String questionDelete(@PathVariable("id") Integer id,Authentication authentication) {
+    	CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+		if(employee.getId() == 1) {
     	Employee emp = this.emp_Service.getEmpDetail(id);
 //        if (!question.getAuthor().getUsername().equals(principal.getName())) {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
 //        }
         this.emp_Service.delete(emp);
         return "redirect:/Hr/logout";
+        }else {
+        	return "redirect:/";
+        }
     }
     
     

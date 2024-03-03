@@ -13,7 +13,7 @@
 				<th>부서코드</th>
 				<th>부서명</th>
 				
-				<th>삭제 / 수정</th>
+				<th th:if="${#authentication.principal.Empid == 1}">삭제 / 수정</th>
 			</tr>
 		</thead>
 
@@ -22,7 +22,7 @@
 				<td th:text="${deplist.depcode}" >
 				</td>
 				<td th:text="${deplist.depname}"></td>
-				<td>
+				<td th:if="${#authentication.principal.Empid == 1}">
 					<a th:href="@{/dep/delete/{id}(id=${deplist.id})}" th:text="삭제"></a> /
 					<a th:href="@{/dep/modify/{id}(id=${deplist.id})}" th:text="수정"></a>
 				</td>
@@ -32,7 +32,7 @@
 	</table>
 	
 	<div class="col-6">
-			<a th:href="@{/dep/create}" class="btn btn-primary">부서 추가</a>
+			<a th:if="${#authentication.principal.Empid == 1}" th:href="@{/dep/create}" class="btn btn-primary">부서 추가</a>
 		</div>
 		
 		

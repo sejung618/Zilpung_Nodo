@@ -4,20 +4,31 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Attendance;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Entity.VacationApply;
 import nodo.erp.Hr.Repository.Att_Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 @RequiredArgsConstructor
 @Service
@@ -30,9 +41,12 @@ public class Att_Service {
 		return this.att_Repository.findAll();
 	}
 	
-	public Page<Attendance> getList(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
-        return this.att_Repository.findAll(pageable);
+	public Page<Attendance> getList(int page, String kw1, String kw2) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Specification<Attendance> spec = search(kw1, kw2);
+        return this.att_Repository.findAll(spec,pageable);
     }
 	
 	public List<Attendance> getdetailList(Employee employee) {
@@ -85,11 +99,26 @@ public class Att_Service {
             throw new DataNotFoundException("No check-in record found for today!");
         }
     }
+    
+ // 검색 메소드
+ 	public static Specification<Attendance> search(String keyword1, String keyword2) {
+ 	    return (Root<Attendance> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+ 	        Join<Attendance, Employee> d = root.join("employee", JoinType.LEFT);
+ 	        Predicate predicate1 = criteriaBuilder.or(criteriaBuilder.like(d.get("empnum"), "%" + keyword2 + "%"),
+ 									criteriaBuilder.like(d.get("empname"), "%" + keyword2 + "%"));
+ 	        Predicate predicate2 = null; // predicate2를 먼저 초기화합니다.
+
+ 	        if (keyword1.matches("\\d{4}-\\d{2}-\\d{2}")) {
+ 	            LocalDate searchDate = LocalDate.parse(keyword1); // 문자열을 LocalDate로 변환
+ 	            predicate2 = criteriaBuilder.equal(root.get("day"), searchDate);
+ 	        } else {
+ 	            predicate2 = criteriaBuilder.like(d.get("empnum"), "%" + keyword1 + "%"); // predicate2를 초기화합니다.
+ 	        }
+
+ 	        return criteriaBuilder.and(predicate1, predicate2); // 두 개의 Predicate를 결합하여 반환합니다.
+ 	    };
+ 	}
 }
 
 	
-//	public class AlreadyCheckedInException extends RuntimeException {
-//	    public AlreadyCheckedInException(String message) {
-//	        super(message);
-//	    }
-//	}
+
