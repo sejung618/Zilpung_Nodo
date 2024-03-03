@@ -7,8 +7,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import nodo.erp.Pp.ItemCategory.ItemCategory;
+import nodo.erp.Pp.ItemGroup.ItemGroup;
 
 @Getter
 @Setter
@@ -41,4 +44,9 @@ public class Item {
 	
 	private LocalDateTime createDate;
 	
+	@ManyToOne
+	private ItemGroup itemGroup;
+	
+	@ManyToOne
+	private ItemCategory itemCategory;
 }

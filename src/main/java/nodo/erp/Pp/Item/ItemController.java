@@ -30,9 +30,14 @@ public class ItemController {
 	private final ItemService itemService;
 	
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-		Page<Item> paging = this.itemService.getList(page);
+	public String list(Model model,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "st", defaultValue = "") String st,
+			@RequestParam(value = "kw", defaultValue = "") String kw) {
+		Page<Item> paging = this.itemService.getList(page, st, kw);
 		model.addAttribute("paging", paging);
+		model.addAttribute("st", st);
+		model.addAttribute("kw", kw);
 		return "Pp/item/item_list";
 	}
 	
