@@ -1,6 +1,7 @@
 package nodo.erp.Sd.Orders;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,8 +56,10 @@ public class OrController {
 				orCreateForm.getOR_Company(), Integer.parseInt(orCreateForm.getOR_Count()),
 				Integer.parseInt(orCreateForm.getOR_Price()), Integer.parseInt(orCreateForm.getOR_CP()),
 				orCreateForm.getVAT(), Integer.parseInt(orCreateForm.getOR_VAT()),
-				Integer.parseInt(orCreateForm.getOR_VATSUM()), orCreateForm.getOR_Pay(), orCreateForm.getOR_Code());
+				Integer.parseInt(orCreateForm.getOR_VATSUM()), orCreateForm.getOR_Code());
 		return "redirect:/orders/list";
 	}
+	
+	
 	
 }

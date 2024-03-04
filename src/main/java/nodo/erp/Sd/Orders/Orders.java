@@ -20,7 +20,7 @@ public class Orders {
 	private String OR_Num; //PC_Num 가져오고 앞에 "OR-"만 붙이면 됨
 	
 	@Column(length = 10)
-	private String OR_Date; //PC_Date + 1일 
+	private String OR_Date;
 	
 	@Column(length = 30)
 	private String OR_Item;
@@ -51,9 +51,6 @@ public class Orders {
 	
 	@Column(length = 15)
 	private Integer OR_VATSUM; // 총 액 - PC_CP + PC_VAT
-	
-	@Column(length = 1)
-	private String OR_Pay; // 금액 납부여부 O, X 둘중 하나 선택
 	 
 
 }

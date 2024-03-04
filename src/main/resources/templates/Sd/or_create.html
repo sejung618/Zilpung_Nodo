@@ -61,15 +61,6 @@
 				발주 총 액 <input type="text" id="OR_VATSUM" name="OR_VATSUM"  class="form-control OR_VATSUM">
 			</div>
 			
-			<div class="form-group mb-3">
-			<label for="SPState" class="form-label">금액 납부여부</label>
-			<select class="form-control" th:field="*{OR_Pay}" name="OR_Pay" id="OR_Pay">
-				<option value="-">-</option>
-				<option value="O">O</option>
-				<option value="X">X</option>
-			</select>
-		</div>
-			
 			<div class="mb-3">
 				<label for="jb-input-text">발주 신청날짜</label>
 				<input type="date" name="OR_Date" id="OR_Date" th:field="*{OR_Date}" class="form-control">
@@ -109,11 +100,6 @@
 			});
 			
 			function formSubmit(){
-				 <!--
-				  PC_Num과 OR_Num 뒤 10자리를 비교하여
-				  OR_Num에 10자리 데이터가 존재 할 경우 신청이 안된다 메시지 출력,
-				  데이터가 존재하지 않을 경우 신청이 완료되게하는 기능 추가예정
-				  -->
 				document.getElementById("form1").submit();
 			}
 			</script>

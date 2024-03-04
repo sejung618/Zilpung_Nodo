@@ -33,8 +33,4 @@ public class OrCreateForm {
 	
 	private String OR_VATSUM;
 	
-	@NotEmpty(message = "체크박스에서 O, X를 선택해주세요.")
-	private String OR_Pay;
-	
-	
 }
