@@ -137,6 +137,14 @@ public class Emp_Service {
 		m.setEmpmail(empmail);
 		this.emp_Repository.save(m);
 	}
+	
+	public void Pa(Employee Employee, String empspot, String empposition, Department depart) {
+		Employee m = this.emp_Repository.findById(Employee.getId()).orElse(null);
+		m.setEmpspot(empspot);
+		m.setEmpposition(empposition);
+		m.setDepart(depart);
+		this.emp_Repository.save(m);
+	}
 
 	public void passmodify(Employee hr_Dto_emp, String pass) {
 		Employee m = this.emp_Repository.findById(hr_Dto_emp.getId()).orElse(null);
