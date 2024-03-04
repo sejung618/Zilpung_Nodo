@@ -61,13 +61,13 @@
 	</div>
 	<!-- 페이징처리 끝 -->
 	<div class="col-6">
-		<a th:href="@{/shipping/create}" class="btn btn-primary" style="left: 180%;"> 출고</a>
+		<a th:href="@{/shipping/create}" class="btn btn-primary" style="left: 180%;"> 신규</a>
 	</div>
 	<form th:action="@{/shipping/list}" method="get" id="searchForm">
 		<input type="hidden" id="kw" name="kw" th:value="${kw}">
 		<input type="hidden" id="page" name="page" th:value="${paging.number}">
 	</form>
-	</dvi>
+	
 	<script layout:fragment="script" type='text/javascript'>
 		const page_elements = document.getElementsByClassName("page-link");
 		Array.from(page_elements).forEach(function (element) {

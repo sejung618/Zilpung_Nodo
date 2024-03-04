@@ -7,7 +7,7 @@
 	<div class="form-inline" style="float:right;">
 		<form method="get" th:action="@{/inventory/list}" style="display:flex;">
 			<select class="form-control" id="category" name="category">
-				<option value="">검색조건</option>
+				<option value="">전체</option>
 				<option value="INDate">일자</option>
 				<option value="ININame">품목명</option>
 				<option value="INICode">품목코드</option>
@@ -76,7 +76,7 @@
 		<input type="hidden" id="kw" name="kw" th:value="${kw}">
 		<input type="hidden" id="page" name="page" th:value="${paging.number}">
 	</form>
-	</dvi>
+	
 	<script layout:fragment="script" type='text/javascript'>
 		const page_elements = document.getElementsByClassName("page-link");
 		Array.from(page_elements).forEach(function (element) {
@@ -90,6 +90,26 @@
 			document.getElementById('kw').value = document.getElementById('search_kw').value;
 			document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
 			document.getElementById('searchForm').submit();
+		});
+	</script>
+
+	<script>
+		document.getElementById("category").addEventListener("change", function () {
+			var selectedOption = this.value;
+			var searchInput = document.getElementById('search_kw');
+
+			if (selectedOption === "INDate") {
+				searchInput.placeholder = "yyddmm형식으로 입력";
+
+			} else if (selectedOption === "ININame") {
+				searchInput.placeholder = "품목명 입력";
+
+			} else if (selectedOption === "INICode") {
+				searchInput.placeholder = "품목코드 입력";
+
+			} else {
+				searchInput.placeholder = "검색어를 입력하세요.";
+			}
 		});
 	</script>
 </div>
