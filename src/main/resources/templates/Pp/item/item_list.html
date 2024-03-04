@@ -7,17 +7,17 @@
 	</div>
 	
 	<div style="width:1500px;">
-		<div class="form-inline" style="display:flex; float:right; margin-bottom:8px;">
-			<select class="form-control" id="search_terms" th:value="${st}" style="padding-right:8px; margin-right:5px;">
+		<div class="form-inline" style="display:flex; float:right; margin-bottom:7px;">
+			<select class="form-control" id="search_terms" th:value="${st}" style="padding-right:8px; margin-right:5px; border-color:#a3b6ee;">
 				<option value="">검색 조건</option>
 				<option value="ItmGroup" th:selected="${st=='ItmGroup'}">품목 그룹</option>
 				<option value="ItmCategory" th:selected="${st=='ItmCategory'}">품목 분류</option>
 				<option value="ItmName" th:selected="${st=='ItmName'}">품목명</option>
 			</select>
 			<div class="input-group">
-				<input type="text" id="search_kw" th:value="${kw}" class="form-control">
+				<input type="text" id="search_kw" th:value="${kw}" class="form-control" style="border-color:#a3b6ee;">
 				<div class="input-group-append">
-					<button class="btn" type="submit" id="btn_search" style="background-color: #cdd8f6; border:1px solid #d1d3e2">
+					<button class="btn" type="submit" id="btn_search" style="background-color: #cdd8f6; border:1px solid #a3b6ee;">
 						<i class="fas fa-search fa-sm" aria-hidden="true"></i>
 					</button>
 				</div>
