@@ -13,7 +13,6 @@
 					<th>공급가액</th>
 					<th>총 액</th>
 					<th>발주 날짜</th>
-					<th>금액 납부 여부</th>
 				</tr>
 			</thead>
 			
@@ -23,11 +22,10 @@
 					<td th:text="${Orders.OR_Num}"></td>
 					<td th:text="${Orders.OR_Company + '(' + Orders.OR_Code + ')'}"></td>
 					<td th:text="${Orders.OR_Item}"></td>
-					<td th:text="${Orders.OR_Count + '개' + '(' + Orders.OR_Price + ')'}"></td>
+					<td th:text="${Orders.OR_Count + '개' + '(' + Orders.OR_Price + '원)'}"></td>
 					<td th:text="${Orders.OR_CP + '원'}"></td>
 					<td th:text="${Orders.OR_VATSUM + '원'}"></td>
 					<td th:text="${Orders.OR_Date}"></td>
-					<td th:text="${Orders.OR_Pay}"></td>
 				</tr>
 			</tbody>
 		</table>
