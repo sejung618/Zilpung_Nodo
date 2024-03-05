@@ -100,7 +100,7 @@
 		<!-- 페이징처리 끝 -->
 
 
-		<div class="col-6">
+		<div class="col-6" th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
 			<a th:href="@{/Hr/create}" class="btn btn-primary">사원 추가</a>
 		</div>
 

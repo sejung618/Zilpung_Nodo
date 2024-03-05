@@ -180,4 +180,18 @@ public class Emp_Controller {
         return "Hr/Emp_Pa_Form";
     }
     
+    @PostMapping("/pa")
+   	public String personnelAppointments(
+   			@RequestParam(value="id")Integer id,
+   			@RequestParam(value="empspot")String empspot,
+   			@RequestParam(value="empposition")String empposition,
+   			@RequestParam(value="departcode")String departcode ) {
+    	System.out.println(id + empspot +empposition+ departcode);
+    	Employee emp = this.emp_Service.getEmpDetail(id);
+    	Department depart = this.emp_Service.getDepCode(departcode);
+   		this.emp_Service.Pa(emp, empspot, empposition,depart);
+   		return "redirect:/Hr/list";
+   	}
+       
+    
 }

@@ -1,41 +1,23 @@
 <html layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="container">
-	<h5 class="my-3 border-bottom pd-2">사원 추가</h5>
-	<form th:object="${emp_Form}" method="post">
-		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-		</div>
-		<div class="mb-3">
-			<label for="empname" class="form-label">이름</label>
-			<input type="text" th:field="*{empname}" name="empname" id="empname" class="form-control" style="width: 30%;">
-		</div>
-		<div class="mb-3">
-			<label for="empssn" class="form-label">주민등록번호</label>
-			<input type="text" th:field="*{empssn}" name="empssn" id="empssn" class="form-control">
-		</div>
-		<div class="mb-3">
-			<label for="empadd" class="form-label">주소</label>
-			<input type="text" th:field="*{empadd}" name="empadd" id="empadd" class="form-control" >
-		</div>
-		
-		<div class="mb-3">
-			<label for="empphone" class="form-label">폰번호</label>
-			<input type="tel" th:field="*{empphone}" name="empphone" id="empphone" class="form-control"  >
-		</div>
-		<div class="mb-3">
-			<label for="empmail" class="form-label">이메일</label>
-			<input type="email" th:field="*{empmail}" name="empmail" id="empmail" class="form-control">
-		</div>
-		<div class="mb-3">
-			<label for="empdate" class="form-label">입사일자</label>
-			<input type="date" th:field="*{empdate}" name="empdate" id="empdate" class="form-control" required>
-		</div>
+	<h5 class="my-3 border-bottom pd-2">인사 발령</h5>
+	<form th:action="@{/Hr/pa}" method="post">
 
 		<div class="form-group mb-3">
-			<label for="empspot" class="form-label mt-4">직위</label>
+			<label for="id" class="form-label mt-4">사원</label>
+			<select class="form-select" name="id" id="id">
+				<option th:each="emp : ${emp}" th:value="${emp.id}" th:text="${emp.empnum}+${emp.empname}"
+					th:spot="${emp.empspot}" th:depart="${emp.depart.depname}"
+					th:position="${emp.empposition}"></option>
+			</select>
+
+		</div>
+		발령 전 직위<p id="sp"></p>
+
+		<div class="form-group mb-3">
+			<label for="empspot" class="form-label mt-4">발령 후 직위</label>
 			<select class="form-select" name="empspot" id="empspot">
-				<option value="-">-</option>
 				<option value="인턴" selected>인턴</option>
 				<option value="사원">사원</option>
 				<option value="대리">대리</option>
@@ -43,29 +25,45 @@
 				<option value="부장">부장</option>
 			</select>
 		</div>
-
+		발령 전 직책<p id="po"></p>
 		<div class="form-group mb-3">
 			<label for="empposition" class="form-label mt-4">직책</label>
 			<select class="form-select" name="empposition" id="empposition">
-				<option value="-">-</option>
 				<option value="팀원" selected>팀원</option>
 				<option value="부팀장">부팀장</option>
 				<option value="팀장">팀장</option>
 			</select>
 		</div>
+		
+		발령 전 부서<p id="de"></p>
 
-		
-		
 		<div class="form-group mb-3">
-			<label for="depcode" class="form-label mt-4">부서</label>
-			<select class="form-select" name="depcode" id="depcode">
-				 <option th:each="dep : ${deplist}" th:value="${dep.depcode}" th:text="${dep.depname}"></option>
-				
+			<label for="departcode" class="form-label mt-4">부서</label>
+			<select class="form-select" name="departcode" id="departcode">
+				<option th:each="dep : ${deplist}" th:value="${dep.depcode}" th:text="${dep.depname}"></option>
+
 			</select>
 		</div>
 
 		<input type="submit" value="저장하기" class="btn btn-primary my-2">
 	</form>
+
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			$('#id').change(function () {
+				var sp = $(this).find(':selected').attr("spot");
+				var po = $(this).find(':selected').attr("position");
+				var de = $(this).find(':selected').attr("depart");
+
+				$('#sp').text(sp);
+				$('#po').text(po);
+				$('#de').text(de);
+
+			});
+		});
+
+
+	</script>
 </div>
 
 </html>
