@@ -18,11 +18,11 @@ public class ItemForm {
 	
 	@NotBlank(message="품목그룹을 선택하세요.")
 	// ItemGroup에서 값 가져오기
-	private String ItmGroup;
+	private Integer ItmGroup;
 	
 	@NotBlank(message="분류를 선택하세요.")
 	// ItemCategory에서 값 가져오기
-	private String ItmCategory;
+	private Integer ItmCategory;
 	
 	private String ItmStandard;
 	

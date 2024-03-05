@@ -7,6 +7,7 @@
 	</div>
 	
 	<div style="width:1500px;">
+		
 		<div class="form-inline" style="display:flex; float:right; margin-bottom:7px;">
 			<select class="form-control" id="search_terms" th:value="${st}" style="padding-right:8px; margin-right:5px; border-color:#a3b6ee;">
 				<option value="">검색 조건</option>
@@ -28,6 +29,7 @@
 				<input type="hidden" id="page" name="page" th:value="${paging.number}">
 			</form>
 		</div>
+		
 		<table class="table table-bordered table-hover-td">
 		    <thead class="table-primary">
 		        <tr class="text-center">
@@ -49,8 +51,8 @@
 						<a th:href="@{|/basic/item/detail/${item.ItmId}|}" th:text="${item.ItmCode}"></a>
 					</td>
 		            <td th:text="${item.ItmName}"></td>
-		            <td th:text="${item.ItmGroup}"></td>
-		            <td th:text="${item.ItmCategory}"></td>
+		            <td th:text="${item.ItmGroup.IgName}"></td>
+		            <td th:text="${item.ItmCategory.IcName}"></td>
 		            <td th:text="${item.ItmStandard}"></td>
 		            <td th:text="${item.ItmSprice}"></td>
 		            <td th:text="${item.ItmRprice}"></td>

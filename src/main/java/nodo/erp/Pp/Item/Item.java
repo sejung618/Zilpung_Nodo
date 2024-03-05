@@ -22,31 +22,25 @@ public class Item {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ItmId;
 	
-	@Column(unique = true, length = 15)
+	@Column(unique = true)
 	private String ItmCode;
 
-	@Column(length = 30)
 	private String ItmName;
 	
-	private String ItmGroup;
+	@ManyToOne
+	private ItemGroup ItmGroup;
+//	private String ItmGroup;
 	
-	@Column(length = 10)
-	private String ItmCategory;
+	@ManyToOne
+	private ItemCategory ItmCategory;
+//	private String ItmCategory;
 	
-	@Column(length = 15)
 	private String ItmStandard;
 	
-	@Column(length = 10)
 	private Integer ItmSprice;
 	
-	@Column(length = 10)
 	private Integer ItmRprice;
 	
 	private LocalDateTime createDate;
 	
-	@ManyToOne
-	private ItemGroup itemGroup;
-	
-	@ManyToOne
-	private ItemCategory itemCategory;
 }

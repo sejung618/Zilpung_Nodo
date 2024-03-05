@@ -18,14 +18,14 @@
             <label for="ItmGroup" style="margin-right:10px;">품목그룹</label>
             <select class="form-control" th:field="*{ItmGroup}" name="ItmGroup" id="ItmGroup">
 				<option value="">-</option>
-				<option th:each="itemGroup:${itemGroupList}" th:value="${itemGroup.IgName}" th:text="${itemGroup.IgName}" th:data-IgName="${itemGroup.IgName}"></option>
+				<option th:each="itemGroup:${itemGroupList}" th:value="${itemGroup.IgId}" th:text="${itemGroup.IgName}" th:data-IgName="${itemGroup.IgName}"></option>
 			</select>
         </div>
         <div class="my-3">
             <label for="ItmCategory" style="margin-right:10px;">분류</label>
             <select class="form-control" th:field="*{ItmCategory}" name="ItmCategory" id="ItmCategory">
 				<option value="">-</option>
-				<option th:each="itemCategory:${itemCategoryList}" th:value="${itemCategory.IcName}" th:text="${itemCategory.IcName}" th:data-IgName="${itemCategory.IcName}"></option>
+				<option th:each="itemCategory:${itemCategoryList}" th:value="${itemCategory.IcId}" th:text="${itemCategory.IcName}" th:data-IgName="${itemCategory.IcName}"></option>
 			</select>
         </div>
         <div class="my-3">

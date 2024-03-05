@@ -2,6 +2,10 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 
     var url=window.location.href;	// 현재 접속중인 페이지의 URL 값 가져오기 (url이라는 변수에 저장)
     
+    if(url.includes('zilpung')){
+		$("#ZP_Main").attr("class", "nav-item active");
+	}
+    
     // 기본사항 관리
     	// 기본사항 관리: 품목 관리
     	if(url.includes('basic')){
@@ -97,12 +101,12 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 				$("#HR_EmployeeManage_a").attr("class", "nav-link");
 		    }
 		    // 사원 관리: 인사 발령
-/*			if(url.includes('')){
+			if(url.includes('Hr/pa')){
 		        $("#HR_EmployeeManage").attr("class", "collapse show");
 				$("#HR_EmployeeManage div").children("a:eq(1)").attr("class", "collapse-item active");
 				$("#HR_EmployeeManage_a").attr("aria-expanded", "true");
 				$("#HR_EmployeeManage_a").attr("class", "nav-link");
-		    } */
+		    }
 		    // 사원 관리: 부서 관리
 			if(url.includes('dep/list')){
 		        $("#HR_EmployeeManage").attr("class", "collapse show");

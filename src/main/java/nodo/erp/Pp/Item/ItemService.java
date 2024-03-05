@@ -17,15 +17,34 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
+import nodo.erp.Pp.ItemCategory.ItemCategory;
+import nodo.erp.Pp.ItemCategory.ItemCategoryRepository;
+import nodo.erp.Pp.ItemCategory.ItemCategoryService;
+import nodo.erp.Pp.ItemGroup.ItemGroup;
+import nodo.erp.Pp.ItemGroup.ItemGroupRepository;
+import nodo.erp.Pp.ItemGroup.ItemGroupService;
 
 @RequiredArgsConstructor
 @Service
 public class ItemService {
 	
+	private final ItemGroupService itemGroupService;
+	private final ItemCategoryService itemCategoryService;
+	
 	private final ItemRepository itemRepository;
+	private final ItemGroupRepository itemGroupRepository;
+	private final ItemCategoryRepository itemCategoryRepository;
 	
 	public List<Item> getList() {
 		return this.itemRepository.findAll();
+	}
+	
+	public List<ItemGroup> getIgList() {
+		return this.itemGroupRepository.findAll();
+	}
+	
+	public List<ItemCategory> getIcList() {
+		return this.itemCategoryRepository.findAll();
 	}
 	
 	public Page<Item> getList(int page, String st, String kw) {
@@ -61,12 +80,25 @@ public class ItemService {
 	    }
 	}
 	
-	public void create(String ItmCode, String ItmName, String ItmGroup, String ItmCategory, String ItmStandard, Integer ItmSprice, Integer ItmRprice) {
-	    Item itm = new Item();
-	    itm.setItmCode(ItmCode);
+	public void create(String ItmName, Integer ItmGroup, Integer ItmCategory, String ItmStandard, Integer ItmSprice, Integer ItmRprice) {
+		Item itm = new Item();
+		String NewItmCode = "";
+		List<Item> itemList = this.itemRepository.findAll();
+		if (itemList.size() == 0) {
+			int IgCodeNum = Integer.parseInt( itemGroupService.getItemGroup(ItmGroup).getIgCode().substring(3) );
+			int IcCodeNum = Integer.parseInt( itemCategoryService.getItemCategory(ItmCategory).getIcCode().substring(3) );
+			NewItmCode = "ITM-" + String.format("%03d", IgCodeNum) + "-" + String.format("%03d", IcCodeNum) + "-001";
+		} else {
+			String FinalItmCode = itemList.get(itemList.size()-1).getItmCode();
+			int IgCodeNum = Integer.parseInt( itemGroupService.getItemGroup(ItmGroup).getIgCode().substring(3) );
+			int IcCodeNum = Integer.parseInt( itemCategoryService.getItemCategory(ItmCategory).getIcCode().substring(3) );
+			int NewItmCodeNum = Integer.parseInt(FinalItmCode.substring(12)) + 1;
+			NewItmCode = "ITM-" + String.format("%03d", IgCodeNum) + "-" + String.format("%03d", IcCodeNum) + "-" + String.format("%03d", NewItmCodeNum);
+		}
+	    itm.setItmCode(NewItmCode);
 	    itm.setItmName(ItmName);
-	    itm.setItmGroup(ItmGroup);
-	    itm.setItmCategory(ItmCategory);
+	    itm.setItmGroup(itemGroupService.getItemGroup(ItmGroup));
+	    itm.setItmCategory(itemCategoryService.getItemCategory(ItmCategory));
 	    itm.setItmStandard(ItmStandard);
 	    itm.setItmSprice(ItmSprice);
 	    itm.setItmRprice(ItmRprice);
@@ -74,9 +106,10 @@ public class ItemService {
 	    this.itemRepository.save(itm);
 	}
 	
-	public void modify(Item itm, String ItmName, String ItmGroup, String ItmCategory, String ItmStandard, Integer ItmSprice, Integer ItmRprice) {
+	public void modify(Item itm, String ItmName, Integer ItmGroup, Integer ItmCategory, String ItmStandard, Integer ItmSprice, Integer ItmRprice) {
 		itm.setItmName(ItmName);
-	    itm.setItmCategory(ItmCategory);
+		itm.setItmGroup(itemGroupService.getItemGroup(ItmGroup));
+	    itm.setItmCategory(itemCategoryService.getItemCategory(ItmCategory));
 	    itm.setItmStandard(ItmStandard);
 	    itm.setItmSprice(ItmSprice);
 	    itm.setItmRprice(ItmRprice);

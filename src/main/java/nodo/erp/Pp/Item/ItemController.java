@@ -43,36 +43,23 @@ public class ItemController {
 	
 	@GetMapping("/create")
 	public String ItemCreate(ItemForm itemForm, Model model) {
-		List<ItemGroup> itemGroupList = this.itemGroupService.getList();
-		List<ItemCategory> itemCategoryList = this.itemCategoryService.getList();
+		List<ItemGroup> itemGroupList = this.itemService.getIgList();
+		List<ItemCategory> itemCategoryList = this.itemService.getIcList();
 		model.addAttribute("itemGroupList", itemGroupList);
 		model.addAttribute("itemCategoryList", itemCategoryList);
 		return "Pp/item/item_form";
 	}
 	
 	@PostMapping("/create")
-	public String ItemCreate(@Valid ItemForm itemForm, BindingResult bindingResult, Model model) {
+	public String ItemCreate(@Valid ItemForm itemForm, Model model, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			List<ItemGroup> itemGroupList = this.itemGroupService.getList();
-			List<ItemCategory> itemCategoryList = this.itemCategoryService.getList();
+			List<ItemGroup> itemGroupList = this.itemService.getIgList();
+			List<ItemCategory> itemCategoryList = this.itemService.getIcList();
 			model.addAttribute("itemGroupList", itemGroupList);
 			model.addAttribute("itemCategoryList", itemCategoryList);
             return "Pp/item/item_form";
         }
-		List<Item> itemList = this.itemService.getList();
-		if (itemList.size() == 0) {
-			int IgCodeNum = Integer.parseInt( (itemGroupService.getIgCodeIdByName(itemForm.getItmGroup())).substring(3));
-			int IcCodeNum = Integer.parseInt( (itemCategoryService.getIcCodeIdByName(itemForm.getItmCategory())).substring(3));
-			String NewItmCode = "ITM-" + String.format("%03d", IgCodeNum) + "-" + String.format("%03d", IcCodeNum) + "-001";
-			this.itemService.create(NewItmCode, itemForm.getItmName(), itemForm.getItmGroup(), itemForm.getItmCategory(), itemForm.getItmStandard(), itemForm.getItmSprice(), itemForm.getItmRprice());
-		} else {
-			String FinalItmCode = itemList.get(itemList.size()-1).getItmCode();
-			int IgCodeNum = Integer.parseInt( (itemGroupService.getIgCodeIdByName(itemForm.getItmGroup())).substring(3));
-			int IcCodeNum = Integer.parseInt( (itemCategoryService.getIcCodeIdByName(itemForm.getItmCategory())).substring(3));
-			int NewItmCodeNum = Integer.parseInt(FinalItmCode.substring(12)) + 1;
-			String NewItmCode = "ITM-" + String.format("%03d", IgCodeNum) + "-" + String.format("%03d", IcCodeNum) + "-" + String.format("%03d", NewItmCodeNum);
-			this.itemService.create(NewItmCode, itemForm.getItmName(), itemForm.getItmGroup(), itemForm.getItmCategory(), itemForm.getItmStandard(), itemForm.getItmSprice(), itemForm.getItmRprice());
-		}
+		this.itemService.create(itemForm.getItmName(), itemForm.getItmGroup(), itemForm.getItmCategory(), itemForm.getItmStandard(), itemForm.getItmSprice(), itemForm.getItmRprice());
         return "redirect:/basic/item/list";
 	}
 	
@@ -92,8 +79,8 @@ public class ItemController {
 		model.addAttribute("itemCategoryList", itemCategoryList);
 		itemForm.setItmCode(item.getItmCode());
 		itemForm.setItmName(item.getItmName());
-		itemForm.setItmGroup(item.getItmGroup());
-		itemForm.setItmCategory(item.getItmCategory());
+		itemForm.setItmGroup(item.getItmGroup().getIgId());
+		itemForm.setItmCategory(item.getItmCategory().getIcId());
 		itemForm.setItmStandard(item.getItmStandard());
 		itemForm.setItmSprice(item.getItmSprice());
 		itemForm.setItmRprice(item.getItmRprice());
