@@ -47,13 +47,13 @@ public class InventoryController {
 		if (category == null && category.isEmpty()) {
 			paging = this.inventoryService.searchAllCategories(page, kw);
 		}
-		if ("INDate".equals(category)) {
-			paging = this.inventoryService.findByINDate(page, kw);
+		if ("indate".equals(category)) {
+			paging = this.inventoryService.findByindate(page, kw);
 		}
-		if ("ItmName".equals(category)) {
+		if ("itmname".equals(category)) {
 			paging = this.inventoryService.findByItmName(page, kw);
 		}
-		if ("ItmCode".equals(category)) {
+		if ("itmcode".equals(category)) {
 			paging = this.inventoryService.findByItmCode(page, kw);
 		}
 
@@ -78,7 +78,7 @@ public class InventoryController {
 	@PostMapping("/create")
 	public String inventoryCreate(Model model, @Valid InventoryForm inf, BindingResult br) {
 		Employee employee = this.emp_Service.getEmpDetail(inf.getEmpnum());
-		Item item = this.itemService.getItem(inf.getItmCode());
+		Item item = this.itemService.getItem(inf.getItmcode());
 
 		if (br.hasErrors()) {
 			List<Employee> empList = this.emp_Service.getList();
@@ -88,39 +88,39 @@ public class InventoryController {
 			model.addAttribute("itemList", itemList);
 			return "Mm/inventory_form";
 		}
-		this.inventoryService.create(inf.getINDate(), item, inf.getINQuantity(), employee);
+		this.inventoryService.create(inf.getIndate(), item, inf.getInquantity(), employee);
 		return "redirect:/inventory/list";
 	}
 
-	@GetMapping(value = "/detail/{INid}")
-	public String detail(Model model, @PathVariable("INid") Integer INid) {
-		Inventory inventory = this.inventoryService.getInventory(INid);
+	@GetMapping(value = "/detail/{inid}")
+	public String detail(Model model, @PathVariable("inid") Integer inid) {
+		Inventory inventory = this.inventoryService.getInventory(inid);
 		model.addAttribute("inventory", inventory);
 		return "Mm/inventory_detail";
 	}
 
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/modify/{INid}")
-	public String inventoryModify(Model model, InventoryForm inf, @PathVariable("INid") Integer INid,
+	@GetMapping("/modify/{inid}")
+	public String inventoryModify(Model model, InventoryForm inf, @PathVariable("inid") Integer inid,
 			Principal principal) {
-		Inventory inventory = this.inventoryService.getInventory(INid);
+		Inventory inventory = this.inventoryService.getInventory(inid);
 		List<Employee> empList = this.emp_Service.getList();
 		List<Item> itemList = this.itemService.getList();
 		model.addAttribute("empList", empList);
 		model.addAttribute("itemList", itemList);
 
-		inf.setINDate(inventory.getINDate());
-		inf.setItmCode(inventory.getItem().getItmId());
+		inf.setIndate(inventory.getIndate());
+		inf.setItmcode(inventory.getItem().getItmId());
 		inf.setEmpnum(inventory.getEmployee().getId());
-		inf.setINQuantity(inventory.getINQuantity());
+		inf.setInquantity(inventory.getInquantity());
 		return "Mm/inventory_form";
 	}
 
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping("/modify/{INid}")
+	@PostMapping("/modify/{inid}")
 	public String inventoryModify(Model model, @Valid InventoryForm inf, BindingResult br,
 
-			@PathVariable("INid") Integer INid, Principal principal) {
+			@PathVariable("inid") Integer INid, Principal principal) {
 		if (br.hasErrors()) {
 			List<Employee> empList = this.emp_Service.getList();
 			List<Item> itemList = this.itemService.getList();
@@ -130,19 +130,19 @@ public class InventoryController {
 		}
 		Inventory inventory = this.inventoryService.getInventory(INid);
 		Employee employee = this.emp_Service.getEmpDetail(inf.getEmpnum());
-		Item item = this.itemService.getItem(inf.getItmCode());
+		Item item = this.itemService.getItem(inf.getItmcode());
 
 		{
 
-			this.inventoryService.modify(inventory, inf.getINDate(), item, inf.getINQuantity(), employee);
+			this.inventoryService.modify(inventory, inf.getIndate(), item, inf.getInquantity(), employee);
 			return String.format("redirect:/inventory/list", INid);
 
 		}
 	}
 
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/delete/{INid}")
-	public String inventoryDelete(@PathVariable("INid") Integer INid, Principal principal) {
+	@GetMapping("/delete/{inid}")
+	public String inventoryDelete(@PathVariable("inid") Integer INid, Principal principal) {
 		Inventory inventory = this.inventoryService.getInventory(INid);
 
 

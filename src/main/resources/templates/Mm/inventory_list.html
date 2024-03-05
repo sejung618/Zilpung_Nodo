@@ -8,9 +8,9 @@
 		<form method="get" th:action="@{/inventory/list}" style="display:flex;">
 			<select class="form-control" id="category" name="category">
 				<option value="">전체</option>
-				<option value="INDate">일자</option>
-				<option value="ItmName">품목명</option>
-				<option value="ItmCode">품목코드</option>
+				<option value="indate">일자</option>
+				<option value="itmname">품목명</option>
+				<option value="itmcode">품목코드</option>
 			</select>
 			<div class="input-group">
 				<input type="text" id="search_kw" name="kw" class="form-control bg-light border-primary small"
@@ -38,11 +38,11 @@
 			<tr class="text-center" th:each="inventory, loop : ${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<td>
-					<a th:href="@{|/inventory/detail/${inventory.INid}|}" th:text="${inventory.INNum}"></a>
+					<a th:href="@{|/inventory/detail/${inventory.inid}|}" th:text="${inventory.innum}"></a>
 				</td>
 				<td th:text="${inventory.item.ItmName}"></td>
 				<td th:text="${inventory.item.ItmCode}"></td>
-				<td th:text="${inventory.INQuantity}"></td>
+				<td th:text="${inventory.inquantity}"></td>
 				<td th:text="${inventory.item.ItmStandard}"></td>
 			</tr>
 		</tbody>
@@ -98,14 +98,14 @@
 			var selectedOption = this.value;
 			var searchInput = document.getElementById('search_kw');
 
-			if (selectedOption === "INDate") {
+			if (selectedOption === "indate") {
 				searchInput.type="date";
 
-			} else if (selectedOption === "ItmName") {
+			} else if (selectedOption === "itmname") {
 				searchInput.placeholder = "품목명 입력";
 				searchInput.type="text";
 
-			} else if (selectedOption === "ItmCode") {
+			} else if (selectedOption === "itmcode") {
 				searchInput.placeholder = "품목코드 입력";
 				searchInput.type="text";
 

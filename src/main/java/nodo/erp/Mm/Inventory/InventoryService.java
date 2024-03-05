@@ -45,28 +45,28 @@ public class InventoryService {
 		}
 	}
 
-	public void create(String INDate, Item item, Integer INQuantity, Employee empnum) {
+	public void create(String indate, Item itmcode, Integer inquantity, Employee empnum) {
 
-		String yy = INDate.substring(2, 4);
-		String mm = INDate.substring(5, 7);
-		String dd = INDate.substring(8, 10);
+		String yy = indate.substring(2, 4);
+		String mm = indate.substring(5, 7);
+		String dd = indate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateInvNum(ymd));
 
 		Inventory i = new Inventory();
 
-		i.setINNum(ymd + "-" + Num);
-		i.setINDate(INDate);
-		i.setItem(item);
-		i.setINQuantity(INQuantity);
+		i.setInnum(ymd + "-" + Num);
+		i.setIndate(indate);
+		i.setItem(itmcode);
+		i.setInquantity(inquantity);
 		i.setEmployee(empnum);
 		i.setCreateDate(LocalDateTime.now());
 		this.inventoryRepository.save(i);
 	}
 
 	private Integer generateInvNum(String ymd) {
-		jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(CAST(SUBSTRING(i.INNum,-3) AS int)) "
-				+ "FROM Inventory i WHERE SUBSTRING(i.INNum, 1, 6) = :ymd");
+		jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(CAST(SUBSTRING(i.innum,-3) AS int)) "
+				+ "FROM Inventory i WHERE SUBSTRING(i.innum, 1, 6) = :ymd");
 		query.setParameter("ymd", ymd);
 		Integer maxNum = (Integer) query.getSingleResult();
 
@@ -74,8 +74,8 @@ public class InventoryService {
 	}
 
 	// 디테일
-	public Inventory getInventory(Integer INid) {
-		Optional<Inventory> inventory = this.inventoryRepository.findById(INid);
+	public Inventory getInventory(Integer inid) {
+		Optional<Inventory> inventory = this.inventoryRepository.findById(inid);
 		if (inventory.isPresent()) {
 			return inventory.get();
 		} else {
@@ -83,19 +83,19 @@ public class InventoryService {
 		}
 	}
 
-	public void modify(Inventory inventory, String INDate, Item Item, Integer INQuantity, Employee empnum) {
+	public void modify(Inventory inventory, String indate, Item itmcode, Integer inquantity, Employee empnum) {
 
-		String yy = INDate.substring(2, 4);
-		String mm = INDate.substring(5, 7);
-		String dd = INDate.substring(8, 10);
+		String yy = indate.substring(2, 4);
+		String mm = indate.substring(5, 7);
+		String dd = indate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateInvNum(ymd));
 
-		inventory.setINNum(ymd + "-" + Num);
-		inventory.setINDate(INDate);
-		inventory.setItem(Item);
+		inventory.setInnum(ymd + "-" + Num);
+		inventory.setIndate(indate);
+		inventory.setItem(itmcode);
 		inventory.setEmployee(empnum);
-		inventory.setINQuantity(INQuantity);
+		inventory.setInquantity(inquantity);
 		inventory.setModifyDate(LocalDateTime.now());
 		this.inventoryRepository.save(inventory);
 	}
@@ -104,11 +104,11 @@ public class InventoryService {
 		this.inventoryRepository.delete(inventory);
 	}
 
-	public Page<Inventory> findByINDate(int page, String kw) {
+	public Page<Inventory> findByindate(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return this.inventoryRepository.findByINDateContaining(pageable, kw);
+		return this.inventoryRepository.findByIndateContaining(pageable, kw);
 	}
 
 	public Page<Inventory> findByItmName(int page, String kw) {
@@ -129,7 +129,7 @@ public class InventoryService {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return inventoryRepository.findByINDateContainingOrItem_ItmNameContainingOrItem_ItmCodeContaining(pageable, kw, kw, kw);
+		return inventoryRepository.findByIndateContainingOrItem_ItmNameContainingOrItem_ItmCodeContaining(pageable, kw, kw, kw);
 	}
 
 	public Page<Inventory> getList(int page, String kw) {

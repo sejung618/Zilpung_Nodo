@@ -13,11 +13,11 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer>{
 
 	Page<Inventory> findAll(Pageable pageable);
 	
-	Page<Inventory> findByINDateContaining(Pageable pageable, String kw);
+	Page<Inventory> findByIndateContaining(Pageable pageable, String kw);
 	
 	Page<Inventory> findByItem_ItmNameContaining(Pageable pageable, String kw);
 	
 	Page<Inventory> findByItem_ItmCodeContaining(Pageable pageable, String kw);
 	
-	Page<Inventory> findByINDateContainingOrItem_ItmNameContainingOrItem_ItmCodeContaining(Pageable pageable, String kw1, String kw2, String kw3);
-}///
+	Page<Inventory> findByIndateContainingOrItem_ItmNameContainingOrItem_ItmCodeContaining(Pageable pageable, String kw1, String kw2, String kw3);
+}

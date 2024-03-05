@@ -20,16 +20,16 @@ import nodo.erp.Pp.Item.Item;
 public class Inventory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer INid;		//번호
+	private Integer inid;		//번호
 	
 
-	private String INDate;		//일자
+	private String indate;		//일자
 	
 	
-	private String INNum;		//일자번호(yymmdd)
+	private String innum;		//일자번호(yymmdd)
 	
 	
-	private Integer INQuantity;		//수량
+	private Integer inquantity;		//수량
 	
 	
 	private LocalDateTime createDate; 		
