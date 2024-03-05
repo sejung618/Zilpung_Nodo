@@ -17,10 +17,9 @@ public class ItemGroup {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer IgId;
 	
-	@Column(unique = true, length = 6)
+	@Column(unique = true)
 	private String IgCode;
 
-	@Column(length = 10)
 	private String IgName;
 }
 

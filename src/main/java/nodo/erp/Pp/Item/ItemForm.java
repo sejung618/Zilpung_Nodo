@@ -1,6 +1,7 @@
 package nodo.erp.Pp.Item;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -16,11 +17,11 @@ public class ItemForm {
 	@Size(min=1, max=30, message="품목명은 1자 이상 30자 이하로 입력해주세요.")
 	private String ItmName;
 	
-	@NotBlank(message="품목그룹을 선택하세요.")
+	@NotNull(message="품목그룹을 선택하세요.")
 	// ItemGroup에서 값 가져오기
 	private Integer ItmGroup;
 	
-	@NotBlank(message="분류를 선택하세요.")
+	@NotNull(message="분류를 선택하세요.")
 	// ItemCategory에서 값 가져오기
 	private Integer ItmCategory;
 	

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
@@ -57,15 +59,17 @@ public class ItemService {
 	
 	public static Specification<Item> search(String search_terms, String search_kw) {
 		return (Root<Item> item, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+			Join<Item, ItemGroup> IG = item.join("ItmGroup", JoinType.LEFT);
+			Join<Item, ItemCategory> IC = item.join("ItmCategory", JoinType.LEFT);
 			if (search_terms.equals("ItmGroup")) {
-				return cb.like(item.get("ItmGroup"), "%" + search_kw + "%");
+				return cb.like(IG.get("IgName"), "%" + search_kw + "%");
 			} else if (search_terms.equals("ItmCategory")) {
-				return cb.like(item.get("ItmCategory"), "%" + search_kw + "%");
+				return cb.like(IC.get("IcName"), "%" + search_kw + "%");
 			} else if (search_terms.equals("ItmName")) {
 				return cb.like(item.get("ItmName"), "%" + search_kw + "%");
 			} else {
-				return cb.or(cb.like(item.get("ItmGroup"), "%" + search_kw + "%"),
-						cb.like(item.get("ItmCategory"), "%" + search_kw + "%"),
+				return cb.or(cb.like(IG.get("IgName"), "%" + search_kw + "%"),
+						cb.like(IC.get("IcName"), "%" + search_kw + "%"),
 						cb.like(item.get("ItmName"), "%" + search_kw + "%") );
 			}
 		};
