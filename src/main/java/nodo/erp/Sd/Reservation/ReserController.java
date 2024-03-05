@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.Mm.Inventory.Inventory;
+import nodo.erp.Mm.Inventory.InventoryService;
 
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class ReserController {
 
 	@Autowired
 	private final ReserService rs;
+	private final InventoryService invenService;
 	
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -29,9 +32,17 @@ public class ReserController {
 		return "Sd/Res_List";
 	}
 	
+	@GetMapping(value = "/detail/{id}")
+	public String detail(Model model, @PathVariable("id") Integer id) {
+		Reservation reser = this.rs.getReservation(id);
+		model.addAttribute("reser", reser);
+		return "Sd/Res_detail";
+	}
+	
 	// 예약 신청
 	@GetMapping("/create")
 	public String ResCreate(ResCreateForm resCreateForm) {
+		List<Inventory> InvenList = this.invenService.getList();
 		return "Sd/res_create";
 	}
 	
