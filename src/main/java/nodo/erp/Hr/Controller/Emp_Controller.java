@@ -94,9 +94,6 @@ public class Emp_Controller {
     @GetMapping("/modify/{id}")
     public String EmpModify(Emp_modify_Form emp_modify_Form, @PathVariable("id") Integer id) {
     	Employee empDtail = this.emp_Service.getEmpDetail(id);
-//        if(!question.getAuthor().getUsername().equals(principal.getName())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-//        }
     	emp_modify_Form.setEmpname(empDtail.getEmpname());
     	emp_modify_Form.setEmpadd(empDtail.getEmpadd());
     	emp_modify_Form.setEmpphone(empDtail.getEmpphone());
@@ -122,11 +119,8 @@ public class Emp_Controller {
 		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
 		if(employee.getId() == 1) {
     	Employee emp = this.emp_Service.getEmpDetail(id);
-//        if (!question.getAuthor().getUsername().equals(principal.getName())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
-//        }
         this.emp_Service.delete(emp);
-        return "redirect:/Hr/logout";
+        return "redirect:/Hr/list";
         }else {
         	return "redirect:/";
         }
@@ -175,5 +169,29 @@ public class Emp_Controller {
 		this.emp_Service.passmodify(emp, emp_Pass_Form.getNewpass());
 		return "redirect:/";
 	}
+    
+    @GetMapping("/pa")
+    public String personnelAppointments(Model model) {
+    	List<Employee> emp = this.emp_Service.getList();
+    	List<Department> deplist = this.emp_Service.getdepList();
+    	model.addAttribute("emp", emp);
+    	model.addAttribute("deplist", deplist);
+        
+        return "Hr/Emp_Pa_Form";
+    }
+    
+    @PostMapping("/pa")
+   	public String personnelAppointments(
+   			@RequestParam(value="id")Integer id,
+   			@RequestParam(value="empspot")String empspot,
+   			@RequestParam(value="empposition")String empposition,
+   			@RequestParam(value="departcode")String departcode ) {
+    	System.out.println(id + empspot +empposition+ departcode);
+    	Employee emp = this.emp_Service.getEmpDetail(id);
+    	Department depart = this.emp_Service.getDepCode(departcode);
+   		this.emp_Service.Pa(emp, empspot, empposition,depart);
+   		return "redirect:/Hr/list";
+   	}
+       
     
 }
