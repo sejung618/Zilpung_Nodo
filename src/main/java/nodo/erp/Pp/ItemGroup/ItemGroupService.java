@@ -18,25 +18,13 @@ public class ItemGroupService {
 		return this.itemGroupRepository.findAll();
 	}
 	
-	public ItemGroup getItemGroup(Integer id) {
-		Optional<ItemGroup> itemGroup = this.itemGroupRepository.findById(id);
+	public ItemGroup getItemGroup(Integer IgId) {
+		Optional<ItemGroup> itemGroup = this.itemGroupRepository.findById(IgId);
 		if (itemGroup.isPresent()) {
             return itemGroup.get();
         } else {
             throw new DataNotFoundException("itemGroup not found");
         }
-	}
-	
-	public String getIgCodeIdByName(String IgName) {
-		String IgCode = "";
-		List<ItemGroup> itemGroupList = this.itemGroupRepository.findAll();
-		for(ItemGroup ig : itemGroupList) {
-			if((ig.getIgName()).equals(IgName)) {
-				IgCode = ig.getIgCode();
-				break;
-			}
-		}
-		return IgCode;
 	}
 	
 	public void create(String IgCode, String IgName) {

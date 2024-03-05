@@ -27,9 +27,9 @@ public class ItemGroupController {
         return "Pp/itemgroup/itemgroup_list";
     }
 	
-	@GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
-        ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
+	@GetMapping(value = "/detail/{IgId}")
+    public String detail(Model model, @PathVariable("IgId") Integer IgId) {
+        ItemGroup itemGroup = this.itemGroupService.getItemGroup(IgId);
         model.addAttribute("itemGroup", itemGroup);
 		return "Pp/itemgroup/itemgroup_detail";
     }
@@ -59,28 +59,28 @@ public class ItemGroupController {
         return "redirect:/basic/itemgroup/list";
     }
 	
-	@GetMapping("/modify/{id}")
-	public String ItemGroupModify(@PathVariable("id") Integer id, ItemGroupForm itemGroupForm, Model model) {
-		ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
+	@GetMapping("/modify/{IgId}")
+	public String ItemGroupModify(@PathVariable("IgId") Integer IgId, ItemGroupForm itemGroupForm, Model model) {
+		ItemGroup itemGroup = this.itemGroupService.getItemGroup(IgId);
 		itemGroupForm.setIgCode(itemGroup.getIgCode());
 		itemGroupForm.setIgName(itemGroup.getIgName());
 		model.addAttribute("itemGroupForm", itemGroup);
 		return "Pp/itemgroup/itemgroup_modify";
 	}
 	
-	@PostMapping("/modify/{id}")
-	public String ItemGroupModify(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult, @PathVariable("id") Integer id) {
+	@PostMapping("/modify/{IgId}")
+	public String ItemGroupModify(@Valid ItemGroupForm itemGroupForm, BindingResult bindingResult, @PathVariable("IgId") Integer IgId) {
 		if (bindingResult.hasErrors()) {
             return "Pp/itemgroup/itemgroup_modify";
         }
-		ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
+		ItemGroup itemGroup = this.itemGroupService.getItemGroup(IgId);
 		this.itemGroupService.modify(itemGroup, itemGroupForm.getIgName());
 		return "redirect:/basic/itemgroup/list";
 	}
 	
-    @GetMapping("/delete/{id}")
-    public String itemGroupDelete(@PathVariable("id") Integer id) {
-        ItemGroup itemGroup = this.itemGroupService.getItemGroup(id);
+    @GetMapping("/delete/{IgId}")
+    public String itemGroupDelete(@PathVariable("IgId") Integer IgId) {
+        ItemGroup itemGroup = this.itemGroupService.getItemGroup(IgId);
         this.itemGroupService.delete(itemGroup);
         return "redirect:/basic/itemgroup/list";
     }

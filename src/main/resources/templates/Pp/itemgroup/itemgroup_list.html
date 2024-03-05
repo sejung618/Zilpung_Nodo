@@ -19,12 +19,12 @@
 	        <tr class="text-center" th:each="itemGroup, loop:${itemGroupList}">
 				<td th:text="${loop.count}"></td>
 	            <td>
-					<a th:href="@{|/basic/itemgroup/detail/${itemGroup.id}|}" th:text="${itemGroup.IgCode}"></a>
+					<a th:href="@{|/basic/itemgroup/detail/${itemGroup.IgId}|}" th:text="${itemGroup.IgCode}"></a>
 				</td>
 	            <td th:text="${itemGroup.IgName}"></td>
 	            <td>
-					<a th:href="@{|/basic/itemgroup/modify/${itemGroup.id}|}"><img src="/img/pencil-solid.svg" alt="수정" style="height:15px"></a> / 
-					<a class="delete" href="javascript:void(0);" th:data-uri="@{|/basic/itemgroup/delete/${itemGroup.id}|}"><img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px"></a>
+					<a th:href="@{|/basic/itemgroup/modify/${itemGroup.IgId}|}"><img src="/img/pencil-solid.svg" alt="수정" style="height:15px"></a> / 
+					<a class="delete" href="javascript:void(0);" th:data-uri="@{|/basic/itemgroup/delete/${itemGroup.IgId}|}"><img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px"></a>
 				</td>
 	        </tr>
 	    </tbody>
