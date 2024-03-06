@@ -28,6 +28,7 @@
 			<tr class="text-center">
 				<th>사번</th>
 				<th>사원명</th>
+				<th>부서</th>
 				<th>휴가 시작날짜</th>
 				<th>휴가 종료날짜</th>
 				<th>휴가 일수</th>
@@ -40,6 +41,7 @@
 			<tr class="text-center" th:each="vacalist : ${paging}">
 				<td> <span th:if="${vacalist.employee != null}" th:text="${vacalist.employee.empnum}"></span></td>
 				<td> <span th:if="${vacalist.employee != null}" th:text="${vacalist.employee.empname}"></span></td>
+				<td> <span th:if="${vacalist.employee.depart != null}" th:text="${vacalist.employee.depart.depname}"></span></td>
 				<td th:text="${vacalist.startdate}"></td>
 				<td th:text="${vacalist.enddate}"></td>
 				<td th:text="${vacalist.period}"></td>

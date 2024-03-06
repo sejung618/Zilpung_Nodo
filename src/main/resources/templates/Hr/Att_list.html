@@ -23,17 +23,19 @@
 			<tr class="text-center">
 				<th>사원번호</th>
 				<th>사원이름</th>
+				<th>부서</th>
 				<th>출근 일</th>
 				<th>출근시간</th>
 				<th>퇴근시간</th>
 				<th>근무시간</th>
 			</tr>
 		</thead>
-
+				
 		<tbody>
 			<tr class="text-center" th:each="List : ${paging}">
-				<td th:text="${List.employee.empnum}"></td>
-				<td th:text="${List.employee.empname}"></td>
+				<td><span th:if="${List.employee != null}" th:text="${List.employee.empnum}"></span></td>
+				<td><span th:if="${List.employee != null}" th:text="${List.employee.empname}"></span></td>
+				<td><span th:if="${List.employee.depart != null}" th:text="${List.employee.depart.depname}"></span></td>
 				<td th:text="${List.day}"></td>
 				<td th:text="${List.checkInTime}"></td>
 				<td th:text="${List.checkOutTime}"></td>

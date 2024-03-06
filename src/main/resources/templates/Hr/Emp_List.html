@@ -8,47 +8,56 @@
 
 		<div class="col-6">
 			<div class="input-group">
-				<div class="input-group-append">
-					<select class="custom-select" id="searchType" th:value="${st}">
-						<option value="">전체</option>
-						<option value="empnum" th:selected="${st=='empnum'}">사번</option>
-						<option value="empname" th:selected="${st=='empname'}">이름</option>
-						<option value="depname" th:selected="${st=='depname'}">부서</option>
-						<option value="empposition" th:selected="${st=='empposition'}">직책</option>
-						<option value="empdate" th:selected="${st=='empdate'}">입사일</option>
-						<option value="empm" th:selected="${st=='empm'}">입사월</option>
-					</select>
+				<div class="input-group-prepend">
+					<span class="input-group-text">사번</span>
 				</div>
-				<input type="text" id="search_kw" class="form-control" th:value="${kw}">
-				<button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+				<input type="text" id="num_kw" class="form-control" th:value="${num}">
 			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">이름</span>
+				</div>
+				<input type="text" id="name_kw" class="form-control" th:value="${name}">
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">입사월</span>
+				</div>
+				<input type="month" id="month_kw" class="form-control" th:value="${month}">
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">부서</span>
+				</div>
+				<input type="text" id="depart_kw" class="form-control" th:value="${depart}">
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">직위</span>
+				</div>
+				<input type="text" id="spot_kw" class="form-control" th:value="${spot}">
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">직책</span>
+				</div>
+				<input type="text" id="posi_kw" class="form-control" th:value="${posi}">
+			</div>
+			<button class="btn btn-primary mt-3" type="button" id="btn_search">찾기</button>
 		</div>
+
+
 		<form th:action="@{/Hr/list}" method="get" id="searchForm">
-			<input type="hidden" id="kw" name="kw" th:value="${kw}">
-			<input type="hidden" id="st" name="st" th:value="${st}">
+			<input type="hidden" id="num" name="num" th:value="${num}">
+			<input type="hidden" id="name" name="name" th:value="${name}">
+			<input type="hidden" id="month" name="month" th:value="${month}">
+			<input type="hidden" id="depart" name="depart" th:value="${depart}">
+			<input type="hidden" id="spot" name="spot" th:value="${spot}">
+			<input type="hidden" id="posi" name="posi" th:value="${posi}">
 			<input type="hidden" id="page" name="page" th:value="${paging.number}">
 		</form>
 
-		<div class="col-6">
-			<div class="input-group">
-				<div class="input-group-append">
-					<select class="custom-select" id="sortType" th:value="${sort}">
-						<option value="empnum">사번</option>
-						<option value="empposition">직책</option>
-						<option value="empname">이름</option>
-						<option value="depname">부서</option>
-						<option value="empposition">직책</option>
-						<option value="empdate">입사일</option>
-						<option value="empm">입사월</option>
-					</select>
-				</div>
-				<button class="btn btn-outline-secondary" type="button" id="btn_sort">정렬</button>
-			</div>
-		</div>
-		<form th:action="@{/Hr/list}" method="get" id="sortForm">
-			<input type="hidden" id="sort" name="sort" th:value="${sort}">
-			<input type="hidden" id="page" name="page" th:value="${paging.number}">
-		</form>
+
 
 		<!--테이블 시작-->
 		<table class="table table-bordered table-hover-td">
@@ -70,8 +79,9 @@
 					<td th:text="${Emplist.empname}"></td>
 					<td th:text="${Emplist.empdate}"></td>
 					<td><span th:if="${Emplist.depart != null}" th:text="${Emplist.depart.depname}"></span></td>
-					<td th:text="${Emplist.empposition}"></td>
-					<td th:text="${Emplist.empspot}"></td>
+					<td><span th:if="${Emplist.position != null}" th:text="${Emplist.position.positionname}"></span>
+					</td>
+					<td><span th:if="${Emplist.spot != null}" th:text="${Emplist.spot.spotname}"></span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -100,7 +110,8 @@
 		<!-- 페이징처리 끝 -->
 
 
-		<div class="col-6" th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
+		<div class="col-6"
+			th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
 			<a th:href="@{/Hr/create}" class="btn btn-primary">사원 추가</a>
 		</div>
 
@@ -119,20 +130,19 @@
 			});
 			const btn_search = document.getElementById("btn_search");
 			btn_search.addEventListener('click', function () {
-				document.getElementById('kw').value = document.getElementById('search_kw').value;
-				document.getElementById('st').value = document.getElementById('searchType').value;
+				document.getElementById('num').value = document.getElementById('num_kw').value;
+				document.getElementById('name').value = document.getElementById('name_kw').value;
+				document.getElementById('month').value = document.getElementById('month_kw').value;
+				document.getElementById('depart').value = document.getElementById('depart_kw').value;
+				document.getElementById('spot').value = document.getElementById('spot_kw').value;
+				document.getElementById('posi').value = document.getElementById('posi_kw').value;
 				document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
 				document.getElementById('searchForm').submit();
 			});
-			const btn_search1 = document.getElementById("btn_sort");
-			btn_search1.addEventListener('click', function () {
-				document.getElementById('sort').value = document.getElementById('sortType').value;
-				document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
-				document.getElementById('sortForm').submit();
-			});
+
 
 		</script>
-		<!--타입변경 스크립트-->
+		<!--타입변경 스크립트 안씀-->
 		<script>
 			document.getElementById("searchType").addEventListener("change", function () {
 				var selectedOption = this.value;

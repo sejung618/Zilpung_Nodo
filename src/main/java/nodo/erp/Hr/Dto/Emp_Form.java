@@ -30,9 +30,9 @@ public class Emp_Form {
     @NotNull(message="입사일은 필수항목입니다.")
     private LocalDate empdate;
     
-    private String empspot;
+    private Integer spotid;
     
-    private String empposition;
+    private Integer posiid;
     
     private Integer depid;
 }

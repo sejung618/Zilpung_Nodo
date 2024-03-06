@@ -1,5 +1,7 @@
 package nodo.erp.Hr.Controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -30,20 +32,20 @@ public class Spot_Controller {
 	
 	@GetMapping("/list")
 	public String spotlist(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-		Page<Spot> paging = this.spot_Service.getList(page);
+		List<Spot> paging = this.spot_Service.getList();
 		model.addAttribute("paging", paging);
 		return "Hr/Spot_list";
 	}
 
 	@GetMapping("/create")
 	public String spotCreate(Spot_Form spot_Form, Authentication authentication) {
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
 			return "Hr/Spot_Form";
-		} else {
-			return "redirect:/";
-		}
+//		} else {
+//			return "redirect:/";
+//		}
 	}
 
 	@PostMapping("/create")

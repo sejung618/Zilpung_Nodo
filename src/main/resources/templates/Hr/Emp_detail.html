@@ -24,11 +24,14 @@
 						</li>
 						<li class="list-group-item"><strong>입사일:</strong> <span th:text="${empDtail.empdate}"></span>
 						</li>
-						<li class="list-group-item"><strong>부서:</strong> <span
-								th:text="${empDtail.depart != null ? empDtail.depart.depname : '부서 정보 없음'}"></span></li>
-						<li class="list-group-item"><strong>직책:</strong> <span th:text="${empDtail.empposition}"></span>
+						<li class="list-group-item"><strong>부서:</strong> 
+						<span th:text="${empDtail.depart != null ? empDtail.depart.depname : '부서 정보 없음'}"></span>
 						</li>
-						<li class="list-group-item"><strong>직위:</strong> <span th:text="${empDtail.empspot}"></span>
+						<li class="list-group-item"><strong>직책:</strong> <span 
+								th:text="${empDtail.position != null ? empDtail.position.positionname : '직책 정보 없음'}"></span>
+						</li>
+						<li class="list-group-item"><strong>직위:</strong> <span 
+								th:text="${empDtail.spot != null ? empDtail.spot.spotname : '직위 정보 없음'}"></span>
 						</li>
 					</ul>
 				</div>

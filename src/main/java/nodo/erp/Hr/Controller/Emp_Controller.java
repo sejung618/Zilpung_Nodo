@@ -14,8 +14,12 @@ import nodo.erp.Hr.Dto.Emp_Pass_Form;
 import nodo.erp.Hr.Dto.Emp_modify_Form;
 import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Entity.Position;
+import nodo.erp.Hr.Entity.Spot;
 import nodo.erp.Hr.Service.Dep_Service;
 import nodo.erp.Hr.Service.Emp_Service;
+import nodo.erp.Hr.Service.Position_Service;
+import nodo.erp.Hr.Service.Spot_Service;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,47 +41,72 @@ public class Emp_Controller {
 
 	private final Emp_Service emp_Service;
 	private final Dep_Service dep_Service;
+	private final Spot_Service spot_service;
+	private final Position_Service posi_service;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/list")
-	public String list(Model model, 
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "st", defaultValue = "") String st,
-			@RequestParam(value = "kw", defaultValue = "") String kw,
-			@RequestParam(value = "sort", defaultValue = "id") String sort) {
-		Page<Employee> paging = this.emp_Service.getList(page, kw, st, sort);
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "num", defaultValue = "") String num,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "month", defaultValue = "") String month,
+			@RequestParam(value = "spot", defaultValue = "") String spot,
+			@RequestParam(value = "posi", defaultValue = "") String posi,
+			@RequestParam(value = "depart", defaultValue = "") String depart){
+		Page<Employee> paging = this.emp_Service.getList(page, num, name,month,spot,posi,depart);
 		model.addAttribute("paging", paging);
-		model.addAttribute("kw", kw);
-		model.addAttribute("st", st);
-		model.addAttribute("sort", sort);
+		model.addAttribute("num", num);
+		model.addAttribute("name", name);
+		model.addAttribute("month", month);
+		model.addAttribute("spot", spot);
+		model.addAttribute("posi", posi);
+		model.addAttribute("depart", depart);
 		return "/Hr/Emp_List";
 	}
 
 	@GetMapping("/create")
 	public String EmpCreate(Model model, Emp_Form emp_Form, Authentication authentication) {
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
-			List<Department> deplist = this.dep_Service.getList();
-			model.addAttribute("deplist", deplist);
-			return "Hr/Emp_Form";
-		} else {
-			return "redirect:/";
-		}
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
+		List<Department> deplist = this.dep_Service.getList();
+		List<Spot> spotlist = this.spot_service.getList();
+		List<Position> posilist = this.posi_service.getList();
+		model.addAttribute("deplist", deplist);
+		model.addAttribute("spotlist", spotlist);
+		model.addAttribute("posilist", posilist);
+		return "Hr/Emp_Form";
+//		} else {
+//			return "redirect:/";
+//		}
 	}
 
 	@PostMapping("/create")
 	public String EmpCreate(@Valid Emp_Form emp_Form, BindingResult bindingResult, Model model) {
-		Department depart = this.dep_Service.getFindById(emp_Form.getDepid());
+		Department depart = null;
+		Spot spot = null;
+		Position posi = null;
+		if (emp_Form.getDepid() != null) {
+			depart = this.dep_Service.getFindById(emp_Form.getDepid());
+		}
+		if (emp_Form.getSpotid() != null) {
+			spot = this.spot_service.getFindById(emp_Form.getSpotid());
+		}
+		if (emp_Form.getPosiid() != null) {
+			posi = this.posi_service.getFindById(emp_Form.getPosiid());
+		}
 		if (bindingResult.hasErrors()) {
 			List<Department> deplist = this.dep_Service.getList();
+			List<Spot> spotlist = this.spot_service.getList();
+			List<Position> posilist = this.posi_service.getList();
 			model.addAttribute("deplist", deplist);
+			model.addAttribute("spotlist", spotlist);
+			model.addAttribute("posilist", posilist);
 			return "Hr/Emp_Form";
 		}
 		this.emp_Service.create(emp_Form.getEmpname(), emp_Form.getEmpssn(), emp_Form.getEmpadd(),
-				emp_Form.getEmpphone(), emp_Form.getEmpmail(), emp_Form.getEmpdate(), emp_Form.getEmpspot(),
-				emp_Form.getEmpposition(), depart);
+				emp_Form.getEmpphone(), emp_Form.getEmpmail(), emp_Form.getEmpdate(), spot, posi, depart);
 
 		return "redirect:/Hr/list";
 	}
@@ -110,7 +139,7 @@ public class Emp_Controller {
 		}
 		this.emp_Service.modify(employee, emp_modify_Form.getEmpname(), emp_modify_Form.getEmpadd(),
 				emp_modify_Form.getEmpphone(), emp_modify_Form.getEmpmail());
-		return "redirect:/Hr/list";
+		return "redirect:/Hr/detail/{id}";
 	}
 
 	@GetMapping("/delete/{id}")
@@ -171,20 +200,34 @@ public class Emp_Controller {
 	public String personnelAppointments(Model model) {
 		List<Employee> emplist = this.emp_Service.getList();
 		List<Department> deplist = this.dep_Service.getList();
+		List<Spot> spotlist = this.spot_service.getList();
+		List<Position> posilist = this.posi_service.getList();
 		model.addAttribute("emplist", emplist);
 		model.addAttribute("deplist", deplist);
+		model.addAttribute("spotlist", spotlist);
+		model.addAttribute("posilist", posilist);
 
 		return "Hr/Emp_Pa_Form";
 	}
 
 	@PostMapping("/pa")
 	public String personnelAppointments(@RequestParam(value = "id") Integer id,
-			@RequestParam(value = "empspot") String empspot, 
-			@RequestParam(value = "empposition") String empposition,
+			@RequestParam(value = "spotid") Integer spotid, @RequestParam(value = "positionid") Integer positionid,
 			@RequestParam(value = "depid") Integer depid) {
 		Employee emp = this.emp_Service.getfindById(id);
-		Department depart = this.dep_Service.getFindById(depid);
-		this.emp_Service.Pa(emp, empspot, empposition, depart);
+		Spot spot = null;
+		Position posi = null;
+		Department depart = null;
+		if (spotid != null) {
+			spot = this.spot_service.getFindById(spotid);
+		}
+		if (positionid != null) {
+			posi = this.posi_service.getFindById(positionid);
+		}
+		if (depid != null) {
+			depart = this.dep_Service.getFindById(depid);
+		}
+		this.emp_Service.Pa(emp, spot, posi, depart);
 		return "redirect:/Hr/list";
 	}
 

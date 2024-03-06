@@ -31,46 +31,30 @@
 			<label for="empdate" class="form-label">입사일자</label>
 			<input type="date" th:field="*{empdate}" name="empdate" id="empdate" class="form-control" required>
 		</div>
-
-		<div class="form-group mb-3">
-			<label for="empspot" class="form-label mt-4">직위</label>
-			<select class="form-select" name="empspot" id="empspot">
-				<option value="-">-</option>
-				<option value="인턴" selected>인턴</option>
-				<option value="사원">사원</option>
-				<option value="대리">대리</option>
-				<option value="과장">과장</option>
-				<option value="부장">부장</option>
-			</select>
-		</div>
-
-		<div class="form-group mb-3">
-			<label for="empposition" class="form-label mt-4">직책</label>
-			<select class="form-select" name="empposition" id="empposition">
-				<option value="-">-</option>
-				<option value="팀원" selected>팀원</option>
-				<option value="부팀장">부팀장</option>
-				<option value="팀장">팀장</option>
-			</select>
-		</div>
-<!--
-		<div class="form-group mb-3">
-			<label for="depcode" class="form-label mt-4">부서</label>
-			<select class="form-select" name="depcode" id="depcode">
-				<option value="-">-</option>
-				<option value="101">인사</option>
-				<option value="102">품질</option>
-				<option value="103">영업</option>
-				<option value="104">생산</option>
-				<option value="105">자재</option>
-			</select>
-		</div>
-		-->
+	
 		
+		<div class="form-group mb-3">
+			<label for="spotid" class="form-label mt-4">직위</label>
+			<select class="form-control" name="spotid" id="spotid">
+				<option value="" disabled selected>선택하세요</option>
+				 <option th:each="spot : ${spotlist}" th:value="${spot.id}" th:text="${spot.spotname}"></option>
+				
+			</select>
+		</div>
+		<div class="form-group mb-3">
+			<label for="posiid" class="form-label mt-4">직책</label>
+			<select class="form-control" name="posiid" id="posiid">
+				<option value="" disabled selected>선택하세요</option>
+				 <option th:each="posi : ${posilist}" th:value="${posi.id}" th:text="${posi.positionname}"></option>
+				
+			</select>
+		</div>
+			
 		
 		<div class="form-group mb-3">
 			<label for="depcode" class="form-label mt-4">부서</label>
-			<select class="form-select" name="depid" id="depid">
+			<select class="form-control" name="depid" id="depid">
+				 <option value="" disabled selected>선택하세요</option>
 				 <option th:each="dep : ${deplist}" th:value="${dep.id}" th:text="${dep.depname}"></option>
 				
 			</select>

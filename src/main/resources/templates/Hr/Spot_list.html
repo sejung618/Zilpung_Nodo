@@ -20,13 +20,13 @@
 		</thead>
 
 		<tbody>
-			<tr class="text-center" th:each="list : ${paging}">
-				<td th:text="${list.depcode}" >
+			<tr class="text-center" th:each="spot : ${paging}">
+				<td th:text="${spot.spotcode}" >
 				</td>
-				<td th:text="${list.depname}"></td>
+				<td th:text="${spot.spotname}"></td>
 				<td th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
-					<a th:href="@{/spot/delete/{id}(id=${list.id})}" th:text="삭제"></a> /
-					<a th:href="@{/spot/modify/{id}(id=${list.id})}" th:text="수정"></a>
+					<a th:href="@{/spot/delete/{id}(id=${spot.id})}" th:text="삭제"></a> /
+					<a th:href="@{/spot/modify/{id}(id=${spot.id})}" th:text="수정"></a>
 				</td>
 			</tr>
 		</tbody>

@@ -26,8 +26,11 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
+import nodo.erp.Hr.Entity.Attendance;
 import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Entity.Position;
+import nodo.erp.Hr.Entity.Spot;
 import nodo.erp.Hr.Repository.Dep_Repository;
 import nodo.erp.Hr.Repository.Emp_Repository;
 import nodo.erp.Sd.Account;
@@ -51,11 +54,11 @@ public class Emp_Service {
 	}
 
 
-	public Page<Employee> getList(int page, String kw, String searchType,String sort) {
+	public Page<Employee> getList(int page, String num, String name, String month,String spot,String posi,String depart) {
 		List<Sort.Order> sorts = new ArrayList<>();
-		sorts.add(Sort.Order.desc(sort)); // asc오름차순
+		sorts.add(Sort.Order.desc("id")); // asc오름차순
 		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
-		Specification<Employee> spec = search(kw, searchType);
+		Specification<Employee> spec = search(num, name,month,spot,posi,depart);
 		return this.emp_Repository.findAll(spec, pageable);
 	}
 	
@@ -69,7 +72,7 @@ public class Emp_Service {
 	}
 
 	public void create(String empname, String empssn, String empadd, String empphone, String empmail, LocalDate empdate,
-			String empspot, String empposition, Department depart) {
+			Spot spot, Position position, Department depart) {
 		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
 		String strv = formatter1.format(empdate);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy");
@@ -83,8 +86,8 @@ public class Emp_Service {
 		q.setEmpphone(empphone);
 		q.setEmpmail(empmail);
 		q.setEmpdate(empdate);
-		q.setEmpspot(empspot);
-		q.setEmpposition(empposition);
+		q.setSpot(spot);
+		q.setPosition(position);
 		q.setDepart(depart);
 //		q.setId(generateEmpId());
 		q.setEmpnum(stre + Num);
@@ -126,10 +129,10 @@ public class Emp_Service {
 		this.emp_Repository.save(m);
 	}
 	
-	public void Pa(Employee employee, String empspot, String empposition, Department depart) {
+	public void Pa(Employee employee, Spot spot, Position position, Department depart) {
 		Employee m = this.emp_Repository.findById(employee.getId()).orElse(null);
-		m.setEmpspot(empspot);
-		m.setEmpposition(empposition);
+		m.setSpot(spot);
+		m.setPosition(position);
 		m.setDepart(depart);
 		this.emp_Repository.save(m);
 	}
@@ -145,40 +148,66 @@ public class Emp_Service {
 	}
 
 	//검색 메소드
-	public static Specification<Employee> search(String keyword, String searchType) {
-		return (Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
-			Join<Employee, Department> d = root.join("depart", JoinType.LEFT);
-			if (searchType.equals("empnum")) {
-				return criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%");
-			} else if (searchType.equals("empname")) {
-				return criteriaBuilder.like(root.get("empname"), "%" + keyword + "%");
-			} else if (searchType.equals("depname")) {
-				return criteriaBuilder.like(d.get("depname"), "%" + keyword + "%");
-			} else if (searchType.equals("empposition")) {
-				return criteriaBuilder.like(root.get("empposition"), "%" + keyword + "%");
-			} else if (keyword.matches("\\d{4}-\\d{2}")) {
-				YearMonth yearMonth = YearMonth.parse(keyword, DateTimeFormatter.ofPattern("yyyy-MM"));
+//	public static Specification<Employee> search(String keyword, String searchType) {
+//		return (Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+//			Join<Employee, Department> d = root.join("depart", JoinType.LEFT);
+//			Join<Employee, Spot> s = root.join("spot", JoinType.LEFT);
+//			Join<Employee, Position> p = root.join("position", JoinType.LEFT);
+//			if (searchType.equals("empnum")) {
+//				return criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%");
+//			} else if (searchType.equals("empname")) {
+//				return criteriaBuilder.like(root.get("empname"), "%" + keyword + "%");
+//			} else if (searchType.equals("depname")) {
+//				return criteriaBuilder.like(d.get("depname"), "%" + keyword + "%");
+//			} else if (searchType.equals("empposition")) {
+//				return criteriaBuilder.like(p.get("positionname"), "%" + keyword + "%");
+//			} else if (keyword.matches("\\d{4}-\\d{2}")) {
+//				YearMonth yearMonth = YearMonth.parse(keyword, DateTimeFormatter.ofPattern("yyyy-MM"));
+//				LocalDate startDate = yearMonth.atDay(1);
+//				LocalDate endDate = yearMonth.plusMonths(1).atDay(1);
+//				return criteriaBuilder.between(root.get("empdate"), startDate, endDate);
+//			} else if(keyword.matches("\\d{4}-\\d{2}-\\d{2}")) {
+//				LocalDate searchDate = LocalDate.parse(keyword, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//				return criteriaBuilder.equal(root.get("empdate"), searchDate);
+//			}
+//
+//			else {
+//				return criteriaBuilder.or(criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%"),
+//						criteriaBuilder.like(root.get("empname"), "%" + keyword + "%"),
+//						criteriaBuilder.like(d.get("depname"), "%" + keyword + "%"),
+//						criteriaBuilder.like(p.get("positionname"), "%" + keyword + "%"),
+//						criteriaBuilder.like(root.get("empadd"), "%" + keyword + "%"),
+//						criteriaBuilder.like(root.get("empphone"), "%" + keyword + "%"),
+//						criteriaBuilder.like(root.get("empmail"), "%" + keyword + "%"),
+//						criteriaBuilder.like(s.get("spotname"), "%" + keyword + "%")
+//						);
+//			}
+//
+//		};
+//	}
+	
+	public static Specification<Employee> search(String num, String name, String month,String spot,String posi,String depart) {
+ 	    return (Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+ 	    	Join<Employee, Department> d = root.join("depart", JoinType.LEFT);
+			Join<Employee, Spot> s = root.join("spot", JoinType.LEFT);
+			Join<Employee, Position> p = root.join("position", JoinType.LEFT);
+ 	        Predicate predicate1 = criteriaBuilder.like(root.get("empnum"), "%" + num + "%");
+ 	        Predicate predicate2 = criteriaBuilder.like(root.get("empname"), "%" + name + "%");
+ 	        Predicate predicate3 = null; // predicate2를 먼저 초기화합니다.
+ 	        if (month.matches("\\d{4}-\\d{2}")) {
+ 	            YearMonth yearMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
 				LocalDate startDate = yearMonth.atDay(1);
 				LocalDate endDate = yearMonth.plusMonths(1).atDay(1);
-				return criteriaBuilder.between(root.get("empdate"), startDate, endDate);
-			} else if(keyword.matches("\\d{4}-\\d{2}-\\d{2}")) {
-				LocalDate searchDate = LocalDate.parse(keyword, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-				return criteriaBuilder.equal(root.get("empdate"), searchDate);
-			}
+				predicate3 = criteriaBuilder.between(root.get("empdate"), startDate, endDate);
+ 	        } else {
+ 	        	predicate3 = criteriaBuilder.like(root.get("empnum"), "%" + month + "%"); // predicate2를 초기화합니다.
+ 	        }
+ 	       Predicate predicate4 = criteriaBuilder.like(s.get("spotname"), "%" + spot + "%");
+ 	       Predicate predicate5 = criteriaBuilder.like(p.get("positionname"), "%" + posi + "%");
+ 	       Predicate predicate6 = criteriaBuilder.like(d.get("depname"), "%" + depart + "%");
 
-			else {
-				return criteriaBuilder.or(criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empname"), "%" + keyword + "%"),
-						criteriaBuilder.like(d.get("depname"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empposition"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empadd"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empphone"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empmail"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empspot"), "%" + keyword + "%")
-						);
-			}
-
-		};
-	}
+ 	        return criteriaBuilder.and(predicate1, predicate2,predicate3,predicate4,predicate5,predicate6); // 두 개의 Predicate를 결합하여 반환합니다.
+ 	    };
+ 	}
 
 }
