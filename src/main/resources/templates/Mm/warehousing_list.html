@@ -19,7 +19,7 @@
 		<thead class="table-primary">
 			<tr class="text-center">
 				<th>번호</th>
-				<th>일자-No.</th>
+				<th>입고일자-No.</th>
 				<th>거래처명</th>
 				<th>품목명</th>
 				<th>납기일자</th>
@@ -31,13 +31,13 @@
 			<tr class="text-center" th:each="warehousing, loop : ${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<td>
-					<a th:href="@{|/warehousing/detail/${warehousing.WHid}|}" th:text="${warehousing.WHDate}"></a>
+					<a th:href="@{|/warehousing/detail/${warehousing.whid}|}" th:text="${warehousing.whnum}"></a>
 				</td>
-				<td th:text="${warehousing.WHAName}"></td>
-				<td th:text="${warehousing.WHIName}"></td>
-				<td th:text="${warehousing.WHDT}"></td>
-				<td th:text="${warehousing.WHCAmount}"></td>
-				<td th:text="${warehousing.WHState}"></td>
+				<td th:text="${warehousing.account.AC_Company}"></td>
+				<td th:text="${warehousing.item.ItmName}"></td>
+				<td th:text="${warehousing.whdt}"></td>
+				<td th:text="${warehousing.whcamount}"></td>
+				<td th:text="${warehousing.whstate}"></td>
 			</tr>
 		</tbody>
 	</table>

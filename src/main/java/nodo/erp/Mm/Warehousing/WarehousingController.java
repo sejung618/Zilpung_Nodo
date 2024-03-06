@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Service.Emp_Service;
+import nodo.erp.Pp.Item.Item;
+import nodo.erp.Pp.Item.ItemService;
 import nodo.erp.Sd.AccService;
 import nodo.erp.Sd.Account;
 
@@ -34,6 +36,7 @@ public class WarehousingController {
 	private final WarehousingService warehousingService;
 	private final Emp_Service emp_Service;
 	private final AccService accService;
+	private final ItemService itemService;
 	
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -48,90 +51,95 @@ public class WarehousingController {
 	public String warehousingCreate(Model model, WarehousingForm warehousingForm){
 		List<Employee> empList = this.emp_Service.getList();
 		List<Account> accList = this.accService.getList();
+		List<Item> itemList = this.itemService.getList();
+
 		model.addAttribute("empList", empList);
 		model.addAttribute("accList", accList);
+		model.addAttribute("itemList", itemList);
 		return "Mm/warehousing_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String warehousingCreate(Model model, @Valid WarehousingForm warehousingForm, BindingResult br, Authentication authentication) {
+	public String warehousingCreate(Model model, @Valid WarehousingForm warehousingForm, BindingResult br) {
+		Employee employee = this.emp_Service.getEmpDetail(warehousingForm.getEmpnum());
+		Item item = this.itemService.getItem(warehousingForm.getItmcode());
+		Account acc = this.accService.getAccount(warehousingForm.getAccode());
 		if (br.hasErrors()) {
 			List<Employee> empList = this.emp_Service.getList();
 			List<Account> accList = this.accService.getList();
+			List<Item> itemList = this.itemService.getList();
+
 			model.addAttribute("empList", empList);
 			model.addAttribute("accList", accList);
+			model.addAttribute("itemList", itemList);
 			return "Mm/warehousing_form"; 
 		}
 		
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
-		
-		this.warehousingService.create(warehousingForm.getWHDate(),warehousingForm.getWHAName(), warehousingForm.getWHACode(), warehousingForm.getWHIName(), warehousingForm.getWHICode(), warehousingForm.getWHPName(), warehousingForm.getWHPNum(), warehousingForm.getWHDT(), warehousingForm.getWHCAmount(), warehousingForm.getWHLocation(), warehousingForm.getWHState(), employee);
+		this.warehousingService.create(warehousingForm.getWhdate(), warehousingForm.getWhdt(), warehousingForm.getWhcamount(), 
+				warehousingForm.getWhlocation(), warehousingForm.getWhstate(), employee, acc, item);
 		return "redirect:/warehousing/list";
 	}
 	
-	@GetMapping(value = "/detail/{WHid}")
-	public String detail(Model model, @PathVariable("WHid") Integer WHid) {
-		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
+	@GetMapping(value = "/detail/{whid}")
+	public String detail(Model model, @PathVariable("whid") Integer whid) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(whid);
 		model.addAttribute("warehousing", warehousing);
 		return "Mm/warehousing_detail";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/modify/{WHid}")
-	public String warehousingModify(Model model, WarehousingForm wf, @PathVariable("WHid") Integer WHid, Principal principal) {
-		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
+	@GetMapping("/modify/{whid}")
+	public String warehousingModify(Model model, WarehousingForm wf, @PathVariable("whid") Integer whid, Principal principal) {
+		Warehousing warehousing = this.warehousingService.getWarehousing(whid);
 		List<Employee> empList = this.emp_Service.getList();
 		List<Account> accList = this.accService.getList();
+		List<Item> itemList = this.itemService.getList();
+
 		model.addAttribute("empList", empList);
 		model.addAttribute("accList", accList);
-		if(!warehousing.getEmployee().getEmpnum().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
+		model.addAttribute("itemList", itemList);
 		
-		wf.setWHAName(warehousing.getWHAName());
-		wf.setWHACode(warehousing.getWHACode());
-		wf.setWHIName(warehousing.getWHIName());
-		wf.setWHICode(warehousing.getWHICode());
-		wf.setWHPName(warehousing.getWHPName());
-		wf.setWHPNum(warehousing.getWHPNum());
-		wf.setWHDT(warehousing.getWHDT());
-		wf.setWHCAmount(warehousing.getWHCAmount());
-		wf.setWHLocation(warehousing.getWHLocation());
-		wf.setWHState(warehousing.getWHState());
+		wf.setWhdate(warehousing.getWhdate());
+		wf.setWhdt(warehousing.getWhdt());
+		wf.setWhcamount(warehousing.getWhcamount());
+		wf.setWhlocation(warehousing.getWhlocation());
+		wf.setWhstate(warehousing.getWhstate());
+		wf.setItmcode(warehousing.getItem().getItmId());
+		wf.setEmpnum(warehousing.getEmployee().getId());
+		wf.setAccode(warehousing.getAccount().getId());
 		return "Mm/warehousing_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping("/modify/{WHid}")
-    public String warehousingModify(Model model, @Valid WarehousingForm wf, BindingResult br, @PathVariable("WHid") Integer WHid, Principal principal) {
+	@PostMapping("/modify/{whid}")
+    public String warehousingModify(Model model, @Valid WarehousingForm wf, BindingResult br, @PathVariable("whid") Integer whid, Principal principal) {
         if (br.hasErrors()) {
         	List<Employee> empList = this.emp_Service.getList();
     		List<Account> accList = this.accService.getList();
+    		List<Item> itemList = this.itemService.getList();
+
     		model.addAttribute("empList", empList);
     		model.addAttribute("accList", accList);
+    		model.addAttribute("itemList", itemList);
             return "Mm/warehousing_form";
         }
-        Warehousing warehousing = this.warehousingService.getWarehousing(WHid); {
-    	if(!warehousing.getEmployee().getEmpnum().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-        this.warehousingService.modify(warehousing, wf.getWHAName(),wf.getWHACode(),wf.getWHIName(),wf.getWHICode(),wf.getWHPName(),wf.getWHPNum(),wf.getWHDT(),wf.getWHCAmount(),wf.getWHLocation(),wf.getWHState());
-        return String.format("redirect:/warehousing/list", WHid);
+        Warehousing warehousing = this.warehousingService.getWarehousing(whid);
+        Employee employee = this.emp_Service.getEmpDetail(wf.getEmpnum());
+		Item item = this.itemService.getItem(wf.getItmcode());
+		Account account = this.accService.getAccount(wf.getAccode());{
+    	
+        this.warehousingService.modify(warehousing, wf.getWhdate(), wf.getWhdt(),wf.getWhcamount(),wf.getWhlocation(),wf.getWhstate(), employee, account, item);
+        return String.format("redirect:/warehousing/list", whid);
     
         }
 	}
 	
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/delete/{WHid}")
-    public String warehousingDelete(@PathVariable("WHid") Integer WHid, 
+	@GetMapping("/delete/{whid}")
+    public String warehousingDelete(@PathVariable("whid") Integer whid, 
             Principal principal) {
-		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
-      
-		if(!warehousing.getEmployee().getEmpnum().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
+		Warehousing warehousing = this.warehousingService.getWarehousing(whid);
 		
         this.warehousingService.delete(warehousing);
         return "redirect:/warehousing/list";
