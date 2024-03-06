@@ -1,73 +1,76 @@
+<!DOCTYPE html>
 <html layout:decorate="~{layout}">
 
-<head>
 
-</head>
+<div layout:fragment="content" class="container my-3">
+	<div class="card">
+		<div class="card-header bg-primary text-center">
+			<h2 class="text-white">사원 정보</h2>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-4">
+					<img src="/img/undraw_profile_1.svg" alt="사원 사진" class="img-fluid">
+				</div>
+				<div class="col-md-8">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item"><strong>이름:</strong> <span th:text="${empDtail.empname}"></span>
+						</li>
+						<li class="list-group-item"><strong>사번:</strong> <span th:text="${empDtail.empnum}"></span></li>
+						<li class="list-group-item"><strong>주소:</strong> <span th:text="${empDtail.empadd}"></span></li>
+						<li class="list-group-item"><strong>전화번호:</strong> <span th:text="${empDtail.empphone}"></span>
+						</li>
+						<li class="list-group-item"><strong>이메일:</strong> <span th:text="${empDtail.empmail}"></span>
+						</li>
+						<li class="list-group-item"><strong>입사일:</strong> <span th:text="${empDtail.empdate}"></span>
+						</li>
+						<li class="list-group-item"><strong>부서:</strong> <span
+								th:text="${empDtail.depart != null ? empDtail.depart.depname : '부서 정보 없음'}"></span></li>
+						<li class="list-group-item"><strong>직책:</strong> <span th:text="${empDtail.empposition}"></span>
+						</li>
+						<li class="list-group-item"><strong>직위:</strong> <span th:text="${empDtail.empspot}"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
-<body>
-	<div layout:fragment="content" class="container my-3">
-		<h1>사원 정보</h1>
 
-		<!--테이블 시작-->
-		<table class="table table-bordered table-hover-td">
 
-			<thead class="table-primary">
-				<tr class="text-center">
-					<th>사번</th>
-					<th>이름</th>
-					<th>입사일</th>
-					<th>부서</th>
-					<th>직책</th>
-					<th>직위</th>
-				</tr>
-			</thead>
 
-			<tbody>
-				<tr class="text-center">
-					<td th:text="${empDtail.empnum}"></td>
-					<td th:text="${empDtail.empname}"></td>
-					<td th:text="${empDtail.empdate}"></td>
-					<td><span th:if="${empDtail.depart != null}" th:text="${empDtail.depart.depname}"></span></td>
-					<td th:text="${empDtail.empposition}"></td>
-					<td th:text="${empDtail.empspot}"></td>
+		<div class="my-3" sec:authorize="isAuthenticated()"
+			th:if="${empDtail.id != null and #authentication.principal.Empid == empDtail.id or #authentication.principal.Empid == 1}">
+			<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary ml-4" th:text="수정" ></a>
 
-				</tr>
-			</tbody>
-		</table>
-		
-		<div class="my-3"sec:authorize="isAuthenticated()" 
-		th:if="${empDtail.id != null and #authentication.principal.Empid == empDtail.id or #authentication.principal.Empid == 1}">
-			<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary" th:text="수정"></a>
-			
 			<a th:href="@{|/Hr/pass/${empDtail.id}|}" class="btn btn-primary" th:text="비밀번호변경"></a>
-			
+
 			<a href="javascript:void(0);" th:data-uri="@{|/Hr/delete/${empDtail.id}|}"
 				th:if="${empDtail.id != null and  #authentication.principal.Empid == 1}"
 				class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
 
-			
+
 		</div>
+
+
 		
-			<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#Modal1">
-				모달 테스트
-			</a>
-			
-		<div th:replace="~{Hr/modal}"></div>
-			
+
+
+
+
 	</div>
+</div>
 
-
-	<script layout:fragment="script" type='text/javascript'>
-		const delete_elements = document.getElementsByClassName("delete");
-		Array.from(delete_elements).forEach(function (element) {
-			element.addEventListener('click', function () {
-				if (confirm("정말로 삭제하시겠습니까?")) {
-					location.href = this.dataset.uri;
-				};
-			});
+<script layout:fragment="script" type='text/javascript'>
+	const delete_elements = document.getElementsByClassName("delete");
+	Array.from(delete_elements).forEach(function (element) {
+		element.addEventListener('click', function () {
+			if (confirm("정말로 삭제하시겠습니까?")) {
+				location.href = this.dataset.uri;
+			};
 		});
-	</script>
+	});
+</script>
 
 
 
-</body>
+</html>

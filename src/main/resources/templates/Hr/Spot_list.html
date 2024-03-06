@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+
+<div layout:fragment="content" class="m-3">
+	
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">직위 관리</h1>
+	</div>
+	
+	<table class="table table-bordered table-hover-td" style="width:500px;">
+
+		<thead class="table-primary">
+			<tr class="text-center">
+				<th>직위코드</th>
+				<th>직위명</th>
+				
+				<th th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">삭제 / 수정</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="text-center" th:each="list : ${paging}">
+				<td th:text="${list.depcode}" >
+				</td>
+				<td th:text="${list.depname}"></td>
+				<td th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
+					<a th:href="@{/spot/delete/{id}(id=${list.id})}" th:text="삭제"></a> /
+					<a th:href="@{/spot/modify/{id}(id=${list.id})}" th:text="수정"></a>
+				</td>
+			</tr>
+		</tbody>
+
+	</table>
+	
+	<div class="col-6">
+			<a th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}" th:href="@{/spot/create}" class="btn btn-primary">직위 추가</a>
+		</div>
+		
+		
+
+</div>
+
+</html>

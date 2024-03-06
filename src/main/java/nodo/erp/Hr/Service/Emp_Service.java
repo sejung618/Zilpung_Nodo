@@ -42,9 +42,6 @@ import java.util.Optional;
 public class Emp_Service {
 
 	private final Emp_Repository emp_Repository;
-
-	private final Dep_Repository dep_Repository;
-
 	@PersistenceContext
 	private EntityManager entityManager;
 	private final PasswordEncoder passwordEncoder;
@@ -53,9 +50,6 @@ public class Emp_Service {
 		return this.emp_Repository.findAll();
 	}
 
-	public List<Department> getdepList() {
-		return this.dep_Repository.findAll();
-	}
 
 	public Page<Employee> getList(int page, String kw, String searchType,String sort) {
 		List<Sort.Order> sorts = new ArrayList<>();
@@ -63,6 +57,15 @@ public class Emp_Service {
 		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
 		Specification<Employee> spec = search(kw, searchType);
 		return this.emp_Repository.findAll(spec, pageable);
+	}
+	
+	public Employee getfindById(Integer id) {
+		Optional<Employee> empDetail = this.emp_Repository.findById(id);
+		if (empDetail.isPresent()) {
+			return empDetail.get();
+		} else {
+			throw new DataNotFoundException("question not found");
+		}
 	}
 
 	public void create(String empname, String empssn, String empadd, String empphone, String empmail, LocalDate empdate,
@@ -111,26 +114,11 @@ public class Emp_Service {
 		return (int) (15 + y * 0.5);
 	}
 
-	public Employee getEmpDetail(Integer id) {
-		Optional<Employee> empDetail = this.emp_Repository.findById(id);
-		if (empDetail.isPresent()) {
-			return empDetail.get();
-		} else {
-			throw new DataNotFoundException("question not found");
-		}
-	}
 
-	public Department getDepCode(String depcode) {
-		Optional<Department> hr_Dto_Dep = this.dep_Repository.findByDepcode(depcode);
-		if (hr_Dto_Dep.isPresent()) {
-			return hr_Dto_Dep.get();
-		} else {
-			throw new DataNotFoundException("depcode not found");
-		}
-	}
+	
 
-	public void modify(Employee hr_Dto_emp, String empname, String empadd, String empphone, String empmail) {
-		Employee m = this.emp_Repository.findById(hr_Dto_emp.getId()).orElse(null);
+	public void modify(Employee employee, String empname, String empadd, String empphone, String empmail) {
+		Employee m = this.emp_Repository.findById(employee.getId()).orElse(null);
 		m.setEmpname(empname);
 		m.setEmpadd(empadd);
 		m.setEmpphone(empphone);
@@ -138,22 +126,22 @@ public class Emp_Service {
 		this.emp_Repository.save(m);
 	}
 	
-	public void Pa(Employee Employee, String empspot, String empposition, Department depart) {
-		Employee m = this.emp_Repository.findById(Employee.getId()).orElse(null);
+	public void Pa(Employee employee, String empspot, String empposition, Department depart) {
+		Employee m = this.emp_Repository.findById(employee.getId()).orElse(null);
 		m.setEmpspot(empspot);
 		m.setEmpposition(empposition);
 		m.setDepart(depart);
 		this.emp_Repository.save(m);
 	}
 
-	public void passmodify(Employee hr_Dto_emp, String pass) {
-		Employee m = this.emp_Repository.findById(hr_Dto_emp.getId()).orElse(null);
+	public void passmodify(Employee employee, String pass) {
+		Employee m = this.emp_Repository.findById(employee.getId()).orElse(null);
 		m.setPassword(passwordEncoder.encode(pass));
 		this.emp_Repository.save(m);
 	}
 
-	public void delete(Employee hr_Dto_Emp) {
-		this.emp_Repository.delete(hr_Dto_Emp);
+	public void delete(Employee employee) {
+		this.emp_Repository.delete(employee);
 	}
 
 	//검색 메소드

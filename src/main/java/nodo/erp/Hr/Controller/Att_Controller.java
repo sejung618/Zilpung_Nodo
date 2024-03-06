@@ -31,22 +31,9 @@ public class Att_Controller {
 	private final Att_Service att_Service;
 	private final Emp_Service emp_Service;
 
-//	@GetMapping("/list")
-//	public String Attlist(Model model, Authentication authentication) {
-//		if (authentication != null && authentication.isAuthenticated()) {
-//			// 로그인한 사용자에게만 허용
-//			List<Attendance> AttList = this.att_Service.getList();
-//			model.addAttribute("AttList", AttList);
-//			return "Hr/Att_list";
-//		} else {
-//			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리
-//			return "redirect:/Hr/login";
-//		}
-//
-//	}
 	
 	@GetMapping("/list")
-	public String Attlist(Model model, Authentication authentication,
+	public String list(Model model, Authentication authentication,
 			@RequestParam(value="page", defaultValue="0") int page,
 			@RequestParam(value = "kw1", defaultValue = "") String kw1,
 			@RequestParam(value = "kw2", defaultValue = "") String kw2) {
@@ -55,23 +42,17 @@ public class Att_Controller {
 			model.addAttribute("kw1", kw1);
 			model.addAttribute("kw2", kw2);
 			return "Hr/Att_list";
-		
-
 	}
 	
-	
-	
 	@GetMapping("/detail")
-	public String Attlist1(Model model, Authentication authentication) {
+	public String detail(Model model, Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			// 로그인한 사용자에게만 허용
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 			 List<Attendance> AttList = this.att_Service.getdetailList(employee);
 			model.addAttribute("AttList", AttList);
 			return "Hr/Att_detail";
-			
-			
 		} else {
 			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리
 			return "redirect:/Hr/login";
@@ -83,7 +64,7 @@ public class Att_Controller {
 	public String checkIn(Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 			att_Service.checkin(employee);
 			return "redirect:/Attendance/list";
 		} else {
@@ -95,7 +76,7 @@ public class Att_Controller {
 	public String checkOut(Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 			att_Service.checkout(employee);
 			return "redirect:/Attendance/list";
 		} else {
@@ -107,7 +88,7 @@ public class Att_Controller {
 	public String checkInd(Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 			att_Service.checkin(employee);
 			return "redirect:/Attendance/detail";
 		} else {
@@ -119,7 +100,7 @@ public class Att_Controller {
 	public String checkOutd(Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 			att_Service.checkout(employee);
 			return "redirect:/Attendance/detail";
 		} else {
@@ -127,6 +108,5 @@ public class Att_Controller {
 		}
 	}
 
-	
 	
 }

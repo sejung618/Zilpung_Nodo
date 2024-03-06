@@ -46,7 +46,7 @@ public class Vaca_Controller {
 				return "Hr/vaca_app_Form";
 			}
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 
 			this.vacation_Service.create(employee, vaca_app_Form.getStartdate(), vaca_app_Form.getEnddate(),
 					vaca_app_Form.getLeavetype());

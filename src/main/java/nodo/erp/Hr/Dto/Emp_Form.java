@@ -34,5 +34,5 @@ public class Emp_Form {
     
     private String empposition;
     
-    private String depcode;
+    private Integer depid;
 }
