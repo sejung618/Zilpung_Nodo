@@ -18,36 +18,36 @@ public class Account {
 	private Integer id;
 	
 	@Column(unique = true, length = 20)
-    private String AC_Code; 
+    private String accode; 
     
 	@Column(length = 30)
-	private String AC_Company; // 회사명
+	private String accompany; // 회사명
 	
 	@Column(length = 12)
-	private String AC_Num; // 회사 전화번호
+	private String acnum; // 회사 전화번호
 	
 	@Column(length = 100)
-	private String AC_Address; // 회사 주소
+	private String acaddress; // 회사 주소
 	
 	@Column(length = 20)
-	private String AC_Name; // 대표이사 명
+	private String acname; // 대표이사 명
 	
 	@Column(length = 13)
-	private String AC_Phone; // 대표이사 연락처
+	private String acphone; // 대표이사 연락처
 	
 	@Column(length = 30)
-	private String AC_Item; // 물품명
+	private String acitem; // 물품명
 	
 	@Column(length = 11)
-	private String AC_Icode; // 물품코드
+	private String acicode; // 물품코드
 	
 	@Column(length = 7)
-	private Integer AC_Price; // 가격
+	private Integer acprice; // 가격
 	
 	@Column(columnDefinition = "NUMERIC(4, 2) NOT NULL default 10.0")
-	private float VAT; // 부가세율 10.0 고정
+	private float vat; // 부가세율 10.0 고정
 	
 	@Column(length = 10)
-	private String AC_Date; // 첫 거래날짜
+	private String acdate; // 첫 거래날짜
 
 }

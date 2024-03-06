@@ -52,27 +52,28 @@ public class ReserController {
 			return "Sd/res_create";
 		}
 		
-		this.rs.create(resCreateForm.getRV_Num(),
-                resCreateForm.getRV_Date(),
-                resCreateForm.getRV_Item(),
-                resCreateForm.getRV_Icode(),
-                Integer.valueOf(resCreateForm.getRV_Count()),
-                Integer.valueOf(resCreateForm.getRV_Price()),
-                Integer.valueOf(resCreateForm.getRV_CP()),
-                Integer.valueOf(resCreateForm.getRV_VAT()),
-                Integer.valueOf(resCreateForm.getRV_Sum()),
-                resCreateForm.getRV_Pick(),
+		this.rs.create(resCreateForm.getRvnum(),
+                resCreateForm.getRvdate(),
+                resCreateForm.getRvitem(),
+                resCreateForm.getRvicode(),
+                Integer.valueOf(resCreateForm.getRvcount()),
+                Integer.valueOf(resCreateForm.getRvprice()),
+                Integer.valueOf(resCreateForm.getRvcp()),
+                Integer.valueOf(resCreateForm.getRvvat()),
+                Integer.valueOf(resCreateForm.getRvsum()),
+                resCreateForm.getRvpick(),
                 null);
 		return "redirect:/reservation/list";
 		}
-	
-	//getmapping update
+
+
 	@GetMapping("/update/{id}")
 	public String ReserUpdate(ResUpdateForm resUpdateForm, @PathVariable("id") Integer id) {
 		Reservation reser = this.rs.getReservation(id);
 		
-		resUpdateForm.setRV_Pick(reser.getRV_Pick());
-		resUpdateForm.setRV_PTime(reser.getRV_PTime());
+		resUpdateForm.setRvpick(reser.getRvpick());
+		resUpdateForm.setRvptime(reser.getRvptime());
+		
 		
 		return "Sd/res_update";
 	}
@@ -83,7 +84,7 @@ public class ReserController {
 		if(bindResult.hasErrors()) {
 			return "Sd/res_update";
 		}
-		this.rs.update(reser, resUpdateForm.getRV_Pick(), resUpdateForm.getRV_PTime());
+		this.rs.update(reser, resUpdateForm.getRvpick(), resUpdateForm.getRvptime());
 		return "redirect:/reservation/list";
 	}
 	

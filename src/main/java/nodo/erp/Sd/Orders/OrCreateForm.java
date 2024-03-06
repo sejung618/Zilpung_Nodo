@@ -8,29 +8,29 @@ import lombok.Setter;
 @Setter
 public class OrCreateForm {
 	
-	private String OR_Num;
+	private String ornum;
 	
 	@NotEmpty(message = "발주신청 날짜 입력은 필수입니다")
-	private String OR_Date;
+	private String ordate;
 	
-	private String OR_Item;
+	private String oritem;
 	
-	private String OR_Icode;
+	private String oricode;
 	
-	private String OR_Company;
+	private String orcompany;
 	
-	private String OR_Code;
+	private String orcode;
 		
-	private float VAT;
+	private float vat;
 	
-	private String OR_Count;
+	private String orcount;
 	
-	private String OR_Price;
+	private String orprice;
 	
-	private String OR_CP;
+	private String orcp;
 	
-	private String OR_VAT;
+	private String orvat;
 	
-	private String OR_VATSUM;
+	private String orvatsum;
 	
 }

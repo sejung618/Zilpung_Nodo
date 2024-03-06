@@ -53,7 +53,7 @@ public class PurController {
 		if(bindResult.hasErrors()) {
 			return "Sd/pur_create";
 		}
-		this.purService.create(purCreateForm.getPC_Num(), purCreateForm.getPC_Date(), purCreateForm.getPC_Code(), purCreateForm.getPC_Company(), purCreateForm.getPC_Item(), purCreateForm.getPC_Icode(), Integer.parseInt(purCreateForm.getPC_Count()), Integer.parseInt(purCreateForm.getPC_Price()), Integer.parseInt(purCreateForm.getPC_CP()) , Integer.parseInt(purCreateForm.getPC_VAT()), Integer.parseInt(purCreateForm.getPC_VATSUM()));
+		this.purService.create(purCreateForm.getPcnum(), purCreateForm.getPcdate(), purCreateForm.getPccode(), purCreateForm.getPccompany(), purCreateForm.getPcitem(), purCreateForm.getPcicode(), Integer.parseInt(purCreateForm.getPccount()), Integer.parseInt(purCreateForm.getPcprice()), Integer.parseInt(purCreateForm.getPccp()) , Integer.parseInt(purCreateForm.getPcvat()), Integer.parseInt(purCreateForm.getPcvatsum()));
 		return "redirect:/purchase/list";
 	}
 	

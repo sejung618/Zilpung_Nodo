@@ -9,13 +9,16 @@
 			
 			<div class="mb-3">
 				<label for="jb-input-text">제품정보 - 아래 체크박스에서 예약하실 제품을 선택해주세요</label>
-				<select name="RV_Item" id="RV_Item" class="form-control1" style="width: 50%;">
+				<select name="rvitem" id="rvitem" class="form-control1" style="width: 50%;">
 				<option value="">제품정보를 선택해주세요</option>
+				
 				<option th:each="inventory : ${invenList}"
-				th:value="${inventory.ININame}"
-				th:text="${inventory.ININame}"
-				th:data-INICode="${inventory.INICode}"
-				th:data-RV-Price="${purchase.PC_Price}">
+				th:value="${item.ItmName}"
+				th:text="${item.ItmName}"
+				th:data-INICode="${item.ItmCode}"
+				
+				
+				th:data-RV-Price="${purchase.pcprice}">
 				</option>					
 				</select>
 			</div>
@@ -24,9 +27,9 @@
 				<div> </div> 제작
 				-->
 			
-			<input type="hidden" name="RV_CP" id="RV_CP" th:value="${RV_CP}" class="form-control">
-			<input type="hidden" name="RV_VAT" id="RV_VAT" th:field="*{RV_VAT}" class="form-control">
-			<input type="hidden" name="RV_SUM" id="RV_SUM" th:field="*{RV_SUM}" class="form-control">
+			<input type="hidden" name="rvcp" id="rvcp" th:value="${rvcp}" class="form-control">
+			<input type="hidden" name="rvvat" id="rvvat" th:field="*{rvvat}" class="form-control">
+			<input type="hidden" name="rvsum" id="rvsum" th:field="*{rvsum}" class="form-control">
 			<div class="mb-3">
 				<input type="button" onclick="formSubmit();" value="예약신청 완료" class="btn btn-primary my-2">
 				</div>
@@ -35,18 +38,18 @@
 		<script th:inline="javascript">
 			$(document).ready(function (){
 				$('#ININame').change(function (){
-					var valueINICode = $(this).find(':selected').attr("data-INICode");
+					var valueinicode = $(this).find(':selected').attr("data-INICode");
 					var valueRVPrice = selectedOption.attr("data-RV-Price");
 					
-					$('.RV_Icode').val(valueINICode);
-					$('.RV_Price').val(valueRVPrice);
+					$('.rvicode').val(valueinicode);
+					$('.rvprice').val(valueRVPrice);
 				});
 			});
 			
 			function formSubmit() {
-				$('#RV_CP').val( parseInt($('.RV_Price').val()) * parseInt($('#RV_Count').val()) );
-				$('#RV_VAT').val( parseInt($('#RV_CP').val()) / 10 );
-				$('#RV_SUM').val( parseInt($('#RV_CP').val()) + parseInt($('#RV_VAT').val()) );
+				$('#rvcp').val( parseInt($('.rvprice').val()) * parseInt($('#rvcount').val()) );
+				$('#rvvat').val( parseInt($('#rvcp').val()) / 10 );
+				$('#rvsum').val( parseInt($('#rvcp').val()) + parseInt($('#rvvat').val()) );
 				
 				document.getElementById("form1").submit();
 			}

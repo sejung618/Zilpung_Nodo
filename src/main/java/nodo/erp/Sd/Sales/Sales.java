@@ -1,5 +1,8 @@
 package nodo.erp.Sd.Sales;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,32 +21,32 @@ public class Sales {
 	private Integer id;
 	
 	@Column(length = 11)
-	private String SA_Num;
+	private String sanum;
 	
 	@Column(length = 15)
-	private String SA_Method; // 판매방법(온라인판매, 오프라인판매, 예약)
+	private String samethod; // 판매방법(온라인판매, 오프라인판매, 예약)
 	
-	@Column(length = 10)
-	private String SA_Date;
+	@Column
+	private LocalDate sadate;
 	
 	@Column(length = 30)
-	private String SA_Item;
+	private String saitem;
 	
 	@Column(length = 11)
-	private String SA_Icode;
+	private String saicode;
 	
 	@Column(length = 3)
-	private Integer SA_Count;
+	private Integer sacount;
 	
 	@Column(length = 7)
-	private Integer SA_Price;
+	private Integer saprice;
 	
 	@Column(length = 12)
-	private Integer SA_CP;
+	private Integer sacp;
 	
 	@Column(length = 12)
-	private Integer SA_VAT;
+	private Integer savat;
 	
 	@Column(length = 15)
-	private Integer SA_Sum;
+	private Integer sasum;
 }

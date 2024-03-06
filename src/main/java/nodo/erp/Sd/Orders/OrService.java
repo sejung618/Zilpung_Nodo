@@ -28,22 +28,22 @@ public class OrService {
 		}
 	}
 	
-	public void create(String OR_Num, String OR_Date, String OR_Item, String OR_Icode, String OR_Company,
-			Integer OR_Count, Integer OR_Price, Integer OR_CP, float VAT, Integer OR_VAT, Integer OR_VATSUM, String OR_Code) {
+	public void create(String ornum, String ordate, String oritem, String oricode, String orcompany,
+			Integer orcount, Integer orprice, Integer orcp, float vat, Integer orvat, Integer orvatsum, String orcode) {
 		Orders or = new Orders();
 		
-		or.setOR_Num(OR_Num);
-	    or.setOR_Date(OR_Date);
-	    or.setOR_Item(OR_Item);
-	    or.setOR_Icode(OR_Icode);
-	    or.setOR_Company(OR_Company);
-	    or.setOR_Count(OR_Count);
-	    or.setOR_Price(OR_Price);
-	    or.setOR_CP(OR_CP);
-	    or.setVAT((float)10.0);
-	    or.setOR_VAT(OR_VAT);
-	    or.setOR_VATSUM(OR_VATSUM);
-	    or.setOR_Code(OR_Code);
+		or.setOrnum(ornum);
+	    or.setOrdate(ordate);
+	    or.setOritem(oritem);
+	    or.setOricode(oricode);
+	    or.setOrcompany(orcompany);
+	    or.setOrcount(orcount);
+	    or.setOrprice(orprice);
+	    or.setOrcp(orcp);
+	    or.setVat((float)10.0);
+	    or.setOrvat(orvat);
+	    or.setOrvatsum(orvatsum);
+	    or.setOrcode(orcode);
 	    
 	    this.orRepository.save(or);
 	}

@@ -18,19 +18,38 @@
 			</tr>
 		</thead>
 		<tbody class="table-group-divider">
-			<tr class="text-center" th:each="Account, loop:${AccList}">
-				<td th:text="${loop.count}"></td>
-				<td th:text="${Account.AC_Code}"></td>
+			<tr class="text-center" th:each="Account, loop:${paging}">
+				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+				<td th:text="${Account.accode}"></td>
 				<td>
-					<a th:href="@{|/account/detail/${Account.id}|}" th:text="${Account.AC_Company}"></a>
+					<a th:href="@{|/account/detail/${Account.id}|}" th:text="${Account.accompany}"></a>
 				</td>
-				<td th:text="${Account.AC_Name}"></td>
-				<td th:text="${Account.AC_Item}"></td>
-				<td th:text="${Account.AC_Date}"></td>	
+				<td th:text="${Account.acname}"></td>
+				<td th:text="${Account.acitem}"></td>
+				<td th:text="${Account.acdate}"></td>	
 			</tr>
 		</tbody>
 	</table>
-	
+	 <div th:if="${!paging.isEmpty()}">
+      <ul class="pagination justify-content-center">
+         <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+            <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+               <span>이전</span>
+            </a>
+         </li>
+         <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+            th:if="${page >= paging.number-5 and page <= paging.number+5}"
+            th:classappend="${page == paging.number} ? 'active'" class="page-item">
+            <a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+         </li>
+         <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+            <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+               <span>다음</span>
+            </a>
+         </li>
+      </ul>
+   </div>
+
 	<div>
 		<a th:href="@{/account/create}" class="btn btn-primary">거래처 추가</a>
 	</div>

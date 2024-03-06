@@ -19,13 +19,13 @@
 			<tbody>
 				<tr class="text-center table-active" th:each="Orders, loop:${OrList}">
 					<td th:text="${loop.count}"></td>
-					<td th:text="${Orders.OR_Num}"></td>
-					<td th:text="${Orders.OR_Company + '(' + Orders.OR_Code + ')'}"></td>
-					<td th:text="${Orders.OR_Item}"></td>
-					<td th:text="${Orders.OR_Count + '개' + '(' + Orders.OR_Price + '원)'}"></td>
-					<td th:text="${Orders.OR_CP + '원'}"></td>
-					<td th:text="${Orders.OR_VATSUM + '원'}"></td>
-					<td th:text="${Orders.OR_Date}"></td>
+					<td th:text="${Orders.ornum}"></td>
+					<td th:text="${Orders.orcompany + '(' + Orders.orcode + ')'}"></td>
+					<td th:text="${Orders.oritem}"></td>
+					<td th:text="${Orders.orcount + '개' + '(' + Orders.orprice + '원)'}"></td>
+					<td th:text="${Orders.orcp + '원'}"></td>
+					<td th:text="${Orders.orvatsum + '원'}"></td>
+					<td th:text="${Orders.ordate}"></td>
 				</tr>
 			</tbody>
 		</table>

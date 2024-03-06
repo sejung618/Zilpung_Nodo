@@ -43,24 +43,25 @@ public class AccService {
 			throw new DataNotFoundException("Account not found");
 		}
 	}
-	public void create(String AC_Code, String AC_Company, String AC_Address, String AC_Name, String AC_Phone,
-			String AC_Item, String AC_Icode, float VAT, String AC_Date, int AC_Price, String AC_Num) {
+	public void create(String accode, String accompany, String acaddress, String acname, String acphone,
+			String acitem, String acicode, float vat, String acdate, int acprice, String acnum) {
 		
 		Account acc = new Account();
-		String ym = AC_Date.substring(2, 7);
+		String ym = acdate.substring(2, 7);
 		String am = String.format("%04d", generateAC_Code(ym));
 
-		acc.setAC_Code("ACC" + ym + "-" + am);
-		acc.setAC_Company(AC_Company);
-		acc.setAC_Address(AC_Address);
-		acc.setVAT((float)10.0); // = acc.setVAT(10.0f);
-		acc.setAC_Date(AC_Date);
-		acc.setAC_Icode(AC_Icode);
-		acc.setAC_Item(AC_Item);
-		acc.setAC_Name(AC_Name);
-		acc.setAC_Num(AC_Num);
-		acc.setAC_Phone(AC_Phone);
-		acc.setAC_Price(AC_Price);
+		
+		acc.setAccode("ACC" + ym + "-" + am);
+		acc.setAccompany(accompany);
+		acc.setAcaddress(acaddress);
+		acc.setVat((float)10.0); // = acc.setVAT(10.0f);
+		acc.setAcdate(acdate);
+		acc.setAcicode(acicode);
+		acc.setAcitem(acitem);
+		acc.setAcname(acname);
+		acc.setAcnum(acnum);
+		acc.setAcphone(acphone);
+		acc.setAcprice(acprice);
 		
 		this.accRepository.save(acc);
 	}
@@ -69,22 +70,22 @@ public class AccService {
 	
 	private Integer generateAC_Code(String ym) {
 	    jakarta.persistence.Query query = entityManager.createQuery(
-	            "SELECT MAX(CAST(SUBSTRING(i.AC_Code,-4) AS int)) "
-	                    + "FROM Account i WHERE SUBSTRING(i.AC_Code, 4, 5) = :ym");
+	            "SELECT MAX(CAST(SUBSTRING(i.accode,-4) AS int)) "
+	                    + "FROM Account i WHERE SUBSTRING(i.accode, 4, 5) = :ym");
 	    query.setParameter("ym", ym);
 	    Integer maxNum = (Integer) query.getSingleResult();
 
 	    return (maxNum == null) ? 1 : maxNum + 1;
 	}
 	
-	public void update(Account account,String AC_Company, String AC_Address, String AC_Name, String AC_Phone, 
-			 Integer AC_Price) {
+	public void update(Account account,String accompany, String acaddress, String acname, String acphone, 
+			 Integer acprice) {
 		Account acc = this.accRepository.findById(account.getId()).orElse(null);
-		acc.setAC_Company(AC_Company);
-		acc.setAC_Address(AC_Address);
-		acc.setAC_Name(AC_Name);
-		acc.setAC_Phone(AC_Phone);
-		acc.setAC_Price(AC_Price);
+		acc.setAccompany(accompany);
+		acc.setAcaddress(acaddress);
+		acc.setAcname(acname);
+		acc.setAcphone(acphone);
+		acc.setAcprice(acprice);
 		
 		this.accRepository.save(acc);
 	}
@@ -101,11 +102,43 @@ public class AccService {
 			@Override
 			public jakarta.persistence.criteria.Predicate toPredicate(Root<Account> a, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				query.distinct(true);
-				return cb.or(cb.like(a.get("AC_Company"), "%" + ac + "%"),
-						cb.like(a.get("AC_Name"),  "%" + ac + "%"),
-						cb.like(a.get("AC_Item"), "%" + ac + "%"));
+				return cb.or(cb.like(a.get("accompany"), "%" + ac + "%"),
+						cb.like(a.get("acname"),  "%" + ac + "%"),
+						cb.like(a.get("acitem"), "%" + ac + "%"));
 			}
 		};
-		
 	}
+	
+	
+	public Page<Account> getList(int page, String kw){
+		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		return this.accRepository.findAll(pageable);
+	}
+	
+	public Page<Account> findByAcaddress(int page, String kw){
+		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		return this.accRepository.findByAcaddressContaining(pageable, kw);
+	}
+	
+	public Page<Account> findByAcitem(int page, String kw){
+		Pageable pageable = PageRequest.of(page, 10);
+		return this.accRepository.findByAcitemContaining(pageable, kw);
+	}
+	
+	public Page<Account> findByAcdate(int page, String kw){
+		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		return this.accRepository.findByAcdateContaining(pageable, kw);
+	}
+	
+	public Page<Account> findByAccompany(int page, String kw){
+		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		return this.accRepository.findByAccompanyContaining(pageable, kw);
+	}
+	
+	
+	public Page<Account> searchAll(int page, String kw){
+		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		return this.accRepository.findByAcaddressContainingOrAcitemContainingOrAcdateContainingOrAccompanyContaining(pageable, kw, kw, kw, kw);
+	}
+	
 }

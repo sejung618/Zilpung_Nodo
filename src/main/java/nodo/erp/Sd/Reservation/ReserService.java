@@ -35,8 +35,8 @@ public class ReserService {
 	
 	private String generateNextRV_Num() {
 	    jakarta.persistence.Query query = entity.createQuery(
-	            "SELECT MAX(CAST(SUBSTRING(i.RV_Num, 5) AS int)) "
-	                    + "FROM YourEntity i WHERE SUBSTRING(i.RV_Num, 1, 3) = 'RES'");
+	            "SELECT MAX(CAST(SUBSTRING(i.rvnum, 5) AS int)) "
+	                    + "FROM YourEntity i WHERE SUBSTRING(i.rvnum, 1, 3) = 'RES'");
 	    Integer maxNum = (Integer) query.getSingleResult();
 	    int nextNumber = (maxNum == null) ? 1 : maxNum + 1;
 	    String nextRV_Num = String.format("RES-%04d", nextNumber);
@@ -44,36 +44,36 @@ public class ReserService {
 	    return nextRV_Num;
 	}
 
-	public void create(String RV_Num, LocalDateTime RV_Date, String RV_Item, String RV_Icode, Integer RV_Count, 
-	        Integer RV_Price, Integer RV_CP, Integer RV_VAT, Integer RV_Sum, String RV_Pick, LocalDateTime RV_PTime) {
+	public void create(String rvnum, LocalDateTime rvdate, String rvitem, String rvicode, Integer rvcount, 
+	        Integer rvprice, Integer rvcp, Integer rvvat, Integer rvsum, String rvpick, LocalDateTime rvptime) {
 	    
 	    Reservation res = new Reservation();
 
 	    String nextRV_Num = generateNextRV_Num();
 
-	    res.setRV_Num(nextRV_Num);
-	    res.setRV_Date(LocalDateTime.now());
-	    res.setRV_Item(RV_Item);
-	    res.setRV_Icode(RV_Icode);
-	    res.setRV_Count(RV_Count);
-	    res.setRV_Price(RV_Price);
-	    res.setRV_CP(RV_CP);
-	    res.setRV_VAT(RV_VAT);
-	    res.setRV_Sum(RV_Sum);
-	    res.setRV_Pick("X"); // 신청 시 X 고정
-	    res.setRV_PTime(null); // 신청 시 null 고정
+	    res.setRvnum(nextRV_Num);
+	    res.setRvdate(LocalDateTime.now());
+	    res.setRvitem(rvitem);
+	    res.setRvicode(rvicode);
+	    res.setRvcount(rvcount);
+	    res.setRvprice(rvprice);
+	    res.setRvcp(rvcp);
+	    res.setRvvat(rvvat);
+	    res.setRvsum(rvsum);
+	    res.setRvpick("X"); // 신청 시 X 고정
+	    res.setRvptime(null); // 신청 시 null 고정
 
 	    this.RR.save(res);
 	}
 	
 	
 	// 예약 정보 수정 메소드
-	public void update(Reservation reser, String RV_Pick, LocalDateTime RV_PTime) {
+	public void update(Reservation reser, String rvpick, LocalDateTime rvptime) {
 		
 		Reservation res = this.RR.findById(reser.getId()).orElse(null);
 		
-		res.setRV_Pick(RV_Pick);
-		res.setRV_PTime(LocalDateTime.now());
+		res.setRvpick(rvpick);
+		res.setRvptime(LocalDateTime.now());
 		
 		this.RR.save(res);
 	}

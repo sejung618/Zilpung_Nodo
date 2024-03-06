@@ -2,6 +2,7 @@ package nodo.erp.Sd;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,43 @@ public class AccController {
 	@Autowired
 	private final AccService accService;
 	
+	
+	/*
 	@GetMapping("/list")
 	public String list(Model model) {
 		List<Account> AccList = this.accService.getList();
 		model.addAttribute("AccList", AccList);
+		return "Sd/Acc_List";
+	}
+	*/
+	
+	@GetMapping("/list")
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw", defaultValue = "") String kw,
+			@RequestParam(value = "category", defaultValue = "") String category) {
+		//Page<Account> paging = this.accService.getList(page, kw);
+		Page<Account> paging = this.accService.searchAll(page, kw);
+		
+		
+		if(category == null && category.isEmpty()) {
+			paging = this.accService.searchAll(page, kw);
+		}
+		if ("acaddress".equals(category)) {
+			paging = this.accService.findByAcaddress(page, kw);
+		}
+		if ("acitem".equals(category)) {
+			paging = this.accService.findByAcitem(page, kw);
+		}
+		if ("acdate".equals(category)) {
+			paging = this.accService.findByAcdate(page, kw);
+		}
+		if ("accompany".equals(category)) {
+			paging = this.accService.findByAccompany(page, kw);
+		}
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("kw", kw);
+		
 		return "Sd/Acc_List";
 	}
 	
@@ -46,7 +81,7 @@ public class AccController {
 		if(bindResult.hasErrors()) {
 			return "Sd/acc_create";
 		}
-		this.accService.create(accCreateForm.getAC_Code(), accCreateForm.getAC_Company(), accCreateForm.getAC_Address(), accCreateForm.getAC_Name(), accCreateForm.getAC_Phone(), accCreateForm.getAC_Item(), accCreateForm.getAC_Icode(), accCreateForm.getVAT(), accCreateForm.getAC_Date(), Integer.parseInt(accCreateForm.getAC_Price()), accCreateForm.getAC_Num());
+		this.accService.create(accCreateForm.getAccode(), accCreateForm.getAccompany(), accCreateForm.getAcaddress(), accCreateForm.getAcname(), accCreateForm.getAcphone(), accCreateForm.getAcitem(), accCreateForm.getAcicode(), accCreateForm.getVat(), accCreateForm.getAcdate(), Integer.parseInt(accCreateForm.getAcprice()), accCreateForm.getAcnum());
 		return "redirect:/account/list";
 	}
 	
@@ -54,11 +89,11 @@ public class AccController {
 	public String AccUpdate(AccUpdateForm accUpdateForm, @PathVariable("id") Integer id) {
 		Account account = this.accService.getAccount(id);
 		
-		accUpdateForm.setAC_Company(account.getAC_Company());
-		accUpdateForm.setAC_Address(account.getAC_Address());
-		accUpdateForm.setAC_Name(account.getAC_Name());
-		accUpdateForm.setAC_Phone(account.getAC_Phone());
-		accUpdateForm.setAC_Price(account.getAC_Price());
+		accUpdateForm.setAccompany(account.getAccompany());
+		accUpdateForm.setAcaddress(account.getAcaddress());
+		accUpdateForm.setAcname(account.getAcname());
+		accUpdateForm.setAcphone(account.getAcphone());
+		accUpdateForm.setAcprice(account.getAcprice());
 		
 		return "Sd/acc_update";
 	}
@@ -69,7 +104,7 @@ public class AccController {
 		if(bindResult.hasErrors()) {
 			return "Sd/acc_update";
 		}
-		this.accService.update(account, accUpdateForm.getAC_Company(), accUpdateForm.getAC_Address(), accUpdateForm.getAC_Name(), accUpdateForm.getAC_Phone(), accUpdateForm.getAC_Price());
+		this.accService.update(account, accUpdateForm.getAccompany(), accUpdateForm.getAcaddress(), accUpdateForm.getAcname(), accUpdateForm.getAcphone(), accUpdateForm.getAcprice());
 		return "redirect:/account/list";
 	}
 	
