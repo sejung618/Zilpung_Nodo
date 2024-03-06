@@ -20,26 +20,26 @@ public class Item {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer ItmId;
+	private Integer itmId;
 	
 	@Column(unique = true)
-	private String ItmCode;
+	private String itmCode;
 
-	private String ItmName;
+	private String itmName;
 	
 	@ManyToOne
-	private ItemGroup ItmGroup;
+	private ItemGroup itmGroup;
 //	private String ItmGroup;
 	
 	@ManyToOne
-	private ItemCategory ItmCategory;
+	private ItemCategory itmCategory;
 //	private String ItmCategory;
 	
-	private String ItmStandard;
+	private String itmStandard;
 	
-	private Integer ItmSprice;
+	private Integer itmSprice;
 	
-	private Integer ItmRprice;
+	private Integer itmRprice;
 	
 	private LocalDateTime createDate;
 	
