@@ -1,5 +1,7 @@
 package nodo.erp.Hr.Controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,7 +34,7 @@ public class Position_Controller {
 
 	@GetMapping("/list")
 	public String posilist(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-		Page<Position> paging = this.position_Service.getList(page);
+		List<Position> paging = this.position_Service.getList();
 		model.addAttribute("paging", paging);
 		return "Hr/position_list";
 	}

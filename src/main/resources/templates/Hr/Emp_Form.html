@@ -35,14 +35,16 @@
 		
 		<div class="form-group mb-3">
 			<label for="spotid" class="form-label mt-4">직위</label>
-			<select class="form-select" name="spotid" id="spotid">
+			<select class="form-control" name="spotid" id="spotid">
+				<option value="" disabled selected>선택하세요</option>
 				 <option th:each="spot : ${spotlist}" th:value="${spot.id}" th:text="${spot.spotname}"></option>
 				
 			</select>
 		</div>
 		<div class="form-group mb-3">
 			<label for="posiid" class="form-label mt-4">직책</label>
-			<select class="form-select" name="posiid" id="posiid">
+			<select class="form-control" name="posiid" id="posiid">
+				<option value="" disabled selected>선택하세요</option>
 				 <option th:each="posi : ${posilist}" th:value="${posi.id}" th:text="${posi.positionname}"></option>
 				
 			</select>
@@ -51,7 +53,7 @@
 		
 		<div class="form-group mb-3">
 			<label for="depcode" class="form-label mt-4">부서</label>
-			<select class="form-select" name="depid" id="depid">
+			<select class="form-control" name="depid" id="depid">
 				 <option value="" disabled selected>선택하세요</option>
 				 <option th:each="dep : ${deplist}" th:value="${dep.id}" th:text="${dep.depname}"></option>
 				

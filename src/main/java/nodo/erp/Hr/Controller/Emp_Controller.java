@@ -48,14 +48,20 @@ public class Emp_Controller {
 
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "st", defaultValue = "") String st,
-			@RequestParam(value = "kw", defaultValue = "") String kw,
-			@RequestParam(value = "sort", defaultValue = "id") String sort) {
-		Page<Employee> paging = this.emp_Service.getList(page, kw, st, sort);
+			@RequestParam(value = "num", defaultValue = "") String num,
+			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "month", defaultValue = "") String month,
+			@RequestParam(value = "spot", defaultValue = "") String spot,
+			@RequestParam(value = "posi", defaultValue = "") String posi,
+			@RequestParam(value = "depart", defaultValue = "") String depart){
+		Page<Employee> paging = this.emp_Service.getList(page, num, name,month,spot,posi,depart);
 		model.addAttribute("paging", paging);
-		model.addAttribute("kw", kw);
-		model.addAttribute("st", st);
-		model.addAttribute("sort", sort);
+		model.addAttribute("num", num);
+		model.addAttribute("name", name);
+		model.addAttribute("month", month);
+		model.addAttribute("spot", spot);
+		model.addAttribute("posi", posi);
+		model.addAttribute("depart", depart);
 		return "/Hr/Emp_List";
 	}
 

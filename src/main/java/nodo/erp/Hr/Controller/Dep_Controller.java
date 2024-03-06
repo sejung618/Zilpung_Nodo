@@ -1,5 +1,7 @@
 package nodo.erp.Hr.Controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,7 @@ public class Dep_Controller {
 
 	@GetMapping("/list")
 	public String deplist(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-		Page<Department> paging = this.dep_Service.getList(page);
+		List<Department> paging = this.dep_Service.getList();
 		model.addAttribute("paging", paging);
 		return "Hr/Dep_List";
 	}
