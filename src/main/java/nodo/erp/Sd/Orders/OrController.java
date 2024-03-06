@@ -51,12 +51,12 @@ public class OrController {
 		if(bindResult.hasErrors()) {
 			return "Sd/or_create";
 		}
-		this.orService.create(orCreateForm.getOR_Num(), orCreateForm.getOR_Date(),
-				orCreateForm.getOR_Item(), orCreateForm.getOR_Icode(),
-				orCreateForm.getOR_Company(), Integer.parseInt(orCreateForm.getOR_Count()),
-				Integer.parseInt(orCreateForm.getOR_Price()), Integer.parseInt(orCreateForm.getOR_CP()),
-				orCreateForm.getVAT(), Integer.parseInt(orCreateForm.getOR_VAT()),
-				Integer.parseInt(orCreateForm.getOR_VATSUM()), orCreateForm.getOR_Code());
+		this.orService.create(orCreateForm.getOrnum(), orCreateForm.getOrdate(),
+				orCreateForm.getOritem(), orCreateForm.getOricode(),
+				orCreateForm.getOrcompany(), Integer.parseInt(orCreateForm.getOrcount()),
+				Integer.parseInt(orCreateForm.getOrprice()), Integer.parseInt(orCreateForm.getOrcp()),
+				orCreateForm.getVat(), Integer.parseInt(orCreateForm.getOrvat()),
+				Integer.parseInt(orCreateForm.getOrvatsum()), orCreateForm.getOrcode());
 		return "redirect:/orders/list";
 	}
 	

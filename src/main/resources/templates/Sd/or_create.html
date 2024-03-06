@@ -8,62 +8,62 @@
 			
 			<div class="mb-3">
 				<label for="jb-input-text">발주할 내용의 구매정보 코드를 아래 체크박스에서 골라주세요.</label>
-				<select name="OR_Num" id="OR_Num" class="form-control" style="width: 50%;">
+				<select name="ornum" id="ornum" class="form-control" style="width: 50%;">
 					<option value="">구매정보 코드를 선택해주세요.</option>
-					<option th:each="purchase : ${PurList}" th:value="${'OR-' + purchase.PC_Num}" 
-					th:text="${purchase.PC_Num}"
-					th:data-PC-Company="${purchase.PC_Company}"
-					th:data-PC-Item="${purchase.PC_Item}"
-					th:data-PC-Icode="${purchase.PC_Icode}"
-					th:data-PC-Count="${purchase.PC_Count}"
-					th:data-PC-Price="${purchase.PC_Price}"
-					th:data-PC-CP="${purchase.PC_CP}"
-					th:data-PC-VAT="${purchase.PC_VAT}"
-					th:data-PC-VATSUM="${purchase.PC_VATSUM}"
-					th:data-PC-Code="${purchase.PC_Code}">
+					<option th:each="purchase : ${PurList}" th:value="${'OR-' + purchase.pcnum}" 
+					th:text="${purchase.pcnum}"
+					th:data-PC-Company="${purchase.pccompany}"
+					th:data-PC-Item="${purchase.pcitem}"
+					th:data-PC-Icode="${purchase.pcicode}"
+					th:data-PC-Count="${purchase.pccount}"
+					th:data-PC-Price="${purchase.pcprice}"
+					th:data-PC-CP="${purchase.pccp}"
+					th:data-PC-VAT="${purchase.pcvat}"
+					th:data-PC-VATSUM="${purchase.pcvatsum}"
+					th:data-PC-Code="${purchase.pccode}">
 					</option>
 				</select>	
 			</div>
 			
 			<div>
-				회사명 <input type="text" id="OR_Company" name="OR_Company"  class="form-control OR_Company">
+				회사명 <input type="text" id="orcompany" name="orcompany"  class="form-control orcompany">
 			</div>
 			
 			<div>
-				회사코드 <input type="text" id="OR_Code" name="OR_Code"  class="form-control OR_Code">
+				회사코드 <input type="text" id="orcode" name="orcode"  class="form-control orcode">
 			</div>
 			
 			<div>
-				발주 제품명 <input type="text" id="OR_Item" name="OR_Item"  class="form-control OR_Item">
+				발주 제품명 <input type="text" id="oritem" name="oritem"  class="form-control oritem">
 			</div>
 			
 			<div>
-				발주 제품코드 <input type="text" id="OR_Icode" name="OR_Icode"  class="form-control OR_Icode">
+				발주 제품코드 <input type="text" id="oricode" name="oricode"  class="form-control oricode">
 			</div>
 			
 			<div>
-				발주 제품수량 <input type="text" id="OR_Count" name="OR_Count"  class="form-control OR_Count">
+				발주 제품수량 <input type="text" id="orcount" name="orcount"  class="form-control orcount">
 			</div>
 			
 			<div>
-				발주 제품단가 <input type="text" id="OR_Price" name="OR_Price"  class="form-control OR_Price">
+				발주 제품단가 <input type="text" id="orprice" name="orprice"  class="form-control orprice">
 			</div>
 			
 			<div>
-				공급가액 <input type="text" id="OR_CP" name="OR_CP"  class="form-control OR_CP">
+				공급가액 <input type="text" id="orcp" name="orcp"  class="form-control orcp">
 			</div>
 			
 			<div>
-				부가세액 <input type="text" id="OR_VAT" name="OR_VAT"  class="form-control OR_VAT">
+				부가세액 <input type="text" id="orvat" name="orvat"  class="form-control orvat">
 			</div>
 			
 			<div>
-				발주 총 액 <input type="text" id="OR_VATSUM" name="OR_VATSUM"  class="form-control OR_VATSUM">
+				발주 총 액 <input type="text" id="orvatsum" name="orvatsum"  class="form-control orvatsum">
 			</div>
 			
 			<div class="mb-3">
 				<label for="jb-input-text">발주 신청날짜</label>
-				<input type="date" name="OR_Date" id="OR_Date" th:field="*{OR_Date}" class="form-control">
+				<input type="date" name="ordate" id="ordate" th:field="*{ordate}" class="form-control">
 			</div>
 			
 			<div class="mb-3">
@@ -86,15 +86,15 @@
 					
 					
 					// 각 값을 orders 테이블에 할당하는 부분
-					$('.OR_Company').val(valuePC_Company);
-					$('.OR_Item').val(valuePC_Item);
-					$('.OR_Icode').val(valuePC_Icode);
-					$('.OR_Code').val(valuePC_Code);
-					$('.OR_Count').val(valuePC_Count);
-					$('.OR_Price').val(valuePC_Price);
-					$('.OR_CP').val(valuePC_CP);
-					$('.OR_VAT').val(valuePC_VAT);
-					$('.OR_VATSUM').val(valuePC_VATSUM);
+					$('.orcompany').val(valuePC_Company);
+					$('.oritem').val(valuePC_Item);
+					$('.oricode').val(valuePC_Icode);
+					$('.orcode').val(valuePC_Code);
+					$('.orcount').val(valuePC_Count);
+					$('.orprice').val(valuePC_Price);
+					$('.orcp').val(valuePC_CP);
+					$('.orvat').val(valuePC_VAT);
+					$('.orvatsum').val(valuePC_VATSUM);
 					
 				});
 			});

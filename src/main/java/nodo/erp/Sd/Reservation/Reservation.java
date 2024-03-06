@@ -20,36 +20,36 @@ public class Reservation {
 	private Integer id;
 	
 	@Column(length = 11)
-	private String RV_Num; //예약날짜 6자리 + '-' + 0001 ~ 9999
+	private String rvnum; //예약날짜 6자리 + '-' + 0001 ~ 9999
 
 	@Column
-    private LocalDateTime RV_Date; // 예약 날짜와 시간
+    private LocalDateTime rvdate; // 예약 날짜와 시간
 	
 	@Column(length = 30)
-	private String RV_Item;
+	private String rvitem;
 	
 	@Column(length = 11)
-	private String RV_Icode;
+	private String rvicode;
 	
 	@Column(length = 3)
-	private Integer RV_Count;
+	private Integer rvcount;
 	
 	@Column(length = 7)
-	private Integer RV_Price;
+	private Integer rvprice;
 	
 	@Column(length = 12)
-	private Integer RV_CP;
+	private Integer rvcp;
 	
 	@Column(length = 12)
-	private Integer RV_VAT;
+	private Integer rvvat;
 	
 	@Column(length = 15)
-	private Integer RV_Sum;
+	private Integer rvsum;
 	
 	@Column(length = 1)
-	private String RV_Pick;
+	private String rvpick;
 	
 	@Column
-    private LocalDateTime RV_PTime; // 픽업 여부를 O로 설정한 그 순간의 시간
+    private LocalDateTime rvptime; // 픽업 여부를 O로 설정한 그 순간의 시간
 	
 }

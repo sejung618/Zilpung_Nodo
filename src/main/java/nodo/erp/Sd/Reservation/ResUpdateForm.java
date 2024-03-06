@@ -11,9 +11,9 @@ import lombok.Setter;
 public class ResUpdateForm {
 
 	@NotEmpty(message = "제품을 픽업해가셨다면 O로 바꿔주세요.")
-	private String RV_Pick;
+	private String rvpick;
 	
-	private LocalDateTime RV_PTime;
+	private LocalDateTime rvptime;
 	
 	
 }

@@ -13,48 +13,49 @@
 		</div>
 
 		<div class="my-3">
-			<label for="PC_Code">구매회사 코드</label>
-			<select name="PC_Code" id="PC_Code" class="form-control">
+			<label for="pccode">구매회사 코드</label>
+			<select name="pccode" id="pccode" class="form-control">
 				<option value="">-</option>
-				<option th:each="account : ${AccList}" th:value="${account.AC_Code}" th:text="${account.AC_Code}"
-					th:data-AC-Company="${account.AC_Company}" th:data-AC-Item="${account.AC_Item}"
-					th:data-AC-Icode="${account.AC_Icode}" th:data-AC-Price="${account.AC_Price}"></option>
+				<option th:each="account : ${AccList}" th:value="${account.accode}" th:text="${account.accode}"
+					th:data-AC-Company="${account.accompany}" th:data-AC-Item="${account.acitem}"
+					th:data-AC-Icode="${account.acicode}" th:data-AC-Price="${account.acprice}"></option>
 			</select>
 		</div>
 
 		<div class="my-3">
-			<label for="PC_Company">회사명</label>
-			<input type="text" id="PC_Company" name="PC_Company"  class="form-control PC_Company">
+			<label for="pccompany">회사명</label>
+			<input type="text" id="pccompany" name="pccompany"  class="form-control pccompany">
 		</div>
 
 		<div class="my-3">
-			<label for="PC_Item">제품명</label>
-			<input type="text" id="PC_Item" name="PC_Item" class="form-control PC_Item">
+			<label for="pcitem">제품명</label>
+			<input type="text" id="pcitem" name="pcitem" class="form-control pcitem">
 		</div>
 
 		<div class="my-3">
-			<label for="PC_Icode">제품코드</label>
-			<input type="text" id="PC_Icode" name="PC_Icode"  class="form-control PC_Icode">
+			<label for="pcicode">제품코드</label>
+			<input type="text" id="pcicode" name="pcicode"  class="form-control pcicode">
 		</div>
 
 		<div class="my-3">
-			<label for="PC_Price">제품가격</label>
-			<input type="text" id="PC_Price" name="PC_Price" class="form-control PC_Price">
+			<label for="pcprice">제품가격</label>
+			<input type="text" id="pcprice" name="pcprice" class="form-control pcprice">
 		</div>
 
-		<div class="my-3">
-			<label for="PC_Count">물품 구매 수량 (1 ~ 999까지 입력 가능)</label>
-			<input type="number" min="1" max="999" step="1" name="PC_Count" id="PC_Count" th:field="*{PC_Count}" class="form-control">
+		<div class="my-3" id="pccountContainer">
+			<label for="pccount">물품 구매 수량 (1 ~ 999까지 입력 가능)</label>
+			<input type="number" min="1" max="999" step="1" name="pccount" id="pccount" th:field="*{pccount}" class="form-control">
+			<div id="errorMessage" style="display: none; color: red;">물품 구매 수량은 999 이하로 입력해주세요.</div>
 		</div>
 		
 		<div class="pb-3 my-3 border-bottom">
-			<label for="PC_Date">구매 신청날짜</label>
-			<input type="date" name="PC_Date" id="PC_Date" th:field="*{PC_Date}" class="form-control">
+			<label for="pcdate">구매 신청날짜</label>
+			<input type="date" name="pcdate" id="pcdate" th:field="*{pcdate}" class="form-control">
 		</div>
 			
-		<input type="hidden" name="PC_CP" id="PC_CP" th:value="${PC_CP}" class="form-control">
-		<input type="hidden" name="PC_VAT" id="PC_VAT" th:field="*{PC_VAT}" class="form-control">
-		<input type="hidden" name="PC_VATSUM" id="PC_VATSUM" th:field="*{PC_VATSUM}" class="form-control">
+		<input type="hidden" name="pccp" id="pccp" th:value="${pccp}" class="form-control">
+		<input type="hidden" name="pcvat" id="pcvat" th:field="*{pcvat}" class="form-control">
+		<input type="hidden" name="pcvatsum" id="pcvatsum" th:field="*{pcvatsum}" class="form-control">
 		
 		<div style="display:flex;">
 			<input type="button" onclick="formSubmit();" value="구매 신청" class="btn btn-primary">
@@ -62,32 +63,54 @@
 		</div>
 
 	</form>
+	
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			$('#pccode').change(function () {
+            var valueAC_Company = $(this).find(':selected').attr("data-AC-Company");
+            var valueAC_Item = $(this).find(':selected').attr("data-AC-Item");
+            var valueAC_Icode = $(this).find(':selected').attr("data-AC-Icode");
+            var valueAC_Price = $(this).find(':selected').attr("data-AC-Price");
 
-		<script th:inline="javascript">
-			$(document).ready(function () {
-				$('#PC_Code').change(function () {
-					var valueAC_Company = $(this).find(':selected').attr("data-AC-Company");
-					var valueAC_Item = $(this).find(':selected').attr("data-AC-Item");
-					var valueAC_Icode = $(this).find(':selected').attr("data-AC-Icode");
-					var valueAC_Price = $(this).find(':selected').attr("data-AC-Price");
+            // 각 값을 PC_Company, PC_Item, PC_Icode, PC_Price에 할당합니다.
+            $('.pccompany').val(valueAC_Company);
+            $('.pcitem').val(valueAC_Item);
+            $('.pcicode').val(valueAC_Icode);
+            $('.pcprice').val(valueAC_Price);
+        });
+    });
 
-					// 각 값을 PC_Company, PC_Item, PC_Icode, PC_Price에 할당합니다.
-					$('.PC_Company').val(valueAC_Company);
-					$('.PC_Item').val(valueAC_Item);
-					$('.PC_Icode').val(valueAC_Icode);
-					$('.PC_Price').val(valueAC_Price);
+    function formSubmit(){
+        var pccount = parseInt($('#pccount').val());
+        if (pccount > 999) {
+            alert("물품 구매 수량은 999 이하로 입력해주세요.");
+            return false; // 폼 제출을 막음
+        } else {
+            $('#pccp').val(parseInt($('.pcprice').val()) * pccount);
+            $('#pcvat').val(parseInt($('#pccp').val()) / 10);
+            $('#pcvatsum').val(parseInt($('#pccp').val()) + parseInt($('#pcvat').val()));
 
-				});
-			});
-			
-			function formSubmit(){
-				$('#PC_CP').val( parseInt($('.PC_Price').val()) * parseInt($('#PC_Count').val()) );
-				$('#PC_VAT').val( parseInt($('#PC_CP').val()) / 10 );
-				$('#PC_VATSUM').val( parseInt($('#PC_CP').val()) + parseInt($('#PC_VAT').val()) );
-				 
-				document.getElementById("form1").submit();
-			}
-		</script>
+            document.getElementById("form1").submit();
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var pccountInput = document.getElementById("pccount");
+        var errorMessage = document.getElementById("errorMessage");
+
+        pccountInput.addEventListener("input", function() {
+            var value = parseInt(this.value);
+
+            if (value > 999) {
+                errorMessage.style.display = "block"; // 오류 메시지 표시
+                this.style.borderColor = "red"; // 입력 필드 테두리 색상 변경
+            } else {
+                errorMessage.style.display = "none"; // 오류 메시지 숨기기
+                this.style.borderColor = ""; // 입력 필드 테두리 색상 초기화
+            }
+        });
+    });
+</script>
 
 </div>
 

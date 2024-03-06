@@ -37,36 +37,36 @@ public class PurService {
 		}
 	}
 	
-    public void create(String PC_Num, String PC_Date, String PC_Code,
-                              String PC_Company, String PC_Item, String PC_Icode, Integer PC_Count,
-                               Integer PC_Price, Integer PC_CP, Integer PC_VAT, Integer PC_VATSUM) {
+    public void create(String pcnum, String pcdate, String pccode,
+                              String pccompany, String pcitem, String pcicode, Integer pccount,
+                               Integer pcprice, Integer pccp, Integer pcvat, Integer pcvatsum) {
     	Purchase pur = new Purchase();
         
-    	String yy = PC_Date.substring(2, 4);
-    	String mm = PC_Date.substring(5, 7);
-    	String dd = PC_Date.substring(8, 10);
+    	String yy = pcdate.substring(2, 4);
+    	String mm = pcdate.substring(5, 7);
+    	String dd = pcdate.substring(8, 10);
     	String ymd = yy + mm + dd;
     	String Num = String.format("%03d", generatePCNum(ymd));
     	
-    	pur.setPC_Num(ymd + "-" + Num);
-    	pur.setPC_Date(PC_Date);
-    	pur.setPC_Company(PC_Company);
-    	pur.setPC_Code(PC_Code);
-        pur.setPC_Item(PC_Item);
-        pur.setPC_Icode(PC_Icode);
-        pur.setPC_Count(PC_Count);
-        pur.setPC_Price(PC_Price);
-        pur.setPC_CP(PC_CP);
-        pur.setPC_VAT(PC_VAT);
-        pur.setPC_VATSUM(PC_VATSUM);
+    	pur.setPcnum(ymd + "-" + Num);
+    	pur.setPcdate(pcdate);
+    	pur.setPccompany(pccompany);
+    	pur.setPccode(pccode);
+        pur.setPcitem(pcitem);
+        pur.setPcicode(pcicode);
+        pur.setPccount(pccount);
+        pur.setPcprice(pcprice);
+        pur.setPccp(pccp);
+        pur.setPcvat(pcvat);
+        pur.setPcvatsum(pcvatsum);
 
         this.purRepositroy.save(pur);
     }
 	
 	private Integer generatePCNum(String ymd) {
 		jakarta.persistence.Query query = entityManager.createQuery
-				("SELECT MAX(CAST(SUBSTRING(i.PC_Num,-2) AS int)) "
-						+ "FROM Purchase i WHERE replace( SUBSTRING(i.PC_Num, 1, 6), '-','' ) = :ymd");
+				("SELECT MAX(CAST(SUBSTRING(i.pcnum,-2) AS int)) "
+						+ "FROM Purchase i WHERE replace( SUBSTRING(i.pcnum, 1, 6), '-','' ) = :ymd");
 		query.setParameter("ymd", ymd);
 		Integer maxNum = (Integer) query.getSingleResult();
 

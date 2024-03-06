@@ -8,34 +8,34 @@ import lombok.Setter;
 @Setter
 public class AccCreateForm {
 	
-	private String AC_Code;
+	private String accode;
 	
-	private float VAT;
+	private float vat;
 	
 	@NotEmpty(message = "상호명 입력은 필수입니다.")
-	private String AC_Company;
+	private String accompany;
 	
 	@NotEmpty(message="거래처 주소 입력은 필수입니다.")
-	private String AC_Address;
+	private String acaddress;
 	
 	@NotEmpty(message="회사 전화번호 입력은 필수입니다.")
-	private String AC_Num;
+	private String acnum;
 	
 	@NotEmpty(message="대표이사 이름 입력은 필수입니다.")
-	private String AC_Name;
+	private String acname;
 	
 	@NotEmpty(message="대표이사 연락처 입력은 필수입니다.")
-	private String AC_Phone;
+	private String acphone;
 	
 	@NotEmpty(message="물품명 입력은 필수입니다.")
-	private String AC_Item;
+	private String acitem;
 	
 	@NotEmpty(message="물품코드 입력은 필수입니다.")
-	private String AC_Icode;
+	private String acicode;
 	
 	@NotEmpty(message="물품가격 입력은 필수입니다.")
-	private String AC_Price;
+	private String acprice;
 	
 	@NotEmpty(message="첫 거래날짜 입력은 필수입니다.")
-	private String AC_Date;
+	private String acdate;
 }

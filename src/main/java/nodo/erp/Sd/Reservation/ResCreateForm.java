@@ -10,26 +10,26 @@ import lombok.Setter;
 @Setter
 public class ResCreateForm {
 
-	private String RV_Num;
+	private String rvnum;
 	
-	private LocalDateTime RV_Date;
+	private LocalDateTime rvdate;
 	
 	@NotEmpty(message = "제품 정보 입력은 필수입니다")
-	private String RV_Item;
+	private String rvitem;
 	
-	private String RV_Icode;
+	private String rvicode;
 	
-	private String RV_Count;
+	private String rvcount;
 	
-	private String RV_Price;
+	private String rvprice;
 	
-	private String RV_CP;
+	private String rvcp;
 	
-	private String RV_VAT;
+	private String rvvat;
 	
-	private String RV_Sum;
+	private String rvsum;
 	
-	private String RV_Pick;
+	private String rvpick;
 	
-	private String RV_PTime;
+	private String rvptime;
 }

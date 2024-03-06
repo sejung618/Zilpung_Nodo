@@ -8,29 +8,29 @@ import lombok.Setter;
 @Setter
 public class PurCreateForm {
 
-	private String PC_Num;
+	private String pcnum;
 	
 	@NotEmpty(message = "구매날짜는 필수입니다. 달력을 누르고 날짜를 선택하세요")
-	private String PC_Date;
+	private String pcdate;
 	
-	private String PC_Company;
+	private String pccompany;
 	
 	@NotEmpty(message = "회사 코드를 선택해주세요")
-	private String PC_Code;
+	private String pccode;
 	
-	private String PC_Item;
+	private String pcitem;
 	
-	private String PC_Icode;
+	private String pcicode;
 	
 	@NotEmpty(message = "구매 수량입력은 필수입니다.")
-	private String PC_Count;
+	private String pccount;
 	
-	private String PC_Price;
+	private String pcprice;
 	
-	private String PC_CP;
+	private String pccp;
 	
-	private String PC_VAT;
+	private String pcvat;
 	
-	private String PC_VATSUM;
+	private String pcvatsum;
 	
 }
