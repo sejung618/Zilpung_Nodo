@@ -8,7 +8,7 @@
 	<table class="table table-bordered table-hover-td">
 		<thead class="table-primary">
 			<tr class="text-center">
-				<th>일자-No.</th>
+				<th>입고일자-No.</th>
 				<th>거래처명</th>
 				<th>거래처코드</th>
 				<th>품목명</th>
@@ -24,23 +24,23 @@
 
 		<body>
 			<tr class="text-center">
-				<td th:text="${warehousing.WHDate}"></td>
-				<td th:text="${warehousing.WHAName}"></td>
-				<td th:text="${warehousing.WHACode}"></td>
-				<td th:text="${warehousing.WHIName}"></td>
-				<td th:text="${warehousing.WHICode}"></td>
-				<td th:text="${warehousing.WHPName}"></td>
-				<td th:text="${warehousing.WHPNum}"></td>
-				<td th:text="${warehousing.WHDT}"></td>
-				<td th:text="${warehousing.WHCAmount}"></td>
-				<td th:text="${warehousing.WHLocation}"></td>
-				<td th:text="${warehousing.WHState}"></td>
+				<td th:text="${warehousing.whnum}"></td>
+				<td th:text="${warehousing.account.AC_Company}"></td>
+				<td th:text="${warehousing.account.AC_Code}"></td>
+				<td th:text="${warehousing.item.ItmName}"></td>
+				<td th:text="${warehousing.item.ItmCode}"></td>
+				<td th:text="${warehousing.employee.empname}"></td>
+				<td th:text="${warehousing.employee.empnum}"></td>
+				<td th:text="${warehousing.whdt}"></td>
+				<td th:text="${warehousing.whcamount}"></td>
+				<td th:text="${warehousing.whlocation}"></td>
+				<td th:text="${warehousing.whstate}"></td>
 			</tr>
 		</body>
 	</table>
-	<a th:href="@{|/warehousing/modify/${warehousing.WHid}|}" class="btn btn-primary my-2"
+	<a th:href="@{|/warehousing/modify/${warehousing.whid}|}" class="btn btn-primary my-2"
 		style="left: 85%; margin-right: 5px;"> 수정</a>
-	<a href="javascript:void(0);" th:data-uri="@{|/warehousing/delete/${warehousing.WHid}|}"
+	<a href="javascript:void(0);" th:data-uri="@{|/warehousing/delete/${warehousing.whid}|}"
 		class="delete btn btn-primary my-2" th:text="삭제" style="left: 85%;"> 삭제</a>
 
 	<script type='text/javascript'>

@@ -21,6 +21,12 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Repository.Emp_Repository;
+import nodo.erp.Mm.Inventory.Inventory;
+import nodo.erp.Pp.Item.Item;
+import nodo.erp.Pp.Item.ItemRepository;
+import nodo.erp.Sd.AccService;
+import nodo.erp.Sd.Account;
 
 
 
@@ -30,38 +36,37 @@ public class ShippingService {
 	
 	private final ShippingRepository shippingRepository;
 	
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public void create(String SPDate, String SPAName, String SPACode, String SPIName, String SPICode, String SPPName, String SPPNum, String SPDT, Integer SPCAmount, String SPLocation, String SPState, Employee empname) {
+	public void create(String spdate, String spdt, Integer spcamount, String splocation, String spstate, Employee empnum, Account accode, Item itmcode) {
 		Shipping sp = new Shipping();
 		
-		String yy = SPDate.substring(2, 4);
-		String mm = SPDate.substring(5, 7);
-		String dd = SPDate.substring(8, 10);
+		String yy = spdate.substring(2, 4);
+		String mm = spdate.substring(5, 7);
+		String dd = spdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
 		
-		sp.setSPDate(ymd + "-" + Num); //출고일자
-		sp.setSPAName(SPAName); //거래처명
-		sp.setSPACode(SPACode); //거래처코드
-		sp.setSPIName(SPIName); //품목명
-		sp.setSPICode(SPICode); //품목코드
-		sp.setSPPName(SPPName); //담당자
-		sp.setSPPNum(SPPNum);	//담당사번
-		sp.setSPDT(SPDT);		//납기일자
-		sp.setSPCAmount(SPCAmount);//출고수량
-		sp.setSPLocation(SPLocation);//출고위치
-		sp.setSPState(SPState); //진행상태
+		sp.setSpnum(ymd + "-" + Num); //출고일자
+		sp.setSpdate(spdate); //출고일자
+		sp.setAccount(accode); //거래처코드
+		sp.setItem(itmcode); //품목코드
+		sp.setEmployee(empnum);	//담당사번
+		sp.setSpdt(spdt);		//납기일자
+		sp.setSpcamount(spcamount);//출고수량
+		sp.setSplocation(splocation);//출고위치
+		sp.setSpstate(spstate); //진행상태
 		sp.setCreateDate(LocalDateTime.now());
-		sp.setEmployee(empname);
+		
 		this.shippingRepository.save(sp);
 	}
 	
 	private Integer generateWHNum(String ymd) {
 		jakarta.persistence.Query query = entityManager.createQuery
-				("SELECT MAX(CAST(SUBSTRING(s.SPDate,-3) AS int)) "
-						+ "FROM Shipping s WHERE SUBSTRING(s.SPDate, 1, 6) = :ymd");
+				("SELECT MAX(CAST(SUBSTRING(s.spnum,-3) AS int)) "
+						+ "FROM Shipping s WHERE SUBSTRING(s.spnum, 1, 6) = :ymd");
 		query.setParameter("ymd", ymd);
 		Integer maxNum = (Integer) query.getSingleResult();
 
@@ -82,22 +87,22 @@ public class ShippingService {
             @Override
             public Predicate toPredicate(Root<Shipping> s, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거 
-                return cb.or(cb.like(s.get("SPDate"), "%" + kw + "%"), 
-                        cb.like(s.get("SPPName"), "%" + kw + "%"),     
-                        cb.like(s.get("SPPNum"), "%" + kw + "%"),    
-                        cb.like(s.get("SPAName"), "%" + kw + "%"),       
-                        cb.like(s.get("SPACode"), "%" + kw + "%"),
-                        cb.like(s.get("SPIName"), "%" + kw + "%"),
-                        cb.like(s.get("SPICode"), "%" + kw + "%"),
-                        cb.like(s.get("SPState"), "%" + kw + "%"),
-                        cb.like(s.get("SPLocation"), "%" + kw + "%"));   
+                return cb.or(cb.like(s.get("spdate"), "%" + kw + "%"), 
+//                        cb.like(s.get("SPPName"), "%" + kw + "%"),     
+//                        cb.like(s.get("SPPNum"), "%" + kw + "%"),    
+//                        cb.like(s.get("SPAName"), "%" + kw + "%"),       
+//                        cb.like(s.get("SPACode"), "%" + kw + "%"),
+//                        cb.like(s.get("SPIName"), "%" + kw + "%"),
+//                        cb.like(s.get("SPICode"), "%" + kw + "%"),
+                        cb.like(s.get("spstate"), "%" + kw + "%"),
+                        cb.like(s.get("splocation"), "%" + kw + "%"));   
             }
         };
     }
 	
 	//디테일
-	public Shipping getShipping(Integer SPid) {
-		Optional<Shipping> shipping = this.shippingRepository.findById(SPid);
+	public Shipping getShipping(Integer spid) {
+		Optional<Shipping> shipping = this.shippingRepository.findById(spid);
 		if(shipping.isPresent()) {
 			return shipping.get();
 		} else {
@@ -105,18 +110,23 @@ public class ShippingService {
 		}
 	}
 	
-	public void modify(Shipping sp, String SPAName, String SPACode, String SPIName, String SPICode, String SPPName, String SPPNum, String SPDT, Integer SPCAmount, String SPLocation, String SPState) {
+	public void modify(Shipping sp, String spdate, String spdt, Integer spcamount, String splocation, String spstate, Employee empnum, Account accode, Item itmcode) {
 		
-		sp.setSPAName(SPAName);
-		sp.setSPACode(SPACode);
-		sp.setSPIName(SPIName);
-		sp.setSPICode(SPICode);
-		sp.setSPPName(SPPName);
-		sp.setSPPNum(SPPNum);
-		sp.setSPDT(SPDT);
-		sp.setSPCAmount(SPCAmount);
-		sp.setSPLocation(SPLocation);
-		sp.setSPState(SPState);
+		String yy = spdate.substring(2, 4);
+		String mm = spdate.substring(5, 7);
+		String dd = spdate.substring(8, 10);
+		String ymd = yy + mm + dd;
+		String Num = String.format("%03d", generateWHNum(ymd));
+		
+		sp.setSpnum(ymd + "-" + Num); //일자번호
+		sp.setSpdate(spdate); //출고일자
+		sp.setAccount(accode); //거래처코드
+		sp.setItem(itmcode); //품목코드
+		sp.setEmployee(empnum);	//담당사번
+		sp.setSpdt(spdt);		//납기일자
+		sp.setSpcamount(spcamount);//출고수량
+		sp.setSplocation(splocation);//출고위치
+		sp.setSpstate(spstate); //진행상태
 		sp.setModifyDate(LocalDateTime.now());
 		this.shippingRepository.save(sp);
 	}
@@ -124,4 +134,12 @@ public class ShippingService {
 	public void delete(Shipping shipping) {
         this.shippingRepository.delete(shipping);
     }
+	
+	public Page<Shipping> State(int page, Shipping state) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		return this.shippingRepository.findBySpstate(pageable, state);
+	}
+	
 }

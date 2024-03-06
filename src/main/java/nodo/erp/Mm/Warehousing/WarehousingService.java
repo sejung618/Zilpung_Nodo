@@ -21,6 +21,8 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Pp.Item.Item;
+import nodo.erp.Sd.Account;
 
 
 @RequiredArgsConstructor
@@ -32,35 +34,32 @@ public class WarehousingService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public void create(String WHDate, String WHAName, String WHACode, String WHIName, String WHICode, String WHPName, String WHPNum, String WHDT, Integer WHCAmount, String WHLocation, String WHState, Employee empname) {
+	public void create(String whdate, String whdt, Integer whcamount, String whlocation, String whstate, Employee empnum, Account accode, Item itmcode) {
 		Warehousing wh = new Warehousing();
 		
-		String yy = WHDate.substring(2, 4);
-		String mm = WHDate.substring(5, 7);
-		String dd = WHDate.substring(8, 10);
+		String yy = whdate.substring(2, 4);
+		String mm = whdate.substring(5, 7);
+		String dd = whdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
 		
-		wh.setWHDate(ymd + "-" + Num);
-		wh.setWHAName(WHAName);
-		wh.setWHACode(WHACode);
-		wh.setWHIName(WHIName);
-		wh.setWHICode(WHICode);
-		wh.setWHPName(WHPName);
-		wh.setWHPNum(WHPNum);
-		wh.setWHDT(WHDT);
-		wh.setWHCAmount(WHCAmount);
-		wh.setWHLocation(WHLocation);
-		wh.setWHState(WHState);
+		wh.setWhnum(ymd + "-" + Num);
+		wh.setWhdate(whdate);
+		wh.setAccount(accode); //거래처코드
+		wh.setItem(itmcode); //품목코드
+		wh.setEmployee(empnum);	//담당사번
+		wh.setWhdt(whdt);
+		wh.setWhcamount(whcamount);
+		wh.setWhlocation(whlocation);
+		wh.setWhstate(whstate);
 		wh.setCreateDate(LocalDateTime.now());
-		wh.setEmployee(empname);
 		this.warehousingRepository.save(wh);
 	}
 	
 	private Integer generateWHNum(String ymd) {
 		jakarta.persistence.Query query = entityManager.createQuery
-				("SELECT MAX(CAST(SUBSTRING(w.WHDate,-3) AS int)) "
-						+ "FROM Warehousing w WHERE SUBSTRING(w.WHDate, 1, 6) = :ymd");
+				("SELECT MAX(CAST(SUBSTRING(w.whnum,-3) AS int)) "
+						+ "FROM Warehousing w WHERE SUBSTRING(w.whnum, 1, 6) = :ymd");
 		query.setParameter("ymd", ymd);
 		Integer maxNum = (Integer) query.getSingleResult();
 
@@ -82,22 +81,22 @@ public class WarehousingService {
             @Override
             public Predicate toPredicate(Root<Warehousing> w, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거 
-                return cb.or(cb.like(w.get("WHDate"), "%" + kw + "%"), 
-                        cb.like(w.get("WHPName"), "%" + kw + "%"),     
-                        cb.like(w.get("WHPNum"), "%" + kw + "%"),    
-                        cb.like(w.get("WHAName"), "%" + kw + "%"),       
-                        cb.like(w.get("WHACode"), "%" + kw + "%"),
-                        cb.like(w.get("WHIName"), "%" + kw + "%"),
-                        cb.like(w.get("WHICode"), "%" + kw + "%"),
-                        cb.like(w.get("WHState"), "%" + kw + "%"),
-                        cb.like(w.get("WHLocation"), "%" + kw + "%"));   
+                return cb.or(cb.like(w.get("whdate"), "%" + kw + "%"), 
+//                        cb.like(w.get("WHPName"), "%" + kw + "%"),     
+//                        cb.like(w.get("WHPNum"), "%" + kw + "%"),    
+//                        cb.like(w.get("WHAName"), "%" + kw + "%"),       
+//                        cb.like(w.get("WHACode"), "%" + kw + "%"),
+//                        cb.like(w.get("WHIName"), "%" + kw + "%"),
+//                        cb.like(w.get("WHICode"), "%" + kw + "%"),
+                        cb.like(w.get("whstate"), "%" + kw + "%"),
+                        cb.like(w.get("whlocation"), "%" + kw + "%"));   
             }
         };
     }
 	
 	//디테일
-	public Warehousing getWarehousing(Integer WHid) {
-		Optional<Warehousing> warehousing = this.warehousingRepository.findById(WHid);
+	public Warehousing getWarehousing(Integer whid) {
+		Optional<Warehousing> warehousing = this.warehousingRepository.findById(whid);
 		if(warehousing.isPresent()) {
 			return warehousing.get();
 		} else {
@@ -105,18 +104,23 @@ public class WarehousingService {
 		}
 	}
 	
-	public void modify(Warehousing wh, String WHAName, String WHACode, String WHIName, String WHICode, String WHPName, String WHPNum, String WHDT, Integer WHCAmount, String WHLocation, String WHState) {
+	public void modify(Warehousing wh, String whdate, String whdt, Integer whcamount, String whlocation, String whstate, Employee empnum, Account accode, Item itmcode) {
 		
-		wh.setWHAName(WHAName);
-		wh.setWHACode(WHACode);
-		wh.setWHIName(WHIName);
-		wh.setWHICode(WHICode);
-		wh.setWHPName(WHPName);
-		wh.setWHPNum(WHPNum);
-		wh.setWHDT(WHDT);
-		wh.setWHCAmount(WHCAmount);
-		wh.setWHLocation(WHLocation);
-		wh.setWHState(WHState);
+		String yy = whdate.substring(2, 4);
+		String mm = whdate.substring(5, 7);
+		String dd = whdate.substring(8, 10);
+		String ymd = yy + mm + dd;
+		String Num = String.format("%03d", generateWHNum(ymd));
+		
+		wh.setWhnum(ymd + "-" + Num);
+		wh.setWhdate(whdate);
+		wh.setAccount(accode); //거래처코드
+		wh.setItem(itmcode); //품목코드
+		wh.setEmployee(empnum);	//담당사번
+		wh.setWhdt(whdt);
+		wh.setWhcamount(whcamount);
+		wh.setWhlocation(whlocation);
+		wh.setWhstate(whstate);
 		wh.setModifyDate(LocalDateTime.now());
 		this.warehousingRepository.save(wh);
 	}

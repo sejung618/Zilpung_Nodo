@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Pp.Item.Item;
 import nodo.erp.Sd.Account;
 
 @Getter
@@ -20,48 +21,35 @@ public class Shipping {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer SPid;		//번호
+	private Integer spid;		//번호
+	
+	private String spnum;		//일자번호(yymmdd)
 	
 	@Column(length = 15)
-	private String SPDate;		//출고일자
-	
-	@Column(length = 30)
-	private String SPAName;		//거래처명
-	
-	@Column(length = 30)
-	private String SPACode;		//거래처코드
-	
-	@Column(length = 30)
-	private String SPIName;		//품목명
-	
-	@Column(length = 11)
-	private String SPICode;		//품목코드
-	
-	@Column(length = 10)
-	private String SPPName;		//담당자
-	
-	@Column(length = 13)
-	private String SPPNum;		//담당사번
+	private String spdate;		//출고일자
 	
 	@Column(length = 20)
-	private String SPDT;		//납기일자
+	private String spdt;		//납기일자
 	
 	@Column(length = 7)
-	private Integer SPCAmount;		//출고수량
+	private Integer spcamount;		//출고수량
 	
 	@Column(length = 30)
-	private String SPLocation;		//출고위치
+	private String splocation;		//출고위치
 	
 	@Column(length = 20)
-	private String SPState;		//진행상태
+	private String spstate;		//진행상태
 	
 	private LocalDateTime createDate; 		
 	
 	private LocalDateTime modifyDate;
 	
 	@ManyToOne
-	private Employee employee;
+	private Employee employee; //사원번호, 사원이름
 	
 	@ManyToOne
-	private Account account;
+	private Account account; //거래처명, 거래처코드
+	
+	@ManyToOne
+	private Item item; //품목코드, 품목명, 규격
 }
