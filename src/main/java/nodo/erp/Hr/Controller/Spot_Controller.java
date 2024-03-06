@@ -37,13 +37,13 @@ public class Spot_Controller {
 
 	@GetMapping("/create")
 	public String spotCreate(Spot_Form spot_Form, Authentication authentication) {
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
 			return "Hr/Spot_Form";
-		} else {
-			return "redirect:/";
-		}
+//		} else {
+//			return "redirect:/";
+//		}
 	}
 
 	@PostMapping("/create")

@@ -1,0 +1,25 @@
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container">
+	<h5 class="my-3 border-bottom pd-2">직책 관리</h5>
+	
+	<form  th:object="${position_Form}" method="post">
+		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+		
+		<div class="mb-3">
+			<label for="posicode" class="form-label">직책코드</label>
+			<input type="text" th:field="*{posicode}" name="posicode" id="posicode" class="form-control" style="width: 30%;">
+		</div>
+		<div class="mb-3">
+			<label for="posiname" class="form-label">직책명</label>
+			<input type="text" th:field="*{posiname}" name="posiname" id="posiname" class="form-control" style="width: 30%;">
+		</div>
+
+
+		<input type="submit" value="저장하기" class="btn btn-primary my-2">
+	</form>
+</div>
+
+</html>

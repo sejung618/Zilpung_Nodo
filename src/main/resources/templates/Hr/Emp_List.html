@@ -70,8 +70,8 @@
 					<td th:text="${Emplist.empname}"></td>
 					<td th:text="${Emplist.empdate}"></td>
 					<td><span th:if="${Emplist.depart != null}" th:text="${Emplist.depart.depname}"></span></td>
-					<td th:text="${Emplist.empposition}"></td>
-					<td th:text="${Emplist.empspot}"></td>
+					<td><span th:if="${Emplist.position != null}" th:text="${Emplist.position.positionname}"></span></td>
+					<td><span th:if="${Emplist.spot != null}" th:text="${Emplist.spot.spotname}"></span></td>
 				</tr>
 			</tbody>
 		</table>

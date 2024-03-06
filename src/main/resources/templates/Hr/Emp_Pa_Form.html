@@ -1,105 +1,104 @@
 <html layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="container">
-    <h5 class="my-3 border-bottom py-2">인사 발령</h5>
-    <form th:action="@{/Hr/pa}" method="post" class="needs-validation" novalidate>
+	<h5 class="my-3 border-bottom py-2">인사 발령</h5>
+	<form th:action="@{/Hr/pa}" method="post" class="needs-validation" novalidate>
 
-        <div class="form-group mb-3">
-            <label for="id" class="form-label mt-4">사원</label>
-            <select class="form-control" style="width: 48.5%;" name="id" id="id" required>
-                <option value="" disabled selected>선택하세요</option>
-                <option th:each="emp : ${emplist}" th:value="${emp.id}" 
-                th:spot="${emp.empspot}" th:depart="${emp.depart.depname}" th:position="${emp.empposition}" th:depid="${emp.depart.id}">
-                    <span th:text="${emp.empnum + ' - ' + emp.empname}"></span>
-                </option>
-            </select>
-            <div class="invalid-feedback">사원을 선택해주세요.</div>
-        </div>
+		<div class="form-group mb-3">
+			<label for="id" class="form-label mt-4">사원</label>
+			<select class="form-control" style="width: 48.5%;" name="id" id="id" required>
+				<option value="" disabled selected>선택하세요</option>
+				<option th:each="emp : ${emplist}" th:value="${emp.id}" 
+				th:spot="${emp.spot != null ? emp.spot.spotname : null}"
+				th:depart="${emp.depart != null ? emp.depart.depname : null}" 
+				th:position="${emp.position != null ? emp.position.positionname : null}"
+				th:spotid="${emp.spot != null ? emp.spot.id : null}" 
+				th:depid="${emp.depart != null ? emp.depart.id : null}" 
+				th:positionid="${emp.position != null ? emp.position.id : null}">
+					<span th:text="${emp.empnum + ' - ' + emp.empname}"></span>
+				</option>
+			</select>
+			<div class="invalid-feedback">사원을 선택해주세요.</div>
+		</div>
+				
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group mb-3">
+					<label for="sp" class="form-label mt-4">발령 전 직위</label>
+					<input type="text" class="form-control" id="sp" readonly>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group mb-3">
+					<label for="spotid" class="form-label mt-4">발령 후 직위</label><br>
+					<select class="form-control" name="spotid" id="spotid">
+						<option value="" disabled selected>선택하세요</option>
+						<option th:each="spot : ${spotlist}" th:value="${spot.id}" th:text="${spot.spotname}"></option>
+					</select>
+				</div>
+			</div>
+		</div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group mb-3">
-                    <label for="sp" class="form-label mt-4">발령 전 직위</label>
-                    <input type="text" class="form-control" id="sp" readonly>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group mb-3">
-                    <label for="empspot" class="form-label mt-4">발령 후 직위</label><br>
-                    <select class="form-control" name="empspot" id="empspot">
-                        <option value="" disabled selected>선택하세요</option>
-                        <option value="인턴">인턴</option>
-                        <option value="사원">사원</option>
-                        <option value="대리">대리</option>
-                        <option value="과장">과장</option>
-                        <option value="부장">부장</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group mb-3">
+					<label for="po" class="form-label mt-4">발령 전 직책</label>
+					<input type="text" class="form-control" id="po" readonly>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group mb-3">
+					<label for="positionid" class="form-label mt-4">발령 후 직책</label><br>
+					<select class="form-control" name="positionid" id="positionid">
+						<option value="" disabled selected>선택하세요</option>
+						<option th:each="posi : ${posilist}" th:value="${posi.id}" th:text="${posi.positionname}"></option>
+					</select>
+				</div>
+			</div>
+		</div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group mb-3">
-                    <label for="po" class="form-label mt-4">발령 전 직책</label>
-                    <input type="text" class="form-control" id="po" readonly>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group mb-3">
-                    <label for="empposition" class="form-label mt-4">발령 후 직책</label> <br>
-                    <select class="form-control" name="empposition" id="empposition">
-                        <option value="" disabled selected>선택하세요</option>
-                        <option value="팀원">팀원</option>
-                        <option value="부팀장">부팀장</option>
-                        <option value="팀장">팀장</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group mb-3">
+					<label for="de" class="form-label mt-4">발령 전 부서</label>
+					<input type="text" class="form-control" id="de" readonly>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group mb-3">
+					<label for="departcode" class="form-label mt-4">발령 후 부서</label><br>
+					<select class="form-control" name="depid" id="depid">
+						<option value="" disabled selected>선택하세요</option>
+						<option th:each="dep : ${deplist}" th:value="${dep.id}" th:text="${dep.depname}"></option>
+					</select>
+				</div>
+			</div>
+		</div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group mb-3">
-                    <label for="de" class="form-label mt-4">발령 전 부서</label>
-                    <input type="text" class="form-control" id="de" readonly>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group mb-3">
-                    <label for="departcode" class="form-label mt-4">발령 후 부서</label><br>
-                    <select class="form-control" name="depid" id="depid">
-                        <option value="" disabled selected>선택하세요</option>
-                        <option th:each="dep : ${deplist}" th:value="${dep.id}" th:text="${dep.depname}" th:decode ="${dep.id}" ></option>
-                    </select>
-                </div>
-            </div>
-        </div>
+		<button type="submit" class="btn btn-primary mt-3">저장하기</button>
+	</form>
 
-        <button type="submit" class="btn btn-primary mt-3">저장하기</button>
-    </form>
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			$('#id').change(function () {
+				var selectedOption = $(this).find(':selected');
+				$('#sp').val(selectedOption.attr("spot"));
+				$('#po').val(selectedOption.attr("position"));
+				$('#de').val(selectedOption.attr("depart"));
 
-    <script th:inline="javascript">
-        $(document).ready(function () {
-            $('#id').change(function () {
-                var selectedOption = $(this).find(':selected');
-                $('#sp').val(selectedOption.attr("spot"));
-                $('#po').val(selectedOption.attr("position"));
-                $('#de').val(selectedOption.attr("depart"));
-                
-                // Set default values for 발령 후 직위, 발령 후 직책, 발령 후 부서
-                var defaultSpot = selectedOption.attr("spot");
-                var defaultPosition = selectedOption.attr("position");
-                var defaultDepart = selectedOption.attr("depid");
-                
-                $('#empspot').val(defaultSpot).change();
-                $('#empposition').val(defaultPosition).change();
-                $('#depid').val(defaultDepart).change();
-            });
-            
+				// Set default values for 발령 후 직위, 발령 후 직책, 발령 후 부서
+				var defaultSpot = selectedOption.attr("spotid");
+				var defaultPosition = selectedOption.attr("positionid");
+				var defaultDepart = selectedOption.attr("depid");
 
-        });
-    </script>
+				$('#spotid').val(defaultSpot).change();
+				$('#positionid').val(defaultPosition).change();
+				$('#depid').val(defaultDepart).change();
+			});
+
+
+		});
+	</script>
 </div>
 
 </html>

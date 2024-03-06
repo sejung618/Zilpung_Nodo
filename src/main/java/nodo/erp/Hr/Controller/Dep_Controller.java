@@ -37,13 +37,13 @@ public class Dep_Controller {
 
 	@GetMapping("/create")
 	public String depCreate(Dep_Form dep_Form, Authentication authentication) {
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
 			return "Hr/Dep_Form";
-		} else {
-			return "redirect:/";
-		}
+//		} else {
+//			return "redirect:/";
+//		}
 	}
 
 	@PostMapping("/create")

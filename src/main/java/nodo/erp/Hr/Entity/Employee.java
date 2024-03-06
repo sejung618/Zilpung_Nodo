@@ -41,11 +41,11 @@ public class Employee {
 	
 	private LocalDate empdate;	//입사일자@
 	
-	@Column(length = 50)
-	private String empspot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
+	@ManyToOne
+	private Spot spot;		//@직위(인턴 사원 대리 과장 부장 이사 대표)
 	
-	@Column(length = 50)
-	private String empposition; //@직책 (팀장 부팀장)
+	@ManyToOne
+	private Position position; //@직책 (팀장 부팀장)
 	
 	@ManyToOne
 	private Department depart;		//@부서

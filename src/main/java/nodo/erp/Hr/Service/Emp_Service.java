@@ -28,6 +28,8 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Entity.Position;
+import nodo.erp.Hr.Entity.Spot;
 import nodo.erp.Hr.Repository.Dep_Repository;
 import nodo.erp.Hr.Repository.Emp_Repository;
 import nodo.erp.Sd.Account;
@@ -69,7 +71,7 @@ public class Emp_Service {
 	}
 
 	public void create(String empname, String empssn, String empadd, String empphone, String empmail, LocalDate empdate,
-			String empspot, String empposition, Department depart) {
+			Spot spot, Position position, Department depart) {
 		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy");
 		String strv = formatter1.format(empdate);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy");
@@ -83,8 +85,8 @@ public class Emp_Service {
 		q.setEmpphone(empphone);
 		q.setEmpmail(empmail);
 		q.setEmpdate(empdate);
-		q.setEmpspot(empspot);
-		q.setEmpposition(empposition);
+		q.setSpot(spot);
+		q.setPosition(position);
 		q.setDepart(depart);
 //		q.setId(generateEmpId());
 		q.setEmpnum(stre + Num);
@@ -126,10 +128,10 @@ public class Emp_Service {
 		this.emp_Repository.save(m);
 	}
 	
-	public void Pa(Employee employee, String empspot, String empposition, Department depart) {
+	public void Pa(Employee employee, Spot spot, Position position, Department depart) {
 		Employee m = this.emp_Repository.findById(employee.getId()).orElse(null);
-		m.setEmpspot(empspot);
-		m.setEmpposition(empposition);
+		m.setSpot(spot);
+		m.setPosition(position);
 		m.setDepart(depart);
 		this.emp_Repository.save(m);
 	}
@@ -148,6 +150,8 @@ public class Emp_Service {
 	public static Specification<Employee> search(String keyword, String searchType) {
 		return (Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
 			Join<Employee, Department> d = root.join("depart", JoinType.LEFT);
+			Join<Employee, Spot> s = root.join("spot", JoinType.LEFT);
+			Join<Employee, Position> p = root.join("position", JoinType.LEFT);
 			if (searchType.equals("empnum")) {
 				return criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%");
 			} else if (searchType.equals("empname")) {
@@ -155,7 +159,7 @@ public class Emp_Service {
 			} else if (searchType.equals("depname")) {
 				return criteriaBuilder.like(d.get("depname"), "%" + keyword + "%");
 			} else if (searchType.equals("empposition")) {
-				return criteriaBuilder.like(root.get("empposition"), "%" + keyword + "%");
+				return criteriaBuilder.like(p.get("positionname"), "%" + keyword + "%");
 			} else if (keyword.matches("\\d{4}-\\d{2}")) {
 				YearMonth yearMonth = YearMonth.parse(keyword, DateTimeFormatter.ofPattern("yyyy-MM"));
 				LocalDate startDate = yearMonth.atDay(1);
@@ -170,11 +174,11 @@ public class Emp_Service {
 				return criteriaBuilder.or(criteriaBuilder.like(root.get("empnum"), "%" + keyword + "%"),
 						criteriaBuilder.like(root.get("empname"), "%" + keyword + "%"),
 						criteriaBuilder.like(d.get("depname"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empposition"), "%" + keyword + "%"),
+						criteriaBuilder.like(p.get("positionname"), "%" + keyword + "%"),
 						criteriaBuilder.like(root.get("empadd"), "%" + keyword + "%"),
 						criteriaBuilder.like(root.get("empphone"), "%" + keyword + "%"),
 						criteriaBuilder.like(root.get("empmail"), "%" + keyword + "%"),
-						criteriaBuilder.like(root.get("empspot"), "%" + keyword + "%")
+						criteriaBuilder.like(s.get("spotname"), "%" + keyword + "%")
 						);
 			}
 

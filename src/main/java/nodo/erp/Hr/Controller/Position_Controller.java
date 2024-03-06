@@ -34,27 +34,27 @@ public class Position_Controller {
 	public String posilist(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 		Page<Position> paging = this.position_Service.getList(page);
 		model.addAttribute("paging", paging);
-		return "Hr/Position_List";
+		return "Hr/position_list";
 	}
 
 	@GetMapping("/create")
 	public String posiCreate(Position_Form position_Form, Authentication authentication) {
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
-			return "Hr/Position_Form";
-		} else {
-			return "redirect:/";
-		}
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
+			return "Hr/position_Form";
+//		} else {
+//			return "redirect:/";
+//		}
 	}
 
 	@PostMapping("/create")
 	public String posiCreate(@Valid Position_Form position_Form, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return "Hr/Dep_Form";
+			return "Hr/position_Form";
 		}
 		this.position_Service.create(position_Form.getPosicode(), position_Form.getPosiname());
-		return "redirect:/dep/list";
+		return "redirect:/position/list";
 	}
 
 	@GetMapping("/modify/{id}")
@@ -72,7 +72,7 @@ public class Position_Controller {
 			return "Hr/Position_Form";
 		}
 		this.position_Service.modify(posi, position_Form.getPosicode(), position_Form.getPosiname());
-		return "redirect:/Position/list";
+		return "redirect:/position/list";
 	}
 
 	@GetMapping("/delete/{id}")
@@ -82,7 +82,7 @@ public class Position_Controller {
 		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 		if (employee.getId() == 1) {
 			this.position_Service.delete(posi);
-			return "redirect:/Position/list";
+			return "redirect:/position/list";
 		} else {
 			return "redirect:/";
 		}
