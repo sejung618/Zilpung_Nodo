@@ -59,6 +59,15 @@ public class Att_Service {
 //	            throw new DataNotFoundException("employee not found");
 	        }
 	}
+	
+	public Attendance getfindById(Integer id) {
+		Optional<Attendance> attendance = this.att_Repository.findById(id);
+		if (attendance.isPresent()) {
+			return attendance.get();
+		} else {
+			throw new DataNotFoundException("attendance not found");
+		}
+	}
 
 	public void checkin(Employee employee) {
 		// 해당 날짜와 아이디로 이미 체크인한 기록이 있는지 확인

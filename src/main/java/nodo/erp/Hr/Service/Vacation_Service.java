@@ -6,6 +6,7 @@ import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Entity.VacationApply;
@@ -63,6 +65,15 @@ public class Vacation_Service {
 		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
 		Specification<VacationApply> spec = search(kw1, kw2);
 		return this.vaca_App_Reository.findAll(spec, pageable);
+	}
+	
+	public VacationApply getfindById(Integer id) {
+		Optional<VacationApply> vacationApply = this.vaca_App_Reository.findById(id);
+		if (vacationApply.isPresent()) {
+			return vacationApply.get();
+		} else {
+			throw new DataNotFoundException("vacationApply not found");
+		}
 	}
 
 	// 휴일을 제외한 근무일 수 계산

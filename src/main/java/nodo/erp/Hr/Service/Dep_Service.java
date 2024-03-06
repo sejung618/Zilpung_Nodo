@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Repository.Dep_Repository;
+import nodo.erp.Hr.Repository.Position_Repository;
+import nodo.erp.Hr.Repository.Spot_Repository;
 
 @RequiredArgsConstructor
 @Service
@@ -24,7 +26,7 @@ public class Dep_Service {
 		return this.dep_Repository.findAll();
 	}
 	
-	 public Page<Department> getdepList(int page) {
+	 public Page<Department> getList(int page) {
 	        Pageable pageable = PageRequest.of(page, 10);
 	        return this.dep_Repository.findAll(pageable);
 	    }
@@ -38,24 +40,24 @@ public class Dep_Service {
 			this.dep_Repository.save(q);
 		}
 	 
-	 public Department getFindByIdDep(Integer id) {  
-	        Optional<Department> getFindByIdDep = this.dep_Repository.findById(id);
-	        if (getFindByIdDep.isPresent()) {
-	            return getFindByIdDep.get();
+	 public Department getFindById(Integer id) {  
+	        Optional<Department> getFindById = this.dep_Repository.findById(id);
+	        if (getFindById.isPresent()) {
+	            return getFindById.get();
 	        } else {
 	            throw new DataNotFoundException("question not found");
 	        }
 	    }
 
-	public void modify(Department hr_Dto_Dep,String depcode, String depname) {
-		hr_Dto_Dep.setDepcode(depcode);
-		hr_Dto_Dep.setDepname(depname);
+	public void modify(Department department,String depcode, String depname) {
+		department.setDepcode(depcode);
+		department.setDepname(depname);
 			
-			this.dep_Repository.save(hr_Dto_Dep);
+			this.dep_Repository.save(department);
 	}
 	 
-	public void delete(Department hr_Dto_Dep) {
-        this.dep_Repository.delete(hr_Dto_Dep);
+	public void delete(Department department) {
+        this.dep_Repository.delete(department);
     }
 	
 }

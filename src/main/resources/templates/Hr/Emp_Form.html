@@ -70,8 +70,8 @@
 		
 		<div class="form-group mb-3">
 			<label for="depcode" class="form-label mt-4">부서</label>
-			<select class="form-select" name="depcode" id="depcode">
-				 <option th:each="dep : ${deplist}" th:value="${dep.depcode}" th:text="${dep.depname}"></option>
+			<select class="form-select" name="depid" id="depid">
+				 <option th:each="dep : ${deplist}" th:value="${dep.id}" th:text="${dep.depname}"></option>
 				
 			</select>
 		</div>

@@ -11,7 +11,6 @@ import nodo.erp.Hr.Entity.Department;
 
 
 public interface Dep_Repository extends JpaRepository<Department, Integer> {
-	Optional<Department> findByDepcode(String depcode);
 	
 	Page<Department> findAll(Pageable pageable);
     Page<Department> findAll(Specification<Department> spec, Pageable pageable);
