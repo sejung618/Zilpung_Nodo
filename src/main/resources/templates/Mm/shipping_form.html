@@ -9,24 +9,19 @@
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
 		<div class="mb-3">
-			<label for="SPDate" class="form-label">일자</label>
-			<input type="date" th:field="*{SPDate}" name="SPDate" id="SPDate" class="form-control">
+			<label for="spdate" class="form-label">출고일자</label>
+			<input type="date" th:field="*{spdate}" name="spdate" id="spdate" class="form-control">
 		</div>
-		
+
 		<div class="form-group mb-3">
-			<label for="SPACode" class="form-label">거래처코드</label>
-			<select class="form-control" th:field="*{SPACode}" name="SPACode" id="SPACode">
-				<option value="-">-</option>
-				<option th:each="account : ${accList}" th:value="${account.AC_Code}" th:text="${account.AC_Code}"
-					th:data-AC-Company="${account.AC_Company}"></option>
+			<label for="accode" class="form-label">거래처코드</label>
+			<select class="form-control" th:field="*{accode}" name="accode" id="accode">
+				<option value="">-</option>
+				<option th:each="account : ${accList}" th:value="${account.id}"
+					th:text="${account.AC_Code}+${account.AC_Company}" th:data-AC-Company="${account.AC_Company}"></option>
 			</select>
 		</div>
 
-		<div class="mb-3">
-			<label for="SPAName" class="form-label">거래처명</label>
-			<input type="text" th:field="*{SPAName}" name="SPAName" id="SPAName" class="form-control SPAName">
-		</div>
-		
 		<!--div class="mb-3">
 			<label for="SPAName" class="form-label">거래처명</label>
 			<input type="text" th:field="*{SPAName}" name="SPAName" id="SPAName" class="form-control">
@@ -35,18 +30,35 @@
 			<label for="SPACode" class="form-label">거래처코드</label>
 			<input type="text" th:field="*{SPACode}" name="SPACode" id="SPACode" class="form-control">
 		</div-->
-		
-		<div class="mb-3">
+
+		<div class="form-group mb-3">
+			<label for="itmcode" class="form-label">품목코드</label>
+			<select class="form-control" th:field="*{itmcode}" name="itmcode" id="itmcode" required>
+				<option value="">-</option>
+				<option th:each="item : ${itemList}" th:value="${item.ItmId}" th:text="${item.ItmCode}+${item.ItmName}"
+					th:data-ItmName="${item.ItmName}" th:data-ItmStandard="${item.ItmStandard}"></option>
+			</select>
+		</div>
+
+		<!--<div class="mb-3">
 			<label for="SPIName" class="form-label">품목명</label>
 			<input type="text" th:field="*{SPIName}" name="SPIName" id="SPIName" class="form-control">
 		</div>
 		<div class="mb-3">
 			<label for="SPICode" class="form-label">품목코드</label>
 			<input type="text" th:field="*{SPICode}" name="SPICode" id="SPICode" class="form-control">
-		</div>
-
+		</div>-->
 
 		<div class="form-group mb-3">
+			<label for="empnum" class="form-label">담당사번</label>
+			<select class="form-control " th:field="*{empnum}" name="empnum" id="empnum" required>
+				<option value="">-</option>
+				<option th:each="emp : ${empList}" th:value="${emp.id}" th:text="${emp.empnum}+${emp.empname}"
+					th:data-empname="${emp.empname}"></option>
+			</select>
+		</div>
+
+		<!--<div class="form-group mb-3">
 			<label for="SPPNum" class="form-label">담당사번</label>
 			<select class="form-control" th:field="*{SPPNum}" name="SPPNum" id="SPPNum">
 				<option value="-">-</option>
@@ -58,7 +70,7 @@
 		<div class="mb-3">
 			<label for="SPPName" class="form-label">담당자</label>
 			<input type="text" th:field="*{SPPName}" name="SPPName" id="SPPName" class="form-control SPPName">
-		</div>
+		</div>-->
 
 		<!--div class="mb-3">
 			<label for="SPPName" class="form-label">담당자</label>
@@ -71,20 +83,20 @@
 
 
 		<div class="mb-3">
-			<label for="SPDT" class="form-label">납기일자</label>
-			<input type="date" th:field="*{SPDT}" name="SPDT" id="SPDT" class="form-control">
+			<label for="spdt" class="form-label">납기일자</label>
+			<input type="date" th:field="*{spdt}" name="spdt" id="spdt" class="form-control">
 		</div>
 		<div class="mb-3">
-			<label for="SPCAmount" class="form-label">출고수량</label>
-			<input type="text" th:field="*{SPCAmount}" name="SPCAmount" id="SPCAmount" class="form-control">
+			<label for="spcamount" class="form-label">출고수량</label>
+			<input type="text" th:field="*{spcamount}" name="spcamount" id="spcamount" class="form-control">
 		</div>
 		<div class="mb-3">
-			<label for="SPLocation" class="form-label">출고위치</label>
-			<input type="text" th:field="*{SPLocation}" name="SPLocation" id="SPLocation" class="form-control">
+			<label for="splocation" class="form-label">출고위치</label>
+			<input type="text" th:field="*{splocation}" name="splocation" id="splocation" class="form-control">
 		</div>
 		<div class="form-group mb-3">
-			<label for="SPState" class="form-label">진행상태</label>
-			<select class="form-control" th:field="*{SPState}" name="SPState" id="SPState">
+			<label for="spstate" class="form-label">진행상태</label>
+			<select class="form-control" th:field="*{spstate}" name="spstate" id="spstate">
 				<option value="-">-</option>
 				<option value="미출고">미출고</option>
 				<option value="출고">출고</option>
@@ -93,21 +105,30 @@
 		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
 
 		<script th:inline="javascript">
-			
+
 			$(document).ready(function () {
-				$('#SPACode').change(function () {
+				$('#AC_Code').change(function () {
 					var valueAC_Company = $(this).find(':selected').attr("data-AC-Company");
 
-					$('.SPAName').val(valueAC_Company);
+					$('#AC_Company').val(valueAC_Company);
 
 				});
 			});
-			
-			$(document).ready(function () {
-				$('#SPPNum').change(function () {
-					var valueempname = $(this).find(':selected').attr("data-empname");
 
-					$('.SPPName').val(valueempname);
+			$(document).ready(function () {
+				$('#empnum').change(function () {
+					var valueempname = $(this).find(':selected').attr("data-empname");
+					$('#empname').val(valueempname);
+				});
+			});
+
+			$(document).ready(function () {
+				$('#ItmCode').change(function () {
+					var valueItmName = $(this).find(':selected').attr("data-ItmName");
+					var valueItmStandard = $(this).find(':selected').attr("data-ItmStandard");
+
+					$('#ItmName').val(valueItmName);
+					$('#ItmStandard').val(valueItmStandard);
 
 				});
 			});
@@ -115,3 +136,5 @@
 
 	</form>
 </div>
+
+</html>

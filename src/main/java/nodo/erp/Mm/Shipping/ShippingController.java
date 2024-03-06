@@ -22,121 +22,133 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Service.Emp_Service;
+import nodo.erp.Pp.Item.Item;
+import nodo.erp.Pp.Item.ItemService;
 import nodo.erp.Sd.AccService;
 import nodo.erp.Sd.Account;
-
-
 
 @RequestMapping("/shipping")
 @RequiredArgsConstructor
 @Controller
 public class ShippingController {
-	
+
 	private final ShippingService shippingService;
 	private final Emp_Service emp_Service;
 	private final AccService accService;
-	
+	private final ItemService itemService;
+
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw", defaultValue = "") String kw) {
 		Page<Shipping> paging = this.shippingService.getList(page, kw);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
 		return "Mm/shipping_list";
-	} 
-	
+	}
+
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
-	public String shippingCreate(Model model, ShippingForm shippingForm){
+	public String shippingCreate(Model model, ShippingForm shippingForm) {
 		List<Employee> empList = this.emp_Service.getList();
 		List<Account> accList = this.accService.getList();
+		List<Item> itemList = this.itemService.getList();
+
 		model.addAttribute("empList", empList);
 		model.addAttribute("accList", accList);
+		model.addAttribute("itemList", itemList);
 		return "Mm/shipping_form";
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String shippingCreate(Model model, @Valid ShippingForm shippingForm, BindingResult br, Authentication authentication) {
+	public String shippingCreate(Model model, @Valid ShippingForm shippingForm, BindingResult br) {
+		Employee employee = this.emp_Service.getEmpDetail(shippingForm.getEmpnum());
+		Item item = this.itemService.getItem(shippingForm.getItmcode());
+		Account acc = this.accService.getAccount(shippingForm.getAccode());
+
 		if (br.hasErrors()) {
 			List<Employee> empList = this.emp_Service.getList();
 			List<Account> accList = this.accService.getList();
+			List<Item> itemList = this.itemService.getList();
+
 			model.addAttribute("empList", empList);
 			model.addAttribute("accList", accList);
-			return "Mm/shipping_form"; 
+			model.addAttribute("itemList", itemList);
+			return "Mm/shipping_form";
 		}
-		
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getEmpDetail(customUserDetails.getEmpid());
-		
-		this.shippingService.create(shippingForm.getSPDate(),shippingForm.getSPAName(), shippingForm.getSPACode(), shippingForm.getSPIName(), shippingForm.getSPICode(), shippingForm.getSPPName(), shippingForm.getSPPNum(), shippingForm.getSPDT(), shippingForm.getSPCAmount(), shippingForm.getSPLocation(), shippingForm.getSPState(), employee);
+
+		this.shippingService.create(shippingForm.getSpdate(), shippingForm.getSpdt(), shippingForm.getSpcamount(),
+				shippingForm.getSplocation(), shippingForm.getSpstate(), employee, acc, item);
 		return "redirect:/shipping/list";
 	}
-	
-	@GetMapping(value = "/detail/{SPid}")
-	public String detail(Model model, @PathVariable("SPid") Integer SPid) {
-		Shipping shipping = this.shippingService.getShipping(SPid);
+
+	@GetMapping(value = "/detail/{spid}")
+	public String detail(Model model, @PathVariable("spid") Integer spid) {
+		Shipping shipping = this.shippingService.getShipping(spid);
 		model.addAttribute("shipping", shipping);
 		return "Mm/shipping_detail";
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/modify/{SPid}")
-	public String shippingModify(Model model, ShippingForm sf, @PathVariable("SPid") Integer SPid, Principal principal) {
-		Shipping shipping = this.shippingService.getShipping(SPid);
+	@GetMapping("/modify/{spid}")
+	public String shippingModify(Model model, ShippingForm sf, @PathVariable("spid") Integer spid,
+			Principal principal) {
+		Shipping shipping = this.shippingService.getShipping(spid);
 		List<Employee> empList = this.emp_Service.getList();
 		List<Account> accList = this.accService.getList();
+		List<Item> itemList = this.itemService.getList();
+
 		model.addAttribute("empList", empList);
 		model.addAttribute("accList", accList);
-		if(!shipping.getEmployee().getEmpnum().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-		
-		sf.setSPAName(shipping.getSPAName());
-		sf.setSPACode(shipping.getSPACode());
-		sf.setSPIName(shipping.getSPIName());
-		sf.setSPICode(shipping.getSPICode());
-		sf.setSPPName(shipping.getSPPName());
-		sf.setSPPNum(shipping.getSPPNum());
-		sf.setSPDT(shipping.getSPDT());
-		sf.setSPCAmount(shipping.getSPCAmount());
-		sf.setSPLocation(shipping.getSPLocation());
-		sf.setSPState(shipping.getSPState());
+		model.addAttribute("itemList", itemList);
+
+		sf.setSpdate(shipping.getSpdate());
+		sf.setSpdt(shipping.getSpdt());
+		sf.setSpcamount(shipping.getSpcamount());
+		sf.setSplocation(shipping.getSplocation());
+		sf.setSpstate(shipping.getSpstate());
+		sf.setItmcode(shipping.getItem().getItmId());
+		sf.setEmpnum(shipping.getEmployee().getId());
+		sf.setAccode(shipping.getAccount().getId());
+
 		return "Mm/shipping_form";
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping("/modify/{SPid}")
-    public String shippingModify(Model model, @Valid ShippingForm sf, BindingResult br, @PathVariable("SPid") Integer SPid, Principal principal) {
-        if (br.hasErrors()) {
-        	List<Employee> empList = this.emp_Service.getList();
-    		List<Account> accList = this.accService.getList();
-    		model.addAttribute("empList", empList);
-    		model.addAttribute("accList", accList);
-            return "Mm/shipping_form";
-        }
-        Shipping shipping = this.shippingService.getShipping(SPid); {
-    	if(!shipping.getEmployee().getEmpnum().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-        this.shippingService.modify(shipping, sf.getSPAName(), sf.getSPACode(), sf.getSPIName(), sf.getSPICode(), sf.getSPPName(), sf.getSPPNum(), sf.getSPDT(), sf.getSPCAmount(), sf.getSPLocation(), sf.getSPState());
-        return String.format("redirect:/shipping/list", SPid);
-    
-        }
+	@PostMapping("/modify/{spid}")
+	public String shippingModify(Model model, @Valid ShippingForm sf, BindingResult br,
+			@PathVariable("spid") Integer spid, Principal principal) {
+		if (br.hasErrors()) {
+			List<Employee> empList = this.emp_Service.getList();
+			List<Account> accList = this.accService.getList();
+			List<Item> itemList = this.itemService.getList();
+
+			model.addAttribute("empList", empList);
+			model.addAttribute("accList", accList);
+			model.addAttribute("itemList", itemList);
+
+			return "Mm/shipping_form";
+		}
+		Shipping shipping = this.shippingService.getShipping(spid);
+		Employee employee = this.emp_Service.getEmpDetail(sf.getEmpnum());
+		Account account = this.accService.getAccount(sf.getAccode());
+		Item item = this.itemService.getItem(sf.getItmcode());
+
+		{
+
+			this.shippingService.modify(shipping, sf.getSpdate(), sf.getSpdt(), sf.getSpcamount(), sf.getSplocation(), sf.getSpstate(), employee, account, item);
+			return String.format("redirect:/shipping/list", spid);
+
+		}
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/delete/{SPid}")
-    public String shippingDelete(@PathVariable("SPid") Integer SPid, 
-            Principal principal) {
-		Shipping shipping = this.shippingService.getShipping(SPid);
-      
-		if(!shipping.getEmployee().getEmpnum().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-		
-        this.shippingService.delete(shipping);
-        return "redirect:/shipping/list";
-    }
-	
-	
+	@GetMapping("/delete/{spid}")
+	public String shippingDelete(@PathVariable("spid") Integer spid, Principal principal) {
+		Shipping shipping = this.shippingService.getShipping(spid);
+
+		this.shippingService.delete(shipping);
+		return "redirect:/shipping/list";
+	}
+
 }

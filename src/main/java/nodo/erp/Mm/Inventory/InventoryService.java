@@ -25,8 +25,6 @@ import nodo.erp.Pp.Item.ItemRepository;
 public class InventoryService {
 
 	private final InventoryRepository inventoryRepository;
-	private final Emp_Repository empRepository;
-	private final ItemRepository itemRepository;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -34,15 +32,6 @@ public class InventoryService {
 	public List<Inventory> getList() {
 		return this.inventoryRepository.findAll();
 
-	}
-
-	public Employee getEmpDetail(Integer id) {
-		Optional<Employee> empDetail = this.empRepository.findById(id);
-		if (empDetail.isPresent()) {
-			return empDetail.get();
-		} else {
-			throw new DataNotFoundException("question not found");
-		}
 	}
 
 	public void create(String indate, Item itmcode, Integer inquantity, Employee empnum) {

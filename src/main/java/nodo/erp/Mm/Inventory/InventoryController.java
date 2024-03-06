@@ -120,7 +120,7 @@ public class InventoryController {
 	@PostMapping("/modify/{inid}")
 	public String inventoryModify(Model model, @Valid InventoryForm inf, BindingResult br,
 
-			@PathVariable("inid") Integer INid, Principal principal) {
+			@PathVariable("inid") Integer inid, Principal principal) {
 		if (br.hasErrors()) {
 			List<Employee> empList = this.emp_Service.getList();
 			List<Item> itemList = this.itemService.getList();
@@ -128,22 +128,22 @@ public class InventoryController {
 			model.addAttribute("itemList", itemList);
 			return "Mm/inventory_form";
 		}
-		Inventory inventory = this.inventoryService.getInventory(INid);
+		Inventory inventory = this.inventoryService.getInventory(inid);
 		Employee employee = this.emp_Service.getEmpDetail(inf.getEmpnum());
 		Item item = this.itemService.getItem(inf.getItmcode());
 
 		{
 
 			this.inventoryService.modify(inventory, inf.getIndate(), item, inf.getInquantity(), employee);
-			return String.format("redirect:/inventory/list", INid);
+			return String.format("redirect:/inventory/list", inid);
 
 		}
 	}
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete/{inid}")
-	public String inventoryDelete(@PathVariable("inid") Integer INid, Principal principal) {
-		Inventory inventory = this.inventoryService.getInventory(INid);
+	public String inventoryDelete(@PathVariable("inid") Integer inid, Principal principal) {
+		Inventory inventory = this.inventoryService.getInventory(inid);
 
 
 		this.inventoryService.delete(inventory);
