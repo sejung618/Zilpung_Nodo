@@ -1,62 +1,69 @@
-<html layout:decorate="~{/layout}">
-	<div layout:fragment="content" class="container my-3">
-		<h1 class="my-3 border-bottom pb-2">거래처 추가</h1>
-		<form th:action="@{/account/create}" th:object="${accCreateForm}" method="post">
+<html layout:decorate="~{layout}">
+	
+<div layout:fragment="content" class="m-3">
+		
+		<div class="d-sm-flex align-items-center justify-content-between mb-4">
+			<h1 class="h3 mb-0 text-gray-800">거래처 추가</h1>
+		</div>
+	
+		<form th:action="@{/account/create}" th:object="${accCreateForm}" method="post" Style="width:50%;">
+			
 			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+            	<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         	</div>
-			<div class="mb-3">
+        	
+			<div class="my-3">
 				<label for="jb-input-text">거래처 상호명 - 30자까지 입력 가능합니다.</label>
 				<input type="text" name="AC_Company" id="AC_Company" th:field="*{AC_Company}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="jb-input-text">거래처 주소 - 100자까지 입력 가능합니다.</label>
 				<input type="text" name="AC_Address" id="AC_Address" th:field="*{AC_Address}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="jb-input-text">회사 전화번호 - 031-111-1111 형식으로 입력해주세요.</label>
 				<input type="text" name="AC_Num" id="AC_Num" th:field="*{AC_Num}" class="form-control">
 			</div>
 			
-			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="jb-input-text">대표이사 성함 - 20자까지 입력 가능합니다.</label>
 				<input type="text" name="AC_Name" id="AC_Name" th:field="*{AC_Name}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="jb-input-text">대표이사 연락처 - 010-1234-1234 형식으로 입력해주세요.</label>
 				<input type="text" name="AC_Phone" id="AC_Phone" th:field="*{AC_Phone}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="jb-input-text">물품명 - 30자까지 입력 가능합니다.</label>
 				<input type="text" name="AC_Item" id="AC_Item" th:field="*{AC_Item}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="jb-input-text">물품코드 - 11자까지 입력 가능합니다.</label>
 				<input type="text" name="AC_Icode" id="AC_Icode" th:field="*{AC_Icode}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="jb-input-text">물품가격 - 0 ~ 9999999 입력 가능합니다.</label>
 				<input type="text" name="AC_Price" id="AC_Price" th:field="*{AC_Price}" class="form-control">
 			</div>
 			
-			
-			<div class="mb-3">
+			<div class="pb-3 my-3 border-bottom">
 				<label for="jb-input-text">첫 거래날짜 yyyy-mm-dd</label>
 				<input type="date" name="AC_Date" id="AC_Date" th:field="*{AC_Date}" class="form-control">
 			</div>
 			
-			<div class="mb-3">
-				<input type="submit" value="거래처 추가하기"  class="btn btn-primary my-2">
+			<div style="display:flex;">
+				<input type="submit" value="저장"  class="btn btn-primary">
+        		<a href="/account/list" class="btn mx-2 border-primary text-primary">취소</a>
 			</div>
 			
 			
 		</form>
-	</div>
+</div>
+	
 </html>
