@@ -77,7 +77,7 @@ public class InventoryController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
 	public String inventoryCreate(Model model, @Valid InventoryForm inf, BindingResult br) {
-		Employee employee = this.emp_Service.getEmpDetail(inf.getEmpnum());
+		Employee employee = this.emp_Service.getfindById(inf.getEmpnum());
 		Item item = this.itemService.getItem(inf.getItmcode());
 
 		if (br.hasErrors()) {
@@ -129,7 +129,7 @@ public class InventoryController {
 			return "Mm/inventory_form";
 		}
 		Inventory inventory = this.inventoryService.getInventory(inid);
-		Employee employee = this.emp_Service.getEmpDetail(inf.getEmpnum());
+		Employee employee = this.emp_Service.getfindById(inf.getEmpnum());
 		Item item = this.itemService.getItem(inf.getItmcode());
 
 		{

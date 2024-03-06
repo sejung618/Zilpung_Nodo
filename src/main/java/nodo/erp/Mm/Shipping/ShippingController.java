@@ -71,7 +71,7 @@ public class ShippingController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
 	public String shippingCreate(Model model, @Valid ShippingForm shippingForm, BindingResult br) {
-		Employee employee = this.emp_Service.getEmpDetail(shippingForm.getEmpnum());
+		Employee employee = this.emp_Service.getfindById(shippingForm.getEmpnum());
 		Item item = this.itemService.getItem(shippingForm.getItmcode());
 		Account acc = this.accService.getAccount(shippingForm.getAccode());
 
@@ -139,7 +139,7 @@ public class ShippingController {
 			return "Mm/shipping_form";
 		}
 		Shipping shipping = this.shippingService.getShipping(spid);
-		Employee employee = this.emp_Service.getEmpDetail(sf.getEmpnum());
+		Employee employee = this.emp_Service.getfindById(sf.getEmpnum());
 		Account account = this.accService.getAccount(sf.getAccode());
 		Item item = this.itemService.getItem(sf.getItmcode());
 
