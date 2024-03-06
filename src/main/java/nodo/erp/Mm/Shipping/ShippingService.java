@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Repository.Emp_Repository;
+import nodo.erp.Mm.Inventory.Inventory;
 import nodo.erp.Pp.Item.Item;
 import nodo.erp.Pp.Item.ItemRepository;
 import nodo.erp.Sd.AccService;
@@ -133,4 +134,12 @@ public class ShippingService {
 	public void delete(Shipping shipping) {
         this.shippingRepository.delete(shipping);
     }
+	
+	public Page<Shipping> State(int page, Shipping state) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		return this.shippingRepository.findBySpstate(pageable, state);
+	}
+	
 }

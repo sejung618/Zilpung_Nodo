@@ -39,10 +39,19 @@ public class ShippingController {
 
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "kw", defaultValue = "") String kw) {
+			@RequestParam(value = "kw", defaultValue = "") String kw,
+			@RequestParam(value = "state", defaultValue = "") Shipping state) {
+
 		Page<Shipping> paging = this.shippingService.getList(page, kw);
+
+		if ("all".equals(state)) {
+			paging = this.shippingService.State(page, state);
+		}
+
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
+		model.addAttribute("state", state);
+		
 		return "Mm/shipping_list";
 	}
 
@@ -136,7 +145,8 @@ public class ShippingController {
 
 		{
 
-			this.shippingService.modify(shipping, sf.getSpdate(), sf.getSpdt(), sf.getSpcamount(), sf.getSplocation(), sf.getSpstate(), employee, account, item);
+			this.shippingService.modify(shipping, sf.getSpdate(), sf.getSpdt(), sf.getSpcamount(), sf.getSplocation(),
+					sf.getSpstate(), employee, account, item);
 			return String.format("redirect:/shipping/list", spid);
 
 		}
