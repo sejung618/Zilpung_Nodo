@@ -70,7 +70,7 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 			$("#BS_AccManage_a").attr("class", "nav-link");
 	    }
 	    
-	    // 기본사항 관리: 창고 관리
+/*	    // 기본사항 관리: 창고 관리
 	    if(url.includes('storage/')){
 	     	// 창고 관리: 창고 등록
 		    if(url.includes('create')){
@@ -86,7 +86,8 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 				$("#BS_StorageMange_a").attr("aria-expanded", "true");
 				$("#BS_StorageMange_a").attr("class", "nav-link");
 		    }
-		}	// End of 기본사항 관리: 창고 관리
+		}	// End of 기본사항 관리: 창고 관리 */
+		
 	// End of 기본사항 관리
 	 
 	 
@@ -111,6 +112,20 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 			if(url.includes('dep/list')){
 		        $("#HR_EmployeeManage").attr("class", "collapse show");
 				$("#HR_EmployeeManage div").children("a:eq(2)").attr("class", "collapse-item active");
+				$("#HR_EmployeeManage_a").attr("aria-expanded", "true");
+				$("#HR_EmployeeManage_a").attr("class", "nav-link");
+		    }
+		    // 사원 관리: 직위 관리
+			if(url.includes('spot/list')){
+		        $("#HR_EmployeeManage").attr("class", "collapse show");
+				$("#HR_EmployeeManage div").children("a:eq(3)").attr("class", "collapse-item active");
+				$("#HR_EmployeeManage_a").attr("aria-expanded", "true");
+				$("#HR_EmployeeManage_a").attr("class", "nav-link");
+		    }
+		    // 사원 관리: 직책 관리
+			if(url.includes('position/list')){
+		        $("#HR_EmployeeManage").attr("class", "collapse show");
+				$("#HR_EmployeeManage div").children("a:eq(4)").attr("class", "collapse-item active");
 				$("#HR_EmployeeManage_a").attr("aria-expanded", "true");
 				$("#HR_EmployeeManage_a").attr("class", "nav-link");
 		    }
@@ -183,7 +198,7 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 		    }
 		}	// End of 생산 관리: 작업지시서
 		
-		// 생산 관리: 생산불출·입고
+/*		// 생산 관리: 생산불출·입고
 			// 생산불출
 			if(url.includes('pdrelease/')){
 			    // 생산불출·입고: 생산불출 조회
@@ -218,7 +233,7 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 					$("#PD_PdMovement_a").attr("class", "nav-link");
 			    }
 			}	// End of 생산 관리: 생산입고
-		// End of 생산 관리: 생산불출·입고
+		// End of 생산 관리: 생산불출·입고 */
 	// End of 생산 관리
 		  
 		    

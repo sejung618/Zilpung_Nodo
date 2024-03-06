@@ -1,0 +1,118 @@
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="m-3">
+	
+	<div class="d-sm-flex align-items-center justify-content-between mb-3">
+		<h1 class="h3 mb-0 text-gray-800">BOM 조회</h1>
+	</div>
+	
+	<div style="width:1500px;">
+		
+		<!--
+		<div class="form-inline" style="display:flex; float:right; margin-bottom:7px;">
+			<select class="form-control" id="search_terms" th:value="${st}" style="padding-right:8px; margin-right:5px; border-color:#a3b6ee;">
+				<option value="">검색 조건</option>
+				<option value="ItmGroup" th:selected="${st=='ItmGroup'}">품목 그룹</option>
+				<option value="ItmCategory" th:selected="${st=='ItmCategory'}">품목 분류</option>
+				<option value="ItmName" th:selected="${st=='ItmName'}">품목명</option>
+			</select>
+			<div class="input-group">
+				<input type="text" id="search_kw" th:value="${kw}" class="form-control" style="border-color:#a3b6ee;">
+				<div class="input-group-append">
+					<button class="btn" type="submit" id="btn_search" style="background-color: #cdd8f6; border:1px solid #a3b6ee;">
+						<i class="fas fa-search fa-sm" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+			<form th:action="@{/basic/item/list}" method="get" id="searchForm">
+				<input type="hidden" id="st" name="st" th:value="${st}">
+				<input type="hidden" id="kw" name="kw" th:value="${kw}">
+				<input type="hidden" id="page" name="page" th:value="${paging.number}">
+			</form>
+		</div>
+		-->
+		
+		<table class="table table-bordered table-hover-td">
+		    <thead class="table-primary">
+		        <tr class="text-center">
+		            <th>BOM</th>
+		            <th>품목코드</th>
+		            <th>품목명</th>
+		            <th>소모품수</th>
+		            <th>수정/삭제</th>
+		        </tr>
+		    </thead>
+		    <tbody class="table-group-divider">
+		        <tr class="text-center" th:each="bom:${paging}">
+		            <td>
+						<a th:href="@{|/bom/detail/${bom.bomId}|}" th:text="${bom.bomCode}"></a>
+					</td>
+		            <td th:text="${bom.bpItem.itmCode}"></td>
+		            <td th:text="${bom.bpItem.itmName}"></td>
+		            <td th:text="${bom.bcListSize}"></td>
+		            <td>
+						<a th:href="@{|/bom/modify/${bom.bomId}|}"><img src="/img/pencil-solid.svg" alt="수정" style="height:15px"></a> / 
+						<a class="delete" href="javascript:void(0);" th:data-uri="@{|/bom/delete/${bom.bomId}|}"><img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px"></a>
+					</td>
+		        </tr>
+		    </tbody>
+		</table>
+		
+		<a th:href="@{/bom/create}" class="btn btn-primary" style="float:left;">추가</a>
+
+		<!-- 페이징처리 시작 -->
+		<div th:if="${!paging.isEmpty()}" class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">		
+			<ul class="pagination justify-content-center">
+				<li class="paginate_button page-item previous" id="dataTable_previous" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+						<span>이전</span>
+					</a>
+				</li>
+				<li th:each="page: ${#numbers.sequence(1, paging.totalPages)}"
+					th:if="${page >= paging.number-5 and page <= paging.number+5}"
+					th:classappend="${page == (paging.number+1)} ? 'active'" class="paginate_button page-item">
+					<a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page-1}"></a>
+				</li>
+				<li class="paginate_button page-item next" id="dataTable_next" th:classappend="${!paging.hasNext} ? 'disabled'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+						<span>다음</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- 페이징처리 끝 -->
+	</div>
+	
+	
+</div>
+
+<script layout:fragment="script" type='text/javascript'>
+
+	const delete_elements = document.getElementsByClassName("delete");
+	Array.from(delete_elements).forEach(function(element) {
+	    element.addEventListener('click', function() {
+	        if(confirm("정말로 삭제하시겠습니까?")) {
+	            location.href = this.dataset.uri;
+	        };
+	    });
+	});
+	
+	const page_elements = document.getElementsByClassName("page-link");
+	Array.from(page_elements).forEach(function (element) {
+		element.addEventListener('click', function () {
+			document.getElementById('page').value = this.dataset.page;
+			document.getElementById('searchForm').submit();
+		});
+	});
+	
+	const btn_search = document.getElementById("btn_search");
+	btn_search.addEventListener('click', function () {
+		document.getElementById('st').value = document.getElementById('search_terms').value;
+		document.getElementById('kw').value = document.getElementById('search_kw').value;
+		document.getElementById('page').value = 0;
+		document.getElementById('searchForm').submit();
+	});
+	
+</script>
+
+</html>	
