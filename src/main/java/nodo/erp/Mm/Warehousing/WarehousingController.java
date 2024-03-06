@@ -62,7 +62,7 @@ public class WarehousingController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
 	public String warehousingCreate(Model model, @Valid WarehousingForm warehousingForm, BindingResult br) {
-		Employee employee = this.emp_Service.getEmpDetail(warehousingForm.getEmpnum());
+		Employee employee = this.emp_Service.getfindById(warehousingForm.getEmpnum());
 		Item item = this.itemService.getItem(warehousingForm.getItmcode());
 		Account acc = this.accService.getAccount(warehousingForm.getAccode());
 		if (br.hasErrors()) {
@@ -125,7 +125,7 @@ public class WarehousingController {
             return "Mm/warehousing_form";
         }
         Warehousing warehousing = this.warehousingService.getWarehousing(whid);
-        Employee employee = this.emp_Service.getEmpDetail(wf.getEmpnum());
+        Employee employee = this.emp_Service.getfindById(wf.getEmpnum());
 		Item item = this.itemService.getItem(wf.getItmcode());
 		Account account = this.accService.getAccount(wf.getAccode());{
     	
