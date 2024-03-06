@@ -59,18 +59,18 @@ public class ItemService {
 	
 	public static Specification<Item> search(String search_terms, String search_kw) {
 		return (Root<Item> item, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
-			Join<Item, ItemGroup> IG = item.join("ItmGroup", JoinType.LEFT);
-			Join<Item, ItemCategory> IC = item.join("ItmCategory", JoinType.LEFT);
-			if (search_terms.equals("ItmGroup")) {
+			Join<Item, ItemGroup> IG = item.join("itmGroup", JoinType.LEFT);
+			Join<Item, ItemCategory> IC = item.join("itmCategory", JoinType.LEFT);
+			if (search_terms.equals("itmGroup")) {
 				return cb.like(IG.get("IgName"), "%" + search_kw + "%");
-			} else if (search_terms.equals("ItmCategory")) {
+			} else if (search_terms.equals("itmCategory")) {
 				return cb.like(IC.get("IcName"), "%" + search_kw + "%");
-			} else if (search_terms.equals("ItmName")) {
-				return cb.like(item.get("ItmName"), "%" + search_kw + "%");
+			} else if (search_terms.equals("itmName")) {
+				return cb.like(item.get("itmName"), "%" + search_kw + "%");
 			} else {
 				return cb.or(cb.like(IG.get("IgName"), "%" + search_kw + "%"),
 						cb.like(IC.get("IcName"), "%" + search_kw + "%"),
-						cb.like(item.get("ItmName"), "%" + search_kw + "%") );
+						cb.like(item.get("itmName"), "%" + search_kw + "%") );
 			}
 		};
 	}

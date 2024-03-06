@@ -51,7 +51,7 @@ public class ItemController {
 	}
 	
 	@PostMapping("/create")
-	public String ItemCreate(@Valid ItemForm itemForm, Model model, BindingResult bindingResult) {
+	public String ItemCreate(@Valid ItemForm itemForm, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			List<ItemGroup> itemGroupList = this.itemService.getIgList();
 			List<ItemCategory> itemCategoryList = this.itemService.getIcList();

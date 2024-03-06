@@ -1,0 +1,58 @@
+<html layout:decorate="~{layout}">
+	
+<div layout:fragment="content" class="m-3">
+	
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">BOM 입력</h1>
+	</div>
+	
+    <form th:action="@{/BOM/create}" th:object="${bomForm}" method="post" Style="width:400px;">
+		
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+		</div>
+		
+        <div class="my-3">
+            <label for="bpItemName" style="margin-right:10px;">생산품목명</label>
+            <select class="form-control" th:field="*{bpItemName}" name="ItmGroup" id="ItmGroup">
+				<option value="">-</option>
+				<option th:each="itemGroup:${itemGroupList}" th:value="${itemGroup.IgId}" th:text="${itemGroup.IgName}" th:data-IgName="${itemGroup.IgName}"></option>
+			</select>
+        </div>
+		<div class="my-3">
+            <label for="bpItemCode" style="margin-right:10px;">생산품목코드</label>
+            <input type="text" th:field="*{bpItemCode}" id="bpItemCode" class="form-control" readonly>
+        </div>
+        
+	</form>
+	
+	<form th:action="@{/BOM/create}" th:object="${bomCitemForm}" method="post" Style="width:400px;">
+        <div class="my-3">
+            <label for="ItmCategory" style="margin-right:10px;">생산수량</label>
+            <select class="form-control" th:field="*{ItmCategory}" name="ItmCategory" id="ItmCategory">
+				<option value="">-</option>
+				<option th:each="itemCategory:${itemCategoryList}" th:value="${itemCategory.IcId}" th:text="${itemCategory.IcName}" th:data-IgName="${itemCategory.IcName}"></option>
+			</select>
+        </div>
+        <div class="my-3">
+            <label for="ItmStandard" style="margin-right:10px;">규격</label>
+            <input type="text" th:field="*{ItmStandard}" class="form-control" id="ItmStandard">
+        </div>
+        <div class="my-3">
+            <label for="ItmSprice" style="margin-right:10px;">입고 단가</label>
+            <input type="number" min="0" step="10" th:field="*{ItmSprice}" class="form-control" id="ItmSprice">
+        </div>
+        <div class="pb-3 my-3 border-bottom">
+            <label for="ItmRprice" style="margin-right:10px;">입고 단가</label>
+            <input type="number" min="0" step="10" th:field="*{ItmRprice}" class="form-control" id="ItmRprice">
+        </div>
+
+        <div style="display:flex;">
+        	<input type="submit" value="저장" class="btn btn-primary">
+        	<a href="/basic/item/list" class="btn mx-2 border-primary text-primary">취소</a>
+        </div>
+    </form>
+    
+</div>
+
+</html>
