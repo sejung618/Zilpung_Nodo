@@ -1,29 +1,49 @@
 <html layout:decorate="~{/layout}">
-	
+
 <div layout:fragment="content">
-	
+
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">재고조정 등록</h1>
 	</div>
-	
+
 	<form th:object="${inventoryForm}" method="post" style="width:500px;">
 		<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 		</div>
 		<div class="mb-3">
-			<label for="INDate" class="form-label">일자</label>
-			<input type="date" th:field="*{INDate}" name="INDate" id="INDate" class="form-control">
+			<label for="indate" class="form-label">일자</label>
+			<input type="date" th:field="*{indate}" name="indate" id="indate" class="form-control">
 		</div>
-		<div class="mb-3">
+
+
+		<div class="form-group mb-3">
+			<label for="itmcode" class="form-label">품목코드</label>
+			<select class="form-control" th:field="*{itmcode}" name="itmcode" id="itmcode" required>
+				<option value="">-</option>
+				<option th:each="item : ${itemList}" th:value="${item.ItmId}" th:text="${item.ItmCode}+${item.ItmName}" 
+					th:data-ItmName="${item.ItmName}"  th:data-ItmStandard="${item.ItmStandard}"></option>
+			</select>
+		</div>
+
+		<!--div class="mb-3">
 			<label for="ININame" class="form-label">품목명</label>
 			<input type="text" th:field="*{ININame}" name="ININame" id="ININame" class="form-control">
 		</div>
 		<div class="mb-3">
 			<label for="INICode" class="form-label">품목코드</label>
 			<input type="text" th:field="*{INICode}" name="INICode" id="INICode" class="form-control">
-		</div>
+		</div-->
 
 		<div class="form-group mb-3">
+			<label for="empnum" class="form-label">담당사번</label>
+			<select class="form-control " th:field="*{empnum}" name="empnum" id="empnum" required>
+				<option value="">-</option>
+				<option th:each="emp : ${empList}" th:value="${emp.id}" th:text="${emp.empnum}+${emp.empname}"
+				th:data-empname="${emp.empname}"></option>
+			</select>
+		</div>
+
+		<!--<div class="form-group mb-3">
 			<label for="INPNum" class="form-label">담당사번</label>
 			<select class="form-control" th:field="*{INPNum}" name="INPNum" id="INPNum">
 				<option value="-">-</option>
@@ -34,8 +54,8 @@
 
 		<div class="mb-3">
 			<label for="INPName" class="form-label">담당자</label>
-			<input type="text" th:field="*{INPName}" name="INPName" id="INPName" class="form-control INPName">
-		</div>
+			<input type="text" th:field="*{INPName}" name="INPName" id="INPName" class="form-control">
+		</div>-->
 
 
 		<!--div class="mb-3">
@@ -49,26 +69,36 @@
 
 
 		<div class="mb-3">
-			<label for="INQuantity" class="form-label">수량</label>
-			<input type="text" th:field="*{INQuantity}" name="INQuantity" id="INQuantity" class="form-control">
+			<label for="inquantity" class="form-label">수량</label>
+			<input type="text" th:field="*{inquantity}" name="inquantity" id="inquantity" class="form-control">
 		</div>
-		<div class="mb-3">
-			<label for="INStandard" class="form-label">규격</label>
-			<input type="text" name="INStandard" id="INStandard" class="form-control">
-		</div>
+		
 		<input type="submit" value="저장하기" class="btn btn-primary my-2" style="left: 90%;">
-		
-		
+
+
 		<script th:inline="javascript">
 
-			$(document).ready(function () {
-				$('#INPNum').change(function () {
-					var valueempname = $(this).find(':selected').attr("data-empname");
 
-					$('.INPName').val(valueempname);
+			$(document).ready(function () {
+				$('#empnum').change(function () {
+					var valueempname = $(this).find(':selected').attr("data-empname");
+					$('#empname').val(valueempname);
+				});
+			});
+
+			$(document).ready(function () {
+				$('#ItmCode').change(function () {
+					var valueItmName = $(this).find(':selected').attr("data-ItmName");
+					var valueItmStandard = $(this).find(':selected').attr("data-ItmStandard");
+
+					$('#ItmName').val(valueItmName);
+					$('#ItmStandard').val(valueItmStandard);
 
 				});
 			});
+			
+
+
 		</script>
 	</form>
 </div>

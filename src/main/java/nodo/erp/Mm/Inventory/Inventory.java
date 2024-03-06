@@ -8,9 +8,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Pp.Item.Item;
 
 @Getter
 @Setter
@@ -18,33 +20,25 @@ import nodo.erp.Hr.Entity.Employee;
 public class Inventory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer INid;		//번호
+	private Integer inid;		//번호
 	
-	@Column(length = 15)
-	private String INDate;		//일자
+
+	private String indate;		//일자
 	
-	@Column(length = 10)
-	private String INPName;		//담당자
 	
-	@Column(length = 13)
-	private String INPNum;		//담당사번
+	private String innum;		//일자번호(yymmdd)
 	
-	@Column(length = 30)
-	private String ININame;		//품목명
 	
-	@Column(length = 11)
-	private String INICode;		//품목코드
+	private Integer inquantity;		//수량
 	
-	@Column(length = 7)
-	private Integer INQuantity;		//수량
-	
-	@Column(length = 50)
-	private String INStandard;		//규격
 	
 	private LocalDateTime createDate; 		
 	
 	private LocalDateTime modifyDate;
 	
 	@ManyToOne
-	private Employee employee;
+	private Employee employee; //사원번호, 사원이름
+	
+	@ManyToOne
+	private Item item; //품목코드, 품목명, 규격
 }

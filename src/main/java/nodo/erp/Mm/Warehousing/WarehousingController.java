@@ -80,7 +80,7 @@ public class WarehousingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{WHid}")
-	public String warehousingModify(Model model, WarehousingUpdateForm wf, @PathVariable("WHid") Integer WHid, Principal principal) {
+	public String warehousingModify(Model model, WarehousingForm wf, @PathVariable("WHid") Integer WHid, Principal principal) {
 		Warehousing warehousing = this.warehousingService.getWarehousing(WHid);
 		List<Employee> empList = this.emp_Service.getList();
 		List<Account> accList = this.accService.getList();
@@ -100,18 +100,18 @@ public class WarehousingController {
 		wf.setWHCAmount(warehousing.getWHCAmount());
 		wf.setWHLocation(warehousing.getWHLocation());
 		wf.setWHState(warehousing.getWHState());
-		return "Mm/warehousing_update";
+		return "Mm/warehousing_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{WHid}")
-    public String warehousingModify(Model model, @Valid WarehousingUpdateForm wf, BindingResult br, @PathVariable("WHid") Integer WHid, Principal principal) {
+    public String warehousingModify(Model model, @Valid WarehousingForm wf, BindingResult br, @PathVariable("WHid") Integer WHid, Principal principal) {
         if (br.hasErrors()) {
         	List<Employee> empList = this.emp_Service.getList();
     		List<Account> accList = this.accService.getList();
     		model.addAttribute("empList", empList);
     		model.addAttribute("accList", accList);
-            return "Mm/warehousing_update";
+            return "Mm/warehousing_form";
         }
         Warehousing warehousing = this.warehousingService.getWarehousing(WHid); {
     	if(!warehousing.getEmployee().getEmpnum().equals(principal.getName())) {

@@ -81,7 +81,7 @@ public class ShippingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{SPid}")
-	public String shippingModify(Model model, ShippingUpdateForm sf, @PathVariable("SPid") Integer SPid, Principal principal) {
+	public String shippingModify(Model model, ShippingForm sf, @PathVariable("SPid") Integer SPid, Principal principal) {
 		Shipping shipping = this.shippingService.getShipping(SPid);
 		List<Employee> empList = this.emp_Service.getList();
 		List<Account> accList = this.accService.getList();
@@ -101,18 +101,18 @@ public class ShippingController {
 		sf.setSPCAmount(shipping.getSPCAmount());
 		sf.setSPLocation(shipping.getSPLocation());
 		sf.setSPState(shipping.getSPState());
-		return "Mm/shipping_update";
+		return "Mm/shipping_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{SPid}")
-    public String shippingModify(Model model, @Valid ShippingUpdateForm sf, BindingResult br, @PathVariable("SPid") Integer SPid, Principal principal) {
+    public String shippingModify(Model model, @Valid ShippingForm sf, BindingResult br, @PathVariable("SPid") Integer SPid, Principal principal) {
         if (br.hasErrors()) {
         	List<Employee> empList = this.emp_Service.getList();
     		List<Account> accList = this.accService.getList();
     		model.addAttribute("empList", empList);
     		model.addAttribute("accList", accList);
-            return "Mm/shipping_update";
+            return "Mm/shipping_form";
         }
         Shipping shipping = this.shippingService.getShipping(SPid); {
     	if(!shipping.getEmployee().getEmpnum().equals(principal.getName())) {

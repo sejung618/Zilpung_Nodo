@@ -9,24 +9,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Hr.Repository.Emp_Repository;
+import nodo.erp.Pp.Item.Item;
+import nodo.erp.Pp.Item.ItemRepository;
 
 @RequiredArgsConstructor
 @Service
 public class InventoryService {
 
 	private final InventoryRepository inventoryRepository;
+	private final Emp_Repository empRepository;
+	private final ItemRepository itemRepository;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -36,32 +36,37 @@ public class InventoryService {
 
 	}
 
-	public void create(String INDate, String ININame, String INPName, Integer INQuantity, String INPNum, String INICode,
-			String INStandard, Employee empname) {
+	public Employee getEmpDetail(Integer id) {
+		Optional<Employee> empDetail = this.empRepository.findById(id);
+		if (empDetail.isPresent()) {
+			return empDetail.get();
+		} else {
+			throw new DataNotFoundException("question not found");
+		}
+	}
 
-		String yy = INDate.substring(2, 4);
-		String mm = INDate.substring(5, 7);
-		String dd = INDate.substring(8, 10);
+	public void create(String indate, Item itmcode, Integer inquantity, Employee empnum) {
+
+		String yy = indate.substring(2, 4);
+		String mm = indate.substring(5, 7);
+		String dd = indate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateInvNum(ymd));
 
 		Inventory i = new Inventory();
 
-		i.setINDate(ymd + "-" + Num);
-		i.setININame(ININame);
-		i.setINPName(INPName);
-		i.setINQuantity(INQuantity);
-		i.setINPNum(INPNum);
-		i.setINICode(INICode);
-		i.setINStandard(INStandard);
+		i.setInnum(ymd + "-" + Num);
+		i.setIndate(indate);
+		i.setItem(itmcode);
+		i.setInquantity(inquantity);
+		i.setEmployee(empnum);
 		i.setCreateDate(LocalDateTime.now());
-		i.setEmployee(empname);
 		this.inventoryRepository.save(i);
 	}
 
 	private Integer generateInvNum(String ymd) {
-		jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(CAST(SUBSTRING(i.INDate,-3) AS int)) "
-				+ "FROM Inventory i WHERE SUBSTRING(i.INDate, 1, 6) = :ymd");
+		jakarta.persistence.Query query = entityManager.createQuery("SELECT MAX(CAST(SUBSTRING(i.innum,-3) AS int)) "
+				+ "FROM Inventory i WHERE SUBSTRING(i.innum, 1, 6) = :ymd");
 		query.setParameter("ymd", ymd);
 		Integer maxNum = (Integer) query.getSingleResult();
 
@@ -69,8 +74,8 @@ public class InventoryService {
 	}
 
 	// 디테일
-	public Inventory getInventory(Integer INid) {
-		Optional<Inventory> inventory = this.inventoryRepository.findById(INid);
+	public Inventory getInventory(Integer inid) {
+		Optional<Inventory> inventory = this.inventoryRepository.findById(inid);
 		if (inventory.isPresent()) {
 			return inventory.get();
 		} else {
@@ -78,15 +83,19 @@ public class InventoryService {
 		}
 	}
 
-	public void modify(Inventory inventory, String ININame, String INPName, Integer INQuantity, String INPNum,
-			String INICode, String INStandard) {
+	public void modify(Inventory inventory, String indate, Item itmcode, Integer inquantity, Employee empnum) {
 
-		inventory.setININame(ININame);
-		inventory.setINPName(INPName);
-		inventory.setINQuantity(INQuantity);
-		inventory.setINPNum(INPNum);
-		inventory.setINICode(INICode);
-		inventory.setINStandard(INStandard);
+		String yy = indate.substring(2, 4);
+		String mm = indate.substring(5, 7);
+		String dd = indate.substring(8, 10);
+		String ymd = yy + mm + dd;
+		String Num = String.format("%03d", generateInvNum(ymd));
+
+		inventory.setInnum(ymd + "-" + Num);
+		inventory.setIndate(indate);
+		inventory.setItem(itmcode);
+		inventory.setEmployee(empnum);
+		inventory.setInquantity(inquantity);
 		inventory.setModifyDate(LocalDateTime.now());
 		this.inventoryRepository.save(inventory);
 	}
@@ -95,32 +104,32 @@ public class InventoryService {
 		this.inventoryRepository.delete(inventory);
 	}
 
-	public Page<Inventory> findByINDate(int page, String kw) {
+	public Page<Inventory> findByindate(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return this.inventoryRepository.findByINDateContaining(pageable, kw);
+		return this.inventoryRepository.findByIndateContaining(pageable, kw);
 	}
 
-	public Page<Inventory> findByININame(int page, String kw) {
+	public Page<Inventory> findByItmName(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return this.inventoryRepository.findByININameContaining(pageable, kw);
+		return this.inventoryRepository.findByItem_ItmNameContaining(pageable, kw);
 	}
 
-	public Page<Inventory> findByINICode(int page, String kw) {
+	public Page<Inventory> findByItmCode(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return this.inventoryRepository.findByINICodeContaining(pageable, kw);
+		return this.inventoryRepository.findByItem_ItmCodeContaining(pageable, kw);
 	}
 
 	public Page<Inventory> searchAllCategories(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return inventoryRepository.findByINDateContainingOrININameContainingOrINICodeContaining(pageable, kw, kw, kw);
+		return inventoryRepository.findByIndateContainingOrItem_ItmNameContainingOrItem_ItmCodeContaining(pageable, kw, kw, kw);
 	}
 
 	public Page<Inventory> getList(int page, String kw) {
@@ -130,26 +139,4 @@ public class InventoryService {
 		return this.inventoryRepository.findAll(pageable);
 	}
 
-//	public Page<Inventory> getList(int page, String kw) {
-//		List<Sort.Order> sorts = new ArrayList<>();
-//		sorts.add(Sort.Order.desc("createDate"));
-//		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
-//		Specification<Inventory> spec = search(kw);
-//		return this.inventoryRepository.findAll(spec, pageable);
-//	}
-
-//	private Specification<Inventory> search(String kw) {
-//        return new Specification<>() {
-//            private static final long serialVersionUID = 1L;
-//            @Override
-//            public Predicate toPredicate(Root<Inventory> i, CriteriaQuery<?> query, CriteriaBuilder cb) {
-//                query.distinct(true);  // 중복을 제거 
-//                return cb.or(cb.like(i.get("INDate"), "%" + kw + "%"), 
-//                        cb.like(i.get("INPName"), "%" + kw + "%"),     
-//                        cb.like(i.get("INPNum"), "%" + kw + "%"),    
-//                        cb.like(i.get("ININame"), "%" + kw + "%"),       
-//                        cb.like(i.get("INICode"), "%" + kw + "%"));   
-//            }
-//        };
-//    }
 }
