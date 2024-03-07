@@ -24,6 +24,8 @@ public class Event {
 	private String title;
 	private LocalDate start;
 	private LocalDate end;
+	private String textColor;
 	private String backgroundColor;
+	private String borderColor;
 
 }
