@@ -93,7 +93,7 @@ public class InventoryService {
 		this.inventoryRepository.delete(inventory);
 	}
 
-	public Page<Inventory> findByindate(int page, String kw) {
+	public Page<Inventory> findByIndate(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));

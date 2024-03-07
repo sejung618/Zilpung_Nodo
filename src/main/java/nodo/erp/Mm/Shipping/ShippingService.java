@@ -77,28 +77,45 @@ public class ShippingService {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
-		Specification<Shipping> spec = search(kw);
-		return this.shippingRepository.findAll(spec, pageable);
+		return this.shippingRepository.findAll(pageable);
 	}
 	
-	private Specification<Shipping> search(String kw) {
-        return new Specification<>() {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Predicate toPredicate(Root<Shipping> s, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                query.distinct(true);  // 중복을 제거 
-                return cb.or(cb.like(s.get("spdate"), "%" + kw + "%"), 
-//                        cb.like(s.get("SPPName"), "%" + kw + "%"),     
-//                        cb.like(s.get("SPPNum"), "%" + kw + "%"),    
-//                        cb.like(s.get("SPAName"), "%" + kw + "%"),       
-//                        cb.like(s.get("SPACode"), "%" + kw + "%"),
-//                        cb.like(s.get("SPIName"), "%" + kw + "%"),
-//                        cb.like(s.get("SPICode"), "%" + kw + "%"),
-                        cb.like(s.get("spstate"), "%" + kw + "%"),
-                        cb.like(s.get("splocation"), "%" + kw + "%"));   
-            }
-        };
-    }
+	
+	public Page<Shipping> findBySpdate(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.shippingRepository.findBySpdateContaining(pageable, kw);
+	}
+	
+	public Page<Shipping> findByAccompany(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.shippingRepository.findByAccount_AccompanyContaining(pageable, kw);
+	}
+	
+	public Page<Shipping> findByItmName(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.shippingRepository.findByItem_ItmNameContaining(pageable, kw);
+	}
+	
+	
+	public Page<Shipping> searchAllCategories(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.shippingRepository.findBySpdateContainingOrAccount_AccompanyContainingOrItem_ItmNameContaining(pageable, kw, kw, kw);
+	}
+	
+	public Page<Shipping> findByState(int page, String st) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.shippingRepository.findBySpstate(pageable, st);
+	}
 	
 	//디테일
 	public Shipping getShipping(Integer spid) {
@@ -134,12 +151,5 @@ public class ShippingService {
 	public void delete(Shipping shipping) {
         this.shippingRepository.delete(shipping);
     }
-	
-	public Page<Shipping> State(int page, Shipping state) {
-		List<Sort.Order> sorts = new ArrayList<>();
-		sorts.add(Sort.Order.desc("createDate"));
-		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return this.shippingRepository.findBySpstate(pageable, state);
-	}
 	
 }

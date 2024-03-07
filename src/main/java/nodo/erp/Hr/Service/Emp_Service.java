@@ -186,28 +186,54 @@ public class Emp_Service {
 //		};
 //	}
 	
-	public static Specification<Employee> search(String num, String name, String month,String spot,String posi,String depart) {
- 	    return (Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
- 	    	Join<Employee, Department> d = root.join("depart", JoinType.LEFT);
-			Join<Employee, Spot> s = root.join("spot", JoinType.LEFT);
-			Join<Employee, Position> p = root.join("position", JoinType.LEFT);
- 	        Predicate predicate1 = criteriaBuilder.like(root.get("empnum"), "%" + num + "%");
- 	        Predicate predicate2 = criteriaBuilder.like(root.get("empname"), "%" + name + "%");
- 	        Predicate predicate3 = null; // predicate2를 먼저 초기화합니다.
- 	        if (month.matches("\\d{4}-\\d{2}")) {
- 	            YearMonth yearMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
-				LocalDate startDate = yearMonth.atDay(1);
-				LocalDate endDate = yearMonth.plusMonths(1).atDay(1);
-				predicate3 = criteriaBuilder.between(root.get("empdate"), startDate, endDate);
- 	        } else {
- 	        	predicate3 = criteriaBuilder.like(root.get("empnum"), "%" + month + "%"); // predicate2를 초기화합니다.
- 	        }
- 	       Predicate predicate4 = criteriaBuilder.like(s.get("spotname"), "%" + spot + "%");
- 	       Predicate predicate5 = criteriaBuilder.like(p.get("positionname"), "%" + posi + "%");
- 	       Predicate predicate6 = criteriaBuilder.like(d.get("depname"), "%" + depart + "%");
+	   public static Specification<Employee> search(String num, String name, String month, String spot, String posi, String depart) {
+	       return (Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+	           Join<Employee, Department> d = root.join("depart", JoinType.LEFT);
+	           Join<Employee, Spot> s = root.join("spot", JoinType.LEFT);
+	           Join<Employee, Position> p = root.join("position", JoinType.LEFT);
 
- 	        return criteriaBuilder.and(predicate1, predicate2,predicate3,predicate4,predicate5,predicate6); // 두 개의 Predicate를 결합하여 반환합니다.
- 	    };
- 	}
+	           Predicate predicate1 = criteriaBuilder.like(root.get("empnum"), "%" + num + "%");
+	           Predicate predicate2 = criteriaBuilder.like(root.get("empname"), "%" + name + "%");
+	           Predicate predicate3 = null;
+	           Predicate predicate4 = null;
+	           Predicate predicate5 = null;
+	           Predicate predicate6 = null;
+
+	           if (month.matches("\\d{4}-\\d{2}")) {
+	               YearMonth yearMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
+	               LocalDate startDate = yearMonth.atDay(1);
+	               LocalDate endDate = yearMonth.atEndOfMonth();
+	               predicate3 = criteriaBuilder.between(root.get("empdate"), startDate, endDate);
+	           } 
+	           if (spot != null && !spot.isEmpty()) {
+	               predicate4 = criteriaBuilder.like(s.get("spotname"), "%" + spot + "%");
+	           }
+	           if (posi != null && !posi.isEmpty()) {
+	               predicate5 = criteriaBuilder.like(p.get("positionname"), "%" + posi + "%");
+	           }
+	           if (depart != null && !depart.isEmpty()) {
+	               predicate6 = criteriaBuilder.like(d.get("depname"), "%" + depart + "%");
+	           }
+
+	           // 각 Predicate가 null이 아닌 경우에만 포함시킵니다.
+	           List<Predicate> predicates = new ArrayList<>();
+	           predicates.add(predicate1);
+	           predicates.add(predicate2);
+	           if (predicate3 != null) {
+	               predicates.add(predicate3);
+	           }
+	           if (predicate4 != null) {
+	               predicates.add(predicate4);
+	           }
+	           if (predicate5 != null) {
+	               predicates.add(predicate5);
+	           }
+	           if (predicate6 != null) {
+	               predicates.add(predicate6);
+	           }
+
+	           return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+	       };
+	   }
 
 }
