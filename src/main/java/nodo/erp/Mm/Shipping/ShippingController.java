@@ -40,18 +40,38 @@ public class ShippingController {
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "kw", defaultValue = "") String kw,
-			@RequestParam(value = "state", defaultValue = "") Shipping state) {
+			
+			@RequestParam(value = "category", defaultValue = "") String category,
+			@RequestParam(value = "state", defaultValue = "") String state) {
 
-		Page<Shipping> paging = this.shippingService.getList(page, kw);
+//		Page<Shipping> paging = this.shippingService.getList(page, kw);
+		Page<Shipping> paging = this.shippingService.searchAllCategories(page, kw);
 
-		if ("all".equals(state)) {
-			paging = this.shippingService.State(page, state);
+		if ("nsp".equals(state)) {
+	        paging = this.shippingService.findByState(page, "미출고");
+	    }
+		
+		if ("sp".equals(state)) {
+			paging = this.shippingService.findByState(page, "출고");
+		}
+		
+		if (category == null && category.isEmpty()||"all".equals(state)) {
+			paging = this.shippingService.searchAllCategories(page, kw);
+		}
+		if ("spdate".equals(category)) {
+			paging = this.shippingService.findBySpdate(page, kw);
+		}
+		if ("accompany".equals(category)) {
+			paging = this.shippingService.findByAccompany(page, kw);
+		}
+		if ("itmname".equals(category)) {
+			paging = this.shippingService.findByItmName(page, kw);
 		}
 
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
-		model.addAttribute("state", state);
 		
+
 		return "Mm/shipping_list";
 	}
 

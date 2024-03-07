@@ -17,7 +17,7 @@
 			<select class="form-control" th:field="*{accode}" name="accode" id="accode">
 				<option value="">-</option>
 				<option th:each="account : ${accList}" th:value="${account.id}"
-					th:text="${account.AC_Code}+${account.AC_Company}" th:data-AC-Company="${account.AC_Company}"></option>
+					th:text="${account.accode}+${account.accompany}" th:data-AC-Company="${account.accompany}"></option>
 			</select>
 		</div>
 
@@ -36,8 +36,8 @@
 			<label for="itmcode" class="form-label">품목코드</label>
 			<select class="form-control" th:field="*{itmcode}" name="itmcode" id="itmcode" required>
 				<option value="">-</option>
-				<option th:each="item : ${itemList}" th:value="${item.ItmId}" th:text="${item.ItmCode}+${item.ItmName}"
-					th:data-ItmName="${item.ItmName}" th:data-ItmStandard="${item.ItmStandard}"></option>
+				<option th:each="item : ${itemList}" th:value="${item.itmId}" th:text="${item.itmCode}+${item.itmName}"
+					th:data-ItmName="${item.ItmName}" th:data-ItmStandard="${item.itmStandard}"></option>
 			</select>
 		</div>
 		
@@ -87,10 +87,10 @@
 		<script th:inline="javascript">
 
 			$(document).ready(function () {
-				$('#AC_Code').change(function () {
-					var valueAC_Company = $(this).find(':selected').attr("data-AC-Company");
+				$('#accode').change(function () {
+					var valueaccompany = $(this).find(':selected').attr("data-accompany");
 
-					$('#AC_Company').val(valueAC_Company);
+					$('#accompany').val(valueaccompany);
 
 				});
 			});
@@ -103,12 +103,12 @@
 			});
 
 			$(document).ready(function () {
-				$('#ItmCode').change(function () {
-					var valueItmName = $(this).find(':selected').attr("data-ItmName");
-					var valueItmStandard = $(this).find(':selected').attr("data-ItmStandard");
+				$('#itmCode').change(function () {
+					var valueitmName = $(this).find(':selected').attr("data-itmName");
+					var valueitmStandard = $(this).find(':selected').attr("data-itmStandard");
 
-					$('#ItmName').val(valueItmName);
-					$('#ItmStandard').val(valueItmStandard);
+					$('#itmName').val(valueitmName);
+					$('#itmStandard').val(valueitmStandard);
 
 				});
 			});

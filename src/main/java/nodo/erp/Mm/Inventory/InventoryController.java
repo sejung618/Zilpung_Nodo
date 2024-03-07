@@ -40,15 +40,13 @@ public class InventoryController {
 			@RequestParam(value = "kw", defaultValue = "") String kw,
 			@RequestParam(value = "category", defaultValue = "") String category) {
 
-		Page<Inventory> paging = this.inventoryService.getList(page, kw);
-
-//		Page<Inventory> paging = this.inventoryService.searchAllCategories(page, kw);
+		Page<Inventory> paging = this.inventoryService.searchAllCategories(page, kw);
 
 		if (category == null && category.isEmpty()) {
 			paging = this.inventoryService.searchAllCategories(page, kw);
 		}
 		if ("indate".equals(category)) {
-			paging = this.inventoryService.findByindate(page, kw);
+			paging = this.inventoryService.findByIndate(page, kw);
 		}
 		if ("itmname".equals(category)) {
 			paging = this.inventoryService.findByItmName(page, kw);
