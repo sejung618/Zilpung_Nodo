@@ -1,70 +1,61 @@
-<html layout:decorate="~{/layout}">
-	<div layout:fragment="content" class="container my-3">
-		<h1 class="border-bottom py-2" th:text="${account.accompany}"></h1>
-	<h2 th:text="|대표이사|"></h2>
-	<div class="card my-3">
-	<div class="card-body">
-		<div class="card-text" style="white-space: pre-line;" th:text="${account.acname}"></div>
-	</div>
-</div>
-	<h3 th:text="|대표이사 전화번호|"></h3>
-		<div class="card my-3">
-			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.acphone}"></div>
-	</div>
-</div>
+<html layout:decorate="~{layout}">
 	
-	<h4 th:text="|회사 주소|"></h4>
-		<div class="card my-3">
-			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.acaddress}"></div>
-		</div>
+<div layout:fragment="content" class="m-3">
+	
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800" th:text="${account.accompany}"></h1>
 	</div>
 	
-	<h5 th:text="|제품정보|"></h5>
-		<div class="card my-3">
-			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.acitem}"></div>
+	<table class="table table-bordered table-hover-td" style="max-width:800px;">
+		<tbody class="table-group-divider">
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">대표이사</th>
+				<td th:text="${account.acname}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">대표이사 전화번호</th>
+				<td th:text="${account.acphone}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">회사 주소</th>
+				<td th:text="${account.acaddress}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">회사 전화번호</th>
+				<td th:text="${account.acnum}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">제품 정보</th>
+				<td th:text="${account.acitem}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">제품 가격</th>
+				<td th:text="${account.acprice + '원'}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">부가세율</th>
+				<td th:text="${account.vat + '%'}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+		<div style="display:flex;">
+			<a th:href="@{|/account/update/${id}|}" class="btn btn-primary">수정</a>
+			<a href="javascript:void(0);" th:data-uri="@{|/account/delete/${id}|}" class="delete btn mx-2 border-primary text-primary">삭제</a>
+			<a th:href="@{|/account/list|}" class="btn border-primary text-primary">목록</a>
 		</div>
-	</div>
 
-	<h6 th:text="|제품가격|"></h6>
-		<div class="card my-3">
-			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.acprice + '원'}"></div>
-		</div>
-	</div>
-	<h7 th:text="|부가세율|"></h7>
-		<div class="card my-3">
-			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.vat + '%'}">%</div>
-		</div>
-	
-	</div>
-	
-	<h8 th:text="|회사 전화번호|"></h8>
-		<div class="card my-3">
-			<div class="card-body">
-			<div class="card-text" style="white-space: pre-line;" th:text="${account.acnum}"></div>
-		</div>
-	</div>
-<div class="my-3">
-	<a th:href="@{|/account/update/${id}|}" class="btn btn-primary">거래처 정보수정</a>
-	<a th:data-uri="@{|/account/delete/${id}|}" class="delete btn btn-primary">거래처 삭제</a>
-	
-</div>
+		<script type="text/javascript">
+			const delete_elements = document.getElementsByClassName("delete");
+			Array.from(delete_elements).forEach(function(element){
+				element.addEventListener('click', function(){
+					if(confirm("정말로 삭제하시겠습니까?")){
+						location.href = this.dataset.uri;
+					};
+				});
+			});
+		</script>
 
 </div>
-
-<script layout:fragment="script" type="text/javascript">
-	const delete_elements = document.getElementsByClassName("delete");
-	Array.from(delete_elements).forEach(function(element){
-		element.addEventListener('click', function(){
-			if(confirm("정말로 삭제하시겠습니까?")){
-				location.href = this.dataset.uri;
-			};
-		});
-	});
-</script>
 
 </html>

@@ -6,7 +6,7 @@
 			<h1 class="h3 mb-0 text-gray-800">거래처 추가</h1>
 		</div>
 	
-		<form th:action="@{/account/create}" th:object="${accCreateForm}" method="post" Style="width:50%;">
+		<form th:action="@{/account/create}" th:object="${accCreateForm}" method="post" Style="max-width:600px;">
 			
 			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             	<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
@@ -23,7 +23,7 @@
 			</div>
 			
 			<div class="my-3">
-				<label for="jb-input-text">회사 전화번호 - 031-111-1111 형식으로 입력해주세요.</label>
+				<label for="jb-input-text">거래처 전화번호 - 031-111-1111 형식으로 입력해주세요.</label>
 				<input type="text" name="acnum" id="acnum" th:field="*{acnum}" class="form-control">
 			</div>
 			
@@ -38,14 +38,15 @@
 			</div>
 			
 			<div class="my-3">
+				<label for="jb-input-text">물품코드 - 11자까지 입력 가능합니다.</label>
+				<input type="text" name="acicode" id="acicode" th:field="*{acicode}" class="form-control">
+			</div>
+
+			<div class="my-3">
 				<label for="jb-input-text">물품명 - 30자까지 입력 가능합니다.</label>
 				<input type="text" name="acitem" id="acitem" th:field="*{acitem}" class="form-control">
 			</div>
 			
-			<div class="my-3">
-				<label for="jb-input-text">물품코드 - 11자까지 입력 가능합니다.</label>
-				<input type="text" name="acicode" id="acicode" th:field="*{acicode}" class="form-control">
-			</div>
 			
 			<div class="my-3">
 				<label for="jb-input-text">물품가격 - 0 ~ 9999999 입력 가능합니다.</label>
@@ -58,12 +59,12 @@
 			</div>
 			
 			<div style="display:flex;">
-				<input type="submit" value="저장"  class="btn btn-primary">
+				<input type="submit" value="저장" class="btn btn-primary">
         		<a href="/account/list" class="btn mx-2 border-primary text-primary">취소</a>
 			</div>
 			
-			
 		</form>
+		
 </div>
 	
 </html>
