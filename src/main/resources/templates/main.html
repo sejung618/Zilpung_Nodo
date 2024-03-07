@@ -52,16 +52,57 @@
 							<label for="eventTitleInput">내용</label>
 							<input type="text" class="form-control" id="eventTitleInput">
 						</div>
-						<label for="eventColorSelect">색깔</label>
+						<label for="eventColorSelect">배경색</label>
 						<select class="form-control" id="eventColorSelect">
+							<option value="">기본</option>
 							<option value="blue">파랑</option>
 							<option value="red">빨강</option>
 							<option value="yellow">노랑</option>
 							<option value="green">초록</option>
 							<option value="aqua">하늘</option>
 							<option value="silver">실버</option>
+							<option value="orange">주황</option>
+							<option value="purple">보라</option>
+							<option value="pink">핑크</option>
+							<option value="white">흰색</option>
+							<option value="black">검정</option>
+							<option value="gray">회색</option>
 							<!-- 원하는 다른 색상을 추가할 수 있습니다. -->
 						</select>
+						<label for="eventTextColor">글자색</label>
+						<select class="form-control" id="eventTextColor">
+							<option value="">흰색</option>
+							<option value="blue">파랑</option>
+							<option value="red">빨강</option>
+							<option value="yellow">노랑</option>
+							<option value="green">초록</option>
+							<option value="aqua">하늘</option>
+							<option value="silver">실버</option>
+							<option value="orange">주황</option>
+							<option value="purple">보라</option>
+							<option value="pink">핑크</option>
+							<option value="black">검정</option>
+							<option value="gray">회색</option>
+							<!-- 원하는 다른 색상을 추가할 수 있습니다. -->
+						</select>
+						<label for="eventBorderColor">테두리색</label>
+						<select class="form-control" id="eventBorderColor">
+							<option value="">없음</option>
+							<option value="blue">파랑</option>
+							<option value="red">빨강</option>
+							<option value="yellow">노랑</option>
+							<option value="green">초록</option>
+							<option value="aqua">하늘</option>
+							<option value="silver">실버</option>
+							<option value="orange">주황</option>
+							<option value="purple">보라</option>
+							<option value="pink">핑크</option>
+							<option value="white">흰색</option>
+							<option value="black">검정</option>
+							<option value="gray">회색</option>
+							<!-- 원하는 다른 색상을 추가할 수 있습니다. -->
+						</select>
+
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -75,10 +116,13 @@
 	</div>
 </div>
 <script layout:fragment="script" type='text/javascript'>
-	function clearModalInputs() {
-		$('#eventTitleInput').val('');
-		$('#eventColorSelect').val('');
-	}
+	$('#editEventModal').on('keypress', function(e) {
+    if (e.which === 13) {
+        // Enter 키를 누르면 원하는 버튼 클릭 이벤트 발생
+        $('#editEventModalConfirm').click();
+    }
+});
+	
 	document.addEventListener('DOMContentLoaded', function () {
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -108,7 +152,9 @@
 								title: event.title,
 								start: event.start,
 								end: event.end,
-								backgroundColor: event.backgroundColor
+								backgroundColor: event.backgroundColor,
+								textColor: event.textColor,
+								borderColor: event.borderColor
 							};
 						});
 						successCallback(events);
@@ -120,12 +166,17 @@
 			},
 			//사용자가 달력에서 날짜를 선택할 때 호출되는 이벤트 핸들러
 			select: function (info) {
+				$('#eventTitleInput').val("");
+				$('#eventColorSelect').val("");
+				$('#eventTextColor').val("");
+				$('#eventBorderColor').val("");
 				$('#editEventModal').modal('show');
 
 				$('#editEventModalConfirm').off('click').on('click', function () {
 					var newTitle = $('#eventTitleInput').val();
 					var selectedColor = $('#eventColorSelect').val();
-
+					var selectedtextColor = $('#eventTextColor').val();
+					var selectedborderColor = $('#eventBorderColor').val();
 					var startDate = info.start;
 					var endDate = info.end || startDate;
 
@@ -133,7 +184,9 @@
 						title: newTitle,
 						start: startDate,
 						end: endDate,
-						backgroundColor: selectedColor // 사용자가 선택한 색상을 할당
+						backgroundColor: selectedColor, // 사용자가 선택한 색상을 할당
+						textColor: selectedtextColor,
+						borderColor: selectedborderColor,
 					};
 
 					// 추가: 서버에 새 이벤트 추가 요청
@@ -151,7 +204,6 @@
 					});
 
 					$('#editEventModal').modal('hide');
-					clearModalInputs();
 				});
 			},
 			//이벤트 선택할 때 호출되는 이벤트 핸들러
@@ -160,11 +212,17 @@
 			//info.jsEvent: 클릭 이벤트에 대한 원본 JavaScript 이벤트입니다. 주로 마우스 클릭 이벤트입니다.
 			//info.view: 클릭된 이벤트가 발생한 뷰를 나타냅니다. 뷰는 FullCalendar에서 현재 보여지고 있는 캘린더 뷰를 나타냅니다.
 			eventClick: function (info) {
+				$('#eventTitleInput').val(info.event.title);
+				$('#eventColorSelect').val(info.event.backgroundColor);
+				$('#eventTextColor').val(info.event.textColor);
+				$('#eventBorderColor').val(info.event.borderColor);
 				$('#editEventModal').modal('show');
 
 				$('#editEventModalConfirm').off('click').on('click', function () {
 					var newTitle = $('#eventTitleInput').val();
 					var selectedColor = $('#eventColorSelect').val();
+					var selectedtextColor = $('#eventTextColor').val();
+					var selectedborderColor = $('#eventBorderColor').val();
 					var eventId = info.event.id; // info 객체로부터 이벤트 ID 추출
 
 					var eventData = {
@@ -172,6 +230,8 @@
 						start: info.event.start, // 시작 일자 추출
 						end: info.event.end || info.event.start, // 종료 일자 추출 (없을 경우 시작 일자 사용)
 						backgroundColor: selectedColor,
+						textColor: selectedtextColor,
+						borderColor: selectedborderColor,
 						id: eventId // 이벤트의 고유 식별자
 					};
 
@@ -197,7 +257,7 @@
 						}
 					});
 					$('#editEventModal').modal('hide');
-					clearModalInputs();
+					
 				});
 
 				$('#editEventModalDelete').off('click').on('click', function () {
@@ -213,7 +273,6 @@
 								info.event.remove();
 								// 모달 창 닫기
 								$('#editEventModal').modal('hide');
-								clearModalInputs();
 							},
 							error: function () {
 								// 삭제 실패 시 예외 처리
@@ -232,6 +291,8 @@
 			eventDrop: function (info) {
 				var newTitle = info.event.title;
 				var selectedColor = info.event.backgroundColor;
+				var newtextColor = info.event.textColor;
+				var newborderColor = info.event.borderColor;
 				var newStart = info.event.start;
 				var newEnd = info.event.end || newStart;
 				var eventId = info.event.id;
@@ -241,7 +302,10 @@
 					start: newStart,
 					end: newEnd,
 					backgroundColor: selectedColor,
+					textColor: newtextColor,
+					borderColor: newborderColor,
 					id: eventId
+					
 				};
 
 				// 서버에 수정된 이벤트 정보를 전송
@@ -266,18 +330,21 @@
 			//info.oldEvent: 변경하기 전의 이벤트 정보를 포함하는 FullCalendar 이벤트 객체입니다.
 			//info.delta: 크기 변경으로 인한 시간 차이를 나타내는 객체입니다. { days, milliseconds, months, years } 형식의 값을 가집니다.
 			eventResize: function (info) {
-
+				var newTitle = info.event.title;
+				var selectedColor = info.event.backgroundColor;
+				var newtextColor = info.event.textColor;
+				var newborderColor = info.event.borderColor;
 				var newStart = info.event.start;
 				var newEnd = info.event.end || newStart;
 				var eventId = info.event.id;
-				var newTitle = info.event.title;
-				var newColor = info.event.backgroundColor;
 
 				var eventData = {
 					title: newTitle,
 					start: newStart,
 					end: newEnd,
-					backgroundColor: newColor,
+					backgroundColor: selectedColor,
+					textColor: newtextColor,
+					borderColor: newborderColor,
 					id: eventId
 				};
 
