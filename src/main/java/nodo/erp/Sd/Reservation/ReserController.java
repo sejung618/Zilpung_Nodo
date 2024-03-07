@@ -15,6 +15,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Mm.Inventory.Inventory;
 import nodo.erp.Mm.Inventory.InventoryService;
+import nodo.erp.Pp.Item.Item;
+import nodo.erp.Pp.Item.ItemService;
 
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class ReserController {
 
 	@Autowired
 	private final ReserService rs;
+	private final ItemService itemService;
 	private final InventoryService invenService;
 	
 	@GetMapping("/list")
@@ -41,8 +44,11 @@ public class ReserController {
 	
 	// 예약 신청
 	@GetMapping("/create")
-	public String ResCreate(ResCreateForm resCreateForm) {
+	public String ResCreate(Model model, ResCreateForm resCreateForm) {
+		List<Item> ItemList = this.itemService.getList();
 		List<Inventory> InvenList = this.invenService.getList();
+		model.addAttribute("ItemList", ItemList);
+		model.addAttribute("InvenList", InvenList);
 		return "Sd/res_create";
 	}
 	

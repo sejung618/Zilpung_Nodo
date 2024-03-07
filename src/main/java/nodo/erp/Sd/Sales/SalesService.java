@@ -25,7 +25,7 @@ public class SalesService {
 		return SR.findAll();
 	}
 	
-	private Sales getSales(Integer id) {
+	public Sales getSalesA(Integer id) {
 		Optional<Sales> sales = this.SR.findById(id);
 		if(sales.isPresent()) {
 			return sales.get();
@@ -33,7 +33,6 @@ public class SalesService {
 			throw new DataNotFoundException("Sales not found");
 		}
 	}
-	
 	
 	
 	public void create(String sanum, String samethod, LocalDate sadate, String saitem, 

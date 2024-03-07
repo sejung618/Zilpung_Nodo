@@ -1,5 +1,7 @@
 package nodo.erp.Sd.Sales;
 
+import java.time.LocalDate;
+
 import org.aspectj.weaver.ast.Not;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -11,6 +13,8 @@ import lombok.Setter;
 public class SalesCreateForm {
 
 	private String sanum;
+	
+	private LocalDate sadate;
 	
 	@NotEmpty(message = "판매방법 선택은 필수입니다.")
 	private String samehod;
