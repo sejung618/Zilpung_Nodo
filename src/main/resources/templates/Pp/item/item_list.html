@@ -64,9 +64,9 @@
 		    </tbody>
 		</table>
 		
-		<!-- 페이징처리 시작 -->
 		<a th:href="@{/basic/item/create}" class="btn btn-primary" style="float:left;">추가</a>
 
+		<!-- 페이징처리 시작 -->
 		<div th:if="${!paging.isEmpty()}" class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">		
 			<ul class="pagination justify-content-center">
 				<li class="paginate_button page-item previous" id="dataTable_previous" th:classappend="${!paging.hasPrevious} ? 'disabled'">

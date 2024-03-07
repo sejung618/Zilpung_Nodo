@@ -31,21 +31,8 @@ public class BomService {
 		return this.bomRepository.findAll(pageable);
 	}
 	
-	public void create(Integer bpItemId, Integer bpCount, Integer bpHour) {
+	public void create(String NewBomCode, Integer bpItemId, Integer bpCount, Integer bpHour) {
 		Bom bom = new Bom();
-		String NewBomCode = "";
-		List<Bom> bomAllList = this.bomRepository.findAll();
-		int PdCount = 0;
-		for( Bom bom1 : bomAllList ) {
-			if (bom1.getBpItem().getItmId() == bpItemId ) { PdCount++; }
-		}
-		if (PdCount == 0) {
-			int PdItmNum = Integer.parseInt(itemService.getItem(bpItemId).getItmCode().substring(4));
-			NewBomCode = "BOM-" + String.format("%03d", PdItmNum) + "-V01";
-		} else {
-			int PdItmNum = Integer.parseInt(itemService.getItem(bpItemId).getItmCode().substring(4));
-			NewBomCode = "BOM-" + String.format("%03d", PdItmNum) + "-V" + String.format("%02d", PdCount);
-		}
 		bom.setBomCode(NewBomCode);
 		bom.setBpItem(itemService.getItem(bpItemId));
 		bom.setBpCount(bpCount);

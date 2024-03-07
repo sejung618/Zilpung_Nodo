@@ -5,13 +5,10 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Pp.Item.Item;
 import nodo.erp.Pp.Item.ItemService;
@@ -35,19 +32,21 @@ public class BomController {
 	@GetMapping("/create")
 	public String BomCreate(BomForm bomForm, Model model) {
 		List<Item> itemList = this.itemService.getList();
+		List<Bom> bomList = this.bomService.getList();
 		model.addAttribute("itemList", itemList);
+		model.addAttribute("bomList", bomList);
 		return "Pp/bom/bom_form";
 	}
-	
-	@PostMapping("/create")
-	public String BomCreate(@Valid BomForm bomForm, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) {
-			List<Item> itemList = this.itemService.getList();
-			model.addAttribute("itemList", itemList);
-            return "Pp/bom/bom_form";
-        } // Integer bpItemId, Integer bpCount, List<BomCitem> bcIdList, Integer bpHour
-		this.bomService.create(bomForm.getBpItemId(), bomForm.getBpCount(), bomForm.getBpHour());
-        return "redirect:/BOM/list";
-	}
-	
+//	
+//	@PostMapping("/create")
+//	public String BomCreate(@Valid BomForm bomForm, BindingResult bindingResult, Model model) {
+//		if (bindingResult.hasErrors()) {
+//			List<Item> itemList = this.itemService.getList();
+//			model.addAttribute("itemList", itemList);
+//            return "Pp/bom/bom_form";
+//        }
+//		this.bomService.create(bomForm.getBpItemId(), bomForm.getBpCount(), bomForm.getBpHour());
+//        return "redirect:/BOM/list";
+//	}
+//	
 }
