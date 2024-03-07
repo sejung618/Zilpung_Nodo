@@ -1,51 +1,71 @@
 <html layout:decorate="~{/layout}">
 	<div layout:fragment="content" class="container my-3">
-		
-		<h1 class="my-3 border-bottom pb-2">예약 신청</h1>
+		<h1 class=" my-3 border-bottom pb-2">예약 신청</h1>
 		<form id="form1" th:action="@{/reservation/create}" th:object="${resCreateForm}" method="post">
 			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 				<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 			</div>
-			
+
 			<div class="mb-3">
-				<label for="jb-input-text">제품정보 - 아래 체크박스에서 예약하실 제품을 선택해주세요</label>
-				<select name="rvitem" id="rvitem" class="form-control1" style="width: 50%;">
-				<option value="">제품정보를 선택해주세요</option>
-				
-				<option th:each="inventory : ${invenList}"
-				th:value="${item.ItmName}"
-				th:text="${item.ItmName}"
-				th:data-INICode="${item.ItmCode}"
-				
-				
-				th:data-RV-Price="${purchase.pcprice}">
-				</option>					
+				<label for="jb-input-text"> 제품정보 - 아래 셀렉트박스에서 예약하실 제품을 선택해주세요. </label>
+				<select name="rvitem" id="rvitem" class="form-control" style="width: 50%;">
+					<option value="">제품정보를 선택해주세요</option>
+					<option th:each="item : ${ItemList}" th:value="${item.itmName}"
+					th:text="${item.itmName}"
+					th:data-INICode="${item.itmCode}"
+					th:data-itmrprice="${item.itmRprice}">
+					</option>
 				</select>
 			</div>
 			
-			<!--
-				<div> </div> 제작
-				-->
+			<div>
+				제품코드 <input type="text" id="rvicode" name="rvicode" class="form-control rvicode">
+			</div>
 			
-			<input type="hidden" name="rvcp" id="rvcp" th:value="${rvcp}" class="form-control">
+			<div>
+				제품가격 <input type="text" id="rvprice" name="rvprice" class="form-control rvprice">
+			</div>
+			
+			<div class="my-3">
+				<label for="rvcount">제품 예약 수량</label>
+				<input type="number" min="1" max="999" id="rvcount" name="rvcount" class="form-control rvcount">
+				<div id="inventoryQuantity"></div>
+				<span id="reservationMessage" style="color: red;"></span>
+			</div>
+			
+			
+			
+			<input type="hidden" name="rvdate" id="rvdate" th:value="${rvdate}" class="form-control">
+			<input type="hidden" name="rvcp" id="rvcp" th:value="*{rvcp}" class="form-control">
 			<input type="hidden" name="rvvat" id="rvvat" th:field="*{rvvat}" class="form-control">
 			<input type="hidden" name="rvsum" id="rvsum" th:field="*{rvsum}" class="form-control">
-			<div class="mb-3">
-				<input type="button" onclick="formSubmit();" value="예약신청 완료" class="btn btn-primary my-2">
-				</div>
 			
+			<div style="display:flex;">
+			<input type="button" onclick="formSubmit();" value="예약 신청완료" class="btn btn-primary">
+			<a href="/reservation/list" class="btn mx-2 border-primary text-primary">취소</a>
+		</div>
+
 		
-		<script th:inline="javascript">
+			<script th:inline="javascript">
 			$(document).ready(function (){
-				$('#ININame').change(function (){
-					var valueinicode = $(this).find(':selected').attr("data-INICode");
-					var valueRVPrice = selectedOption.attr("data-RV-Price");
+				$('#rvitem').change(function (){
+					// item 테이블에서 값을 가져오는 부분
+					var valueitmcode = $(this).find(':selected').attr("data-INICode");
+					var valueitmrprice = $(this).find(':selected').attr("data-itmrprice");
 					
-					$('.rvicode').val(valueinicode);
-					$('.rvprice').val(valueRVPrice);
+					// inventory 테이블에서 값 가져오기
+					var selectedQuantity = $(this).find(':selected').attr("data-inquantity");
+					
+					 // 각각의 값을 reservation 테이블에 할당하는 부분
+					 $('.rvicode').val(valueitmcode);
+					 $('.rvprice').val(valueitmrprice);
+					 
+					 $('#inventoryQuantity').text("현재 재고 수량: " + selectedQuantity);
+					 
+					 
+					 });
 				});
-			});
-			
+				
 			function formSubmit() {
 				$('#rvcp').val( parseInt($('.rvprice').val()) * parseInt($('#rvcount').val()) );
 				$('#rvvat').val( parseInt($('#rvcp').val()) / 10 );
@@ -54,8 +74,7 @@
 				document.getElementById("form1").submit();
 			}
 			
-		</script>
-		
+			</script>
 		</form>
 	</div>
 </html>
