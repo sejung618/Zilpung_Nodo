@@ -5,27 +5,73 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">BOM 입력</h1>
 	</div>
-	
-    <form th:action="@{/BOM/create}" th:object="${bomForm}" method="post" Style="width:400px;">
+<!--	
+    <form method="post">
 		
-        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+	    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 			<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
-		</div>
+		</div> -->
 		
+		<div class="my-3">
+            <label for="bomCode" style="margin-right:10px;">BOM코드</label>
+            <input type="text" id="bomCode" class="form-control" readonly>
+        </div>
         <div class="my-3">
-            <label for="bpItemName" style="margin-right:10px;">생산품목명</label>
-            <select class="form-control" th:field="*{bpItemName}" name="ItmGroup" id="ItmGroup">
-				<option value="">-</option>
-				<option th:each="itemGroup:${itemGroupList}" th:value="${itemGroup.IgId}" th:text="${itemGroup.IgName}" th:data-IgName="${itemGroup.IgName}"></option>
-			</select>
+            <label for="bomVersion" style="margin-right:10px;">BOM버전</label>
+            <input type="text" id="bomVersion" class="form-control" readonly>
         </div>
 		<div class="my-3">
             <label for="bpItemCode" style="margin-right:10px;">생산품목코드</label>
-            <input type="text" th:field="*{bpItemCode}" id="bpItemCode" class="form-control" readonly>
+            <input type="text" id="bpItemCode" class="form-control" readonly>
+        </div>
+        <div class="my-3">
+            <label for="bpItemName" style="margin-right:10px;">생산품목명</label>
+            <select class="form-control" id="bpItemName">
+				<option value="">-</option>
+				<option th:each="item:${itemList}" th:value="${item.itmId}" th:text="${item.itmName}" th:bpItemId="${item.itmId}" th:bpItemCode="${item.itmCode}"></option>
+			</select>
+        </div>
+        <div class="pb-3 my-3 border-bottom">
+            <label for="bpCount" style="margin-right:10px;">생산수량</label>
+            <input type="number" min="0" id="bpCount" class="form-control">
         </div>
         
+        <table class="table table-bordered table-hover-td" id="table_bcItem">
+		    <thead class="table-primary">
+		        <tr class="text-center">
+					<th>#</th>
+					<th>품목코드</th>
+		            <th>품목명</th>
+		            <th>수량</th>
+		            <th>삭제</th>
+		        </tr>
+		    </thead>
+		    <tbody class="table-group-divider text-center" id="tableBody_bcItem">
+		        <tr>
+					<td>1</td>
+					<td id="bcItemCode"></td>
+					<td>
+						<select id="bcItemName">
+							<option value="">-</option>
+							<option th:each="item:${itemList}" th:value="${item.itmId}" th:text="${item.itmName}" th:bcItemCode="${item.itmCode}"></option>
+						</select>
+					</td>
+					<td>
+						<input type="number" min="0" id="bcCount">
+					</td>
+					<td style="background-color: rgba(0, 0, 0, 0.075)"></td>
+				</tr>
+			</tbody>
+			
+		</table>
+		
+		<div style="display:flex;">
+        	<a href="#" class="btn btn-primary" id="add_bcItem" style="float:left;">소모품 추가</a>
+        	<a href="/BOM/list" class="btn mx-2 border-primary text-primary">목록</a>
+        </div>
+        
+	<!--
 	</form>
-	
 	<form th:action="@{/BOM/create}" th:object="${bomCitemForm}" method="post" Style="width:400px;">
         <div class="my-3">
             <label for="ItmCategory" style="margin-right:10px;">생산수량</label>
@@ -51,8 +97,125 @@
         	<input type="submit" value="저장" class="btn btn-primary">
         	<a href="/basic/item/list" class="btn mx-2 border-primary text-primary">취소</a>
         </div>
-    </form>
+    </form> -->
     
+    
+    
+    <script th:inline="javascript">
+		
+		// 생산품목명 선택하면 BOM코드, BOM버전, 생산품목코드가 뜨게 하는 스크립트
+		$(document).ready(function () {
+			$('#bpItemName').change(function () {
+				
+				let PdCount = 1;
+				let NewBomCode = '';
+				let bomList = [[${bomList}]];
+
+				let bpItemId = $(this).find(':selected').attr("bpItemId");
+				let bpItemName = $(this).find(':selected').text();
+				let bpItemCode = $(this).find(':selected').attr("bpItemCode");
+				
+				for (let i = 0; i < bomList.length; i++) {
+				    if (bomList[i].bpItem.itmName === bpItemName) { PdCount++; }
+				}
+				
+				NewBomCode = `BOM-${String(bpItemId).padStart(3,'0')}-V${String(PdCount).padStart(2,'0')}`;
+				
+				$('#bpItemCode').val(bpItemCode);
+				$('#bomCode').val(NewBomCode);
+				$('#bomVersion').val(NewBomCode.substring(8));
+				
+			});
+		});
+		
+		// '소모품 추가' 클릭 시, 테이블의 행이 추가되는 스크립트
+		let iii = 1;
+		document.getElementById('add_bcItem').addEventListener('click', () => {
+		    const table = document.getElementById('table_bcItem');
+		    document.getElementById('tableBody_bcItem').insertAdjacentHTML('afterbegin','<tr id="trtr_'+iii+'"></tr>')
+		    //const new_row = table.insertRow();
+		    const new_row = table.rows[iii];
+		    const cell_length = table.rows[iii].cells.length;
+		
+		    for(let i = 0; i < cell_length; i++) {
+		        const new_cell = new_row.insertCell(i);
+		        let temp_html = ``;
+		        if(i === 0) {
+		        	temp_html = `<td>1</td>`;
+		        } else if(i === 1) {
+					temp_html = `<td id="bcItemCode"></td>`;
+		        } else if(i === 2) {
+					temp_html = `<td>
+									<select id="bcItemName">
+										<option value="">-</option>
+								`;
+								[# th:each="item:${itemList}"]
+								temp_html += `<option value=[[${item.itmId}]] bcItemCode=[[${item.itmCode}]]>`+[[${item.itmName}]]+`</option>`;
+								[/]
+								temp_html += `		
+									</select>
+								</td>`;
+		        } else if(i === 3) {
+					temp_html += `<td><input type="number" min="0" id="bcCount"></td>`;
+				} else {
+					temp_html += `<td>
+									<a class="delete delete_bcItem" onclick="delete_bcItem_event(`+iii+`)" href="javascript:void(0);">
+										<img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px">
+									</a>
+								</td>`;
+				};
+				new_cell.insertAdjacentHTML('afterbegin', temp_html);
+			}
+			
+			iii++;
+		});
+		
+		
+		
+/*		document.querySelector('#add_bcItem').addEventListener('click', () => {
+			const temp_html = `
+			<tr>
+				<td>1</td>
+				<td id="bcItemCode"></td>
+				<td>
+					<select id="bcItemName">
+						<option value="">-</option>
+						<option th:each="item:${itemList}" th:value="${item.itmId}" th:text="${item.itmName}" th:bcItemCode="${item.itmCode}"></option>
+					</select>
+				</td>
+				<td>
+					<input type="number" min="0" id="bcCount">
+				</td>
+				<td>
+					<a class="delete delete_bcItem" onclick="delete_bcItem_event(this)" href="javascript:void(0);">
+						<img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px">
+					</a>
+				</td>
+			</tr>
+				`;
+				//document.querySelector('tbody').insertAdjacentHTML('afterbegin', temp_html);
+				document.getElementById('tableBody_bcItem').insertAdjacentHTML('afterbegin', temp_html);
+		});
+		*/
+		// 삭제 아이콘 클릭 시, 해당 행을 삭제하는 스크립트
+		function delete_bcItem_event(i){
+			document.getElementById('trtr_'+i).remove();
+			//table.deleteRow(a);
+		} 
+		/*
+		const delete_bcItem_event = (delete_icon) => {
+			const table = document.getElementById('tableBody_bcItem');
+			const row_index = delete_icon.closest('tr').row_index;
+			if(row_index === 1) {
+				alert(`최소 하나의 소모품은 등록해야 합니다.`);
+				return;
+			}
+			table.deleteRow(row_index);
+		};
+		*/
+
+	</script>
+	
 </div>
 
 </html>

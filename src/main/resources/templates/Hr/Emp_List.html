@@ -1,52 +1,55 @@
 <html layout:decorate="~{layout}">
 
-
-
-<body>
-	<div layout:fragment="content" class="container my-3">
-		<h1>사원 정보</h1>
-
-		<div class="col-6">
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">사번</span>
-				</div>
-				<input type="text" id="num_kw" class="form-control" th:value="${num}">
-			</div>
-			<div class="input-group mt-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">이름</span>
-				</div>
-				<input type="text" id="name_kw" class="form-control" th:value="${name}">
-			</div>
-			<div class="input-group mt-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">입사월</span>
-				</div>
-				<input type="month" id="month_kw" class="form-control" th:value="${month}">
-			</div>
-			<div class="input-group mt-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">부서</span>
-				</div>
-				<input type="text" id="depart_kw" class="form-control" th:value="${depart}">
-			</div>
-			<div class="input-group mt-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">직위</span>
-				</div>
-				<input type="text" id="spot_kw" class="form-control" th:value="${spot}">
-			</div>
-			<div class="input-group mt-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">직책</span>
-				</div>
-				<input type="text" id="posi_kw" class="form-control" th:value="${posi}">
-			</div>
-			<button class="btn btn-primary mt-3" type="button" id="btn_search">찾기</button>
+	<div layout:fragment="content" class="m-3">
+		
+		<div class="d-sm-flex align-items-center justify-content-between mb-3">
+			<h1 class="h3 mb-0 text-gray-800">사원 정보</h1>
 		</div>
-
-
+		
+		<div style="display:flex; justify-content:space-between;">
+			<div style="width:95%; display:flex; justify-content:space-between; flex-wrap:wrap;">
+				<div class="input-group mb-2" style="width:33%;">
+					<div class="input-group-prepend">
+						<span class="input-group-text">사번</span>
+					</div>
+					<input type="text" id="num_kw" class="form-control" th:value="${num}">
+				</div>
+				<div class="input-group mb-2" style="width:33%;">
+					<div class="input-group-prepend">
+						<span class="input-group-text">이름</span>
+					</div>
+					<input type="text" id="name_kw" class="form-control" th:value="${name}">
+				</div>
+				<div class="input-group mb-2" style="width:33%;">
+					<div class="input-group-prepend">
+						<span class="input-group-text">입사월</span>
+					</div>
+					<input type="month" id="month_kw" class="form-control" th:value="${month}">
+				</div>
+				<div class="input-group mb-2" style="width:33%;">
+					<div class="input-group-prepend">
+						<span class="input-group-text">부서</span>
+					</div>
+					<input type="text" id="depart_kw" class="form-control" th:value="${depart}">
+				</div>
+				<div class="input-group mb-2" style="width:33%;">
+					<div class="input-group-prepend">
+						<span class="input-group-text">직위</span>
+					</div>
+					<input type="text" id="spot_kw" class="form-control" th:value="${spot}">
+				</div>
+				<div class="input-group mb-2" style="width:33%;">
+					<div class="input-group-prepend">
+						<span class="input-group-text">직책</span>
+					</div>
+					<input type="text" id="posi_kw" class="form-control" th:value="${posi}">
+				</div>
+			</div>
+			<button class="btn btn-primary mb-2" type="button" id="btn_search" style="width:4.5%;">
+				<i class="fas fa-search fa-sm" aria-hidden="true"></i>
+			</button>
+		</div>
+		
 		<form th:action="@{/Hr/list}" method="get" id="searchForm">
 			<input type="hidden" id="num" name="num" th:value="${num}">
 			<input type="hidden" id="name" name="name" th:value="${name}">
@@ -56,8 +59,6 @@
 			<input type="hidden" id="posi" name="posi" th:value="${posi}">
 			<input type="hidden" id="page" name="page" th:value="${paging.number}">
 		</form>
-
-
 
 		<!--테이블 시작-->
 		<table class="table table-bordered table-hover-td">
@@ -185,9 +186,5 @@
 
 
 	</div>
-
-
-
-</body>
 
 </html>
