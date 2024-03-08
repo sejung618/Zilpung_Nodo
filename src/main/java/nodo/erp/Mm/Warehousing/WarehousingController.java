@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Service.Emp_Service;
+import nodo.erp.Mm.Shipping.Shipping;
 import nodo.erp.Pp.Item.Item;
 import nodo.erp.Pp.Item.ItemService;
 import nodo.erp.Sd.AccService;
@@ -39,10 +40,38 @@ public class WarehousingController {
 	private final ItemService itemService;
 	
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value = "kw", defaultValue = "") String kw) {
-		Page<Warehousing> paging = this.warehousingService.getList(page, kw);
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw", defaultValue = "") String kw,
+			@RequestParam(value = "category", defaultValue = "") String category,
+			@RequestParam(value = "state", defaultValue = "") String state) {
+
+		Page<Warehousing> paging = this.warehousingService.searchAllCategories(page, kw);
+
+		if ("nsp".equals(state)) {
+	        paging = this.warehousingService.findByState(page, "미입고");
+	    }
+		
+		if ("sp".equals(state)) {
+			paging = this.warehousingService.findByState(page, "입고");
+		}
+		
+		if (category == null && category.isEmpty()||"all".equals(state)) {
+			paging = this.warehousingService.searchAllCategories(page, kw);
+		}
+		if ("whdate".equals(category)) {
+			paging = this.warehousingService.findBySpdate(page, kw);
+		}
+		if ("accompany".equals(category)) {
+			paging = this.warehousingService.findByAccompany(page, kw);
+		}
+		if ("itmname".equals(category)) {
+			paging = this.warehousingService.findByItmName(page, kw);
+		}
+
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
+		
+
 		return "Mm/warehousing_list";
 	}
 

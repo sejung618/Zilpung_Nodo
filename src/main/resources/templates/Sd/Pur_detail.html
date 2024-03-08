@@ -1,27 +1,67 @@
-<html layout:decorate="~{/layout}" >
-	<div layout:fragment="content" class="container my-3">
-		<h1 class="border-bottom py-2" th:text=" '구매번호 : ' + ${pur.pcnum}"></h1>
-		
-		<h2 th:text="'구매회사(거래처) 정보'"></h2>
-		<div class="card my-3">
-			<div class="card-body">
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'회사명 - ' + pur.pccompany +  '컴퍼니'}" readonly/>
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px;" th:value="${'회사 시리얼넘버 : ' + pur.pccode}" readonly/>
-			</div>
-		</div>
-		
-		<h3 th:text="'구매제품 정보'"></h3>
-		<div class="card my-3">
-			<div class="card-body">
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품명 : ' + pur.pcitem}" readonly/>
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품 구매갯수 : ' + pur.pccount + '개'}" readonly/>
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'제품가격 : '+ pur.pcprice + '원'}" readonly/>
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'공급가액 : ' + pur.pccp + '원'}" readonly/>
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'부가세액 : ' + pur.pcvat + '원'}" readonly/>
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'총 액 : ' + pur.pcvatsum + '원'}" readonly/> 
-				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px" th:value="${'제품 구매요청날짜 : ' + pur.pcdate}" readonly/>
-			</div>
-		</div>
+<html layout:decorate="~{layout}">
+	
+<div layout:fragment="content" class="m-3">
+	
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800" th:text=" '구매번호 : ' + ${pur.pcnum}"></h1>
+	</div>
+	
+	<h6 class="font-weight-bold">구매회사(거래처) 정보</h6>
+	
+	<table class="table table-bordered table-hover-td" style="max-width:800px;">
+		<tbody class="table-group-divider">
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">회사명</th>
+				<td th:text="${pur.pccompany}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">회사 시리얼 넘버</th>
+				<td th:text="${pur.pccode}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="my-3 border-bottom" style="max-width:800px;"></div>
+	
+	<h6 class="font-weight-bold">구매제품 정보</h6>
+	
+	<table class="table table-bordered table-hover-td" style="max-width:800px;">
+		<tbody class="table-group-divider">
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">제품명</th>
+				<td th:text="${pur.pcitem}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">구매 수량</th>
+				<td th:text="${pur.pccount + '개'}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">제품 가격</th>
+				<td th:text="${pur.pcprice + '원'}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">공급가액</th>
+				<td th:text="${pur.pccp + '원'}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">부가세액</th>
+				<td th:text="${pur.pcvat + '원'}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">총액</th>
+				<td th:text="${pur.pcvatsum + '원'}"></td>
+			</tr>
+			<tr>
+				<th class="table-primary text-center" style="width:10%; min-width:200px;">구매 요청일</th>
+				<td th:text="${pur.pcdate + '원'}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div style="display:flex;">
+		<a href="/purchase/list" class="btn border-primary text-primary">목록</a>
+	</div>
+
 		<!--
 		<div class="my-3">
 			<a th:data-uri="@{/orders/create/${pur.PC_Num}}" class="create btn btn-primary" data-pc-num="${pur.PC_Num}" data-or-num="${pur.OR_Num}">발주 신청</a>

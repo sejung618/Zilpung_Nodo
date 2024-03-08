@@ -1,40 +1,45 @@
-<html layout:decorate="~{/layout}">
-	<div layout:fragment="content" class="container my-3">
-		<h1 class="my-3 border-bottom pb-2">거래처 정보 수정</h1>
-		<form  th:object="${accUpdateForm}" method="post">
+<html layout:decorate="~{layout}">
+	<div layout:fragment="content" class="m-3">
+		
+		<div class="d-sm-flex align-items-center justify-content-between mb-4">
+			<h1 class="h3 mb-0 text-gray-800">거래처 수정</h1>
+		</div>
+		
+		<form th:object="${accUpdateForm}" method="post" Style="max-width:600px;">
+			
+
 			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 				<div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 			</div>
 			
-			
-			<div class="mb-3">
-				<label for="AC_Company">변경 상호명 - 30자까지 입력 가능합니다.</label>
-				<input th:text="${accUpdateForm.accompany}" type="text" name="accompany" id="accompany" class="form-control">
+			<div class="my-3">
+				<label for="accompany">거래처 상호명 - 30자까지 입력 가능합니다.</label>
+				<input th:field="*{accompany}" type="text" name="accompany" id="accompany" class="form-control">
 			</div>
 			
-			<div class="mb-3">
-				<label for="acaddress">변경 주소 - 100자까지 입력 가능합니다.</label>
-				<input th:text="${accUpdateForm.acaddress}" type="text" name="acaddress" id="acaddress" class="form-control">
+			<div class="my-3">
+				<label for="acaddress">거래처 주소 - 100자까지 입력 가능합니다.</label>
+				<input th:field="*{acaddress}" type="text" name="acaddress" id="acaddress" class="form-control">
 			</div>
 			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="acname">대표이사 성함 - 20자까지 입력 가능합니다.</label>
-				<input th:text="${accUpdateForm.acname}" type="text" name="acname" id="acname" class="form-control">
+				<input th:field="*{acname}" type="text" name="acname" id="acname" class="form-control">
 			</div>
 			
-			<div class="mb-3">
-				<label for="acprice">변경 후 제품단가 - 0 ~ 9999999 입력가능합니다.</label>
-				<input th:text="${accUpdateForm.acprice}" type="text" name="acprice" id="acprice" class="form-control">
-			</div>
-			
-			<div class="mb-3">
+			<div class="my-3">
 				<label for="acphone">대표이사 연락처 - 010-1234-1234 형식으로 입력해주세요.</label>
-				<input th:text="${accUpdateForm.acphone}" type="text" name="AC_Phone" id="acphone" class="form-control">
+				<input th:field="*{acphone}" type="text" name="AC_Phone" id="acphone" class="form-control">
 			</div>
 			
+			<div class="pb-3 my-3 border-bottom">
+				<label for="acprice">변경 후 제품단가 - 0 ~ 9999999 입력가능합니다.</label>
+				<input th:field="*{acprice}" type="text" name="acprice" id="acprice" class="form-control">
+			</div>
 			
-			<div class="mb-3">
-			<input type="submit" value="수정완료" class="btn btn-primary my-2">
+			<div style="display:flex;">
+				<input type="submit" value="수정 완료" class="btn btn-primary">
+        		<a th:href="@{|/account/detail/${id}|}" class="btn mx-2 border-primary text-primary">취소</a>
 			</div>
 			
 		</form>
