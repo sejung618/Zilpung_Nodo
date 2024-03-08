@@ -22,7 +22,28 @@
 		<a>로그아웃 상태</a>
 	</div>
 -->
+	<style>
+		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:first-child .fc-button {
+			color: rgb(255, 255, 255);
+			/* 텍스트 색상을 원하는 색상으로 변경 */
+			background-color: #4E73DF;
+			border-color: rgb(255, 255, 255);
+		}
 
+		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button:first-child {
+			color: rgb(255, 255, 255);
+			/* 텍스트 색상을 원하는 색상으로 변경 */
+			background-color: #4E73DF;
+			border-color: rgb(255, 255, 255);
+		}
+
+		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button:last-child {
+			color: rgb(255, 255, 255);
+			/* 텍스트 색상을 원하는 색상으로 변경 */
+			background-color: #4E73DF;
+			border-color: rgb(255, 255, 255);
+		}
+	</style>
 
 	<!-- Full Calendar -->
 	<div class="card shadow mb-4">
@@ -116,16 +137,22 @@
 	</div>
 </div>
 <script layout:fragment="script" type='text/javascript'>
-	$('#editEventModal').on('keypress', function(e) {
-    if (e.which === 13) {
-        // Enter 키를 누르면 원하는 버튼 클릭 이벤트 발생
-        $('#editEventModalConfirm').click();
-    }
-});
-	
+
+
+	$('#editEventModal').on('keypress', function (e) {
+		if (e.which === 13) {
+			// Enter 키를 누르면 원하는 버튼 클릭 이벤트 발생
+			$('#editEventModalConfirm').click();
+		}
+	});
+
+
+
 	document.addEventListener('DOMContentLoaded', function () {
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl, {
+
+
 			//헤더툴바
 			headerToolbar: {
 				start: 'today',
@@ -141,6 +168,7 @@
 			dayMaxEvents: true,
 			selectable: true,
 			timeZone: 'UTC',
+
 			events: function (fetchInfo, successCallback, failureCallback) {
 				$.ajax({
 					url: "/api/events",
@@ -164,6 +192,24 @@
 					}
 				});
 			},
+			//휴일색 변경
+			dayCellContent: function (arg) {
+				var holidays = ['2024-01-01', '2024-03-01','2024-04-10']; // 공휴일 목록
+
+				var dateString = arg.date.getFullYear() + '-' + ('0' + (arg.date.getMonth() + 1)).slice(-2) + '-' + ('0' + arg.date.getDate()).slice(-2);
+				if (holidays.includes(dateString)) {
+					return {html: '<div style="color: red;">' + arg.dayNumberText + '</div>'};
+				}
+
+				if (arg.date.getDay() === 0) { // 0은 일요일을 나타냅니다.
+					return {html: '<div style="color: red;">' + arg.dayNumberText + '</div>'};
+				}
+				if (arg.date.getDay() === 6) { // 0은 일요일을 나타냅니다.
+					return {html: '<div style="color: blue;">' + arg.dayNumberText + '</div>'};
+				}
+				return arg.dayNumberText;
+			},
+
 			//사용자가 달력에서 날짜를 선택할 때 호출되는 이벤트 핸들러
 			select: function (info) {
 				$('#eventTitleInput').val("");
@@ -186,7 +232,7 @@
 						end: endDate,
 						backgroundColor: selectedColor, // 사용자가 선택한 색상을 할당
 						textColor: selectedtextColor,
-						borderColor: selectedborderColor,
+						borderColor: selectedborderColor
 					};
 
 					// 추가: 서버에 새 이벤트 추가 요청
@@ -206,6 +252,9 @@
 					$('#editEventModal').modal('hide');
 				});
 			},
+
+
+
 			//이벤트 선택할 때 호출되는 이벤트 핸들러
 			//info.event: 클릭된 이벤트를 나타내는 FullCalendar의 이벤트 객체입니다. 이 객체는 이벤트에 대한 모든 정보를 포함하고 있습니다.
 			//info.el: 클릭된 이벤트의 HTML 요소입니다. FullCalendar에서 이벤트를 렌더링하는 데 사용됩니다.
@@ -257,7 +306,7 @@
 						}
 					});
 					$('#editEventModal').modal('hide');
-					
+
 				});
 
 				$('#editEventModalDelete').off('click').on('click', function () {
@@ -305,7 +354,7 @@
 					textColor: newtextColor,
 					borderColor: newborderColor,
 					id: eventId
-					
+
 				};
 
 				// 서버에 수정된 이벤트 정보를 전송
@@ -369,6 +418,8 @@
 			//info.date: 클릭된 날짜의 JavaScript Date 객체입니다.
 			//info.dayEl: 클릭된 날짜의 HTML 요소입니다. 이벤트 핸들러 내에서 이 요소를 조작할 수 있습니다.
 			//dateClick: function (info) {},
+
+
 
 		});
 		calendar.render();
