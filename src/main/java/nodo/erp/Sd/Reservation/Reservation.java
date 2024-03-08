@@ -28,7 +28,7 @@ public class Reservation {
 	@Column(length = 30)
 	private String rvitem;
 	
-	@Column(length = 11)
+	@Column(length = 50)
 	private String rvicode;
 	
 	@Column(length = 3)

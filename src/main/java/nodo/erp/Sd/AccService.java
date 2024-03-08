@@ -111,33 +111,45 @@ public class AccService {
 	
 	
 	public Page<Account> getList(int page, String kw){
-		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.accRepository.findAll(pageable);
 	}
 	
 	public Page<Account> findByAcaddress(int page, String kw){
-		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.accRepository.findByAcaddressContaining(pageable, kw);
 	}
 	
 	public Page<Account> findByAcitem(int page, String kw){
-		Pageable pageable = PageRequest.of(page, 10);
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.accRepository.findByAcitemContaining(pageable, kw);
 	}
 	
 	public Page<Account> findByAcdate(int page, String kw){
-		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.accRepository.findByAcdateContaining(pageable, kw);
 	}
 	
 	public Page<Account> findByAccompany(int page, String kw){
-		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.accRepository.findByAccompanyContaining(pageable, kw);
 	}
 	
 	
 	public Page<Account> searchAll(int page, String kw){
-		Pageable pageable = PageRequest.of(page, 10);//, Sort.by("Id").ascending());
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.accRepository.findByAcaddressContainingOrAcitemContainingOrAcdateContainingOrAccompanyContaining(pageable, kw, kw, kw, kw);
 	}
 	

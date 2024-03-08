@@ -1,0 +1,48 @@
+<html layout:decorate="~{layout}">
+	<div layout:fragment="content" class="container my-3">
+		
+		<h1 class="border-bottom py-2">예약자세히 보기</h1>
+		
+		<h2 class="border-bottom py-2" th:text="'예약정보 : ' + ${reser.rvnum}"></h2>
+		
+		<h3 th:text="'예약 제품정보'"></h3>
+			<div class="card my-3">
+			<div class="card-body">
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'제품명 - ' + reser.rvitem}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'제품코드 : ' + reser.rvicode}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'예약 수량 : ' + reser.rvcount + '개'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'제품가격 : ' + reser.rvprice + '원'}" readonly/>
+			</div>
+		</div>
+		
+		<h4 th:text="'가격정보'"></h4>
+		<div class="card my-3">
+			<div class="card-body">
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'합계 : ' + reser.rvcp + '원'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'부가세 : ' + reser.rvvat + '원'}" readonly/>
+				<input type="text" class="form-control" style="width: 50%; font-size: 20px; margin-bottom: 5px;" th:value="${'총 액 : ' + reser.rvsum + '원'}" readonly/>
+				
+			</div>
+		</div>
+		
+		
+		
+	<div class="my-3">
+	<a th:href="@{|/reservation/update/${id}|}" class="btn btn-primary">예약 정보수정</a>
+	<a th:data-uri="@{|/reservation/delete/${id}|}" class="delete btn btn-primary">예약 취소</a>
+	
+</div>
+
+</div>
+
+<script layout:fragment="script" type="text/javascript">
+	const delete_elements = document.getElementsByClassName("delete");
+	Array.from(delete_elements).forEach(function(element){
+		element.addEventListener('click', function(){
+			if(confirm("정말로 삭제하시겠습니까?")){
+				location.href = this.dataset.uri;
+			};
+		});
+	});
+</script>
+</html>

@@ -1,0 +1,33 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		<h1>판매 현황</h1>
+		<table class="table table-bordered table-hover-td">
+			<thead class="table-primary">
+				<tr class="text-center">
+					<th>번호</th>
+					<th>판매번호</th>
+					<th>판매방법</th>
+					<th>판매물품</th>
+					<th>총 판매수량</th>
+					<th>총 액</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr class="text-center table-active" th:each="sales, loop : ${SalesList}">
+					<td th:text="${loop.count}" ></td>
+					<td>
+						<a th:href="@{|/sales/detail/{sales.id}|}" th:text="${sales.sanum}"></a>
+					</td>
+					<td th:text="${sales.samethod}"></td>
+					<td th:text="${sales.saitem}"></td>
+					<td th:text="${sales.sacount}"></td>
+					<td th:text="${sales.sasum}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<a th:href="@{/sales/create}" class="btn btn-primary">판매입력</a>
+		</div>
+	</div>
+</html>
