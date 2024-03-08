@@ -171,30 +171,59 @@
 
 			events: function (fetchInfo, successCallback, failureCallback) {
 				$.ajax({
-					url: "/api/events",
+					url: "/api/events/calendar",
 					method: "GET",
 					success: function (data) {
 						var events = data.map(function (event) {
+							var endDate = new Date(event.enddate); // 종료일을 Date 객체로 변환합니다.
+							endDate.setDate(endDate.getDate() + 1); // 종료일에 하루를 추가합니다.
+							var formattedEndDate = endDate.toISOString().substring(0, 10);
 							return {
-								id: event.id,
-								title: event.title,
-								start: event.start,
-								end: event.end,
-								backgroundColor: event.backgroundColor,
-								textColor: event.textColor,
-								borderColor: event.borderColor
+
+								id: event.employee.id + event.id,
+								title: event.leavetype,
+								start: event.startdate,
+								end: formattedEndDate,
+								editable: false
 							};
 						});
-						successCallback(events);
+
+						// 첫 번째 AJAX 요청
+						$.ajax({
+							url: "/api/events",
+							method: "GET",
+							success: function (data) {
+								events = events.concat(data.map(function (event) {
+							
+									return {
+										id: event.id,
+										title: event.title,
+										start: event.start,
+										end: event.end,
+										backgroundColor: event.backgroundColor,
+										textColor: event.textColor,
+										borderColor: event.borderColor
+									};
+								}));
+
+								// 모든 이벤트를 성공 콜백으로 전달
+								successCallback(events);
+							},
+							error: function (error) {
+								console.error('이벤트 가져오기 실패:', error);
+							}
+						});
 					},
 					error: function (error) {
 						console.error('이벤트 가져오기 실패:', error);
 					}
 				});
 			},
+
+
 			//휴일색 변경
 			dayCellContent: function (arg) {
-				var holidays = ['2024-01-01', '2024-03-01','2024-04-10']; // 공휴일 목록
+				var holidays = ['2024-01-01', '2024-03-01', '2024-04-10']; // 공휴일 목록
 
 				var dateString = arg.date.getFullYear() + '-' + ('0' + (arg.date.getMonth() + 1)).slice(-2) + '-' + ('0' + arg.date.getDate()).slice(-2);
 				if (holidays.includes(dateString)) {
