@@ -1,5 +1,7 @@
 package nodo.erp.Pp.Bom;
 
+import java.util.List;
+
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +21,7 @@ public class BomForm {
 	private Integer bpCount;
 				
 	// 소모품목 리스트: BomCitem에서 bcId 가져오기
-//	private List<Integer> bcIdList;
+	private List<Integer> bcIdList;
 		
 	// 소요시간
 	@PositiveOrZero(message = "소요시간은 1 이상의 값으로 입력해주세요.")
