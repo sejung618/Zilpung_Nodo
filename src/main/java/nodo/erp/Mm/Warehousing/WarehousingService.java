@@ -21,6 +21,7 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Employee;
+import nodo.erp.Mm.Shipping.Shipping;
 import nodo.erp.Pp.Item.Item;
 import nodo.erp.Sd.Account;
 
@@ -67,32 +68,72 @@ public class WarehousingService {
 	}
 	
 	
+	
 	public Page<Warehousing> getList(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
-		Specification<Warehousing> spec = search(kw);
-		return this.warehousingRepository.findAll(spec, pageable);
+		return this.warehousingRepository.findAll(pageable);
 	}
 	
-	private Specification<Warehousing> search(String kw) {
-        return new Specification<>() {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Predicate toPredicate(Root<Warehousing> w, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                query.distinct(true);  // 중복을 제거 
-                return cb.or(cb.like(w.get("whdate"), "%" + kw + "%"), 
-//                        cb.like(w.get("WHPName"), "%" + kw + "%"),     
-//                        cb.like(w.get("WHPNum"), "%" + kw + "%"),    
-//                        cb.like(w.get("WHAName"), "%" + kw + "%"),       
-//                        cb.like(w.get("WHACode"), "%" + kw + "%"),
-//                        cb.like(w.get("WHIName"), "%" + kw + "%"),
-//                        cb.like(w.get("WHICode"), "%" + kw + "%"),
-                        cb.like(w.get("whstate"), "%" + kw + "%"),
-                        cb.like(w.get("whlocation"), "%" + kw + "%"));   
-            }
-        };
-    }
+	
+	
+	public Page<Warehousing> findBySpdate(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.warehousingRepository.findByWhdateContaining(pageable, kw);
+	}
+	
+	public Page<Warehousing> findByAccompany(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.warehousingRepository.findByAccount_AccompanyContaining(pageable, kw);
+	}
+	
+	public Page<Warehousing> findByItmName(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.warehousingRepository.findByItem_ItmNameContaining(pageable, kw);
+	}
+	
+	
+	public Page<Warehousing> searchAllCategories(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.warehousingRepository.findByWhdateContainingOrAccount_AccompanyContainingOrItem_ItmNameContaining(pageable, kw, kw, kw);
+	}
+	
+	public Page<Warehousing> findByState(int page, String st) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
+		return this.warehousingRepository.findByWhstate(pageable, st);
+	}
+	
+	
+	
+//	private Specification<Warehousing> search(String kw) {
+//        return new Specification<>() {
+//            private static final long serialVersionUID = 1L;
+//            @Override
+//            public Predicate toPredicate(Root<Warehousing> w, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                query.distinct(true);  // 중복을 제거 
+//                return cb.or(cb.like(w.get("whdate"), "%" + kw + "%"), 
+////                        cb.like(w.get("WHPName"), "%" + kw + "%"),     
+////                        cb.like(w.get("WHPNum"), "%" + kw + "%"),    
+////                        cb.like(w.get("WHAName"), "%" + kw + "%"),       
+////                        cb.like(w.get("WHACode"), "%" + kw + "%"),
+////                        cb.like(w.get("WHIName"), "%" + kw + "%"),
+////                        cb.like(w.get("WHICode"), "%" + kw + "%"),
+//                        cb.like(w.get("whstate"), "%" + kw + "%"),
+//                        cb.like(w.get("whlocation"), "%" + kw + "%"));   
+//            }
+//        };
+//    }
 	
 	//디테일
 	public Warehousing getWarehousing(Integer whid) {
