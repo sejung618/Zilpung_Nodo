@@ -46,9 +46,9 @@ public class ReserController {
 	@GetMapping("/create")
 	public String ResCreate(Model model, ResCreateForm resCreateForm) {
 		List<Item> ItemList = this.itemService.getList();
-		List<Inventory> InvenList = this.invenService.getList();
+		//List<Inventory> InvenList = this.invenService.getList();
 		model.addAttribute("ItemList", ItemList);
-		model.addAttribute("InvenList", InvenList);
+		//model.addAttribute("InvenList", InvenList);
 		return "Sd/res_create";
 	}
 	
@@ -62,11 +62,11 @@ public class ReserController {
                 resCreateForm.getRvdate(),
                 resCreateForm.getRvitem(),
                 resCreateForm.getRvicode(),
-                Integer.valueOf(resCreateForm.getRvcount()),
-                Integer.valueOf(resCreateForm.getRvprice()),
-                Integer.valueOf(resCreateForm.getRvcp()),
-                Integer.valueOf(resCreateForm.getRvvat()),
-                Integer.valueOf(resCreateForm.getRvsum()),
+                Integer.parseInt(resCreateForm.getRvcount()),
+                Integer.parseInt(resCreateForm.getRvprice()),
+                Integer.parseInt(resCreateForm.getRvcp()),
+                Integer.parseInt(resCreateForm.getRvvat()),
+                Integer.parseInt(resCreateForm.getRvsum()),
                 resCreateForm.getRvpick(),
                 null);
 		return "redirect:/reservation/list";

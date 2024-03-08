@@ -1,0 +1,38 @@
+<html layout:decorate="~{layout}">
+	<div layout:fragment="content" class="container my-3">
+		
+		<h1 class="my-3 border-bottom pb-2">예약 정보수정</h1>
+		<form th:object="${resUpdateForm}" method="post">
+			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+				<div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+			</div>
+			
+			<div class="my-3">
+			<label for="rvpick">제품 픽업여부</label>
+			<select name="rvpick" id="rvpick" class="form-control" style="width: 15%;">
+				<option value="">-</option>
+				<option value="O">O</option>
+				<option value="X">X</option>
+			</select>
+		</div>
+			
+			<div class="mb-3">
+				<input type="submit" value="정보수정 완료" class="btn btn-primary my-2">
+				<button onclick="goDetail()" class="btn btn-secondary my-2">취소</button>
+			</div>
+			
+			<script>
+				function goDetail() {
+					// 여기에 취소 버튼을 눌렀을 때 이동할 페이지 URL을 설정합니다.
+					var detailPageUrl = "/reservation/detail/{id}"; // {id}는 실제 페이지의 ID로 대체되어야 합니다.
+					
+					// 지정된 URL로 페이지를 이동합니다.
+					window.location.href = detailPageUrl;
+					}
+					
+			</script>
+			
+			
+		</form>
+	</div>
+</html>

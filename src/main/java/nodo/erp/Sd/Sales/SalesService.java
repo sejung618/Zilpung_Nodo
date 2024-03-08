@@ -16,7 +16,7 @@ import nodo.erp.DataNotFoundException;
 @Service
 public class SalesService {
 
-	private SalesRepository SR;
+	private final SalesRepository SR;
 	
 	@PersistenceContext
 	private EntityManager entity;
@@ -25,7 +25,7 @@ public class SalesService {
 		return SR.findAll();
 	}
 	
-	public Sales getSalesA(Integer id) {
+	public Sales getSales(Integer id) {
 		Optional<Sales> sales = this.SR.findById(id);
 		if(sales.isPresent()) {
 			return sales.get();

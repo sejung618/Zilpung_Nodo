@@ -18,7 +18,7 @@ import nodo.erp.Pp.Item.ItemService;
 import nodo.erp.Sd.Reservation.ReserService;
 import nodo.erp.Sd.Reservation.Reservation;
 
-@RequestMapping("/sales")
+@RequestMapping("/Sales")
 @RequiredArgsConstructor
 @Controller
 public class SalesController {
@@ -29,17 +29,27 @@ public class SalesController {
 	private final ReserService reserService;
 	
 	
+	
+	/*
 	@GetMapping("/list")
 	public String list(Model model) {
 		List<Sales> SalesList = this.SS.getList();
 		model.addAttribute("SalesList", SalesList);
-		return "Sd/Sal_List";
+		return "Sd/Sales_List";
+	}
+	*/
+	
+	@GetMapping("/list")
+	public String list(Model model) {
+		List<Sales> SalesList = this.SS.getList();
+		model.addAttribute("SalesList", SalesList);
+		return "Sd/Sales_List";
 	}
 	
 	
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
-		Sales sales = this.SS.getSalesA(id);
+		Sales sales = this.SS.getSales(id);
 		model.addAttribute(sales);
 		return "Sd/Sal_detail";
 	}
