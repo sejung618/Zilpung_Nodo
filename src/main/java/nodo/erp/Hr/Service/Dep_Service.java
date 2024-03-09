@@ -32,7 +32,7 @@ public class Dep_Service {
 	    }
 	 
 	 
-	 public void create(String depcode, String depname) {
+	 public void create(Integer depcode, String depname) {
 	        Department q = new Department();
 			q.setDepcode(depcode);
 			q.setDepname(depname);
@@ -49,7 +49,7 @@ public class Dep_Service {
 	        }
 	    }
 
-	public void modify(Department department,String depcode, String depname) {
+	public void modify(Department department,Integer depcode, String depname) {
 		department.setDepcode(depcode);
 		department.setDepname(depname);
 			

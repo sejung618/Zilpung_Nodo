@@ -29,7 +29,7 @@ public class Spot_Service {
 	    }
 	 
 	 
-	 public void create(String spotcode, String spotname) {
+	 public void create(Integer spotcode, String spotname) {
 		 Spot q = new Spot();
 			q.setSpotcode(spotcode);
 			q.setSpotname(spotname);
@@ -46,7 +46,7 @@ public class Spot_Service {
 	        }
 	    }
 
-	public void modify(Spot spot,String spotcode, String spotname) {
+	public void modify(Spot spot,Integer spotcode, String spotname) {
 		spot.setSpotcode(spotcode);
 		spot.setSpotname(spotname);
 			

@@ -17,7 +17,7 @@ public class Spot {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String spotcode;
+	private Integer spotcode;
 
 	private String spotname;
 }

@@ -112,7 +112,7 @@
 
 
 		<div class="col-6"
-			th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
+			th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Spot >= 3}">
 			<a th:href="@{/Hr/create}" class="btn btn-primary">사원 추가</a>
 		</div>
 
