@@ -1,0 +1,62 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		<h1 class="my-3 border-bottom pb-2">판매 입력</h1>
+		<form id="formA" th:action="@{/Sales/create}" th:object="${salesCreateForm}" method="post">
+			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+				<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+			</div>
+			
+			<div class="mb-3">
+				<label for="samethod">판매방법을 선택해주세요</label>
+				<select name="samethod" id="samehod" class="form-control" style="width: 30%;">
+					<option value="예약" 
+					th:data-rvitem="${reservation.rvitem}">예약
+					</option>
+					<option value="온라인판매">온라인판매</option>
+					<option value="오프라인판매">오프라인판매</option>
+				</select>
+			</div>
+			
+			<!--
+				
+				판매방법 선택 >> 예약인경우
+				reservation에서 rvitem에 저장된 정보로 두번째 셀렉트박스 선택 >>
+				item 정보의 rvpick 데이터 값이 'O' 인 데이터들의
+				rvprice = saprice 
+				rvcount 총 합 = sacount 에 저장 후 나머지 컬럼들은 계산하는 형식으로 진행
+				
+				판매방법 선택 >> 온라인 or 오프라인
+				>> item에서 제품명 제품가격만 가져온 후 나머지 데이터는 직접 입력하는 방식으로 진행
+				
+				-->
+			
+			
+			<div>
+				제품명 <input type="text" id="saitem" name="saitem" class="form-control saitem">
+			</div>
+			
+			<script>
+				$(document).ready(function(){
+					var selectedValue = $(this).val(); // 선택한 값 3가지 중 하나가 들어감
+					if(selectedValue === '예약'){ // 선택한 값이 예약일 때
+						var valuervitem = $(this).find(':selected').attr("data-rvitem");
+						
+						$('.saitem').val(valuervitem);
+						
+						getDataReservation();
+					
+					 } else if (selectedValue === '온라인판매' || selectedValue === '오프라인판매'){ // 선택한 값이 온라인 or 오프라인일 때
+						 getDataForOnlineOrOfflineSale();
+					 }
+				});
+				
+				// 예약에서 정보를 가지고 오는 함수
+				function getDataReservation(){
+					var valuer
+				}
+			</script>
+			
+			
+		</form>
+	</div>
+</html>

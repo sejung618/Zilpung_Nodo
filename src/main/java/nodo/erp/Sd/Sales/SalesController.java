@@ -24,7 +24,7 @@ import nodo.erp.Sd.Reservation.Reservation;
 public class SalesController {
 
 	@Autowired
-	private final SalesService SS;
+	private final SalesService ss;
 	private final ItemService itemService;
 	private final ReserService reserService;
 	
@@ -41,7 +41,7 @@ public class SalesController {
 	
 	@GetMapping("/list")
 	public String list(Model model) {
-		List<Sales> SalesList = this.SS.getList();
+		List<Sales> SalesList = this.ss.getList();
 		model.addAttribute("SalesList", SalesList);
 		return "Sd/Sales_List";
 	}
@@ -49,7 +49,7 @@ public class SalesController {
 	
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
-		Sales sales = this.SS.getSales(id);
+		Sales sales = this.ss.getSales(id);
 		model.addAttribute(sales);
 		return "Sd/Sal_detail";
 	}
@@ -68,13 +68,13 @@ public class SalesController {
 		if(bindResult.hasErrors()) {
 			return "Sd/sal_create";
 		}
-		this.SS.create(salesCreateForm.getSanum(), salesCreateForm.getSamehod(), salesCreateForm.getSadate(), salesCreateForm.getSaitem(), salesCreateForm.getSaicode(), Integer.parseInt(salesCreateForm.getSacount()), Integer.parseInt(salesCreateForm.getSaprice()), Integer.parseInt(salesCreateForm.getSacp()), Integer.parseInt(salesCreateForm.getSavat()), Integer.parseInt(salesCreateForm.getSasum()));
+		this.ss.create(salesCreateForm.getSanum(), salesCreateForm.getSamehod(), salesCreateForm.getSadate(), salesCreateForm.getSaitem(), salesCreateForm.getSaicode(), Integer.parseInt(salesCreateForm.getSacount()), Integer.parseInt(salesCreateForm.getSaprice()), Integer.parseInt(salesCreateForm.getSacp()), Integer.parseInt(salesCreateForm.getSavat()), Integer.parseInt(salesCreateForm.getSasum()));
 		return "redirect:/sales/list";
 	}
 	
 	@GetMapping("/delete/{id}")
 	public String SalesDelete(@PathVariable("id") Integer id) {
-		this.SS.delete(id);
+		this.ss.delete(id);
 		return "redirect:/sales/list";
 	}
 	
