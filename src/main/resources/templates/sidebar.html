@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul th:fragment="sidebarFragment" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul th:fragment="sidebarFragment" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="height:100vh;">
 
 	<!-- Brand Logo -->
 	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="http://localhost:8080/zilpung">
@@ -10,7 +10,7 @@
 	</a>
 	
 	<!-- Side Menu -->
-	<div style="width:100%; height:80%;" class="scrollBar">
+	<div style="height:80%;" class="scrollBar">
 
 		<!-- 구분선 -->
 		<hr class="sidebar-divider my-0">
@@ -18,7 +18,7 @@
 		<!-- nav-item: 대시보드 -->
 		<li id="ZP_Main" class="nav-item">
 			<a class="nav-link" href="/zilpung">
-				<i class="fa-solid fa-chalkboard mx-1" style="width:20px;"></i>
+				<i class="fa-solid fa-chalkboard mx-1" ></i>
 				<span>대시보드</span>
 			</a>
 		</li>
@@ -33,7 +33,7 @@
 			<!-- 기본사항 관리: 품목 관리 -->
 			<li class="nav-item">
 				<a id="BS_ItemManage_a" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#BS_ItemManage" aria-expanded="true" aria-controls="BS_ItemManage">
-					<i class="fa-solid fa-gift mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-gift mx-1"></i>
 					<span>품목 관리</span>
 				</a>
 				<div id="BS_ItemManage" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
@@ -57,7 +57,7 @@
 			<!-- 기본사항 관리: 거래처 관리 -->
 			<li class="nav-item">
 				<a id="BS_AccManage_a"class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#BS_AccManage" aria-expanded="true" aria-controls="BS_AccManage">
-					<i class="fa-solid fa-handshake mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-handshake mx-1" ></i>
 					<span>거래처 관리</span>
 				</a>
 			<div id="BS_AccManage" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -72,7 +72,7 @@
 			<!-- 창고 관리 -->
 <!--		<li class="nav-item">
 				<a id="BS_StorageMange_a"class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#BS_StorageMange" aria-expanded="true" aria-controls="BS_StorageMange">
-					<i class="fa-solid fa-warehouse mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-warehouse mx-1" ></i>
 					<span>창고 관리</span>
 				</a>
 				<div id="BS_StorageMange" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
@@ -95,7 +95,7 @@
 			<!-- 인사 관리: 사원 관리 -->
 			<li class="nav-item">
 				<a id="HR_EmployeeManage_a"class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#HR_EmployeeManage" aria-expanded="true" aria-controls="HR_EmployeeManage">
-					<i class="fa-solid fa-circle-user mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-circle-user mx-1" ></i>
 					<span>사원 관리</span>
 				</a>
 				<div id="HR_EmployeeManage" class="collapse" aria-labelledby="headingHrOne" data-parent="#accordionSidebar">
@@ -114,7 +114,7 @@
 			<!-- 인사 관리: 근태 관리 -->
 			<li class="nav-item">
 				<a id="HR_CommuteManage_a"class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#HR_CommuteManage" aria-expanded="true" aria-controls="HR_CommuteManage">
-					<i class="fa-solid fa-address-card mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-address-card mx-1" ></i>
 					<span>근태 관리</span>
 				</a>
 				<div id="HR_CommuteManage" class="collapse" aria-labelledby="headingHrTwo" data-parent="#accordionSidebar">
@@ -129,7 +129,7 @@
 			<!-- 인사 관리: 휴가 관리 -->
 			<li class="nav-item">
 				<a id="HR_BreakManage_a"class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#HR_BreakManage" aria-expanded="true" aria-controls="HR_BreakManage">
-					<i class="fa-solid fa-plane-departure mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-plane-departure mx-1" ></i>
 					<span>휴가 관리</span>
 				</a>
 				<div id="HR_BreakManage" class="collapse" aria-labelledby="headingHrThree" data-parent="#accordionSidebar">
@@ -151,7 +151,7 @@
 			<!-- 생산 관리: BOM(소요량) -->
 			<li class="nav-item">
 				<a id="PD_BOM_a" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#PD_BOM" aria-expanded="true" aria-controls="PD_BOM">
-					<i class="fa-solid fa-hammer mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-hammer mx-1" ></i>
 					<span>BOM(소요량)</span>
 				</a>
 				<div id="PD_BOM" class="collapse" aria-labelledby="headingPdOne" data-parent="#accordionSidebar">
@@ -168,7 +168,7 @@
 			<!-- 생산 관리: 작업지시서 -->
 			<li class="nav-item">
 				<a id="PD_WorkOrder_a"class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#PD_WorkOrder" aria-expanded="true" aria-controls="PD_WorkOrder">
-					<i class="fa-solid fa-rectangle-list mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-rectangle-list mx-1" ></i>
 					<span>작업지시서</span>
 				</a>
 				<div id="PD_WorkOrder" class="collapse" aria-labelledby="headingPdTwo" data-parent="#accordionSidebar">
@@ -184,7 +184,7 @@
 			<!-- 생산 관리: 생산불출·입고 -->
 <!--		<li class="nav-item">
 				<a id="PD_PdMovement_a" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#PD_PdMovement" aria-expanded="true" aria-controls="PD_PdMovement">
-					<i class="fa-solid fa-cart-flatbed mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-cart-flatbed mx-1" ></i>
 					<span>생산불출·입고</span>
 				</a>
 				<div id="PD_PdMovement" class="collapse" aria-labelledby="headingPdThree" data-parent="#accordionSidebar">
@@ -211,7 +211,7 @@
 			<!-- 재고·유통: 재고조정 -->
 			<li class="nav-item">
 				<a id="MM_Inventory_a" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#MM_Inventory" aria-expanded="true" aria-controls="MM_Inventory">
-					<i class="fa-solid fa-boxes-stacked mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-boxes-stacked mx-1" ></i>
 					<span>재고조정</span>
 				</a>
 				<div id="MM_Inventory" class="collapse" aria-labelledby="headingMmOne" data-parent="#accordionSidebar">
@@ -227,7 +227,7 @@
 			<!-- 재고·유통: 입·출고관리 -->
 			<li class="nav-item">
 				<a id="MM_Movement_a" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#MM_Movement" aria-expanded="true" aria-controls="MM_Movement">
-					<i class="fa-solid fa-truck mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-truck mx-1" ></i>
 					<span>입·출고관리</span>
 				</a>
 				<div id="MM_Movement" class="collapse" aria-labelledby="headingMmTwo" data-parent="#accordionSidebar">
@@ -253,7 +253,7 @@
 			<!-- 영업 관리: 구매 관리 -->
 			<li class="nav-item">
 				<a id="SD_PurchaseManage_a" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#SD_PurchaseManage" aria-expanded="true" aria-controls="SD_PurchaseManage">
-					<i class="fa-solid fa-bag-shopping mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-bag-shopping mx-1" ></i>
 					<span>구매 관리</span>
 				</a>
 				<div id="SD_PurchaseManage" class="collapse" aria-labelledby="headingSdOne" data-parent="#accordionSidebar">
@@ -273,7 +273,7 @@
 			<!-- 영업 관리: 판매 관리 -->
 			<li class="nav-item">
 				<a id="SD_SaleManage_a" class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#SD_SaleManage" aria-expanded="true" aria-controls="SD_SaleManage">
-					<i class="fa-solid fa-sack-dollar mx-1" style="width:20px;"></i>
+					<i class="fa-solid fa-sack-dollar mx-1" ></i>
 					<span>판매 관리</span>
 				</a>
 				<div id="SD_SaleManage" class="collapse" aria-labelledby="headingSdTwo" data-parent="#accordionSidebar">
@@ -293,6 +293,47 @@
 
 	</div>
 	<!-- End of Side Menu -->
+	
+	<!-- Sidebar Toggler (Sidebar) -->
+	<div class="text-center d-none d-md-inline">
+		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	</div>
 
 </ul>
 <!-- End of Sidebar -->
+
+<script>
+  // Toggle the side navigation
+  $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+    $("body").toggleClass("sidebar-toggled");
+    $(".sidebar").toggleClass("toggled");
+    if ($(".sidebar").hasClass("toggled")) {
+      $('.sidebar .collapse').collapse('hide');
+    };
+  });
+
+  // Close any open menu accordions when window is resized below 768px
+  $(window).resize(function() {
+    if ($(window).width() < 768) {
+      $('.sidebar .collapse').collapse('hide');
+    };
+    
+    // Toggle the side navigation when window is resized below 480px
+    if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+      $("body").addClass("sidebar-toggled");
+      $(".sidebar").addClass("toggled");
+      $('.sidebar .collapse').collapse('hide');
+    };
+  });
+
+  // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+  $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
+    if ($(window).width() > 768) {
+      var e0 = e.originalEvent,
+        delta = e0.wheelDelta || -e0.detail;
+      this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+      e.preventDefault();
+    }
+  });
+  
+</script>
