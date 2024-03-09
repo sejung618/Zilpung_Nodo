@@ -39,8 +39,8 @@
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
     
     <!-- Custom scripts for all pages -->
-    <script src="/js/sb-admin-2.js"></script>
     <script src="/js/sidebar-script.js"></script>
+    <!-- <script src="/js/sb-admin-2.js"></script> -->
 
     
     <!-- Bootstrap JavaScript -->
@@ -78,17 +78,18 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 		
-		<!-- sidebar -->
+		<!-- Sidebar -->
 		<ul th:replace="~{sidebar :: sidebarFragment}"></ul>
+		<!-- End of Sidebar -->
 		
 		<!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="height:100vh;">
 
             <!-- Main Content -->
             <div id="content">
 				
 				<!-- navbar -->
-				<nav th:replace="~{navbar}"></nav>
+				<nav th:replace="~{navbar :: navbarFragment}"></nav>
 				
 				<!-- Begin Page Content -->
 				<!-- 기본 템플릿 안에 삽입될 내용 Start -->
@@ -96,19 +97,20 @@
 					<th:block layout:fragment="content"></th:block>
 				</div>
 				<!-- 기본 템플릿 안에 삽입될 내용 End -->
+	            
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white mt-4">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; ZIBZIP 2024</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
+			<!-- Footer -->
+			<footer class="sticky-footer bg-white mt-4">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span>Copyright &copy; ZIBZIP 2024</span>
+					</div>
+				</div>
+			</footer>
+			<!-- End of Footer -->
+	            
         </div>
         <!-- End of Content Wrapper -->
 
@@ -142,8 +144,9 @@
 
     <!-- 자바스크립트 Start -->
 	<th:block layout:fragment="script"></th:block>
+	<script src="/js/sb-admin-2.js"></script>
 	<!-- 자바스크립트 End -->
-
+	
 </body>
 
 </html>

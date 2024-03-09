@@ -1,10 +1,5 @@
 <!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-	<!-- Sidebar Toggle (Topbar) -->
-	<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-		<i class="fa-solid fa-angle-right"></i>
-	</button>
+<nav th:fragment="navbarFragment" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="position:sticky; top:0;">
 
 	<!-- Topbar Search -->
 	<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -20,7 +15,7 @@
 	</form>
 
 	<!-- Topbar Navbar -->
-	<ul class="navbar-nav ml-auto">
+	<ul class="navbar-nav ml-auto" style="align-items:center;">
 
 		<!-- Nav Item - Search Dropdown (Visible Only XS) -->
 		<li class="nav-item dropdown no-arrow d-sm-none">
