@@ -1,6 +1,7 @@
 package nodo.erp.Hr.Dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class Dep_Form {
 	
-	@NotEmpty(message="부서코드는 필수항목입니다.")
-    @Size(max=50)
-    private String depcode;
+	
+	@NotNull(message="부서코드는 필수항목입니다.")
+    private Integer depcode;
 
     @NotEmpty(message="부서이름은 필수항목입니다.")
     private String depname;

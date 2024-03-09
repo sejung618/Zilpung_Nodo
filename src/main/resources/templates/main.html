@@ -6,6 +6,11 @@
 	<!-- Page Heading -->
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">대시보드</h1>
+		<div sec:authorize="isAuthenticated()">
+		<a th:text="부서코드+${#authentication.principal.Depart}"></a>
+		<a th:text="직위코드+${#authentication.principal.Spot}"></a>
+		<a th:text="직책코드+${#authentication.principal.Position}"></a>
+		</div>
 	</div>
 
 	<!-- authentication.principal 테스트용 -->
@@ -23,25 +28,41 @@
 	</div>
 -->
 	<style>
-		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:first-child .fc-button {
+		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:first-child .fc-addEventButton-button {
 			color: rgb(255, 255, 255);
 			/* 텍스트 색상을 원하는 색상으로 변경 */
 			background-color: #4E73DF;
 			border-color: rgb(255, 255, 255);
 		}
 
-		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button:first-child {
+		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:last-child .fc-prev-button {
 			color: rgb(255, 255, 255);
 			/* 텍스트 색상을 원하는 색상으로 변경 */
 			background-color: #4E73DF;
 			border-color: rgb(255, 255, 255);
 		}
 
-		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:last-child .fc-button:last-child {
+		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:last-child .fc-next-button {
 			color: rgb(255, 255, 255);
 			/* 텍스트 색상을 원하는 색상으로 변경 */
 			background-color: #4E73DF;
 			border-color: rgb(255, 255, 255);
+		}
+
+		.fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:last-child .fc-today-button {
+			color: rgb(255, 255, 255);
+			/* 텍스트 색상을 원하는 색상으로 변경 */
+			background-color: #4E73DF;
+			border-color: rgb(255, 255, 255);
+		}
+
+		/* FullCalendar의 일정 추가 버튼의 크기 조정 */
+		.fc-header-toolbar .fc-addEventButton-button {
+			padding: 10px 30px;
+			/* 버튼의 패딩을 조정하여 버튼의 크기를 변경 */
+			font-size: 16px;
+			/* 버튼의 글꼴 크기를 조정 */
+
 		}
 	</style>
 
@@ -73,6 +94,15 @@
 							<label for="eventTitleInput">내용</label>
 							<input type="text" class="form-control" id="eventTitleInput">
 						</div>
+						<div class="form-group">
+							<label for="start">시작일</label>
+							<input type="date" class="form-control" id="start">
+						</div>
+						<div class="form-group">
+							<label for="end">종료일</label>
+							<input type="date" class="form-control" id="end">
+						</div>
+
 						<label for="eventColorSelect">배경색</label>
 						<select class="form-control" id="eventColorSelect">
 							<option value="">기본</option>
@@ -137,92 +167,194 @@
 	</div>
 </div>
 <script layout:fragment="script" type='text/javascript'>
-
-
 	$('#editEventModal').on('keypress', function (e) {
 		if (e.which === 13) {
 			// Enter 키를 누르면 원하는 버튼 클릭 이벤트 발생
 			$('#editEventModalConfirm').click();
 		}
 	});
-
-
-
 	document.addEventListener('DOMContentLoaded', function () {
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-
-
 			//헤더툴바
 			headerToolbar: {
-				start: 'today',
+				start: 'addEventButton',
 				center: 'title',
-				end: 'prev,next'
+				end: 'today,prev,next'
 			},
 			locale: 'ko',
 			initialView: 'dayGridMonth',
-			selectable: true,
 			editable: true,
 			selectable: true,
+			timeZone: 'UTC',
 			businessHours: true,
 			dayMaxEvents: true,
-			selectable: true,
-			timeZone: 'UTC',
 
-			events: function (fetchInfo, successCallback, failureCallback) {
-				$.ajax({
-					url: "/api/events/calendar",
-					method: "GET",
-					success: function (data) {
-						var events = data.map(function (event) {
-							var endDate = new Date(event.enddate); // 종료일을 Date 객체로 변환합니다.
-							endDate.setDate(endDate.getDate() + 1); // 종료일에 하루를 추가합니다.
-							var formattedEndDate = endDate.toISOString().substring(0, 10);
-							return {
+			customButtons: { 
+				addEventButton: {
+					text: '일정 추가',
+					click: function () {
+						$('#eventTitleInput').val("");
+						$('#eventColorSelect').val("");
+						$('#eventTextColor').val("");
+						$('#eventBorderColor').val("");
+						$('#start').val("");
+						$('#end').val("");
+						$('#editEventModal').modal('show');
+						$('#editEventModalConfirm').off('click').on('click', function () {
+							var newTitle = $('#eventTitleInput').val();
+							var selectedColor = $('#eventColorSelect').val();
+							var selectedtextColor = $('#eventTextColor').val();
+							var selectedborderColor = $('#eventBorderColor').val();
+							var startDate = $('#start').val();
+							var endDate = $('#end').val();
 
-								id: event.employee.id + event.id,
-								title: event.leavetype,
-								start: event.startdate,
-								end: formattedEndDate,
-								editable: false
+							var eventData = {
+								title: newTitle,
+								start: startDate,
+								end: endDate,
+								backgroundColor: selectedColor,
+								textColor: selectedtextColor,
+								borderColor: selectedborderColor
 							};
-						});
+							$.ajax({
+								type: "POST",
+								contentType: "application/json",
+								url: "/api/events",
+								data: JSON.stringify(eventData),
+								success: function (response) {
+									calendar.addEvent(response);
+								},
+								error: function (error) {
+									console.error('이벤트 추가 실패:', error);
+								}
+							});
 
-						// 첫 번째 AJAX 요청
+							$('#editEventModal').modal('hide');
+						})
+					}
+				}
+			},
+
+			eventSources: [
+				{
+					events: [
+						{
+							//"title": "Event 1 고정",
+							//"start": "2024-03-05T09:00:00",
+							//"end": "2024-03-05T09:00:00",
+							//"color": "red",
+							//"textColor": "black"
+						}
+					],
+				},
+				{
+					events: function (fetchInfo, successCallback, failureCallback) {
 						$.ajax({
 							url: "/api/events",
 							method: "GET",
 							success: function (data) {
-								events = events.concat(data.map(function (event) {
-							
+								var events = data.map(function (event) {
 									return {
 										id: event.id,
 										title: event.title,
 										start: event.start,
+										//.replace(/T00:00:00$/, ''),
 										end: event.end,
 										backgroundColor: event.backgroundColor,
 										textColor: event.textColor,
-										borderColor: event.borderColor
+										borderColor: event.borderColor,
+										editable: true,
 									};
-								}));
+								});
 
-								// 모든 이벤트를 성공 콜백으로 전달
 								successCallback(events);
 							},
 							error: function (error) {
 								console.error('이벤트 가져오기 실패:', error);
+								failureCallback(error);
+							}
+						});
+					}
+				},
+				{
+					events: function (fetchInfo, successCallback, failureCallback) {
+						$.ajax({
+							url: "/api/events/calendar",
+							method: "GET",
+							success: function (data) {
+								var events = data.map(function (event) {
+									var endDate = new Date(event.enddate); // 종료일을 Date 객체로 변환합니다.
+									endDate.setDate(endDate.getDate() + 1); // 종료일에 하루를 추가합니다.
+									var formattedEndDate = endDate.toISOString().substring(0, 10);
+									return {
+
+										id: 'va',
+										title: "이름: "+event.employee.empname + " 휴가종류: "+event.leavetype +" 부서: "+event.employee.depart.depname,
+										start: event.startdate,
+										end: formattedEndDate,
+										backgroundColor: 'green',
+										editable: false,
+									};
+								});
+								successCallback(events);
+							},
+							error: function (error) {
+								console.error('이벤트 가져오기 실패:', error);
+								failureCallback(error);
+							}
+						});
+					}
+				},
+				{
+
+					events: function (fetchInfo, successCallback, failureCallback) {
+						var startDate = fetchInfo.start;
+						var endDate = fetchInfo.end;
+						var middleDate = new Date((startDate.getTime() + endDate.getTime()) / 2);
+						var year = middleDate.getFullYear();
+						var month = (middleDate.getMonth() + 1).toString().padStart(2, '0');
+						// 공공데이터 포털 API 호출 및 휴일 정보 가져오기
+						$.ajax({
+							url: 'https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?'
+								+ 'serviceKey=mu0qncUi0U6yoO7DgzbUU00wwHqMKq8rq2vtRGyESGNXZ0QlR6XfEKjqCPySkZr4xeZyEk0nj%2F85VW6ujR3ngQ%3D%3D'
+								+ '&solYear=' + year + '&solMonth=' + month,
+							success: function (response) {
+								// XML을 JavaScript 객체로 파싱
+								var xml = response.documentElement;
+								var items = Array.from(xml.querySelectorAll('item'));
+								// XML에서 필요한 데이터 추출
+								var holidayEvents = items.map(function (item) {
+									var dateName = item.querySelector('dateName').textContent; // 휴일 이름
+									var locdate = item.querySelector('locdate').textContent; // 휴일 날짜
+									// FullCalendar 이벤트 형식으로 변환하여 배열에 추가
+									return {
+										id: 'va',
+										title: dateName,
+										start: locdate,
+										allDay: true,
+										editable: false,
+										backgroundColor: 'red',
+										borderColor: 'red',
+										textColor: 'white',
+										className: 'holiday-event'
+									};
+								});
+
+								// FullCalendar에 휴일 이벤트 추가
+								successCallback(holidayEvents);
+							},
+							error: function (error) {
+								console.error('휴일 정보 가져오기 실패:', error);
 							}
 						});
 					},
-					error: function (error) {
-						console.error('이벤트 가져오기 실패:', error);
-					}
-				});
-			},
-
+				}
+			],
 
 			//휴일색 변경
 			dayCellContent: function (arg) {
+				console.log(arg);
 				var holidays = ['2024-01-01', '2024-03-01', '2024-04-10']; // 공휴일 목록
 
 				var dateString = arg.date.getFullYear() + '-' + ('0' + (arg.date.getMonth() + 1)).slice(-2) + '-' + ('0' + arg.date.getDate()).slice(-2);
@@ -239,31 +371,32 @@
 				return arg.dayNumberText;
 			},
 
+
 			//사용자가 달력에서 날짜를 선택할 때 호출되는 이벤트 핸들러
 			select: function (info) {
 				$('#eventTitleInput').val("");
 				$('#eventColorSelect').val("");
 				$('#eventTextColor').val("");
 				$('#eventBorderColor').val("");
+				$('#start').val(info.startStr);
+				$('#end').val(info.endStr);
 				$('#editEventModal').modal('show');
-
 				$('#editEventModalConfirm').off('click').on('click', function () {
 					var newTitle = $('#eventTitleInput').val();
 					var selectedColor = $('#eventColorSelect').val();
 					var selectedtextColor = $('#eventTextColor').val();
 					var selectedborderColor = $('#eventBorderColor').val();
-					var startDate = info.start;
-					var endDate = info.end || startDate;
+					var startDate = $('#start').val();
+					var endDate = $('#end').val();
 
 					var eventData = {
 						title: newTitle,
 						start: startDate,
 						end: endDate,
-						backgroundColor: selectedColor, // 사용자가 선택한 색상을 할당
+						backgroundColor: selectedColor,
 						textColor: selectedtextColor,
 						borderColor: selectedborderColor
 					};
-
 					// 추가: 서버에 새 이벤트 추가 요청
 					$.ajax({
 						type: "POST",
@@ -290,10 +423,13 @@
 			//info.jsEvent: 클릭 이벤트에 대한 원본 JavaScript 이벤트입니다. 주로 마우스 클릭 이벤트입니다.
 			//info.view: 클릭된 이벤트가 발생한 뷰를 나타냅니다. 뷰는 FullCalendar에서 현재 보여지고 있는 캘린더 뷰를 나타냅니다.
 			eventClick: function (info) {
+				if (info.event.id != 'va') {
 				$('#eventTitleInput').val(info.event.title);
 				$('#eventColorSelect').val(info.event.backgroundColor);
 				$('#eventTextColor').val(info.event.textColor);
 				$('#eventBorderColor').val(info.event.borderColor);
+				$('#start').val(info.event.startStr);
+				$('#end').val(info.event.endStr);
 				$('#editEventModal').modal('show');
 
 				$('#editEventModalConfirm').off('click').on('click', function () {
@@ -301,12 +437,13 @@
 					var selectedColor = $('#eventColorSelect').val();
 					var selectedtextColor = $('#eventTextColor').val();
 					var selectedborderColor = $('#eventBorderColor').val();
+					var newStart = $('#start').val();
+					var newEnd = $('#end').val();
 					var eventId = info.event.id; // info 객체로부터 이벤트 ID 추출
-
 					var eventData = {
 						title: newTitle,
-						start: info.event.start, // 시작 일자 추출
-						end: info.event.end || info.event.start, // 종료 일자 추출 (없을 경우 시작 일자 사용)
+						start: newStart, 
+						end: newEnd || newStart, 
 						backgroundColor: selectedColor,
 						textColor: selectedtextColor,
 						borderColor: selectedborderColor,
@@ -360,6 +497,9 @@
 						});
 					}
 				});
+				}else{
+					
+				}
 			},
 			//이벤트를 드래그하여 다른 날짜나 시간으로 이동할 때 발생합니다. 
 			//이 이벤트 핸들러는 이벤트가 드래그되었을 때 발생하는 동작을 처리할 때 사용
@@ -446,12 +586,18 @@
 			//이 이벤트 핸들러는 사용자가 달력의 날짜를 선택할 때 유용하게 사용될 수 있습니다.
 			//info.date: 클릭된 날짜의 JavaScript Date 객체입니다.
 			//info.dayEl: 클릭된 날짜의 HTML 요소입니다. 이벤트 핸들러 내에서 이 요소를 조작할 수 있습니다.
-			//dateClick: function (info) {},
+			//dateClick: function (info) {}
+      
 
+ 
 
 
 		});
 		calendar.render();
+
+
+
+
 	});
 
 </script>

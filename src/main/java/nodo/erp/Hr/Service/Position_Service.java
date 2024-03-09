@@ -28,7 +28,7 @@ public class Position_Service {
 	    }
 	 
 	 
-	 public void create(String positioncode, String positionname) {
+	 public void create(Integer positioncode, String positionname) {
 		 Position q = new Position();
 			q.setPositioncode(positioncode);
 			q.setPositionname(positionname);
@@ -45,7 +45,7 @@ public class Position_Service {
 	        }
 	    }
 
-	public void modify(Position position,String positioncode, String positionname) {
+	public void modify(Position position,Integer positioncode, String positionname) {
 		position.setPositioncode(positioncode);
 		position.setPositionname(positionname);
 			

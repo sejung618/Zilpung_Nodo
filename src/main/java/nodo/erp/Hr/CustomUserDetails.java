@@ -9,13 +9,19 @@ public class CustomUserDetails extends User {
 
     private final String empname; // 예시로 사용자의 이름을 추가
     private final Integer id;
+    private final Integer depart;
+    private final Integer spot;
+    private final Integer position;
     
     public CustomUserDetails(String empnum, String password
     		, Collection<? extends GrantedAuthority> authorities
-    		, String empname, Integer id) {
+    		, String empname, Integer id, Integer depart,Integer spot,Integer position) {
         super(empnum, password, authorities);
         this.empname = empname;
         this.id = id;
+        this.depart = depart;
+        this.spot = spot;
+        this.position = position;
     }
 
     public String getEmpname() {
@@ -24,5 +30,15 @@ public class CustomUserDetails extends User {
     
     public Integer getEmpid() {
         return id;
+    }
+    
+    public Integer getDepart() {
+        return depart;
+    }
+    public Integer getSpot() {
+    	return spot;
+    }
+    public Integer getPosition() {
+    	return position;
     }
 }
