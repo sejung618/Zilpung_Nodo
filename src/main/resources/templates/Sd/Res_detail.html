@@ -3,7 +3,10 @@
 		
 		<h1 class="border-bottom py-2">예약자세히 보기</h1>
 		
-		<h2 class="border-bottom py-2" th:text="'예약정보 : ' + ${reser.rvnum}"></h2>
+		<div class="d-sm-flex align-items-center justify-content-between mb-4">		
+			<h2 class="border-bottom py-2" th:text="'예약번호 : ' + ${reser.rvnum}"></h2>
+		</div>
+	
 		
 		<h3 th:text="'예약 제품정보'"></h3>
 			<div class="card my-3">

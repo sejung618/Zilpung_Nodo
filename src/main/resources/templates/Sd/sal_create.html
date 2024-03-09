@@ -1,0 +1,48 @@
+<html layout:decorate="~{/layout}">
+	<div layout:fragment="content" class="container my-3">
+		<h1 class="my-3 border-bottom pb-2">판매 입력</h1>
+		<form id="formA" th:action="@{/Sales/create}" th:object="${salesCreateForm}" method="post">
+			<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+				<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+			</div>
+			
+			<div class="mb-3">
+				<label for="samethod">판매방법을 선택해주세요</label>
+				<select name="samethod" id="samehod" class="form-control" style="width: 30%;">
+					<option value="예약" 
+					th:data-rvitem="${reservation.rvitem}">예약
+					</option>
+					<option value="온라인판매">온라인판매</option>
+					<option value="오프라인판매">오프라인판매</option>
+				</select>
+			</div>
+			
+			<div>
+				제품명 <input type="text" id="saitem" name="saitem" class="form-control saitem">
+			</div>
+			
+			<script>
+				$(document).ready(function(){
+					var selectedValue = $(this).val(); // 선택한 값 3가지 중 하나가 들어감
+					if(selectedValue === '예약'){ // 선택한 값이 예약일 때
+						var valuervitem = $(this).find(':selected').attr("data-rvitem");
+						
+						$('.saitem').val(valuervitem);
+						
+						getDataReservation();
+					
+					 } else if (selectedValue === '온라인판매' || selectedValue === '오프라인판매'){ // 선택한 값이 온라인 or 오프라인일 때
+						 getDataForOnlineOrOfflineSale();
+					 }
+				});
+				
+				// 예약에서 정보를 가지고 오는 함수
+				function getDataReservation(){
+					var valuer
+				}
+			</script>
+			
+			
+		</form>
+	</div>
+</html>
