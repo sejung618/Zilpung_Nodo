@@ -17,6 +17,20 @@
 				</select>
 			</div>
 			
+			<!--
+				
+				판매방법 선택 >> 예약인경우
+				reservation에서 rvitem에 저장된 정보로 두번째 셀렉트박스 선택 >>
+				item 정보의 rvpick 데이터 값이 'O' 인 데이터들의
+				rvprice = saprice 
+				rvcount 총 합 = sacount 에 저장 후 나머지 컬럼들은 계산하는 형식으로 진행
+				
+				판매방법 선택 >> 온라인 or 오프라인
+				>> item에서 제품명 제품가격만 가져온 후 나머지 데이터는 직접 입력하는 방식으로 진행
+				
+				-->
+			
+			
 			<div>
 				제품명 <input type="text" id="saitem" name="saitem" class="form-control saitem">
 			</div>
