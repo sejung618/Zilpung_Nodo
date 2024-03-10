@@ -337,44 +337,39 @@ $(document).ready(function(){		// html 문서의 로딩이 다 끝나면 함수 
 		
 		// 영업 관리: 판매 관리
 			// 판매 관리: 판매
-			    // 판매: 판매
-/*				if(url.includes('')){
+			if(url.includes('Sales/')){
+			    // 판매: 판매 입력
+				if(url.includes('create')){
 			        $("#SD_SaleManage").attr("class", "collapse show");
 					$("#SD_SaleManage div").children("a:eq(0)").attr("class", "collapse-item active");
 					$("#SD_SaleManage_a").attr("aria-expanded", "true");
 					$("#SD_SaleManage_a").attr("class", "nav-link");
-			    } */
-			    // 판매: 판매 입력
-/*				if(url.includes('')){
+			    }
+			    // 판매: 판매 현황
+				if(url.includes('list')){
 			        $("#SD_SaleManage").attr("class", "collapse show");
 					$("#SD_SaleManage div").children("a:eq(1)").attr("class", "collapse-item active");
 					$("#SD_SaleManage_a").attr("aria-expanded", "true");
 					$("#SD_SaleManage_a").attr("class", "nav-link");
-			    } */
-			    // 판매: 판매 현황
-/*				if(url.includes('')){
+			    }
+			}	// End of 판매 관리: 판매
+			// 판매 관리: 예약
+			if(url.includes('reservation/')){
+			    // 예약: 예약 신청
+				if(url.includes('create')){
 			        $("#SD_SaleManage").attr("class", "collapse show");
 					$("#SD_SaleManage div").children("a:eq(2)").attr("class", "collapse-item active");
 					$("#SD_SaleManage_a").attr("aria-expanded", "true");
 					$("#SD_SaleManage_a").attr("class", "nav-link");
-			    } */
-			// End of 판매 관리: 판매 
-			// 판매 관리: 예약
-			    // 예약: 예약 신청
-/*				if(url.includes('')){
+			    }
+			    // 예약: 예약 현황
+				if(url.includes('list')){
 			        $("#SD_SaleManage").attr("class", "collapse show");
 					$("#SD_SaleManage div").children("a:eq(3)").attr("class", "collapse-item active");
 					$("#SD_SaleManage_a").attr("aria-expanded", "true");
 					$("#SD_SaleManage_a").attr("class", "nav-link");
-			    } */
-			    // 예약: 예약 현황
-/*				if(url.includes('')){
-			        $("#SD_SaleManage").attr("class", "collapse show");
-					$("#SD_SaleManage div").children("a:eq(4)").attr("class", "collapse-item active");
-					$("#SD_SaleManage_a").attr("aria-expanded", "true");
-					$("#SD_SaleManage_a").attr("class", "nav-link");
-			    } */
-			// End of 판매 관리: 예약
+			    }
+			}	// End of 판매 관리: 예약
 		// End of 영업 관리: 판매 관리
 	// End of 영업 관리
 		

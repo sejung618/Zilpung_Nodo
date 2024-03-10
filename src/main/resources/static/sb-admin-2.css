@@ -569,8 +569,8 @@ pre code {
 
 
 .scrollBar { 
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* 아래의 모든 코드는 영역::코드로 사용 */
@@ -10451,15 +10451,13 @@ a:focus {
   width: 2.5rem;
   height: 2.5rem;
   text-align: center;
-  margin-bottom: 1rem;
   cursor: pointer;
 }
 
 .sidebar #sidebarToggle::after {
   font-weight: 900;
   content: '\f104';
-  font-family: 'Font Awesome 5 Free';
-  margin-right: 0.5rem;
+  font-family: 'Font Awesome 5 Free' !important;
 }
 
 .sidebar #sidebarToggle:hover {
@@ -10477,8 +10475,7 @@ a:focus {
 
 .sidebar.toggled #sidebarToggle::after {
   content: '\f105';
-  font-family: 'Font Awesome 5 Free';
-  margin-left: 1rem;
+  font-family: 'Font Awesome 5 Free' !important;
 }
 
 .sidebar.toggled .sidebar-card {
