@@ -3,41 +3,52 @@
 
 
 <div layout:fragment="content" class="m-3">
-	
+
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">직위 관리</h1>
 	</div>
-	
+
 	<table class="table table-bordered table-hover-td" style="width:500px;">
 
 		<thead class="table-primary">
 			<tr class="text-center">
 				<th>직위코드</th>
 				<th>직위명</th>
-				
-				<th th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">삭제 / 수정</th>
+
+				<th>삭제 / 수정</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr class="text-center" th:each="spot : ${paging}">
-				<td th:text="${spot.spotcode}" >
+				<td th:text="${spot.spotcode}">
 				</td>
 				<td th:text="${spot.spotname}"></td>
-				<td th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
-					<a th:href="@{/spot/delete/{id}(id=${spot.id})}" th:text="삭제"></a> /
+				<td>
+					<a class="delete" href="javascript:void(0);" th:data-uri="@{|/spot/delete/${spot.id}|}"
+						th:text="삭제"></a> /
 					<a th:href="@{/spot/modify/{id}(id=${spot.id})}" th:text="수정"></a>
 				</td>
 			</tr>
 		</tbody>
 
 	</table>
-	
+
 	<div class="col-6">
-			<a th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}" th:href="@{/spot/create}" class="btn btn-primary">직위 추가</a>
-		</div>
-		
-		
+		<a th:href="@{/spot/create}" class="btn btn-primary">직위 추가</a>
+	</div>
+
+	<script layout:fragment="script" type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
+
 
 </div>
 

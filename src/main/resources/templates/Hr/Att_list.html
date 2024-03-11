@@ -1,15 +1,29 @@
 <html layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="container my-3">
-
-	<div class="col-6">
-		<div class="input-group">
-			<div class="input-group-append">
-				출근일<input type="date" id="search_kw1" class="form-control" th:value="${kw1}">
+	<div class="d-sm-flex align-items-center justify-content-between mb-3">
+		<h1 class="h3 mb-0 text-gray-800">근태 정보</h1>
+	</div>
+	<div style="display:flex; justify-content:end;">
+		<div style="display:flex; ">
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text">출근일</span>
+				</div>
+				<input type="date" id="search_kw1" class="form-control" th:value="${kw1}">
 			</div>
-			이름or사번<input type="text" id="search_kw2" class="form-control" th:value="${kw2}">
-			<button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<span class="input-group-text">이름or사번</span>
+				</div>
+				<input type="text" id="search_kw2" class="form-control" th:value="${kw2}">
+			</div>
+
+
 		</div>
+		<button class="btn btn-primary mb-2" type="button" id="btn_search">
+			<i class="fas fa-search fa-sm" aria-hidden="true"></i>
+		</button>
 	</div>
 	<form th:action="@{/Attendance/list}" method="get" id="searchForm">
 		<input type="hidden" id="kw1" name="kw1" th:value="${kw1}">
@@ -30,7 +44,7 @@
 				<th>근무시간</th>
 			</tr>
 		</thead>
-				
+
 		<tbody>
 			<tr class="text-center" th:each="List : ${paging}">
 				<td><span th:if="${List.employee != null}" th:text="${List.employee.empnum}"></span></td>
@@ -77,7 +91,7 @@
 			<button type="submit" class="btn btn-primary mx-1">퇴근</button>
 		</form>
 	</div>
-	
+
 	<!--검색 자바스크립트-->
 	<script layout:fragment="script" type='text/javascript'>
 		const page_elements = document.getElementsByClassName("page-link");

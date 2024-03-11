@@ -8,7 +8,7 @@
 		<h1 class="h3 mb-0 text-gray-800">대시보드</h1>
 		<div sec:authorize="isAuthenticated()">
 			<a th:text="부서코드+${#authentication.principal.Depart}"></a>
-			<a th:text="직위코드+${#authentication.principal.Spot}"></a>
+			
 			<a th:text="직책코드+${#authentication.principal.Position}"></a>
 		</div>
 	</div>

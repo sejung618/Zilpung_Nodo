@@ -1,41 +1,50 @@
 <html layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="m-3">
-	
+
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">부서 관리</h1>
 	</div>
-	
+
 	<table class="table table-bordered table-hover-td" style="width:500px;">
 
 		<thead class="table-primary">
 			<tr class="text-center">
 				<th>부서코드</th>
 				<th>부서명</th>
-				
-				<th th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">삭제 / 수정</th>
+
+				<th>삭제 / 수정</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr class="text-center" th:each="deplist : ${paging}">
-				<td th:text="${deplist.depcode}" >
+				<td th:text="${deplist.depcode}">
 				</td>
 				<td th:text="${deplist.depname}"></td>
-				<td th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
-					<a th:href="@{/dep/delete/{id}(id=${deplist.id})}" th:text="삭제"></a> /
+				<td>
+					<a class="delete" href="javascript:void(0);" th:data-uri="@{|/dep/delete/${deplist.id}|}" th:text="삭제"></a> /
 					<a th:href="@{/dep/modify/{id}(id=${deplist.id})}" th:text="수정"></a>
 				</td>
 			</tr>
 		</tbody>
 
 	</table>
-	
+
 	<div class="col-6">
-			<a th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}" th:href="@{/dep/create}" class="btn btn-primary">부서 추가</a>
-		</div>
-		
-		
+		<a th:href="@{/dep/create}" class="btn btn-primary">부서 추가</a>
+	</div>
+
+	<script layout:fragment="script" type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
 
 </div>
 

@@ -36,6 +36,6 @@ public class UserSecurityService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(EmpRole.USER.getValue()));
         }
         return new CustomUserDetails(siteUser.getEmpnum(), 
-        		siteUser.getPassword(), authorities, siteUser.getEmpname(), siteUser.getId(), siteUser.getDepart().getDepcode(),siteUser.getSpot().getSpotcode(),siteUser.getPosition().getPositioncode());
+        		siteUser.getPassword(), authorities, siteUser.getEmpname(), siteUser.getId(), siteUser.getDepart().getDepcode(),siteUser.getPosition().getPositioncode());
     }
 }
