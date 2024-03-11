@@ -568,24 +568,32 @@ pre code {
 }
 
 
-.scrollBar { 
-  overflow-x: hidden;
-  overflow-y: auto;
+#sidemenu { 
+	height: 80%;
+ 	overflow-x: hidden;
+ 	overflow-y: auto;
+}
+
+.navbar-nav.toggled #sidemenu {
+	height: 80%;
+	overflow-x: visible;
+  	overflow-y: visible;
+  	z-index: 10;
 }
 
 /* 아래의 모든 코드는 영역::코드로 사용 */
-.scrollBar::-webkit-scrollbar {
+#sidemenu::-webkit-scrollbar {
     width: 8px;  /* 스크롤바의 너비 */
     padding-right: 1px;
 }
 
-.scrollBar::-webkit-scrollbar-thumb {
+#sidemenu::-webkit-scrollbar-thumb {
     height: 30%; /* 스크롤바의 길이 */
     background: rgba(255,255,255,0.5); /* 스크롤바의 색상 */
     border-radius: 8px;
 }
 
-.scrollBar::-webkit-scrollbar-track {
+#sidemenu::-webkit-scrollbar-track {
     background: rgba(255,255,255,0.2);  /*스크롤바 뒷 배경 색상*/
     border-radius: 8px;
 }

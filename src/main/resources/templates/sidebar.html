@@ -10,7 +10,7 @@
 	</a>
 	
 	<!-- Side Menu -->
-	<div style="height:80%;" class="scrollBar">
+	<div id="sidemenu">
 
 		<!-- 구분선 -->
 		<hr class="sidebar-divider my-0">
@@ -295,8 +295,8 @@
 	<!-- End of Side Menu -->
 	
 	<!-- Sidebar Toggler (Sidebar) -->
-	<div class="text-center d-none d-md-inline mt-1">
-		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	<div class="text-center d-none d-md-inline mt-4">
+		<button class="rounded-circle border-0 sidebarToggleBtn" id="sidebarToggle"></button>
 	</div>
 
 </ul>
@@ -304,7 +304,7 @@
 
 <script>
   // Toggle the side navigation
-  $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+  $("#sidebarToggle, #sidebarToggleTop").on('click', function() {
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
     if ($(".sidebar").hasClass("toggled")) {
