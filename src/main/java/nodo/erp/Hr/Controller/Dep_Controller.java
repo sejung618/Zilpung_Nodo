@@ -44,7 +44,7 @@ public class Dep_Controller {
 //		if (employee.getSpot().getId() >= 3) {
 			return "Hr/Dep_Form";
 //		} else {
-//			return "redirect:/";
+			//return "redirect:/";
 //		}
 	}
 
@@ -78,14 +78,14 @@ public class Dep_Controller {
 	@GetMapping("/delete/{id}")
 	public String depDelete(@PathVariable("id") Integer id, Authentication authentication) {
 		Department dep = this.dep_Service.getFindById(id);
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
 			this.dep_Service.delete(dep);
 			return "redirect:/dep/list";
-		} else {
-			return "redirect:/";
-		}
+//		} else {
+//			return "redirect:/";
+//		}
 	}
 
 }

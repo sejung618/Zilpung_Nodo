@@ -80,14 +80,14 @@ public class Position_Controller {
 	@GetMapping("/delete/{id}")
 	public String depDelete(@PathVariable("id") Integer id, Authentication authentication) {
 		Position posi = this.position_Service.getFindById(id);
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
 			this.position_Service.delete(posi);
 			return "redirect:/position/list";
-		} else {
-			return "redirect:/";
-		}
+//		} else {
+//			return "redirect:/";
+//		}
 	}
 	
 }

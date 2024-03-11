@@ -1,6 +1,7 @@
 package nodo.erp.Hr.Entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,10 +23,11 @@ public class Event {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
-	private LocalDate start;
-	private LocalDate end;
+	private LocalDateTime start;
+	private LocalDateTime end;
 	private String textColor;
 	private String backgroundColor;
 	private String borderColor;
+	private Boolean allDay;
 
 }

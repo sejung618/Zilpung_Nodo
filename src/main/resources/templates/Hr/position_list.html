@@ -14,8 +14,8 @@
 			<tr class="text-center">
 				<th>직책코드</th>
 				<th>직책명</th>
-				
-				<th th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">삭제 / 수정</th>
+				<th>삭제 / 수정</th>
+			 <!--th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}"-->
 			</tr>
 		</thead>
 
@@ -24,8 +24,8 @@
 				<td th:text="${posi.positioncode}" >
 				</td>
 				<td th:text="${posi.positionname}"></td>
-				<td th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}">
-					<a th:href="@{/position/delete/{id}(id=${posi.id})}" th:text="삭제"></a> /
+				<td >
+					<a class="delete" href="javascript:void(0);" th:data-uri="@{|/position/delete/${posi.id}|}" th:text="삭제"></a> /
 					<a th:href="@{/position/modify/{id}(id=${posi.id})}" th:text="수정"></a>
 				</td>
 			</tr>
@@ -34,9 +34,19 @@
 	</table>
 	
 	<div class="col-6">
-			<a th:if="${#authorization.expression('isAuthenticated()') and #authentication.principal.Empid == 1}" th:href="@{/position/create}" class="btn btn-primary">직책 추가</a>
+			<a  th:href="@{/position/create}" class="btn btn-primary">직책 추가</a>
 		</div>
 		
+			<script layout:fragment="script" type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function (element) {
+			element.addEventListener('click', function () {
+				if (confirm("정말로 삭제하시겠습니까?")) {
+					location.href = this.dataset.uri;
+				};
+			});
+		});
+	</script>
 		
 
 </div>
