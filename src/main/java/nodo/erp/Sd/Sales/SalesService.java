@@ -11,12 +11,23 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
+import nodo.erp.Pp.Item.ItemRepository;
+import nodo.erp.Pp.Item.ItemService;
+import nodo.erp.Sd.Reservation.ReserRepository;
+import nodo.erp.Sd.Reservation.ReserService;
 
 @RequiredArgsConstructor
 @Service
 public class SalesService {
 
 	private final SalesRepository SR;
+	private final ReserRepository RR;
+	private final ItemRepository IR;
+	
+	
+	private final ReserService RS;
+	private final ItemService IS;
+	
 	
 	@PersistenceContext
 	private EntityManager entity;
@@ -59,6 +70,10 @@ public class SalesService {
 		sales.setSacp(sacp);
 		sales.setSavat(savat);
 		sales.setSasum(sasum);
+		
+		/*if("예약".equals(samethod)) {
+			
+		}*/
 		
 		this.SR.save(sales);
 	}
