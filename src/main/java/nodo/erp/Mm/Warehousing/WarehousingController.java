@@ -67,6 +67,12 @@ public class WarehousingController {
 		if ("itmname".equals(category)) {
 			paging = this.warehousingService.findByItmName(page, kw);
 		}
+		if ("empname".equals(category)) {
+			paging = this.warehousingService.findByEmpname(page, kw);
+		}
+		if ("empnum".equals(category)) {
+			paging = this.warehousingService.findByEmpnum(page, kw);
+		}
 
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
@@ -90,8 +96,10 @@ public class WarehousingController {
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String warehousingCreate(Model model, @Valid WarehousingForm warehousingForm, BindingResult br) {
-		Employee employee = this.emp_Service.getfindById(warehousingForm.getEmpnum());
+	public String warehousingCreate(Model model, @Valid WarehousingForm warehousingForm, BindingResult br,
+			Authentication authentication) {
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 		Item item = this.itemService.getItem(warehousingForm.getItmcode());
 		Account acc = this.accService.getAccount(warehousingForm.getAccode());
 		if (br.hasErrors()) {
@@ -135,14 +143,13 @@ public class WarehousingController {
 		wf.setWhlocation(warehousing.getWhlocation());
 		wf.setWhstate(warehousing.getWhstate());
 		wf.setItmcode(warehousing.getItem().getItmId());
-		wf.setEmpnum(warehousing.getEmployee().getId());
 		wf.setAccode(warehousing.getAccount().getId());
 		return "Mm/warehousing_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{whid}")
-    public String warehousingModify(Model model, @Valid WarehousingForm wf, BindingResult br, @PathVariable("whid") Integer whid, Principal principal) {
+    public String warehousingModify(Model model, @Valid WarehousingForm wf, BindingResult br, @PathVariable("whid") Integer whid, Authentication authentication) {
         if (br.hasErrors()) {
         	List<Employee> empList = this.emp_Service.getList();
     		List<Account> accList = this.accService.getList();
@@ -154,7 +161,8 @@ public class WarehousingController {
             return "Mm/warehousing_form";
         }
         Warehousing warehousing = this.warehousingService.getWarehousing(whid);
-        Employee employee = this.emp_Service.getfindById(wf.getEmpnum());
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 		Item item = this.itemService.getItem(wf.getItmcode());
 		Account account = this.accService.getAccount(wf.getAccode());{
     	

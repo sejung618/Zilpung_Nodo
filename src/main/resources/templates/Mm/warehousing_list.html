@@ -20,6 +20,8 @@
 					<option value="whdate">출고일자</option>
 					<option value="accompany">거래처명</option>
 					<option value="itmname">품목명</option>
+					<option value="empname">담당자</option>
+					<option value="empnum">담당사번</option>
 				</select>
 				<div class="input-group">
 					<input type="text" id="search_kw" name="kw" class="form-control bg-light border-primary small"
@@ -119,6 +121,14 @@
 
 			} else if (selectedOption === "accompany") {
 				searchInput.placeholder = "거래처명 입력";
+				searchInput.type = "text";
+
+			} else if (selectedOption === "empname") {
+				searchInput.placeholder = "담당자 입력";
+				searchInput.type = "text";
+
+			} else if (selectedOption === "empnum") {
+				searchInput.placeholder = "담당사번 입력";
 				searchInput.type = "text";
 
 			} else {

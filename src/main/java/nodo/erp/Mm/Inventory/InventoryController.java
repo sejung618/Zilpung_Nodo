@@ -51,6 +51,12 @@ public class InventoryController {
 		if ("itmname".equals(category)) {
 			paging = this.inventoryService.findByItmName(page, kw);
 		}
+		if ("empname".equals(category)) {
+			paging = this.inventoryService.findByEmpname(page, kw);
+		}
+		if ("empnum".equals(category)) {
+			paging = this.inventoryService.findByEmpnum(page, kw);
+		}
 		if ("itmcode".equals(category)) {
 			paging = this.inventoryService.findByItmCode(page, kw);
 		}
@@ -74,8 +80,10 @@ public class InventoryController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String inventoryCreate(Model model, @Valid InventoryForm inf, BindingResult br) {
-		Employee employee = this.emp_Service.getfindById(inf.getEmpnum());
+	public String inventoryCreate(Model model, @Valid InventoryForm inf, BindingResult br,
+			Authentication authentication) {
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 		Item item = this.itemService.getItem(inf.getItmcode());
 
 		if (br.hasErrors()) {
@@ -107,9 +115,12 @@ public class InventoryController {
 		model.addAttribute("empList", empList);
 		model.addAttribute("itemList", itemList);
 
+		if (!inventory.getEmployee().getEmpnum().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+		}
+
 		inf.setIndate(inventory.getIndate());
 		inf.setItmcode(inventory.getItem().getItmId());
-		inf.setEmpnum(inventory.getEmployee().getId());
 		inf.setInquantity(inventory.getInquantity());
 		return "Mm/inventory_form";
 	}
@@ -118,7 +129,7 @@ public class InventoryController {
 	@PostMapping("/modify/{inid}")
 	public String inventoryModify(Model model, @Valid InventoryForm inf, BindingResult br,
 
-			@PathVariable("inid") Integer inid, Principal principal) {
+			@PathVariable("inid") Integer inid, Authentication authentication) {
 		if (br.hasErrors()) {
 			List<Employee> empList = this.emp_Service.getList();
 			List<Item> itemList = this.itemService.getList();
@@ -127,7 +138,8 @@ public class InventoryController {
 			return "Mm/inventory_form";
 		}
 		Inventory inventory = this.inventoryService.getInventory(inid);
-		Employee employee = this.emp_Service.getfindById(inf.getEmpnum());
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 		Item item = this.itemService.getItem(inf.getItmcode());
 
 		{
@@ -142,7 +154,6 @@ public class InventoryController {
 	@GetMapping("/delete/{inid}")
 	public String inventoryDelete(@PathVariable("inid") Integer inid, Principal principal) {
 		Inventory inventory = this.inventoryService.getInventory(inid);
-
 
 		this.inventoryService.delete(inventory);
 		return "redirect:/inventory/list";

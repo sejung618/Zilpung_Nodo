@@ -11,6 +11,8 @@
 				<option value="indate">일자</option>
 				<option value="itmname">품목명</option>
 				<option value="itmcode">품목코드</option>
+				<option value="empname">담당자</option>
+				<option value="empnum">담당사번</option>
 			</select>
 			<div class="input-group">
 				<input type="text" id="search_kw" name="kw" class="form-control bg-light border-primary small"
@@ -109,7 +111,17 @@
 				searchInput.placeholder = "품목코드 입력";
 				searchInput.type="text";
 
-			} else {
+			}else if (selectedOption === "empname") {
+				searchInput.placeholder = "담당자 입력";
+				searchInput.type="text";
+
+			}else if (selectedOption === "empnum") {
+				searchInput.placeholder = "담당사번 입력";
+				searchInput.type="text";
+
+			}
+			
+			 else {
 				searchInput.placeholder = "검색어를 입력하세요.";
 				searchInput.type="text";
 			}
