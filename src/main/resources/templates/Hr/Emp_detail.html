@@ -3,9 +3,11 @@
 
 
 <div layout:fragment="content" class="container my-3">
+
 	<div class="card">
 		<div class="card-header bg-primary text-center">
 			<h2 class="text-white">사원 정보</h2>
+			<div id="alertMessage" style="display:none;"></div>
 		</div>
 		<div class="card-body">
 			<div class="row">
@@ -24,14 +26,16 @@
 						</li>
 						<li class="list-group-item"><strong>입사일:</strong> <span th:text="${empDtail.empdate}"></span>
 						</li>
-						<li class="list-group-item"><strong>부서:</strong> 
-						<span th:text="${empDtail.depart != null ? empDtail.depart.depname : '부서 정보 없음'}"></span>
+						<li class="list-group-item"><strong>부서:</strong>
+							<span th:text="${empDtail.depart != null ? empDtail.depart.depname : '부서 정보 없음'}"></span>
 						</li>
-						<li class="list-group-item"><strong>직책:</strong> <span 
+						<li class="list-group-item"><strong>직책:</strong> <span
 								th:text="${empDtail.position != null ? empDtail.position.positionname : '직책 정보 없음'}"></span>
 						</li>
-						<li class="list-group-item"><strong>직위:</strong> <span 
+						<li class="list-group-item"><strong>직위:</strong> <span
 								th:text="${empDtail.spot != null ? empDtail.spot.spotname : '직위 정보 없음'}"></span>
+						</li>
+						<li class="list-group-item"><strong>직위:</strong> <span th:text="${errMessage}"></span>
 						</li>
 					</ul>
 				</div>
@@ -40,22 +44,24 @@
 
 
 
-
-		<div class="my-3" sec:authorize="isAuthenticated()"
-			th:if="${empDtail.id != null and #authentication.principal.Empid == empDtail.id or #authentication.principal.Position > 1}">
-			<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary ml-4" th:text="수정" ></a>
+		<!--		sec:authorize="isAuthenticated()"
+			th:if="${empDtail.id != null and #authentication.principal.Empid == empDtail.id or #authentication.principal.Position > 1}">-->
+		<div class="my-3">
+			<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary ml-4" th:text="수정"></a>
 
 			<a th:href="@{|/Hr/pass/${empDtail.id}|}" class="btn btn-primary" th:text="비밀번호변경"></a>
 
 			<a href="javascript:void(0);" th:data-uri="@{|/Hr/delete/${empDtail.id}|}"
 				class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
-				<!--th:if="${empDtail.id != null and  #authentication.principal.Empid == 1}"-->
+
+			<!--<a th:href="@{|/Hr/delete/${empDtail.id}|}" 
+				class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+				th:if="${empDtail.id != null and  #authentication.principal.Empid == 1}"-->
 
 
 		</div>
 
 
-		
 
 
 
@@ -63,17 +69,57 @@
 	</div>
 </div>
 
+
 <script layout:fragment="script" type='text/javascript'>
 	const delete_elements = document.getElementsByClassName("delete");
 	Array.from(delete_elements).forEach(function (element) {
 		element.addEventListener('click', function () {
+			console.log(this.getAttribute("data-uri"));
 			if (confirm("정말로 삭제하시겠습니까?")) {
-				location.href = this.dataset.uri;
+				delEmp(this.getAttribute("data-uri").split("/").pop());  // /맨뒤부분 추출
 			};
 		});
 	});
+
+	function delEmp(id) {
+		$.ajax({
+			type: 'GET',
+			url: '/Hr/delete/' + id,
+			success: function (data) {
+				// 성공 시 동작
+				window.location.href = '/Hr/list';
+			},
+			error: function (xhr, status, error) {
+				// 실패 시 동작
+				var errorMessage = xhr.responseText;
+				alert(errorMessage);
+			}
+		});
+	}
 </script>
-
-
+<!--
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function (element) {
+    element.addEventListener('click', function (event) {
+        event.preventDefault(); // 링크의 기본 동작인 페이지 이동을 막음
+        const url = this.getAttribute("href"); // 삭제 요청을 보낼 URL 가져오기
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(data) {
+                // 성공 시 동작 (선택사항)
+                // 예를 들어, 삭제 후 어떤 동작을 수행하거나 알림을 표시할 수 있습니다.
+                alert("삭제되었습니다.");
+                window.location.reload(); // 페이지 새로고침 (선택사항)
+            },
+            error: function(xhr, status, error) {
+                // 실패 시 동작
+                var errorMessage = xhr.responseText;
+                alert(errorMessage);
+            }
+        });
+    });
+});
+-->
 
 </html>
