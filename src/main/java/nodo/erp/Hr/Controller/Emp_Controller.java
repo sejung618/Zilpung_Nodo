@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import org.springframework.ui.Model;
@@ -28,6 +30,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -142,18 +145,42 @@ public class Emp_Controller {
 		return "redirect:/Hr/detail/{id}";
 	}
 
+//	@GetMapping("/delete/{id}")
+//	public String EmpDelete(@PathVariable("id") Integer id, Authentication authentication,RedirectAttributes redirectAttributes) {
+//		if(authentication!=null && authentication.isAuthenticated()) {
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() <= 10) {
+//			Employee emp = this.emp_Service.getfindById(id);
+//			this.emp_Service.delete(emp);
+//			return "redirect:/Hr/list";
+//		} else {
+//			redirectAttributes.addFlashAttribute("errMessage", "권한이 없습니다.");
+//            throw new RuntimeException("권한이 없습니다.");
+//		}
+//		}else {
+//			return "redirect:/Hr/login";
+//		}
+//	}
 	@GetMapping("/delete/{id}")
-	public String questionDelete(@PathVariable("id") Integer id, Authentication authentication) {
-		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-		if (employee.getId() == 1) {
-			Employee emp = this.emp_Service.getfindById(id);
-			this.emp_Service.delete(emp);
-			return "redirect:/Hr/list";
-		} else {
-			return "redirect:/";
-		}
+	public ResponseEntity<String> questionDelete(@PathVariable("id") Integer id, Authentication authentication) {
+	    if(authentication != null && authentication.isAuthenticated()) {
+	        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+	        Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+	        if (employee.getId() <= 10) {
+	            Employee emp = this.emp_Service.getfindById(id);
+	            this.emp_Service.delete(emp);
+	            return ResponseEntity.ok().build(); // 성공 시 응답 코드 200 반환
+	        } else {
+	            // 실패 시 실패 메시지와 함께 응답 코드 400 반환
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("권한이 없습니다.");
+	        }
+	    } else {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다."); // 인증되지 않은 경우
+	    }
 	}
+
+	
 
 	@GetMapping("/login")
 	public String login() {
