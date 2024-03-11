@@ -42,7 +42,7 @@
 </form>
 	-->
         <label for="table_bcItem" style="margin-right:10px;">소모품목</label>
-        <table class="table table-bordered " id="table_bcItem">
+        <table class="table table-bordered" id="table_bcItem">
 		    <thead class="table-primary">
 		        <tr class="text-center">
 					<th>#</th>
@@ -57,13 +57,13 @@
 					<td>1</td>
 					<td id="bcItemCode"></td>
 					<td>
-						<select id="bcItemName" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
+						<select id="bcItemName" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 							<option value="">-</option>
-							<option th:each="item:${itemList}" th:value="${item.itmId}" th:text="${item.itmName}" th:bcItemCode="${item.itmCode}"></option>
+							<option th:each="item:${itemList}" th:value="${item.itmId}" th:bcItemId="${item.itmId}" th:bcItemCode="${item.itmCode}" th:text="${item.itmName}" th:rowIndex=></option>
 						</select>
 					</td>
 					<td>
-						<input type="number" min="0" id="bcCount" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
+						<input type="number" min="0" id="bcCount" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 					</td>
 					<td>
 						<a class="delete_bcItem" onclick="delete_bcItem_event(this)">
@@ -138,6 +138,16 @@
 			});
 		});
 		
+		// 초기 행에 대한 이벤트 처리
+		$(document).ready(function () {
+			$('#bcItemName').change(function () {
+				let bcItemId = $(this).find(':selected').attr("bcItemId");
+				let bcItemName = $(this).find(':selected').text();
+				let bcItemCode = $(this).find(':selected').attr("bcItemCode");
+				$('#bcItemCode').text(bcItemCode);
+			});
+		});
+		
 		// '소모품 추가' 클릭 시, 테이블의 행이 추가되는 스크립트
 		document.getElementById('add_bcItem').addEventListener('click', () => {
 		    const table = document.getElementById('table_bcItem');
@@ -150,19 +160,19 @@
 		        if(i === 0) {
 		        	temp_html = `<td>${new_row.rowIndex}</td>`;
 		        } else if(i === 1) {
-					temp_html = `<td id="bcItemCode"></td>`;
+					temp_html = `<td calss="bcItemCode_add"></td>`;
 		        } else if(i === 2) {
 					temp_html = `<td>
-									<select id="bcItemName" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
+									<select class="form-control bcItemName_add" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 										<option value="">-</option>
 								`;
 					[# th:each="item:${itemList}"]
-					temp_html += `<option value=[[${item.itmId}]] bcItemCode=[[${item.itmCode}]]>`+[[${item.itmName}]]+`</option>`;
+					temp_html += `<option value=[[${item.itmId}]] bcItemCode=[[${item.itmCode}]] text=[[${item.itmName}]]>`+[[${item.itmName}]]+`</option>`;
 					[/]
 					temp_html += `</select>
 								</td>`;
 		        } else if(i === 3) {
-					temp_html += `<td><input type="number" min="0" id="bcCount" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;"></td>`;
+					temp_html += `<td><input type="number" min="0" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;"></td>`;
 				} else {
 					temp_html += `<td>
 									<a class="delete_bcItem" data-index="${new_row.rowIndex}" onclick="delete_bcItem_event(this)">
@@ -173,6 +183,14 @@
 				new_cell.insertAdjacentHTML('afterbegin', temp_html);
 			}
 		});
+		
+		// 동적으로 생성된 행에 대한 이벤트 처리
+        $(document).on('change', '.bcItemName_add', function () {
+            let bcItemId = $(this).find(':selected').attr("bcItemId");
+            let bcItemName = $(this).find(':selected').text();
+            let bcItemCode = $(this).find(':selected').attr("bcItemCode");
+            $(this).closest('tr').find('.bcItemCode_add').text(bcItemCode);
+        });
 		
 		// 삭제 아이콘 클릭 시, 해당 행을 삭제하는 스크립트
 		const delete_bcItem_event = (delete_icon) => {
