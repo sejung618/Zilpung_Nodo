@@ -17,8 +17,5 @@ public class InventoryForm {
 	
 	@NotNull(message="수량은 필수항목입니다.")
 	private Integer inquantity;
-	
-	@NotNull(message="담당자사번은 필수항목입니다.")
-	private Integer empnum;
 
 }

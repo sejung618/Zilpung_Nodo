@@ -104,7 +104,7 @@ public class WarehousingService {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
-		return this.warehousingRepository.findByWhdateContainingOrAccount_AccompanyContainingOrItem_ItmNameContaining(pageable, kw, kw, kw);
+		return this.warehousingRepository.findByWhdateContainingOrAccount_AccompanyContainingOrItem_ItmNameContainingOrEmployee_EmpnameContainingOrEmployee_EmpnumContaining(pageable, kw, kw, kw, kw, kw);
 	}
 	
 	public Page<Warehousing> findByState(int page, String st) {
@@ -113,6 +113,21 @@ public class WarehousingService {
 		Pageable pageable = PageRequest.of(page,  10, Sort.by(sorts));
 		return this.warehousingRepository.findByWhstate(pageable, st);
 	}
+	
+	public Page<Warehousing> findByEmpname(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		return this.warehousingRepository.findByEmployee_EmpnameContaining(pageable, kw);
+	}
+	
+	public Page<Warehousing> findByEmpnum(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		return this.warehousingRepository.findByEmployee_EmpnumContaining(pageable, kw);
+	}
+
 	
 	
 	

@@ -64,6 +64,12 @@ public class ShippingController {
 		if ("accompany".equals(category)) {
 			paging = this.shippingService.findByAccompany(page, kw);
 		}
+		if ("empname".equals(category)) {
+			paging = this.shippingService.findByEmpname(page, kw);
+		}
+		if ("empnum".equals(category)) {
+			paging = this.shippingService.findByEmpnum(page, kw);
+		}
 		if ("itmname".equals(category)) {
 			paging = this.shippingService.findByItmName(page, kw);
 		}
@@ -90,8 +96,10 @@ public class ShippingController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String shippingCreate(Model model, @Valid ShippingForm shippingForm, BindingResult br) {
-		Employee employee = this.emp_Service.getfindById(shippingForm.getEmpnum());
+	public String shippingCreate(Model model, @Valid ShippingForm shippingForm, BindingResult br,
+			Authentication authentication) {
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 		Item item = this.itemService.getItem(shippingForm.getItmcode());
 		Account acc = this.accService.getAccount(shippingForm.getAccode());
 
@@ -137,7 +145,6 @@ public class ShippingController {
 		sf.setSplocation(shipping.getSplocation());
 		sf.setSpstate(shipping.getSpstate());
 		sf.setItmcode(shipping.getItem().getItmId());
-		sf.setEmpnum(shipping.getEmployee().getId());
 		sf.setAccode(shipping.getAccount().getId());
 
 		return "Mm/shipping_form";
@@ -146,7 +153,7 @@ public class ShippingController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/modify/{spid}")
 	public String shippingModify(Model model, @Valid ShippingForm sf, BindingResult br,
-			@PathVariable("spid") Integer spid, Principal principal) {
+			@PathVariable("spid") Integer spid, Authentication authentication) {
 		if (br.hasErrors()) {
 			List<Employee> empList = this.emp_Service.getList();
 			List<Account> accList = this.accService.getList();
@@ -159,7 +166,8 @@ public class ShippingController {
 			return "Mm/shipping_form";
 		}
 		Shipping shipping = this.shippingService.getShipping(spid);
-		Employee employee = this.emp_Service.getfindById(sf.getEmpnum());
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 		Account account = this.accService.getAccount(sf.getAccode());
 		Item item = this.itemService.getItem(sf.getItmcode());
 

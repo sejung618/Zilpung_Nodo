@@ -113,12 +113,26 @@ public class InventoryService {
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.inventoryRepository.findByItem_ItmCodeContaining(pageable, kw);
 	}
+	
+	public Page<Inventory> findByEmpname(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		return this.inventoryRepository.findByEmployee_EmpnameContaining(pageable, kw);
+	}
+	
+	public Page<Inventory> findByEmpnum(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		return this.inventoryRepository.findByEmployee_EmpnumContaining(pageable, kw);
+	}
 
 	public Page<Inventory> searchAllCategories(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return inventoryRepository.findByIndateContainingOrItem_ItmNameContainingOrItem_ItmCodeContaining(pageable, kw, kw, kw);
+		return inventoryRepository.findByIndateContainingOrItem_ItmNameContainingOrItem_ItmCodeContainingOrEmployee_EmpnameContainingOrEmployee_EmpnumContaining(pageable, kw, kw, kw,kw, kw);
 	}
 
 	public Page<Inventory> getList(int page, String kw) {

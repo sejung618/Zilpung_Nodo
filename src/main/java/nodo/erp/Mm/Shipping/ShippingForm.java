@@ -15,9 +15,6 @@ public class ShippingForm {
 	@NotEmpty(message="출고일자는 필수항목입니다.") 
 	private String spdate;		//출고일자
 	
-	@NotNull(message="담당사번는 필수항목입니다.") 
-	private Integer empnum;		//담당사번
-	
 	@NotNull(message="거래처코드는 필수항목입니다.") 
 	private Integer accode;		//거래처코드
 	
