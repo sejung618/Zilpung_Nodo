@@ -114,7 +114,7 @@ public class WarehousingController {
 		}
 		
 		this.warehousingService.create(warehousingForm.getWhdate(), warehousingForm.getWhdt(), warehousingForm.getWhcamount(), 
-				warehousingForm.getWhlocation(), warehousingForm.getWhstate(), employee, acc, item);
+				warehousingForm.getWhstate(), employee, acc, item);
 		return "redirect:/warehousing/list";
 	}
 	
@@ -140,7 +140,6 @@ public class WarehousingController {
 		wf.setWhdate(warehousing.getWhdate());
 		wf.setWhdt(warehousing.getWhdt());
 		wf.setWhcamount(warehousing.getWhcamount());
-		wf.setWhlocation(warehousing.getWhlocation());
 		wf.setWhstate(warehousing.getWhstate());
 		wf.setItmcode(warehousing.getItem().getItmId());
 		wf.setAccode(warehousing.getAccount().getId());
@@ -166,7 +165,7 @@ public class WarehousingController {
 		Item item = this.itemService.getItem(wf.getItmcode());
 		Account account = this.accService.getAccount(wf.getAccode());{
     	
-        this.warehousingService.modify(warehousing, wf.getWhdate(), wf.getWhdt(),wf.getWhcamount(),wf.getWhlocation(),wf.getWhstate(), employee, account, item);
+        this.warehousingService.modify(warehousing, wf.getWhdate(), wf.getWhdt(),wf.getWhcamount(),wf.getWhstate(), employee, account, item);
         return String.format("redirect:/warehousing/list", whid);
     
         }

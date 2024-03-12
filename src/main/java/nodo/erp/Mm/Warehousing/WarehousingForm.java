@@ -25,8 +25,6 @@ public class WarehousingForm {
 	@NotEmpty(message="진행상태는 필수항목입니다.") 
 	private String whstate;		//진행상태
 	
-	@NotEmpty(message="입고위치는 필수항목입니다.")
-	private String whlocation;		//입고위치
 	
 	@NotEmpty(message="납기일자는 필수항목입니다.") 
 	private String whdt;		//납기일자

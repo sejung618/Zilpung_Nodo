@@ -35,7 +35,7 @@ public class WarehousingService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public void create(String whdate, String whdt, Integer whcamount, String whlocation, String whstate, Employee empnum, Account accode, Item itmcode) {
+	public void create(String whdate, String whdt, Integer whcamount, String whstate, Employee empnum, Account accode, Item itmcode) {
 		Warehousing wh = new Warehousing();
 		
 		String yy = whdate.substring(2, 4);
@@ -43,6 +43,8 @@ public class WarehousingService {
 		String dd = whdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
+		String lo = "본사창고";
+		
 		
 		wh.setWhnum(ymd + "-" + Num);
 		wh.setWhdate(whdate);
@@ -51,7 +53,7 @@ public class WarehousingService {
 		wh.setEmployee(empnum);	//담당사번
 		wh.setWhdt(whdt);
 		wh.setWhcamount(whcamount);
-		wh.setWhlocation(whlocation);
+		wh.setWhlocation(lo);
 		wh.setWhstate(whstate);
 		wh.setCreateDate(LocalDateTime.now());
 		this.warehousingRepository.save(wh);
@@ -160,13 +162,15 @@ public class WarehousingService {
 		}
 	}
 	
-	public void modify(Warehousing wh, String whdate, String whdt, Integer whcamount, String whlocation, String whstate, Employee empnum, Account accode, Item itmcode) {
+	public void modify(Warehousing wh, String whdate, String whdt, Integer whcamount, String whstate, Employee empnum, Account accode, Item itmcode) {
 		
 		String yy = whdate.substring(2, 4);
 		String mm = whdate.substring(5, 7);
 		String dd = whdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
+		String lo = "본사창고";
+		
 		
 		wh.setWhnum(ymd + "-" + Num);
 		wh.setWhdate(whdate);
@@ -175,7 +179,7 @@ public class WarehousingService {
 		wh.setEmployee(empnum);	//담당사번
 		wh.setWhdt(whdt);
 		wh.setWhcamount(whcamount);
-		wh.setWhlocation(whlocation);
+		wh.setWhlocation(lo);
 		wh.setWhstate(whstate);
 		wh.setModifyDate(LocalDateTime.now());
 		this.warehousingRepository.save(wh);

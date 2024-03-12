@@ -114,8 +114,7 @@ public class ShippingController {
 			return "Mm/shipping_form";
 		}
 
-		this.shippingService.create(shippingForm.getSpdate(), shippingForm.getSpdt(), shippingForm.getSpcamount(),
-				shippingForm.getSplocation(), shippingForm.getSpstate(), employee, acc, item);
+		this.shippingService.create(shippingForm.getSpdate(), shippingForm.getSpdt(), shippingForm.getSpcamount(), shippingForm.getSpstate(), employee, acc, item);
 		return "redirect:/shipping/list";
 	}
 
@@ -142,7 +141,6 @@ public class ShippingController {
 		sf.setSpdate(shipping.getSpdate());
 		sf.setSpdt(shipping.getSpdt());
 		sf.setSpcamount(shipping.getSpcamount());
-		sf.setSplocation(shipping.getSplocation());
 		sf.setSpstate(shipping.getSpstate());
 		sf.setItmcode(shipping.getItem().getItmId());
 		sf.setAccode(shipping.getAccount().getId());
@@ -173,7 +171,7 @@ public class ShippingController {
 
 		{
 
-			this.shippingService.modify(shipping, sf.getSpdate(), sf.getSpdt(), sf.getSpcamount(), sf.getSplocation(),
+			this.shippingService.modify(shipping, sf.getSpdate(), sf.getSpdt(), sf.getSpcamount(),
 					sf.getSpstate(), employee, account, item);
 			return String.format("redirect:/shipping/list", spid);
 

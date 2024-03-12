@@ -38,19 +38,22 @@
 			</tr>
 		</body>
 	</table>
-	
-	
+
+
 	<a th:href="@{|/warehousing/modify/${warehousing.whid}|}" class="btn btn-primary my-2"
-                sec:authorize="isAuthenticated()"
-                th:if="${warehousing.employee != null and #authentication.principal.empname == warehousing.employee.empname}"
-                th:text="수정"></a>
-	
-	
+		sec:authorize="isAuthenticated()"
+		th:if="${warehousing.employee != null and #authentication.principal.empname == warehousing.employee.empname}"
+		th:text="수정"></a>
+
+
 	<!--<a th:href="@{|/warehousing/modify/${warehousing.whid}|}" class="btn btn-primary my-2"
 		style="left: 85%; margin-right: 5px;"> 수정</a>-->
 	<a href="javascript:void(0);" th:data-uri="@{|/warehousing/delete/${warehousing.whid}|}"
-		class="delete btn btn-primary my-2" sec:authorize="isAuthenticated()"
-                th:if="${warehousing.employee != null and #authentication.principal.empname == warehousing.employee.empname}" th:text="삭제" style="left: 85%;"> 삭제</a>
+		class="delete btn mx-2 border-primary text-primary" sec:authorize="isAuthenticated()"
+		th:if="${warehousing.employee != null and #authentication.principal.empname == warehousing.employee.empname}"
+		th:text="삭제" style="left: 85%;"> 삭제</a>
+
+	<a th:href="@{|/warehousing/list|}" class="btn border-primary text-primary">목록</a>
 
 	<script type='text/javascript'>
 		const delete_elements = document.getElementsByClassName("delete");
