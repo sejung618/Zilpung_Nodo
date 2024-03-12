@@ -34,15 +34,58 @@
 	</table>
 
 	<div class="col-6" style="display: flex;">
-		<form th:action="@{/Attendance/checkind}" method="post">
-			<button type="submit" class="btn btn-primary">출근</button>	
+		<form id="checkinForm" th:action="@{/Attendance/checkin}" method="post">
+			<button id="checkinButton" type="button" class="btn btn-primary">출근</button>
 		</form>
-		<form th:action="@{/Attendance/checkoutd}" method="post">
+		<form id="checkoutForm" th:action="@{/Attendance/checkout}" method="post">
 			<button type="submit" class="btn btn-primary mx-1">퇴근</button>
 		</form>
 	</div>
+	<!--모달시작-->
+	<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">권한 없음</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<a> errorMessage </a>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
 
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--모달끝-->
 
+	<script layout:fragment="script" type='text/javascript'>
+    $(document).ready(function() {
+        $('#checkinButton').click(function() {
+            $.ajax({
+                url: $('#checkinForm').attr('action'),
+                type: 'POST',
+                success: function(response) {
+                    // 서버 응답을 처리하는 코드를 작성합니다.
+                    // 예를 들어, 성공 메시지를 알림으로 표시하거나 페이지를 새로고침할 수 있습니다.
+                    alert('출근 처리되었습니다.');
+                    window.location.reload(); // 페이지 새로고침
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.responseText;
+                    // 서버에서 오류 응답을 받았을 때 처리하는 코드를 작성합니다.
+                    // 예를 들어, 오류 메시지를 모달로 표시할 수 있습니다.
+                    $('#Modal').modal('show'); // 모달 표시
+                }
+            });
+        });
+    });
+</script>
 
 </div>
 

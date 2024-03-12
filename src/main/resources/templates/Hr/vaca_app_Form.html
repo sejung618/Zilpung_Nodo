@@ -10,34 +10,23 @@
 
 		<div class="mb-3">
 			<label for="startdate" class="form-label">휴가 시작일</label>
-			<input type="date" th:field="*{startdate}" name="startdate" id="startdate" class="form-control" required>
+			<input type="date" th:value="${vaca_app_Form.startdate}" name="startdate" id="startdate" class="form-control" style="width: 30%;" required>
 		</div>
 
 		<div class="mb-3">
 			<label for="enddate" class="form-label">휴가 종료일</label>
-			<input type="date" th:field="*{enddate}" name="enddate" id="enddate" class="form-control" required>
+			<input type="date" th:value="${vaca_app_Form.enddate}" name="enddate" id="enddate" class="form-control" style="width: 30%;" required>
 		</div>
 
 		<div class="form-group mb-3">
 			<label for="leavetype" class="form-label mt-4">휴가 종류</label>
-			<select class="form-select" name="leavetype" id="leavetype">
-				<option value="연차">연차</option>
-				<option value="병가">병가</option>
-				<option value="경조휴가">경조휴가</option>
+			<select class="form-control" name="leavetype" id="leavetype" style="width: 30%;">
+				<option value="연차" th:selected="${vaca_app_Form.leavetype == '연차'}">연차</option>
+				<option value="병가" th:selected="${vaca_app_Form.leavetype == '병가'}">병가</option>
+				<option value="경조휴가" th:selected="${vaca_app_Form.leavetype == '경조휴가'}">경조휴가</option>
 			</select>
 		</div>
 
-		<!--
-	
-	
-		<div class="form-group mb-3">
-			<label for="depcode" class="form-label mt-4">부서</label>
-			<select class="form-select" name="depcode" id="depcode">
-				 <option th:each="dep : ${deplist}" th:value="${dep.depcode}" th:text="${dep.depname}"></option>
-				
-			</select>
-		</div>
-	-->
 		<input type="submit" value="저장하기" class="btn btn-primary my-2">
 	</form>
 </div>

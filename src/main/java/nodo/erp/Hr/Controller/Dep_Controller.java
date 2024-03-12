@@ -59,7 +59,7 @@ public class Dep_Controller {
 
 	@GetMapping("/modify/{id}")
 	public String depModify(Dep_Form dep_Form, @PathVariable("id") Integer id) {
-		Department dep = this.dep_Service.getFindById(id);
+		Department dep = this.dep_Service.getfindById(id);
 		dep_Form.setDepcode(dep.getDepcode());
 		dep_Form.setDepname(dep.getDepname());
 		return "Hr/Dep_Form";
@@ -67,7 +67,7 @@ public class Dep_Controller {
 
 	@PostMapping("/modify/{id}")
 	public String depModify(@Valid Dep_Form dep_Form, BindingResult bindResult, @PathVariable("id") Integer id) {
-		Department dep = this.dep_Service.getFindById(id);
+		Department dep = this.dep_Service.getfindById(id);
 		if (bindResult.hasErrors()) {
 			return "Hr/Dep_Form";
 		}
@@ -77,7 +77,7 @@ public class Dep_Controller {
 
 	@GetMapping("/delete/{id}")
 	public String depDelete(@PathVariable("id") Integer id, Authentication authentication) {
-		Department dep = this.dep_Service.getFindById(id);
+		Department dep = this.dep_Service.getfindById(id);
 //		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 //		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 //		if (employee.getId() == 1) {

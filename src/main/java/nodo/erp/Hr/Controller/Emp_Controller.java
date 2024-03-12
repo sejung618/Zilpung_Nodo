@@ -91,7 +91,7 @@ public class Emp_Controller {
 		Spot spot = null;
 		Position posi = null;
 		if (emp_Form.getDepid() != null) {
-			depart = this.dep_Service.getFindById(emp_Form.getDepid());
+			depart = this.dep_Service.getfindById(emp_Form.getDepid());
 		}
 		if (emp_Form.getSpotid() != null) {
 			spot = this.spot_service.getFindById(emp_Form.getSpotid());
@@ -155,8 +155,7 @@ public class Emp_Controller {
 //			this.emp_Service.delete(emp);
 //			return "redirect:/Hr/list";
 //		} else {
-//			redirectAttributes.addFlashAttribute("errMessage", "권한이 없습니다.");
-//            throw new RuntimeException("권한이 없습니다.");
+//			return ;
 //		}
 //		}else {
 //			return "redirect:/Hr/login";
@@ -167,7 +166,7 @@ public class Emp_Controller {
 	    if(authentication != null && authentication.isAuthenticated()) {
 	        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 	        Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-	        if (employee.getId() <= 10) {
+	        if (employee.getSpot().getSpotcode() >= 105) {
 	            Employee emp = this.emp_Service.getfindById(id);
 	            this.emp_Service.delete(emp);
 	            return ResponseEntity.ok().build(); // 성공 시 응답 코드 200 반환
@@ -252,7 +251,7 @@ public class Emp_Controller {
 			posi = this.posi_service.getFindById(positionid);
 		}
 		if (depid != null) {
-			depart = this.dep_Service.getFindById(depid);
+			depart = this.dep_Service.getfindById(depid);
 		}
 		this.emp_Service.Pa(emp, spot, posi, depart);
 		return "redirect:/Hr/list";
