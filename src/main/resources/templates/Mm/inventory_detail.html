@@ -1,10 +1,42 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content">
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">수정 및 삭제</h1>
+		<h1 class="h3 mb-0 text-gray-800">상세정보</h1>
 	</div>
-	<table class="table table-bordered table-hover-td">
-		<thead class="table-primary">
+	<table class="table table-bordered table-hover-td" style="max-width:500px;">
+
+		<tr>
+			<th class="table-primary text-center"  style="width:10%; min-width:100px;">일자-No.</th>
+			<td th:text="${inventory.innum}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">품목명</th>
+			<td th:text="${inventory.item.itmName}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">품목코드</th>
+			<td th:text="${inventory.item.itmCode}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">담당자</th>
+			<td th:text="${inventory.employee.empname}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">담당자사번</th>
+			<td th:text="${inventory.employee.empnum}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">수량</th>
+			<td th:text="${inventory.inquantity}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">규격</th>
+			<td th:text="${inventory.item.itmStandard}" style="width:10%; min-width:200px;"></td>
+		</tr>
+
+
+
+		<!--		<thead class="table-primary">
 			<tr class="text-center">
 				<th>일자-No.</th>
 				<th>품목명</th>
@@ -26,7 +58,7 @@
 				<td th:text="${inventory.inquantity}"></td>
 				<td th:text="${inventory.item.itmStandard}"></td>
 			</tr>
-		</body>
+		</body>-->
 	</table>
 	<a th:href="@{|/inventory/modify/${inventory.inid}|}" class="btn btn-primary my-2" sec:authorize="isAuthenticated()"
 		th:if="${inventory.employee != null and #authentication.principal.empname == inventory.employee.empname}"

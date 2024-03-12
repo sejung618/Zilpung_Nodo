@@ -2,11 +2,60 @@
 <div layout:fragment="content">
 
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">수정 및 삭제</h1>
+		<h1 class="h3 mb-0 text-gray-800">상세정보</h1>
 	</div>
 
-	<table class="table table-bordered table-hover-td">
-		<thead class="table-primary">
+	<table class="table table-bordered table-hover-td" style="max-width:500px;">
+
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">입고일자-No.</th>
+			<td th:text="${warehousing.whnum}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">거래처명</th>
+			<td th:text="${warehousing.account.accompany}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">거래처코드</th>
+			<td th:text="${warehousing.account.accode}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">품목명</th>
+			<td th:text="${warehousing.item.itmName}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">품목명코드</th>
+			<td th:text="${warehousing.item.itmCode}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">담당자</th>
+			<td th:text="${warehousing.employee.empname}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">담당자사번</th>
+			<td th:text="${warehousing.employee.empnum}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">납기일자</th>
+			<td th:text="${warehousing.whdt}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">입고수량</th>
+			<td th:text="${warehousing.whcamount}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">입고위치</th>
+			<td th:text="${warehousing.whlocation}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">진행상태</th>
+			<td th:text="${warehousing.whstate}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		
+		
+		
+		
+<!--		<thead class="table-primary">
 			<tr class="text-center">
 				<th>입고일자-No.</th>
 				<th>거래처명</th>
@@ -36,7 +85,7 @@
 				<td th:text="${warehousing.whlocation}"></td>
 				<td th:text="${warehousing.whstate}"></td>
 			</tr>
-		</body>
+		</body>-->
 	</table>
 
 
