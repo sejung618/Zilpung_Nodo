@@ -569,13 +569,13 @@ pre code {
 
 
 #sidemenu { 
-	height: 80%;
+	height: 84%;
  	overflow-x: hidden;
  	overflow-y: auto;
 }
 
 .navbar-nav.toggled #sidemenu {
-	height: 80%;
+	max-height: 84%;
 	overflow-x: visible;
   	overflow-y: visible;
   	z-index: 10;
