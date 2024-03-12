@@ -176,5 +176,29 @@ public class ShippingService {
 	public void delete(Shipping shipping) {
 		this.shippingRepository.delete(shipping);
 	}
+	
+	public List<String[]> listShipping() {
+        List<Shipping> list = shippingRepository.findAll();
+        List<String[]> listStrings = new ArrayList<>();
+        listStrings.add(new String[]{"일련번호", "출고일자", "납기일자", "거래처코드", "거래처명", "담당사번", "담당자", "품목코드", "품목명", "규격", "수량", "출고위치", "진행상태"});
+        for (Shipping sp: list) {
+            String[] rowData = new String[30];
+            rowData[0] = sp.getSpnum();
+            rowData[1] = sp.getSpdate();
+            rowData[2] = sp.getSpdt();
+            rowData[3] = sp.getAccount().getAccode();
+            rowData[4] = sp.getAccount().getAccompany();
+            rowData[5] = sp.getEmployee().getEmpnum();
+            rowData[6] = sp.getEmployee().getEmpname();
+            rowData[7] = sp.getItem().getItmCode();
+            rowData[8] = sp.getItem().getItmName();
+            rowData[9] = sp.getItem().getItmStandard();
+            rowData[10] = sp.getSpcamount().toString();
+            rowData[11] = sp.getSplocation();
+            rowData[12] = sp.getSpstate();
+            listStrings.add(rowData);
+        }
+        return listStrings;
+    }
 
 }

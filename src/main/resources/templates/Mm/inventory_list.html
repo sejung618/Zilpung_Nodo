@@ -74,8 +74,16 @@
 	</div>
 	<!-- 페이징처리 끝 -->
 	<div class="col-6">
-		<a th:href="@{/inventory/create}" class="btn btn-primary" style="left: 180%;"> 재고조정</a>
+		<a th:href="@{/inventory/create}" class="btn btn-primary" style="left: 180%;"> 신규</a>
+		<a button type="submit" th:href="@{|/inventory/sample/csv/down|}" method="get"
+			class="btn border-primary text-primary">다운로드</a>
 	</div>
+	
+	
+	
+	
+	
+	
 	<form th:action="@{/inventory/list}" method="get" id="searchForm">
 		<input type="hidden" id="kw" name="kw" th:value="${kw}">
 		<input type="hidden" id="page" name="page" th:value="${paging.number}">

@@ -1,5 +1,7 @@
 package nodo.erp.Mm.Inventory;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +13,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.opencsv.CSVWriter;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
 import nodo.erp.Hr.Entity.Employee;
-import nodo.erp.Hr.Repository.Emp_Repository;
 import nodo.erp.Pp.Item.Item;
-import nodo.erp.Pp.Item.ItemRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -141,5 +143,24 @@ public class InventoryService {
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.inventoryRepository.findAll(pageable);
 	}
-
+	
+	public List<String[]> listInventory() {
+        List<Inventory> list = inventoryRepository.findAll(); // SampleMapper를 InventoryMapper로 수정
+        List<String[]> listStrings = new ArrayList<>();
+        listStrings.add(new String[]{"일련번호", "일자", "담당사번", "담당자", "품목코드", "품목명", "규격", "수량"});
+        for (Inventory in: list) {
+            String[] rowData = new String[30];
+            rowData[0] = in.getInnum();
+            rowData[1] = in.getIndate();
+            rowData[2] = in.getEmployee().getEmpnum();
+            rowData[3] = in.getEmployee().getEmpname();
+            rowData[4] = in.getItem().getItmCode();
+            rowData[5] = in.getItem().getItmName();
+            rowData[6] = in.getItem().getItmStandard();
+            rowData[7] = in.getInquantity().toString();
+            listStrings.add(rowData);
+        }
+        return listStrings;
+    }
+	
 }

@@ -87,7 +87,12 @@
 	<!-- 페이징처리 끝 -->
 	<div class="col-6">
 		<a th:href="@{/warehousing/create}" class="btn btn-primary" style="left: 180%;"> 신규</a>
+		<a button type="submit" th:href="@{|/warehousing/sample/csv/down|}" method="get" class="btn border-primary text-primary">다운로드</a>
 	</div>
+	
+	
+	
+	
 	<form th:action="@{/warehousing/list}" method="get" id="searchForm">
 		<input type="hidden" id="kw" name="kw" th:value="${kw}">
 		<input type="hidden" id="page" name="page" th:value="${paging.number}">

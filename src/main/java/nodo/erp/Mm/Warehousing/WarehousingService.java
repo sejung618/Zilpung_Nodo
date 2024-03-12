@@ -188,4 +188,28 @@ public class WarehousingService {
 	public void delete(Warehousing warehousing) {
         this.warehousingRepository.delete(warehousing);
     }
+	
+	public List<String[]> listWarehousing() {
+        List<Warehousing> list = warehousingRepository.findAll(); 
+        List<String[]> listStrings = new ArrayList<>();
+        listStrings.add(new String[]{"일련번호", "입고일자", "납기일자", "거래처코드", "거래처명", "담당사번", "담당자", "품목코드", "품목명", "규격", "수량", "입고위치", "진행상태"});
+        for (Warehousing wh: list) {
+            String[] rowData = new String[30];
+            rowData[0] = wh.getWhnum();
+            rowData[1] = wh.getWhdate();
+            rowData[2] = wh.getWhdt();
+            rowData[3] = wh.getAccount().getAccode();
+            rowData[4] = wh.getAccount().getAccompany();
+            rowData[5] = wh.getEmployee().getEmpnum();
+            rowData[6] = wh.getEmployee().getEmpname();
+            rowData[7] = wh.getItem().getItmCode();
+            rowData[8] = wh.getItem().getItmName();
+            rowData[9] = wh.getItem().getItmStandard();
+            rowData[10] = wh.getWhcamount().toString();
+            rowData[11] = wh.getWhlocation();
+            rowData[12] = wh.getWhstate();
+            listStrings.add(rowData);
+        }
+        return listStrings;
+    }
 }
