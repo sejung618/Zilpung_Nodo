@@ -83,14 +83,7 @@
 		</ul>
 	</div>
 	<!-- 페이징처리 끝 -->
-	<div class="col-6" style="display: flex;">
-		<form th:action="@{/Attendance/checkin}" method="post">
-			<button type="submit" class="btn btn-primary">출근</button>
-		</form>
-		<form th:action="@{/Attendance/checkout}" method="post">
-			<button type="submit" class="btn btn-primary mx-1">퇴근</button>
-		</form>
-	</div>
+	
 
 	<!--검색 자바스크립트-->
 	<script layout:fragment="script" type='text/javascript'>

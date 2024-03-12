@@ -50,14 +50,15 @@ public class Att_Service {
     }
 	
 	public List<Attendance> getdetailList(Employee employee) {
-		 List<Attendance> Detail = this.att_Repository.findByEmployee(employee);
-		 if (Detail != null) {
-	            return this.att_Repository.findByEmployee(employee);
-	        } else {
-	        	checkin(employee);
-	        	return null;
-//	            throw new DataNotFoundException("employee not found");
-	        }
+		 return this.att_Repository.findByEmployee(employee);
+//		 List<Attendance> Detail = this.att_Repository.findByEmployee(employee);
+//		 if (Detail != null) {
+//	            return this.att_Repository.findByEmployee(employee);
+//	        } else {
+//	        	checkin(employee);
+//	        	return null;
+////	            throw new DataNotFoundException("employee not found");
+//	        }
 	}
 	
 	public Attendance getfindById(Integer id) {
@@ -69,25 +70,42 @@ public class Att_Service {
 		}
 	}
 
-	public void checkin(Employee employee) {
-		// 해당 날짜와 아이디로 이미 체크인한 기록이 있는지 확인
-        boolean alreadyCheckedIn = att_Repository.existsByEmployeeAndDay(employee, LocalDate.now());
-		if (alreadyCheckedIn) {
-			// 이미 체크인한 경우 알람 또는 예외 처리 등을 수행
-//			System.out.println("Already checked in for today!");
-			throw new DataNotFoundException("Already checked in for today!");
-		} else {
-			// 체크인 기록 저장
-			Attendance attendance = new Attendance();
-			attendance.setDay(LocalDate.now());
-			attendance.setEmployee(employee);
-//			attendance.setCheckInTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
-			attendance.setCheckInTime(LocalTime.of(9,0)); // 9시로 출근시간 고정
-			this.att_Repository.save(attendance);
-			
-		}
-
+//	public void checkin(Employee employee) {
+//		// 해당 날짜와 아이디로 이미 체크인한 기록이 있는지 확인
+//        boolean alreadyCheckedIn = att_Repository.existsByEmployeeAndDay(employee, LocalDate.now());
+//		if (alreadyCheckedIn) {
+//			// 이미 체크인한 경우 알람 또는 예외 처리 등을 수행
+//			
+//		} else {
+//			// 체크인 기록 저장
+//			Attendance attendance = new Attendance();
+//			attendance.setDay(LocalDate.now());
+//			attendance.setEmployee(employee);
+////			attendance.setCheckInTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
+//			attendance.setCheckInTime(LocalTime.of(9,0)); // 9시로 출근시간 고정
+//			this.att_Repository.save(attendance);
+//			
+//		}
+//
+//	}
+	
+	public boolean checkin(Employee employee) {
+	    // 해당 날짜와 아이디로 이미 체크인한 기록이 있는지 확인
+	    boolean alreadyCheckedIn = att_Repository.existsByEmployeeAndDay(employee, LocalDate.now());
+	    if (alreadyCheckedIn) {
+	        // 이미 체크인한 경우 알람 또는 예외 처리 등을 수행
+	        return true;
+	    } else {
+	        // 체크인 기록 저장
+	        Attendance attendance = new Attendance();
+	        attendance.setDay(LocalDate.now());
+	        attendance.setEmployee(employee);
+	        attendance.setCheckInTime(LocalTime.of(9,0)); // 9시로 출근시간 고정
+	        this.att_Repository.save(attendance);
+	        return false;
+	    }
 	}
+	
 	
     public void checkout(Employee employee) {
         // 해당 날짜와 아이디로 출근한 기록 찾기

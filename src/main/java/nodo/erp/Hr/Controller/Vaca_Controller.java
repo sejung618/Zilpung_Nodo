@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Dto.Dep_Form;
 import nodo.erp.Hr.Dto.Vaca_app_Form;
+import nodo.erp.Hr.Entity.Attendance;
+import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Entity.Event;
 import nodo.erp.Hr.Entity.VacationApply;
@@ -74,5 +77,54 @@ public class Vaca_Controller {
 		return "/Hr/vaca_app_list";
 	}
 	
+	@GetMapping("/detail")
+	public String detail(Model model, Authentication authentication,
+			@RequestParam(value = "page", defaultValue = "0") int page) {
+		if (authentication != null && authentication.isAuthenticated()) {
+			// 로그인한 사용자에게만 허용
+			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+			Page<VacationApply> paging = this.vacation_Service.getdetailList(employee,page);
+			model.addAttribute("paging", paging);
+			
+			return "Hr/vaca_app_detail";
+		} else {
+			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리
+			return "redirect:/Hr/login";
+		}
+
+	}
+	
+	@GetMapping("/modify/{id}")
+	public String vacaModify(Vaca_app_Form vaca_app_Form, @PathVariable("id") Integer id) {
+		VacationApply vaca = this.vacation_Service.getfindById(id);
+		vaca_app_Form.setStartdate(vaca.getStartdate());
+		vaca_app_Form.setEnddate(vaca.getEnddate());
+		vaca_app_Form.setLeavetype(vaca.getLeavetype());
+		return "Hr/vaca_app_Form";
+	}
+	
+	@PostMapping("/modify/{id}")
+	public String vacaModify(@Valid Vaca_app_Form vaca_app_Form, BindingResult bindResult, @PathVariable("id") Integer id) {
+		VacationApply vaca = this.vacation_Service.getfindById(id);
+		if (bindResult.hasErrors()) {
+			return "Hr/vaca_app_Form";
+		}
+		this.vacation_Service.modify(vaca, vaca_app_Form.getStartdate(), vaca_app_Form.getEnddate(),vaca_app_Form.getLeavetype());
+		return "redirect:/vacation/detail";
+	}
+	
+	@GetMapping("/delete/{id}")
+	public String depDelete(@PathVariable("id") Integer id, Authentication authentication) {
+		VacationApply VacationApply = this.vacation_Service.getfindById(id);
+//		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//		if (employee.getId() == 1) {
+			this.vacation_Service.delete(VacationApply);
+			return "redirect:/vacation/list";
+//		} else {
+//			return "redirect:/";
+//		}
+	}
 
 }

@@ -40,7 +40,7 @@ public class Dep_Service {
 			this.dep_Repository.save(q);
 		}
 	 
-	 public Department getFindById(Integer id) {  
+	 public Department getfindById(Integer id) {  
 	        Optional<Department> getFindById = this.dep_Repository.findById(id);
 	        if (getFindById.isPresent()) {
 	            return getFindById.get();

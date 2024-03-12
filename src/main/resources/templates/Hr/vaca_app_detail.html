@@ -5,37 +5,6 @@
 			<h1 class="h3 mb-0 text-gray-800">휴가 정보</h1>
 		</div>
 
-		<div style="display:flex; justify-content:end;">
-			<div style="display:flex; ">
-				<div class="input-group mb-2">
-					<div class="input-group-prepend">
-						<span class="input-group-text">휴가일</span>
-					</div>
-					<input type="date" id="search_kw2" class="form-control" th:value="${kw2}">
-				</div>
-				<div class="input-group mb-2" >
-					<div class="input-group-prepend">
-						<span class="input-group-text">이름or사번</span>
-					</div>
-					<input type="text" id="search_kw" class="form-control" th:value="${kw1}">
-				</div>
-				
-				
-			</div>
-			<button class="btn btn-primary mb-2" type="button" id="btn_search" >
-				<i class="fas fa-search fa-sm" aria-hidden="true"></i>
-			</button>
-		</div>
-	<form th:action="@{/vacation/list}" method="get" id="searchForm">
-		<input type="hidden" id="kw1" name="kw1" th:value="${kw1}">
-		<input type="hidden" id="kw2" name="kw2" th:value="${kw2}">
-		<input type="hidden" id="page" name="page" th:value="${paging.number}">
-	</form>
-
-
-
-
-
 	<table class="table table-bordered table-hover-td">
 
 		<thead class="table-primary">
@@ -47,7 +16,7 @@
 				<th>휴가 종료날짜</th>
 				<th>휴가 일수</th>
 				<th>휴가 종류</th>
-				
+				<th>삭제 / 수정</th>
 			</tr>
 		</thead>
 
@@ -60,7 +29,10 @@
 				<td th:text="${vacalist.enddate}"></td>
 				<td th:text="${vacalist.period}"></td>
 				<td th:text="${vacalist.leavetype}"></td>
-				
+				<td>
+					<a class="delete" href="javascript:void(0);" th:data-uri="@{|/vacation/delete/${vacalist.id}|}" th:text="삭제"></a> /
+					<a th:href="@{/vacation/modify/{id}(id=${vacalist.id})}" th:text="수정"></a>
+				</td>
 			</tr>
 		</tbody>
 
@@ -91,23 +63,8 @@
 		</ul>
 	</div>
 	<!-- 페이징처리 끝 -->
-	<!--검색 자바스크립트-->
+
 	<script layout:fragment="script" type='text/javascript'>
-		const page_elements = document.getElementsByClassName("page-link");
-		Array.from(page_elements).forEach(function (element) {
-			element.addEventListener('click', function () {
-				document.getElementById('page').value = this.dataset.page;
-				document.getElementById('searchForm').submit();
-			});
-		});
-		const btn_search = document.getElementById("btn_search");
-		btn_search.addEventListener('click', function () {
-			document.getElementById('kw1').value = document.getElementById('search_kw').value;
-			document.getElementById('kw2').value = document.getElementById('search_kw2').value;
-			document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
-			document.getElementById('searchForm').submit();
-		});
-		
 		const delete_elements = document.getElementsByClassName("delete");
 		Array.from(delete_elements).forEach(function (element) {
 			element.addEventListener('click', function () {

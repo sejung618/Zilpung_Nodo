@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.DataNotFoundException;
+import nodo.erp.Hr.Entity.Attendance;
 import nodo.erp.Hr.Entity.Department;
 import nodo.erp.Hr.Entity.Employee;
 import nodo.erp.Hr.Entity.VacationApply;
@@ -65,6 +66,13 @@ public class Vacation_Service {
 		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
 		Specification<VacationApply> spec = search(kw1, kw2);
 		return this.vaca_App_Reository.findAll(spec, pageable);
+	}
+	
+	public Page<VacationApply> getdetailList(Employee employee,int page) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("id"));
+		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
+		return this.vaca_App_Reository.findByEmployee(employee,pageable);
 	}
 	
 	public VacationApply getfindById(Integer id) {
@@ -162,4 +170,19 @@ public class Vacation_Service {
 	        return criteriaBuilder.and(predicate1, predicate2); // 두 개의 Predicate를 결합하여 반환합니다.
 	    };
 	}
+	
+	public void modify(VacationApply vacationApply,LocalDate startdate,LocalDate enddate, String leavetype) {
+		vacationApply.setStartdate(startdate);
+		vacationApply.setEnddate(enddate);
+		vacationApply.setLeavetype(leavetype);
+		List<LocalDate> holidays = getHolidaysBetween(startdate, enddate);
+		long period = calculateWorkingDays(startdate, enddate, holidays);
+		vacationApply.setPeriod(period);
+			
+			this.vaca_App_Reository.save(vacationApply);
+	}
+	 
+	public void delete(VacationApply vacationApply) {
+        this.vaca_App_Reository.delete(vacationApply);
+    }
 }

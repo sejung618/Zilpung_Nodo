@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
 import nodo.erp.Hr.Entity.Attendance;
@@ -60,16 +63,31 @@ public class Att_Controller {
 
 	}
 
+//	@PostMapping("/checkin")
+//	public String checkIn(Authentication authentication) {
+//		if (authentication != null && authentication.isAuthenticated()) {
+//			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+//			att_Service.checkin(employee);
+//			return "redirect:/Attendance/detail";
+//		} else {
+//			return "redirect:/Hr/login";
+//		}
+//	}
 	@PostMapping("/checkin")
-	public String checkIn(Authentication authentication) {
-		if (authentication != null && authentication.isAuthenticated()) {
-			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-			att_Service.checkin(employee);
-			return "redirect:/Attendance/list";
-		} else {
-			return "redirect:/Hr/login";
-		}
+	public ResponseEntity<String> checkIn(Authentication authentication) {
+	    if (authentication != null && authentication.isAuthenticated()) {
+	        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+	        Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+	        boolean alreadyCheckedIn = att_Service.checkin(employee);
+	        if (alreadyCheckedIn) {
+	            return ResponseEntity.status(HttpStatus.CONFLICT).body("Already checked in for today!");
+	        } else {
+	            return ResponseEntity.ok("Check-in successful");
+	        }
+	    } else {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+	    }
 	}
 
 	@PostMapping("/checkout")
@@ -78,35 +96,13 @@ public class Att_Controller {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 			att_Service.checkout(employee);
-			return "redirect:/Attendance/list";
-		} else {
-			return "redirect:/Hr/login";
-		}
-	}
-	
-	@PostMapping("/checkind")
-	public String checkInd(Authentication authentication) {
-		if (authentication != null && authentication.isAuthenticated()) {
-			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-			att_Service.checkin(employee);
 			return "redirect:/Attendance/detail";
 		} else {
 			return "redirect:/Hr/login";
 		}
 	}
 	
-	@PostMapping("/checkoutd")
-	public String checkOutd(Authentication authentication) {
-		if (authentication != null && authentication.isAuthenticated()) {
-			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-			att_Service.checkout(employee);
-			return "redirect:/Attendance/detail";
-		} else {
-			return "redirect:/Hr/login";
-		}
-	}
+
 
 	
 }

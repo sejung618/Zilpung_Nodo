@@ -41,9 +41,6 @@
 				</div>
 			</div>
 		</div>
-
-
-
 		<!--		sec:authorize="isAuthenticated()"
 			th:if="${empDtail.id != null and #authentication.principal.Empid == empDtail.id or #authentication.principal.Position > 1}">-->
 		<div class="my-3">
@@ -53,19 +50,32 @@
 
 			<a href="javascript:void(0);" th:data-uri="@{|/Hr/delete/${empDtail.id}|}"
 				class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
-
 			<!--<a th:href="@{|/Hr/delete/${empDtail.id}|}" 
 				class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
 				th:if="${empDtail.id != null and  #authentication.principal.Empid == 1}"-->
 
-
 		</div>
+	</div>
 
+	<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">권한 없음</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<a> errorMessage </a>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
 
-
-
-
-
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -81,6 +91,12 @@
 		});
 	});
 
+	function openModal(errorMessage) {
+		var modal = document.getElementById("Modal");
+		var modalBody = modal.querySelector(".modal-body");
+		modalBody.innerHTML = "<a>" + errorMessage + "</a>";
+		$(modal).modal("show");
+	}
 	function delEmp(id) {
 		$.ajax({
 			type: 'GET',
@@ -92,7 +108,7 @@
 			error: function (xhr, status, error) {
 				// 실패 시 동작
 				var errorMessage = xhr.responseText;
-				alert(errorMessage);
+				openModal(errorMessage);
 			}
 		});
 	}

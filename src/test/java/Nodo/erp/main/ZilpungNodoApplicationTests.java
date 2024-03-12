@@ -65,7 +65,7 @@ class ZilpungNodoApplicationTests {
             
             Spot spot = this.spotService.getFindById(a);
             Position posi = this.posiService.getFindById(b);
-            Department depart = this.depService.getFindById(c);
+            Department depart = this.depService.getfindById(c);
             this.empService.create(empname, empssn, empadd, empphone, empmail, date, spot, posi, depart);
         }
     }
