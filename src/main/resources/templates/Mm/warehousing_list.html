@@ -17,7 +17,7 @@
 			<form method="get" th:action="@{/warehousing/list}" style="display:flex;">
 				<select class="form-control" id="category" name="category">
 					<option value="">전체</option>
-					<option value="whdate">출고일자</option>
+					<option value="whdate">입고일자</option>
 					<option value="accompany">거래처명</option>
 					<option value="itmname">품목명</option>
 					<option value="empname">담당자</option>
@@ -63,19 +63,21 @@
 		</tbody>
 	</table>
 	<!-- 페이징처리 시작 -->
-	<div th:if="${!paging.isEmpty()}">
+	<div th:if="${!paging.isEmpty()}" class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
 		<ul class="pagination justify-content-center">
-			<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+			<li class="paginate_button page-item previous" id="dataTable_previous"
+				th:classappend="${!paging.hasPrevious} ? 'disabled'">
 				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
 					<span>이전</span>
 				</a>
 			</li>
-			<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+			<li th:each="page: ${#numbers.sequence(1, paging.totalPages)}"
 				th:if="${page >= paging.number-5 and page <= paging.number+5}"
-				th:classappend="${page == paging.number} ? 'active'" class="page-item">
-				<a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+				th:classappend="${page == (paging.number+1)} ? 'active'" class="paginate_button page-item">
+				<a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page-1}"></a>
 			</li>
-			<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+			<li class="paginate_button page-item next" id="dataTable_next"
+				th:classappend="${!paging.hasNext} ? 'disabled'">
 				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
 					<span>다음</span>
 				</a>
@@ -83,9 +85,14 @@
 		</ul>
 	</div>
 	<!-- 페이징처리 끝 -->
-	<div class="col-6">
-		<a th:href="@{/warehousing/create}" class="btn btn-primary" style="left: 180%;"> 입고</a>
+	<div class="d-flex justify-content-between" style="display:flex;">
+		<a th:href="@{/warehousing/create}" class="btn btn-primary" style="left: 180%;"> 신규</a>
+		<a button type="submit" th:href="@{|/warehousing/sample/csv/down|}" method="get" class="btn border-primary text-primary" style="float:right;">다운로드</a>
 	</div>
+	
+	
+	
+	
 	<form th:action="@{/warehousing/list}" method="get" id="searchForm">
 		<input type="hidden" id="kw" name="kw" th:value="${kw}">
 		<input type="hidden" id="page" name="page" th:value="${paging.number}">
@@ -112,7 +119,7 @@
 			var selectedOption = this.value;
 			var searchInput = document.getElementById('search_kw');
 
-			if (selectedOption === "spdate") {
+			if (selectedOption === "whdate") {
 				searchInput.type = "date";
 
 			} else if (selectedOption === "itmname") {

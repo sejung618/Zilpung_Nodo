@@ -1,5 +1,9 @@
 package nodo.erp.Mm.Warehousing;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
 
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.opencsv.CSVWriter;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
@@ -114,7 +121,7 @@ public class WarehousingController {
 		}
 		
 		this.warehousingService.create(warehousingForm.getWhdate(), warehousingForm.getWhdt(), warehousingForm.getWhcamount(), 
-				warehousingForm.getWhlocation(), warehousingForm.getWhstate(), employee, acc, item);
+				warehousingForm.getWhstate(), employee, acc, item);
 		return "redirect:/warehousing/list";
 	}
 	
@@ -140,7 +147,6 @@ public class WarehousingController {
 		wf.setWhdate(warehousing.getWhdate());
 		wf.setWhdt(warehousing.getWhdt());
 		wf.setWhcamount(warehousing.getWhcamount());
-		wf.setWhlocation(warehousing.getWhlocation());
 		wf.setWhstate(warehousing.getWhstate());
 		wf.setItmcode(warehousing.getItem().getItmId());
 		wf.setAccode(warehousing.getAccount().getId());
@@ -166,7 +172,7 @@ public class WarehousingController {
 		Item item = this.itemService.getItem(wf.getItmcode());
 		Account account = this.accService.getAccount(wf.getAccode());{
     	
-        this.warehousingService.modify(warehousing, wf.getWhdate(), wf.getWhdt(),wf.getWhcamount(),wf.getWhlocation(),wf.getWhstate(), employee, account, item);
+        this.warehousingService.modify(warehousing, wf.getWhdate(), wf.getWhdt(),wf.getWhcamount(),wf.getWhstate(), employee, account, item);
         return String.format("redirect:/warehousing/list", whid);
     
         }
@@ -181,4 +187,21 @@ public class WarehousingController {
         this.warehousingService.delete(warehousing);
         return "redirect:/warehousing/list";
     }
+	
+	@GetMapping("/sample/csv/down")
+	public void csvDown(HttpServletResponse response) throws IOException {
+		response.setContentType("text/csv; charset=UTF-8"); // Set the character encoding
+		String fileName = URLEncoder.encode("입고.csv", "UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+		OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
+		writer.write("\uFEFF");
+		CSVWriter csvWriter = new CSVWriter(writer);
+
+		csvWriter.writeAll(warehousingService.listWarehousing());
+
+		csvWriter.close();
+		writer.close();
+	}
+
 }

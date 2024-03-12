@@ -1,5 +1,9 @@
 package nodo.erp.Mm.Shipping;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
 
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.opencsv.CSVWriter;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
@@ -114,8 +121,7 @@ public class ShippingController {
 			return "Mm/shipping_form";
 		}
 
-		this.shippingService.create(shippingForm.getSpdate(), shippingForm.getSpdt(), shippingForm.getSpcamount(),
-				shippingForm.getSplocation(), shippingForm.getSpstate(), employee, acc, item);
+		this.shippingService.create(shippingForm.getSpdate(), shippingForm.getSpdt(), shippingForm.getSpcamount(), shippingForm.getSpstate(), employee, acc, item);
 		return "redirect:/shipping/list";
 	}
 
@@ -142,7 +148,6 @@ public class ShippingController {
 		sf.setSpdate(shipping.getSpdate());
 		sf.setSpdt(shipping.getSpdt());
 		sf.setSpcamount(shipping.getSpcamount());
-		sf.setSplocation(shipping.getSplocation());
 		sf.setSpstate(shipping.getSpstate());
 		sf.setItmcode(shipping.getItem().getItmId());
 		sf.setAccode(shipping.getAccount().getId());
@@ -173,7 +178,7 @@ public class ShippingController {
 
 		{
 
-			this.shippingService.modify(shipping, sf.getSpdate(), sf.getSpdt(), sf.getSpcamount(), sf.getSplocation(),
+			this.shippingService.modify(shipping, sf.getSpdate(), sf.getSpdt(), sf.getSpcamount(),
 					sf.getSpstate(), employee, account, item);
 			return String.format("redirect:/shipping/list", spid);
 
@@ -187,6 +192,22 @@ public class ShippingController {
 
 		this.shippingService.delete(shipping);
 		return "redirect:/shipping/list";
+	}
+	
+	@GetMapping("/sample/csv/down")
+	public void csvDown(HttpServletResponse response) throws IOException {
+		response.setContentType("text/csv; charset=UTF-8"); // Set the character encoding
+		String fileName = URLEncoder.encode("출고.csv", "UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+		OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
+		writer.write("\uFEFF");
+		CSVWriter csvWriter = new CSVWriter(writer);
+
+		csvWriter.writeAll(shippingService.listShipping());
+
+		csvWriter.close();
+		writer.close();
 	}
 
 }

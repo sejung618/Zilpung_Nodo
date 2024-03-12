@@ -1,10 +1,59 @@
 <html layout:decorate="~{/layout}">
 <div layout:fragment="content">
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">수정 및 삭제</h1>
+		<h1 class="h3 mb-0 text-gray-800">상세정보</h1>
 	</div>
-	<table class="table table-bordered table-hover-td">
-		<thead class="table-primary">
+	<table class="table table-bordered table-hover-td" style="max-width:500px;">
+
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">출고일자-No.</th>
+			<td th:text="${shipping.spnum}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">거래처명</th>
+			<td th:text="${shipping.account.accompany}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">거래처코드</th>
+			<td th:text="${shipping.account.accode}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">품목명</th>
+			<td th:text="${shipping.item.itmName}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">품목명코드</th>
+			<td th:text="${shipping.item.itmCode}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">담당자</th>
+			<td th:text="${shipping.employee.empname}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">담당자사번</th>
+			<td th:text="${shipping.employee.empnum}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">납기일자</th>
+			<td th:text="${shipping.spdt}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">출고수량</th>
+			<td th:text="${shipping.spcamount}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">출고위치</th>
+			<td th:text="${shipping.splocation}" style="width:10%; min-width:200px;"></td>
+		</tr>
+		<tr>
+			<th class="table-primary text-center" style="width:10%; min-width:100px;">진행상태</th>
+			<td th:text="${shipping.spstate}" style="width:10%; min-width:200px;"></td>
+		</tr>
+
+
+
+
+		<!--<thead class="table-primary">
 			<tr class="text-center">
 				<th>출고일자-No.</th>
 				<th>거래처명</th>
@@ -34,20 +83,21 @@
 				<td th:text="${shipping.splocation}"></td>
 				<td th:text="${shipping.spstate}"></td>
 			</tr>
-		</body>
+		</body>-->
 	</table>
-	<a th:href="@{|/shipping/modify/${shipping.spid}|}" class="btn btn-primary my-2"
-                sec:authorize="isAuthenticated()"
-                th:if="${shipping.employee != null and #authentication.principal.empname == shipping.employee.empname}"
-                th:text="수정"></a>
-	
-<!--	<a th:href="@{|/shipping/modify/${shipping.spid}|}" class="btn btn-primary my-2"
-		style="left: 85%; margin-right: 5px;"> 수정</a>-->
-		
-	<a href="javascript:void(0);" th:data-uri="@{|/shipping/delete/${shipping.spid}|}"
-		class="delete btn btn-primary my-2" sec:authorize="isAuthenticated()"
-                th:if="${shipping.employee != null and #authentication.principal.empname == shipping.employee.empname}" th:text="삭제" style="left: 85%;"> 삭제</a>
+	<a th:href="@{|/shipping/modify/${shipping.spid}|}" class="btn btn-primary my-2" sec:authorize="isAuthenticated()"
+		th:if="${shipping.employee != null and #authentication.principal.empname == shipping.employee.empname}"
+		th:text="수정"></a>
 
+	<!--	<a th:href="@{|/shipping/modify/${shipping.spid}|}" class="btn btn-primary my-2"
+		style="left: 85%; margin-right: 5px;"> 수정</a>-->
+
+	<a href="javascript:void(0);" th:data-uri="@{|/shipping/delete/${shipping.spid}|}"
+		class="delete btn mx-2 border-primary text-primary" sec:authorize="isAuthenticated()"
+		th:if="${shipping.employee != null and #authentication.principal.empname == shipping.employee.empname}"
+		th:text="삭제" style="left: 85%;"> 삭제</a>
+
+	<a th:href="@{|/shipping/list|}" class="btn border-primary text-primary">목록</a>
 
 	<script type='text/javascript'>
 		const delete_elements = document.getElementsByClassName("delete");

@@ -37,7 +37,7 @@ public class ShippingService {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void create(String spdate, String spdt, Integer spcamount, String splocation, String spstate,
+	public void create(String spdate, String spdt, Integer spcamount, String spstate,
 			Employee empnum, Account accode, Item itmcode) {
 		Shipping sp = new Shipping();
 
@@ -46,6 +46,7 @@ public class ShippingService {
 		String dd = spdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
+		String lo = "본사창고";
 
 		sp.setSpnum(ymd + "-" + Num); // 출고일자
 		sp.setSpdate(spdate); // 출고일자
@@ -54,7 +55,7 @@ public class ShippingService {
 		sp.setEmployee(empnum); // 담당사번
 		sp.setSpdt(spdt); // 납기일자
 		sp.setSpcamount(spcamount);// 출고수량
-		sp.setSplocation(splocation);// 출고위치
+		sp.setSplocation(lo);// 출고위치
 		sp.setSpstate(spstate); // 진행상태
 		sp.setCreateDate(LocalDateTime.now());
 
@@ -149,7 +150,7 @@ public class ShippingService {
 		}
 	}
 
-	public void modify(Shipping sp, String spdate, String spdt, Integer spcamount, String splocation, String spstate,
+	public void modify(Shipping sp, String spdate, String spdt, Integer spcamount, String spstate,
 			Employee empnum, Account accode, Item itmcode) {
 
 		String yy = spdate.substring(2, 4);
@@ -157,7 +158,8 @@ public class ShippingService {
 		String dd = spdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
-
+		String lo = "본사창고";
+		
 		sp.setSpnum(ymd + "-" + Num); // 일자번호
 		sp.setSpdate(spdate); // 출고일자
 		sp.setAccount(accode); // 거래처코드
@@ -165,7 +167,7 @@ public class ShippingService {
 		sp.setEmployee(empnum); // 담당사번
 		sp.setSpdt(spdt); // 납기일자
 		sp.setSpcamount(spcamount);// 출고수량
-		sp.setSplocation(splocation);// 출고위치
+		sp.setSplocation(lo);// 출고위치
 		sp.setSpstate(spstate); // 진행상태
 		sp.setModifyDate(LocalDateTime.now());
 		this.shippingRepository.save(sp);
@@ -174,5 +176,29 @@ public class ShippingService {
 	public void delete(Shipping shipping) {
 		this.shippingRepository.delete(shipping);
 	}
+	
+	public List<String[]> listShipping() {
+        List<Shipping> list = shippingRepository.findAll();
+        List<String[]> listStrings = new ArrayList<>();
+        listStrings.add(new String[]{"일련번호", "출고일자", "납기일자", "거래처코드", "거래처명", "담당사번", "담당자", "품목코드", "품목명", "규격", "수량", "출고위치", "진행상태"});
+        for (Shipping sp: list) {
+            String[] rowData = new String[30];
+            rowData[0] = sp.getSpnum();
+            rowData[1] = sp.getSpdate();
+            rowData[2] = sp.getSpdt();
+            rowData[3] = sp.getAccount().getAccode();
+            rowData[4] = sp.getAccount().getAccompany();
+            rowData[5] = sp.getEmployee().getEmpnum();
+            rowData[6] = sp.getEmployee().getEmpname();
+            rowData[7] = sp.getItem().getItmCode();
+            rowData[8] = sp.getItem().getItmName();
+            rowData[9] = sp.getItem().getItmStandard();
+            rowData[10] = sp.getSpcamount().toString();
+            rowData[11] = sp.getSplocation();
+            rowData[12] = sp.getSpstate();
+            listStrings.add(rowData);
+        }
+        return listStrings;
+    }
 
 }

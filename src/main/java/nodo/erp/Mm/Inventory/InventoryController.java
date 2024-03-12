@@ -1,5 +1,9 @@
 package nodo.erp.Mm.Inventory;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
 
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.opencsv.CSVWriter;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Hr.CustomUserDetails;
@@ -157,5 +164,21 @@ public class InventoryController {
 
 		this.inventoryService.delete(inventory);
 		return "redirect:/inventory/list";
+	}
+
+	@GetMapping("/sample/csv/down")
+	public void csvDown(HttpServletResponse response) throws IOException {
+		response.setContentType("text/csv; charset=UTF-8"); // Set the character encoding
+		String fileName = URLEncoder.encode("재고조정.csv", "UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+		OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
+		writer.write("\uFEFF");
+		CSVWriter csvWriter = new CSVWriter(writer);
+
+		csvWriter.writeAll(inventoryService.listInventory());
+
+		csvWriter.close();
+		writer.close();
 	}
 }

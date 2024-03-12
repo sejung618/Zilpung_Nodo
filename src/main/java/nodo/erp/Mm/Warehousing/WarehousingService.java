@@ -35,7 +35,7 @@ public class WarehousingService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public void create(String whdate, String whdt, Integer whcamount, String whlocation, String whstate, Employee empnum, Account accode, Item itmcode) {
+	public void create(String whdate, String whdt, Integer whcamount, String whstate, Employee empnum, Account accode, Item itmcode) {
 		Warehousing wh = new Warehousing();
 		
 		String yy = whdate.substring(2, 4);
@@ -43,6 +43,8 @@ public class WarehousingService {
 		String dd = whdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
+		String lo = "본사창고";
+		
 		
 		wh.setWhnum(ymd + "-" + Num);
 		wh.setWhdate(whdate);
@@ -51,7 +53,7 @@ public class WarehousingService {
 		wh.setEmployee(empnum);	//담당사번
 		wh.setWhdt(whdt);
 		wh.setWhcamount(whcamount);
-		wh.setWhlocation(whlocation);
+		wh.setWhlocation(lo);
 		wh.setWhstate(whstate);
 		wh.setCreateDate(LocalDateTime.now());
 		this.warehousingRepository.save(wh);
@@ -160,13 +162,15 @@ public class WarehousingService {
 		}
 	}
 	
-	public void modify(Warehousing wh, String whdate, String whdt, Integer whcamount, String whlocation, String whstate, Employee empnum, Account accode, Item itmcode) {
+	public void modify(Warehousing wh, String whdate, String whdt, Integer whcamount, String whstate, Employee empnum, Account accode, Item itmcode) {
 		
 		String yy = whdate.substring(2, 4);
 		String mm = whdate.substring(5, 7);
 		String dd = whdate.substring(8, 10);
 		String ymd = yy + mm + dd;
 		String Num = String.format("%03d", generateWHNum(ymd));
+		String lo = "본사창고";
+		
 		
 		wh.setWhnum(ymd + "-" + Num);
 		wh.setWhdate(whdate);
@@ -175,7 +179,7 @@ public class WarehousingService {
 		wh.setEmployee(empnum);	//담당사번
 		wh.setWhdt(whdt);
 		wh.setWhcamount(whcamount);
-		wh.setWhlocation(whlocation);
+		wh.setWhlocation(lo);
 		wh.setWhstate(whstate);
 		wh.setModifyDate(LocalDateTime.now());
 		this.warehousingRepository.save(wh);
@@ -183,5 +187,29 @@ public class WarehousingService {
 	
 	public void delete(Warehousing warehousing) {
         this.warehousingRepository.delete(warehousing);
+    }
+	
+	public List<String[]> listWarehousing() {
+        List<Warehousing> list = warehousingRepository.findAll(); 
+        List<String[]> listStrings = new ArrayList<>();
+        listStrings.add(new String[]{"일련번호", "입고일자", "납기일자", "거래처코드", "거래처명", "담당사번", "담당자", "품목코드", "품목명", "규격", "수량", "입고위치", "진행상태"});
+        for (Warehousing wh: list) {
+            String[] rowData = new String[30];
+            rowData[0] = wh.getWhnum();
+            rowData[1] = wh.getWhdate();
+            rowData[2] = wh.getWhdt();
+            rowData[3] = wh.getAccount().getAccode();
+            rowData[4] = wh.getAccount().getAccompany();
+            rowData[5] = wh.getEmployee().getEmpnum();
+            rowData[6] = wh.getEmployee().getEmpname();
+            rowData[7] = wh.getItem().getItmCode();
+            rowData[8] = wh.getItem().getItmName();
+            rowData[9] = wh.getItem().getItmStandard();
+            rowData[10] = wh.getWhcamount().toString();
+            rowData[11] = wh.getWhlocation();
+            rowData[12] = wh.getWhstate();
+            listStrings.add(rowData);
+        }
+        return listStrings;
     }
 }
