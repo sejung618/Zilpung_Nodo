@@ -59,7 +59,7 @@
 					<td>
 						<select id="bcItemName" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 							<option value="">-</option>
-							<option th:each="item:${itemList}" th:value="${item.itmId}" th:bcItemId="${item.itmId}" th:bcItemCode="${item.itmCode}" th:text="${item.itmName}" th:rowIndex=></option>
+							<option th:each="item:${itemList}" th:value="${item.itmId}" th:text="${item.itmName}" th:bcItemId="${item.itmId}" th:bcItemCode="${item.itmCode}"></option>
 						</select>
 					</td>
 					<td>
@@ -141,12 +141,22 @@
 		// 초기 행에 대한 이벤트 처리
 		$(document).ready(function () {
 			$('#bcItemName').change(function () {
-				let bcItemId = $(this).find(':selected').attr("bcItemId");
-				let bcItemName = $(this).find(':selected').text();
+	            let bcItemName = $(this).find(':selected').text();
+	            let bcItemId = $(this).find(':selected').attr("bcItemId");
 				let bcItemCode = $(this).find(':selected').attr("bcItemCode");
 				$('#bcItemCode').text(bcItemCode);
 			});
 		});
+		
+		// 동적으로 생성된 행에 대한 이벤트 처리
+        $(document).on('change', '.bcItemName_add', function () {
+			const table = document.getElementById('table_bcItem');
+			let rowIndex = $(this).find(':selected').attr("rowIndex");
+			let bcItemId = $(this).find(':selected').attr("bcItemId");
+			let bcItemCode = $(this).find(':selected').attr("bcItemCode");
+			table.rows[rowIndex].querySelector('.bcItemCode_add').text(bcItemCode);
+	            console.log(rowIndex);
+        });
 		
 		// '소모품 추가' 클릭 시, 테이블의 행이 추가되는 스크립트
 		document.getElementById('add_bcItem').addEventListener('click', () => {
@@ -167,7 +177,7 @@
 										<option value="">-</option>
 								`;
 					[# th:each="item:${itemList}"]
-					temp_html += `<option value=[[${item.itmId}]] bcItemCode=[[${item.itmCode}]] text=[[${item.itmName}]]>`+[[${item.itmName}]]+`</option>`;
+					temp_html += `<option value=[[${item.itmId}]] text=[[${item.itmName}]] bcItemCode=[[${item.itmCode}]] rowIndex=${new_row.rowIndex}>`+[[${item.itmName}]]+`</option>`;
 					[/]
 					temp_html += `</select>
 								</td>`;
@@ -184,14 +194,6 @@
 			}
 		});
 		
-		// 동적으로 생성된 행에 대한 이벤트 처리
-        $(document).on('change', '.bcItemName_add', function () {
-            let bcItemId = $(this).find(':selected').attr("bcItemId");
-            let bcItemName = $(this).find(':selected').text();
-            let bcItemCode = $(this).find(':selected').attr("bcItemCode");
-            $(this).closest('tr').find('.bcItemCode_add').text(bcItemCode);
-        });
-		
 		// 삭제 아이콘 클릭 시, 해당 행을 삭제하는 스크립트
 		const delete_bcItem_event = (delete_icon) => {
 			const table = document.getElementById('table_bcItem');
@@ -201,9 +203,10 @@
 				return;
 			}
 			table.deleteRow(row_index);
-		    // 첫 번째 열의 번호를 업데이트합니다.
+		    // row_Index 업데이트
 		    for (let i = 1; i < table.rows.length; i++) {
 		        table.rows[i].cells[0].innerHTML = i;
+		        table.rows[i].querySelector('.bcItemName_add').setAttribute('rowIndex', i);
 		        table.rows[i].querySelector('.delete_bcItem').setAttribute('data-index', i);
 		    }
 		};
