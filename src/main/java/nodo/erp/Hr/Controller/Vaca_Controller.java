@@ -57,7 +57,7 @@ public class Vaca_Controller {
 			this.vacation_Service.create(employee, vaca_app_Form.getStartdate(), vaca_app_Form.getEnddate(),
 					vaca_app_Form.getLeavetype());
 
-			return "redirect:/vacation/list";
+			return "redirect:/vacation/detail";
 
 		} else {
 			return "redirect:/Hr/login";

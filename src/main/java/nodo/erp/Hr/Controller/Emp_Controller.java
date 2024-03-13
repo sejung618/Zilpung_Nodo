@@ -56,8 +56,8 @@ public class Emp_Controller {
 			@RequestParam(value = "month", defaultValue = "") String month,
 			@RequestParam(value = "spot", defaultValue = "") String spot,
 			@RequestParam(value = "posi", defaultValue = "") String posi,
-			@RequestParam(value = "depart", defaultValue = "") String depart){
-		Page<Employee> paging = this.emp_Service.getList(page, num, name,month,spot,posi,depart);
+			@RequestParam(value = "depart", defaultValue = "") String depart) {
+		Page<Employee> paging = this.emp_Service.getList(page, num, name, month, spot, posi, depart);
 		model.addAttribute("paging", paging);
 		model.addAttribute("num", num);
 		model.addAttribute("name", name);
@@ -163,23 +163,37 @@ public class Emp_Controller {
 //	}
 	@GetMapping("/delete/{id}")
 	public ResponseEntity<String> questionDelete(@PathVariable("id") Integer id, Authentication authentication) {
-	    if(authentication != null && authentication.isAuthenticated()) {
-	        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-	        Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-	        if (employee.getSpot().getSpotcode() >= 105) {
-	            Employee emp = this.emp_Service.getfindById(id);
-	            this.emp_Service.delete(emp);
-	            return ResponseEntity.ok().build(); // 성공 시 응답 코드 200 반환
-	        } else {
-	            // 실패 시 실패 메시지와 함께 응답 코드 400 반환
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("권한이 없습니다.");
-	        }
-	    } else {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다."); // 인증되지 않은 경우
-	    }
+		if (authentication != null && authentication.isAuthenticated()) {
+			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
+
+			if (employee.getSpot().getSpotcode() >= 108) {
+				Employee emp = this.emp_Service.getfindById(id);
+				this.emp_Service.delete(emp);
+				return ResponseEntity.ok().build(); // 성공 시 응답 코드 200 반환
+			} else {
+				// 실패 시 실패 메시지와 함께 응답 코드 400 반환
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("권한이 없습니다.");
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다."); // 인증되지 않은 경우
+		}
 	}
 
-	
+//	HttpStatus.CONTINUE: 100 - 클라이언트가 요청을 계속해야 함을 나타냅니다.
+//	HttpStatus.SWITCHING_PROTOCOLS: 101 - 서버가 프로토콜을 변경하기 위해 클라이언트 요청을 수락했음을 나타냅니다.
+//	HttpStatus.OK: 200 - 요청이 성공적으로 처리되었음을 나타냅니다.
+//	HttpStatus.CREATED: 201 - 새로운 리소스가 성공적으로 생성되었음을 나타냅니다.
+//	HttpStatus.ACCEPTED: 202 - 요청이 받아들여졌지만 처리가 완료되지 않았음을 나타냅니다.
+//	HttpStatus.NO_CONTENT: 204 - 요청이 성공했지만 응답 본문에 내용이 없음을 나타냅니다.
+//	HttpStatus.BAD_REQUEST: 400 - 요청이 잘못되었음을 나타냅니다.
+//	HttpStatus.UNAUTHORIZED: 401 - 인증이 필요함을 나타냅니다.
+//	HttpStatus.FORBIDDEN: 403 - 요청이 거부되었음을 나타냅니다.
+//	HttpStatus.NOT_FOUND: 404 - 요청한 리소스를 찾을 수 없음을 나타냅니다.
+//	HttpStatus.METHOD_NOT_ALLOWED: 405 - 요청된 메서드가 허용되지 않음을 나타냅니다.
+//	HttpStatus.INTERNAL_SERVER_ERROR: 500 - 서버에서 내부 오류가 발생했음을 나타냅니다.
+//	HttpStatus.NOT_IMPLEMENTED: 501 - 요청된 기능이 구현되지 않았음을 나타냅니다.
+//	HttpStatus.SERVICE_UNAVAILABLE: 503 - 서버가 현재 요청을 처리할 수 없음을 나타냅니다.
 
 	@GetMapping("/login")
 	public String login() {
@@ -196,6 +210,8 @@ public class Emp_Controller {
 
 		return "Hr/Emp_Pass_Form";
 	}
+
+
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/pass/{id}")

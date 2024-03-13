@@ -3,6 +3,7 @@ package nodo.erp.Hr.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,7 @@ public class VacationApply {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	private Employee employee;
 
 	private LocalDate startdate;	//휴가 시작날짜

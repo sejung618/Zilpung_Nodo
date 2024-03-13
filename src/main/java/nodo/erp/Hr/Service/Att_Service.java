@@ -88,7 +88,6 @@ public class Att_Service {
 //		}
 //
 //	}
-	
 	public boolean checkin(Employee employee) {
 	    // 해당 날짜와 아이디로 이미 체크인한 기록이 있는지 확인
 	    boolean alreadyCheckedIn = att_Repository.existsByEmployeeAndDay(employee, LocalDate.now());
@@ -107,7 +106,7 @@ public class Att_Service {
 	}
 	
 	
-    public void checkout(Employee employee) {
+    public boolean checkout(Employee employee) {
         // 해당 날짜와 아이디로 출근한 기록 찾기
         Optional<Attendance> attendanceOptional = att_Repository.findByDayAndEmployee(LocalDate.now(), employee);
 
@@ -121,11 +120,16 @@ public class Att_Service {
             long minutes = working.toMinutes() % 60;
             attendance.setWorkingtime(String.format("%d시간 %d분", hours, minutes));
             this.att_Repository.save(attendance);
+            return false;
         } else {
             // 출근한 기록이 없으면 에러 처리 또는 예외 발생
-            throw new DataNotFoundException("No check-in record found for today!");
+        	return true;
         }
     }
+    
+    
+    
+    
     
  // 검색 메소드
  	public static Specification<Attendance> search(String keyword1, String keyword2) {
