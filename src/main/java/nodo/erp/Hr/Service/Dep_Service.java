@@ -41,11 +41,11 @@ public class Dep_Service {
 		}
 	 
 	 public Department getfindById(Integer id) {  
-	        Optional<Department> getFindById = this.dep_Repository.findById(id);
-	        if (getFindById.isPresent()) {
-	            return getFindById.get();
+	        Optional<Department> departmant = this.dep_Repository.findById(id);
+	        if (departmant.isPresent()) {
+	            return departmant.get();
 	        } else {
-	            throw new DataNotFoundException("question not found");
+	            throw new DataNotFoundException("Department not found");
 	        }
 	    }
 

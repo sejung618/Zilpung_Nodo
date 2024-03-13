@@ -35,8 +35,7 @@
 						<li class="list-group-item"><strong>직위:</strong> <span
 								th:text="${empDtail.spot != null ? empDtail.spot.spotname : '직위 정보 없음'}"></span>
 						</li>
-						<li class="list-group-item"><strong>직위:</strong> <span th:text="${errMessage}"></span>
-						</li>
+
 					</ul>
 				</div>
 			</div>
@@ -62,13 +61,13 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">권한 없음</h5>
+					<h5 class="modal-title" id="exampleModalLabel"></h5>
 					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<a> errorMessage </a>
+
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
@@ -81,22 +80,22 @@
 
 
 <script layout:fragment="script" type='text/javascript'>
-	const delete_elements = document.getElementsByClassName("delete");
-	Array.from(delete_elements).forEach(function (element) {
-		element.addEventListener('click', function () {
-			console.log(this.getAttribute("data-uri"));
-			if (confirm("정말로 삭제하시겠습니까?")) {
-				delEmp(this.getAttribute("data-uri").split("/").pop());  // /맨뒤부분 추출
-			};
-		});
-	});
-
 	function openModal(errorMessage) {
 		var modal = document.getElementById("Modal");
 		var modalBody = modal.querySelector(".modal-body");
 		modalBody.innerHTML = "<a>" + errorMessage + "</a>";
 		$(modal).modal("show");
 	}
+	
+	const delete_elements = document.getElementsByClassName("delete");
+	Array.from(delete_elements).forEach(function (element) {
+		element.addEventListener('click', function () {
+			if (confirm("정말로 삭제하시겠습니까?")) {
+				delEmp(this.getAttribute("data-uri").split("/").pop());  // /맨뒤부분 추출
+			};
+		});
+	});
+
 	function delEmp(id) {
 		$.ajax({
 			type: 'GET',
@@ -107,35 +106,22 @@
 			},
 			error: function (xhr, status, error) {
 				// 실패 시 동작
-				var errorMessage = xhr.responseText;
+				var errorMessage;
+				if (xhr.status === 401) {
+					errorMessage = xhr.responseText;
+					window.location.href = '/Hr/login';
+				}
+				if (xhr.status === 500) {
+					errorMessage = "오류가 발생했습니다.";
+				} else {
+					errorMessage = xhr.responseText;
+				}
 				openModal(errorMessage);
+				
 			}
 		});
 	}
 </script>
-<!--
-const delete_elements = document.getElementsByClassName("delete");
-Array.from(delete_elements).forEach(function (element) {
-    element.addEventListener('click', function (event) {
-        event.preventDefault(); // 링크의 기본 동작인 페이지 이동을 막음
-        const url = this.getAttribute("href"); // 삭제 요청을 보낼 URL 가져오기
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function(data) {
-                // 성공 시 동작 (선택사항)
-                // 예를 들어, 삭제 후 어떤 동작을 수행하거나 알림을 표시할 수 있습니다.
-                alert("삭제되었습니다.");
-                window.location.reload(); // 페이지 새로고침 (선택사항)
-            },
-            error: function(xhr, status, error) {
-                // 실패 시 동작
-                var errorMessage = xhr.responseText;
-                alert(errorMessage);
-            }
-        });
-    });
-});
--->
+
 
 </html>

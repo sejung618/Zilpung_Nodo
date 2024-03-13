@@ -81,24 +81,28 @@ public class Att_Controller {
 	        Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
 	        boolean alreadyCheckedIn = att_Service.checkin(employee);
 	        if (alreadyCheckedIn) {
-	            return ResponseEntity.status(HttpStatus.CONFLICT).body("Already checked in for today!");
+	            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 출근기록이 있습니다.");
 	        } else {
-	            return ResponseEntity.ok("Check-in successful");
+	            return ResponseEntity.ok("출근 처리되었습니다.");
 	        }
 	    } else {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 후 이용해주세요");
 	    }
 	}
 
 	@PostMapping("/checkout")
-	public String checkOut(Authentication authentication) {
+	public ResponseEntity<String> checkOut(Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-			att_Service.checkout(employee);
-			return "redirect:/Attendance/detail";
+			boolean NotCheckedIn = att_Service.checkout(employee);
+			if (NotCheckedIn) {
+	            return ResponseEntity.status(HttpStatus.CONFLICT).body("오늘 출근기록이 없습니다.");
+	        } else {
+	            return ResponseEntity.ok("퇴근 처리되었습니다.");
+	        }
 		} else {
-			return "redirect:/Hr/login";
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 후 이용해주세요");
 		}
 	}
 	
