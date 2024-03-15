@@ -45,7 +45,7 @@
 		<div class="my-3">
 			<a th:href="@{|/Hr/modify/${empDtail.id}|}" class="btn btn-primary ml-4" th:text="수정"></a>
 
-			<a th:href="@{|/Hr/pass/${empDtail.id}|}" class="btn btn-primary" th:text="비밀번호변경"></a>
+			<a th:href="@{|/Hr/pass/${empDtail.id}|}" class="btn btn-primary" id="passbutton" th:text="비밀번호변경"></a>
 
 			<a href="javascript:void(0);" th:data-uri="@{|/Hr/delete/${empDtail.id}|}"
 				class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></a>
@@ -66,20 +66,22 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
 
 				</div>
+				
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
-
 				</div>
+				
 			</div>
 		</div>
 	</div>
 </div>
 
 
-<script layout:fragment="script" type='text/javascript'>
+<script layout:fragment="script" type='text/javascript' th:inline="javascript">
 	function openModal(errorMessage) {
 		var modal = document.getElementById("Modal");
 		var modalBody = modal.querySelector(".modal-body");
@@ -121,6 +123,32 @@
 			}
 		});
 	}
+	
+	
+// 버튼 클릭 이벤트 리스너 등록
+$('#passbutton').click(function(event) {
+    // 버튼의 기본 동작(링크 이동) 막기
+    event.preventDefault();
+
+    var userId = /*[[${empDtail.id}]]*/''; 
+    // AJAX 요청 보내기
+    $.ajax({
+        url: '/Hr/pass/' + userId,
+        type: 'GET',
+        success: function(data) {
+            // 요청이 성공한 경우 처리 로직
+            // 예: 비밀번호 변경 페이지로 이동
+            window.location.href = '/Hr/pass/' + userId;
+        },
+        error: function(xhr, status, error) {
+			console.log(xhr.responseJSON.message);
+			 // 요청이 실패한 경우 오류 처리 로직
+            var errorMessage = xhr.responseJSON.message;
+            // 오류 메시지를 모달 등의 방법으로 표시
+			openModal(errorMessage);
+        }
+    });
+});
 </script>
 
 

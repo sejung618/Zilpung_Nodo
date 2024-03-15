@@ -202,14 +202,23 @@ public class Emp_Controller {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/pass/{id}")
-	public String EmpPassModify(Emp_Pass_Form emp_Pass_Form, @PathVariable("id") Integer id, Principal principal) {
+	public String EmpPassModify(Emp_Pass_Form emp_Pass_Form, @PathVariable("id") Integer id, Authentication authentication) {
 		Employee emp = this.emp_Service.getfindById(id);
-		if (!emp.getEmpnum().equals(principal.getName())) {
+		if (!emp.getEmpnum().equals(authentication.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
-
+		
 		return "Hr/Emp_Pass_Form";
 	}
+	
+//	@GetMapping("/pass/{id}")
+//	public ResponseEntity<?> EmpPassModify(Emp_Pass_Form emp_Pass_Form, @PathVariable("id") Integer id, Principal principal) {
+//	    Employee emp = this.emp_Service.getfindById(id);
+//	    if (!emp.getEmpnum().equals(principal.getName())) {
+//	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정권한이 없습니다.");
+//	    }
+//	    return ResponseEntity.ok("Hr/Emp_Pass_Form");
+//	}
 
 
 
