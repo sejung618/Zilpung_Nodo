@@ -66,7 +66,7 @@
 						<input type="number" min="0" id="bcCount" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 					</td>
 					<td>
-						<a class="delete_bcItem" onclick="delete_bcItem_event(this)">
+						<a class="delete_bcItem" data-index="1">
 							<img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px">
 						</a>
 					</td>
@@ -150,18 +150,29 @@
 		
 		// 동적으로 생성된 행에 대한 이벤트 처리
         $(document).on('change', '.bcItemName_add', function () {
-			const table = document.getElementById('table_bcItem');
-			let rowIndex = $(this).find(':selected').attr("rowIndex");
+		    const table = document.getElementById('table_bcItem');
 			let bcItemId = $(this).find(':selected').attr("bcItemId");
 			let bcItemCode = $(this).find(':selected').attr("bcItemCode");
-			table.rows[rowIndex].querySelector('.bcItemCode_add').text(bcItemCode);
-	            console.log(rowIndex);
+			//$(this).closest('tr')[1]
         });
 		
+		document.querySelector('#table_bcItem').addEventListener('click', function(event) {
+			console.log("1")
+			if(event.target.matches('.delete_bcItem')) {
+				console.log("2");
+				const row = event.target.closest('tr');
+				if(row) {
+					console.log("3");
+					row.remove();
+				}
+			}
+		});
+
 		// '소모품 추가' 클릭 시, 테이블의 행이 추가되는 스크립트
 		document.getElementById('add_bcItem').addEventListener('click', () => {
 		    const table = document.getElementById('table_bcItem');
 		    const new_row = table.insertRow();
+		    const row_index = new_row.rowIndex;
 		    const cell_length = table.rows[1].cells.length;
 		
 		    for(let i = 0; i < cell_length; i++) {
@@ -170,14 +181,14 @@
 		        if(i === 0) {
 		        	temp_html = `<td>${new_row.rowIndex}</td>`;
 		        } else if(i === 1) {
-					temp_html = `<td calss="bcItemCode_add"></td>`;
+					temp_html = `<td class="bcItemCode_add"></td>`;
 		        } else if(i === 2) {
 					temp_html = `<td>
 									<select class="form-control bcItemName_add" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 										<option value="">-</option>
 								`;
 					[# th:each="item:${itemList}"]
-					temp_html += `<option value=[[${item.itmId}]] text=[[${item.itmName}]] bcItemCode=[[${item.itmCode}]] rowIndex=${new_row.rowIndex}>`+[[${item.itmName}]]+`</option>`;
+					temp_html += `<option value=[[${item.itmId}]] text=[[${item.itmName}]] bcItemCode=[[${item.itmCode}]]>`+[[${item.itmName}]]+`</option>`;
 					[/]
 					temp_html += `</select>
 								</td>`;
@@ -185,7 +196,7 @@
 					temp_html += `<td><input type="number" min="0" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;"></td>`;
 				} else {
 					temp_html += `<td>
-									<a class="delete_bcItem" data-index="${new_row.rowIndex}" onclick="delete_bcItem_event(this)">
+									<a class="delete_bcItem" data-index="${new_row.rowIndex}">
 										<img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px">
 									</a>
 								</td>`;
@@ -195,7 +206,7 @@
 		});
 		
 		// 삭제 아이콘 클릭 시, 해당 행을 삭제하는 스크립트
-		const delete_bcItem_event = (delete_icon) => {
+/*		const delete_bcItem_event = (delete_icon) => {
 			const table = document.getElementById('table_bcItem');
 			const row_index = delete_icon.getAttribute('data-index');
 			if(table.rows.length === 2) {
@@ -206,10 +217,9 @@
 		    // row_Index 업데이트
 		    for (let i = 1; i < table.rows.length; i++) {
 		        table.rows[i].cells[0].innerHTML = i;
-		        table.rows[i].querySelector('.bcItemName_add').setAttribute('rowIndex', i);
 		        table.rows[i].querySelector('.delete_bcItem').setAttribute('data-index', i);
 		    }
-		};
+		};*/
 
 	</script>
 	
