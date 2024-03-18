@@ -17,7 +17,7 @@ public class SalesCreateForm {
 	private LocalDate sadate;
 	
 	@NotEmpty(message = "판매방법 선택은 필수입니다.")
-	private String samehod;
+	private String samethod;
 	
 	@NotEmpty(message = "제품 선택은 필수입니다.")
 	private String saitem;

@@ -32,7 +32,7 @@ public class Sales {
 	@Column(length = 30)
 	private String saitem;
 	
-	@Column(length = 11)
+	@Column(length = 30)
 	private String saicode;
 	
 	@Column(length = 3)
