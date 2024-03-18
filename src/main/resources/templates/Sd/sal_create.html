@@ -9,7 +9,7 @@
 			<div class="mb-3">
 				<label for="samethod">판매방법을 선택해주세요</label>
 				<select name="samethod" id="samethod" class="form-control" style="width: 20%;">
-					<option value="">-</option>
+					<option value="-">-</option>
 					<option value="예약">예약</option>
 					<option value="온라인판매">온라인판매</option>
 					<option value="오프라인판매">오프라인판매</option>
@@ -21,15 +21,15 @@
 				<div>
 					<label for="reservationDetails">예약물품정보</label>
 					<select id="saitem" name="saitem" class="form-control" style="width: 40%;">
-						<option value="">제품을 선택해주세요</option>
-						<option th:each="reservation : ${ReserList}" th:value="${reservation.rvitem}" th:text="${reservation.rvitem}"
-						 th:data-rv-price="${reservation.rvprice}"
-						 th:data-rv-icode="${reservation.rvicode}" ></option>
+						<option value="-">예약판매로 팔린 제품을 선택해주세요</option>
+						 <option th:each="item : ${ItemList}" th:value="${item.itmName}" th:text="${item.itmName}"
+						 th:data-itm-rprice="${item.itmRprice}"
+						 th:data-itm-code="${item.itmCode}"></option>
 					</select>
 				</div>
 				
 				<div class="my-3">
-					<label for="saicode">제품코드</label>
+					<label for="saicode">예약판매 제품코드</label>
 					<!--
 					<input type="text" id="saicode" name="saicode" class="form-control saitem">
 					-->
@@ -37,74 +37,112 @@
 				</div>
 				
 				<div class="my-3">
-					<label for="saprice">제품가</label>
-					<!--
+					<label for="saprice">예약판매제품가</label>
 					<input type="text" id="saprice" name="saprice" class="form-control saprice">
-					-->
-					<span id="saprice" class="form-control saprice"><!-- 여기에 값이 표시됩니다 --></span>
 				</div>
 				
+				<div class="my-3">
+					<label for="sacount">판매제품 수량</label>
+					<input type="number" min="1" max="999" id="sacount" name="sacount" class="form-control sacount">
+					<span id="countMessage" style="color: red;"></span>
+				</div>
+				
+				<input type="hidden" name="sacp" id="sacp" th:value="${sacp}" class="form-control">
+				<input type="hidden" name="savat" id="savat" th:value="${savat}" class="form-control">
+				<input type="hidden" name="sasum" id="sasum" th:value="${sasum}" class="form-control">
+				<div>
+					<input type="button" onclick="formSubmit();" value="예약판매 입력완료" class="btn btn-primary">
+					<a href="/Sales/list" class="btn mx-2 border-primary text-primary">판매입력 취소</a>
+				</div>
 				
 				<!-- 예약 전용 폼 끝 -->
 			</div>
 			
-
+			
 			<script>
 				$(document).ready(function(){
 					$('#samethod').change(function() {
 						var selectedValue = $(this).val(); // 선택한 값 가져오기
 						var reservationForm = $('#reservationForm'); // 예약 전용 폼
-				
+						var onlineForm = $('#onlineForm'); //온라인판매 전용 폼
+						var offlineForm = $('#offlineForm'); // 오프라인판매 전용 폼
 						// 선택한 값이 '예약'일 때
 						if (selectedValue === '예약') {
 					
 						// 예약 상세 정보 폼 보이기
 						reservationForm.show();
-					
-						// 예약 항목 중복 제거 후 첫 번째 항목 선택
-						var uniqueItems = {}; // 중복된 항목 제거를 위한 객체
-						$('#saitem option').each(function() {
-							uniqueItems[$(this).val()] = $(this).text();
-						});
-					
-						$('#saitem').empty(); // 기존 옵션 제거
-					
-						$.each(uniqueItems, function(value, text) {
-							$('#saitem').append($('<option>').text(text).attr('value', value));
-						});
-					
-						// 첫 번째 예약 항목 선택
-					
-						var rvitem = $('#saitem').val();
-	
+						
+						// 온라인 오프라인 전용 폼 숨기기
+						offlineForm.hide();
+						onlineForm.hide();
+						
 						} else if (selectedValue === '오프라인판매') {
-						// 선택한 값이 '예약'이 아닌 경우 예약 상세 정보 폼 숨기기
+							
+							offlineForm.show();
+							
+							// 선택한 값이 '예약'이 아닌 경우 예약 상세 정보 폼 숨기기
 							reservationForm.hide();
+							onlineForm.hide();
+							
+						} else if (selectedValue === '온라인판매') {
+							
+							onlineForm.show();
+							
+							//예약전용, 오프라인 전용 폼 숨기기
+							reservationForm.hide();
+							offlineForm.hide();
+						} else if (selectedValue === '-'){
+							reservationForm.hide();
+							offlineForm.hide();
+							onlineForm.hide();
 						}
+						
 							});
-							
-							
-							
 						});
 						
 			</script>
 			
 			<script>
 				$(document).ready(function(){
-$('#saitem').change(function(){
-    var selectedOption = $(this).find(':selected');
-    var rvprice = selectedOption.attr("data-rv-price");
-    var rvicode = selectedOption.attr("data-rv-icode");
-
-    $('#saicode').text(rvicode);
-    $('#saprice').text(rvprice);
-
-    console.log(rvicode);
-    console.log(rvprice);
-});
-
-});
+        			$('#saitem').change(function(){
+            			var selectedOption = $(this).find(':selected'); // 선택한 item 옵션
+            			// 선택한 옵션에서 itm_rprice와 itm_code 값을 가져옴
+           				var saprice = selectedOption.data("itm-rprice");
+            			var saicode = selectedOption.data("itm-code");
+            
+            			// 값을 할당하여 출력
+            			$('.saicode').text(saicode);
+            			$('.saprice').text(saprice);
+            
+            			// saprice 값을 입력 필드에 설정
+            			$('#saprice').val(saprice);
+        			});
+    			});  
+			</script>
+			
+			
+			<script>
+				document.getElementById('sacount').addEventListener('change', function() {
+					var count = parseInt(this.value);
+					var messageElement = document.getElementById('countMessage');
+					
+					if (count > 999) {
+            			messageElement.textContent = '수량은 999 이하로 입력해주세요.';
+            			this.value = 999; // 999를 초과하는 값은 999로 설정
+        				} else {
+            			messageElement.textContent = ''; // 에러 메시지 초기화
+        				}
+			    });
+			</script>
+			
+			<script>
+				function formSubmit(){
+					$('#sacp').val( parseInt($('.saprice').val()) * parseInt($('#sacount').val()) );
+					$('#savat').val( parseInt($('#sacp').val()) / 10 );
+					$('#sasum').val( parseInt($('#sacp').val()) + parseInt($('#savat').val()) );
 				
+				document.getElementById("formA").submit();
+				}	
 			</script>
 		</form>
 	</div>

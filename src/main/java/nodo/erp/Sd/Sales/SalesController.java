@@ -1,5 +1,6 @@
 package nodo.erp.Sd.Sales;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,25 +58,40 @@ public class SalesController {
 	@GetMapping("/create")
 	public String SLCreate(Model model, SalesCreateForm salesCreateForm) {
 		List<Item> ItemList = this.itemService.getList();
-		List<Reservation> ReserList = this.reserService.getList(); 
 		model.addAttribute("ItemList", ItemList);
-		model.addAttribute("ReserList", ReserList);
 		return "Sd/sal_create";
 	}
 	
 	@PostMapping("/create")
 	public String SalesCreate(@Valid SalesCreateForm salesCreateForm, BindingResult bindResult) {
-		if(bindResult.hasErrors()) {
-			return "Sd/sal_create";
-		}
-		this.ss.create(salesCreateForm.getSanum(), salesCreateForm.getSamehod(), salesCreateForm.getSadate(), salesCreateForm.getSaitem(), salesCreateForm.getSaicode(), Integer.parseInt(salesCreateForm.getSacount()), Integer.parseInt(salesCreateForm.getSaprice()), Integer.parseInt(salesCreateForm.getSacp()), Integer.parseInt(salesCreateForm.getSavat()), Integer.parseInt(salesCreateForm.getSasum()));
-		return "redirect:/sales/list";
+	    if (bindResult.hasErrors()) {
+	        return "Sd/sal_create";
+	    }
+
+	    // 필드 값 가져오기
+	    String sanum = salesCreateForm.getSanum();
+	    String samethod = salesCreateForm.getSamethod();
+	    LocalDate sadate = LocalDate.now(); //salesCreateForm.getSadate();
+	    String saitem = salesCreateForm.getSaitem();
+	    String saicode = salesCreateForm.getSaicode();
+	    Integer sacount = Integer.parseInt(salesCreateForm.getSacount());
+	    Integer saprice = Integer.parseInt(salesCreateForm.getSaprice());
+	    Integer sacp = Integer.parseInt(salesCreateForm.getSacp());
+	    Integer savat = Integer.parseInt(salesCreateForm.getSavat());
+	    Integer sasum = Integer.parseInt(salesCreateForm.getSasum());
+
+	    // 필요한 로직 수행
+
+	    // 예시로 로직 수행 대신에 서비스 클래스의 create 메서드 호출
+	    this.ss.create(sanum, samethod, sadate, saitem, saicode, sacount, saprice, sacp, savat, sasum);
+
+	    return "redirect:/Sales/list";
 	}
 	
 	@GetMapping("/delete/{id}")
 	public String SalesDelete(@PathVariable("id") Integer id) {
 		this.ss.delete(id);
-		return "redirect:/sales/list";
+		return "redirect:/Sales/list";
 	}
 	
 }
