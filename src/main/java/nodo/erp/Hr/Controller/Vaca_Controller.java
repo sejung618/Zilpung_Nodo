@@ -3,6 +3,7 @@ package nodo.erp.Hr.Controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,6 +67,7 @@ public class Vaca_Controller {
 	}
 
 	@GetMapping("/list")
+	@PreAuthorize("hasRole('HR')")
 	public String list(Model model, 
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "kw1", defaultValue = "") String kw1,

@@ -36,6 +36,7 @@ public class Att_Controller {
 
 	
 	@GetMapping("/list")
+	@PreAuthorize("hasRole('HR')")
 	public String list(Model model, Authentication authentication,
 			@RequestParam(value="page", defaultValue="0") int page,
 			@RequestParam(value = "kw1", defaultValue = "") String kw1,
@@ -48,13 +49,14 @@ public class Att_Controller {
 	}
 	
 	@GetMapping("/detail")
-	public String detail(Model model, Authentication authentication) {
+	public String detail(Model model, Authentication authentication,
+			@RequestParam(value = "page", defaultValue = "0") int page) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			// 로그인한 사용자에게만 허용
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 			Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
-			 List<Attendance> AttList = this.att_Service.getdetailList(employee);
-			model.addAttribute("AttList", AttList);
+			Page<Attendance> paging = this.att_Service.getdetailList(employee,page);
+			model.addAttribute("paging", paging);
 			return "Hr/Att_detail";
 		} else {
 			// 로그인하지 않은 사용자에게는 다른 페이지로 리다이렉션 또는 에러 처리

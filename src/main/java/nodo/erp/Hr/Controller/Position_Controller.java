@@ -3,6 +3,7 @@ package nodo.erp.Hr.Controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,7 @@ public class Position_Controller {
 	private final Emp_Service emp_Service;
 
 	@GetMapping("/list")
+	@PreAuthorize("hasRole('HR')")
 	public String posilist(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 		List<Position> paging = this.position_Service.getList();
 		model.addAttribute("paging", paging);

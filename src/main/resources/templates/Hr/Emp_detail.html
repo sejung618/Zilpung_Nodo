@@ -66,15 +66,15 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				
+
 				<div class="modal-body">
 
 				</div>
-				
+
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -88,7 +88,7 @@
 		modalBody.innerHTML = "<a>" + errorMessage + "</a>";
 		$(modal).modal("show");
 	}
-	
+
 	const delete_elements = document.getElementsByClassName("delete");
 	Array.from(delete_elements).forEach(function (element) {
 		element.addEventListener('click', function () {
@@ -115,40 +115,42 @@
 				}
 				if (xhr.status === 500) {
 					errorMessage = "오류가 발생했습니다.";
-				} else {
+				} else if (xhr.status === 400) {
 					errorMessage = xhr.responseText;
+				} else {
+					errorMessage = "삭제할 수 없습니다.";
 				}
 				openModal(errorMessage);
-				
+
 			}
 		});
 	}
-	
-	
-// 버튼 클릭 이벤트 리스너 등록
-$('#passbutton').click(function(event) {
-    // 버튼의 기본 동작(링크 이동) 막기
-    event.preventDefault();
 
-    var userId = /*[[${empDtail.id}]]*/''; 
-    // AJAX 요청 보내기
-    $.ajax({
-        url: '/Hr/pass/' + userId,
-        type: 'GET',
-        success: function(data) {
-            // 요청이 성공한 경우 처리 로직
-            // 예: 비밀번호 변경 페이지로 이동
-            window.location.href = '/Hr/pass/' + userId;
-        },
-        error: function(xhr, status, error) {
-			console.log(xhr.responseJSON.message);
-			 // 요청이 실패한 경우 오류 처리 로직
-            var errorMessage = xhr.responseJSON.message;
-            // 오류 메시지를 모달 등의 방법으로 표시
-			openModal(errorMessage);
-        }
-    });
-});
+
+	// 버튼 클릭 이벤트 리스너 등록
+	$('#passbutton').click(function (event) {
+		// 버튼의 기본 동작(링크 이동) 막기
+		event.preventDefault();
+
+		var userId = /*[[${empDtail.id}]]*/'';
+		// AJAX 요청 보내기
+		$.ajax({
+			url: '/Hr/pass/' + userId,
+			type: 'GET',
+			success: function (data) {
+				// 요청이 성공한 경우 처리 로직
+				// 예: 비밀번호 변경 페이지로 이동
+				window.location.href = '/Hr/pass/' + userId;
+			},
+			error: function (xhr, status, error) {
+				console.log(xhr.responseJSON.message);
+				// 요청이 실패한 경우 오류 처리 로직
+				var errorMessage = xhr.responseJSON.message;
+				// 오류 메시지를 모달 등의 방법으로 표시
+				openModal(errorMessage);
+			}
+		});
+	});
 </script>
 
 

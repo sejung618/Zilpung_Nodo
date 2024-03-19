@@ -21,6 +21,7 @@ public interface Att_Repository extends JpaRepository<Attendance, Integer>{
 	Optional<Attendance> findByDayAndEmployee(LocalDate checkInday,Employee employee);
 	
 	List<Attendance> findByEmployee(Employee employee);
+	Page<Attendance> findByEmployee(Employee employee,Pageable pageable);
 	
 	Page<Attendance> findAll(Pageable pageable);
 	Page<Attendance> findAll(Specification<Attendance> spec,Pageable pageable);
