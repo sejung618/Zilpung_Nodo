@@ -48,8 +48,9 @@ public class Emp_Controller {
 	private final Position_Service posi_service;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
+	
 	@GetMapping("/list")
+	@PreAuthorize("hasRole('HR')")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "num", defaultValue = "") String num,
 			@RequestParam(value = "name", defaultValue = "") String name,
@@ -69,6 +70,7 @@ public class Emp_Controller {
 	}
 
 	@GetMapping("/create")
+	@PreAuthorize("hasRole('HR')")
 	public String EmpCreate(Model model, Emp_Form emp_Form, Authentication authentication) {
 //		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 //		Employee employee = this.emp_Service.getfindById(customUserDetails.getEmpid());
@@ -162,6 +164,7 @@ public class Emp_Controller {
 //		}
 //	}
 	@GetMapping("/delete/{id}")
+	@PreAuthorize("hasRole('HR')")
 	public ResponseEntity<String> questionDelete(@PathVariable("id") Integer id, Authentication authentication) {
 		if (authentication != null && authentication.isAuthenticated()) {
 			CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -248,6 +251,7 @@ public class Emp_Controller {
 	}
 
 	@GetMapping("/pa")
+	@PreAuthorize("hasRole('HR')")
 	public String personnelAppointments(Model model) {
 		List<Employee> emplist = this.emp_Service.getList();
 		List<Department> deplist = this.dep_Service.getList();
@@ -262,6 +266,7 @@ public class Emp_Controller {
 	}
 
 	@PostMapping("/pa")
+	@PreAuthorize("hasRole('HR')")
 	public String personnelAppointments(@RequestParam(value = "id") Integer id,
 			@RequestParam(value = "spotid") Integer spotid, @RequestParam(value = "positionid") Integer positionid,
 			@RequestParam(value = "depid") Integer depid) {

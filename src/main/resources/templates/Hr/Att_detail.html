@@ -15,7 +15,7 @@
 		</thead>
 
 		<tbody>
-			<tr class="text-center" th:each="List : ${AttList}">
+			<tr class="text-center" th:each="List : ${paging}">
 				<td th:text="${List.employee.empnum}"></td>
 				<td th:text="${List.employee.empname}"></td>
 				<td th:text="${List.day}"></td>
@@ -33,6 +33,8 @@
 
 	</table>
 
+		
+
 	<div class="col-6" style="display: flex;">
 		<form id="checkinForm" th:action="@{/Attendance/checkin}" method="post">
 			<button id="checkinButton" type="button" class="btn btn-primary">출근</button>
@@ -41,7 +43,30 @@
 			<button id="checkoutButton" type="button" class="btn btn-primary mx-1">퇴근</button>
 		</form>
 	</div>
-	<!--모달시작-->
+	<!-- 페이징처리 시작 -->
+	<!--?page=0   페이지번호 1-->
+		<div th:if="${!paging.isEmpty()}">
+			<ul class="pagination justify-content-center">
+				<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+						<span>이전</span>
+					</a>
+				</li>
+				<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+					th:if="${page >= paging.number-4 and page <= paging.number+4}"
+					th:classappend="${page == paging.number} ? 'active'" class="page-item">
+					<a th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+				</li>
+				<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+						<span>다음</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- 페이징처리 끝 -->
+	
+		<!--모달시작-->
 	<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 		aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -117,6 +142,7 @@
 				});
 			});
 		});
+
 	</script>
 
 </div>

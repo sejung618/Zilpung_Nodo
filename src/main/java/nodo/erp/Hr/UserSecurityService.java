@@ -32,8 +32,21 @@ public class UserSecurityService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         if ("admin".equals(empnum)) {
             authorities.add(new SimpleGrantedAuthority(EmpRole.ADMIN.getValue()));
-        } else {
+        }
+        else {
             authorities.add(new SimpleGrantedAuthority(EmpRole.USER.getValue()));
+        }
+        if(siteUser.getDepart().getDepcode()==101) {
+        	authorities.add(new SimpleGrantedAuthority(EmpRole.HR.getValue()));
+        }
+        if(siteUser.getDepart().getDepcode()==102) {
+        	authorities.add(new SimpleGrantedAuthority(EmpRole.MM.getValue()));
+        }
+        if(siteUser.getDepart().getDepcode()==103) {
+        	authorities.add(new SimpleGrantedAuthority(EmpRole.SD.getValue()));
+        }
+        if(siteUser.getDepart().getDepcode()==104) {
+        	authorities.add(new SimpleGrantedAuthority(EmpRole.PP.getValue()));
         }
         return new CustomUserDetails(siteUser.getEmpnum(), 
         		siteUser.getPassword(), authorities, siteUser.getEmpname(), siteUser.getId(), siteUser.getDepart().getDepcode(),siteUser.getPosition().getPositioncode());

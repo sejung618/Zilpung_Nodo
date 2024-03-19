@@ -49,8 +49,11 @@ public class Att_Service {
         return this.att_Repository.findAll(spec,pageable);
     }
 	
-	public List<Attendance> getdetailList(Employee employee) {
-		 return this.att_Repository.findByEmployee(employee);
+	public Page<Attendance> getdetailList(Employee employee,int page) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("id"));
+		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
+		return this.att_Repository.findByEmployee(employee,pageable);
 //		 List<Attendance> Detail = this.att_Repository.findByEmployee(employee);
 //		 if (Detail != null) {
 //	            return this.att_Repository.findByEmployee(employee);
