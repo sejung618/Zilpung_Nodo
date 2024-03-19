@@ -109,7 +109,6 @@ public class AccService {
 		};
 	}
 	
-	
 	public Page<Account> getList(int page, String kw){
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("Id"));

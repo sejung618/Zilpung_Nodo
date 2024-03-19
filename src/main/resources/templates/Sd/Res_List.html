@@ -16,7 +16,7 @@
 			</thead>
 			
 			<tbody>
-				<tr class="text-center table-active" th:each="reservation, loop : ${ResList}">
+				<tr class="text-center" th:each="reservation, loop : ${ResList}">
 					<td th:text="${loop.count}"></td>
 					<td>
 						<a th:href="@{|/reservation/detail/${reservation.id}|}" th:text="${reservation.rvnum}"></a>

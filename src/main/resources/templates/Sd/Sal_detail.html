@@ -1,0 +1,65 @@
+<html layout:decorate="~{/layout}">	
+	<div layout:fragment="content" class="container my-3">
+		
+		<div class="d-sm-flex align-items-center justify-content-between mb-4">
+			<h1 class="h3 mb-0 text-gray-800" th:text=" '판매번호(방법) : ' + ${sales.sanum + '(' + sales.samethod + ')'}"></h1>
+		</div>
+		
+		<h6 class="font-weight-bold">판매제품 정보</h6>
+		<table class="table table-bordered table-hover-td" style="max-width:800px;">
+			<tbody class="table-group-divider">
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매 제품명</th>
+					<td th:text="${sales.saitem}"></td>
+				</tr>
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매방법</th>
+					<td th:text="${sales.samethod}"></td>
+				</tr>
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매 제품코드</th>
+					<td th:text="${sales.saicode}"></td>
+				</tr>
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매날짜</th>
+					<td th:text="${sales.sadate}"></td>
+				</tr>
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매 수량</th>
+					<td th:text="${sales.sacount + '개'}"></td>
+				</tr>
+				
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매 제품가격</th>
+					<td th:text="${sales.saprice + '원'}"></td>
+				</tr>
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매 공급가액</th>
+					<td th:text="${sales.sacp + '원'}"></td>
+				</tr>
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매 부가세액</th>
+					<td th:text="${sales.savat + '원'}"></td>
+				</tr>
+				
+				<tr>
+					<th class="table-primary text-center" style="width: 10%; min-width: 200px;">판매 총 액</th>
+					<td th:text="${sales.sasum + '원'}"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div style="display:flex;">
+		<a href="/Sales/list" class="btn border-primary text-primary">목록</a>
+	</div>
+
+		
+	</div>
+</html>

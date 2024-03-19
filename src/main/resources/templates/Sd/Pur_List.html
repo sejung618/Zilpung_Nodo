@@ -6,6 +6,11 @@
 		<h1 class="h3 mb-0 text-gray-800">구매 현황</h1>
 	</div>
 	
+	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+		<h1 class="h3 mb-0 text-gray-800">거래처 현황</h1>
+	</div>
+	
+	
 	<table class="table table-bordered table-hover-td">
 		<thead class="table-primary">
 			<tr class="text-center">
@@ -17,6 +22,7 @@
             	<th>총액</th>
         	</tr>
     	</thead>
+    	
     	<tbody class="table-group-divider">
     	    <tr class="text-center" th:each="Purchase, loop:${PurList}">
     	        <td th:text="${loop.count}"></td>

@@ -14,15 +14,15 @@
 			</thead>
 			
 			<tbody>
-				<tr class="text-center table-active" th:each="sales, loop : ${SalesList}">
+				<tr class="text-center" th:each="sales, loop : ${SalesList}">
 					<td th:text="${loop.count}" ></td>
 					<td>
-						<a th:href="@{|/sales/detail/{sales.id}|}" th:text="${sales.sanum}"></a>
+						<a th:href="@{|/Sales/detail/${sales.id}|}" th:text="${sales.sanum}"></a>
 					</td>
 					<td th:text="${sales.samethod}"></td>
 					<td th:text="${sales.saitem}"></td>
-					<td th:text="${sales.sacount}"></td>
-					<td th:text="${sales.sasum}"></td>
+					<td th:text="${sales.sacount + '개'}"></td>
+					<td th:text="${sales.sasum + '원'}"></td>
 				</tr>
 			</tbody>
 		</table>

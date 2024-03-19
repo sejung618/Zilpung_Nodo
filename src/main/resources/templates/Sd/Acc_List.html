@@ -1,14 +1,34 @@
 <html layout:decorate="~{layout}">
-	
+
 <div layout:fragment="content" class="m-3">
-	
+
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 		<h1 class="h3 mb-0 text-gray-800">거래처 현황</h1>
 	</div>
-	
+	<div class="form-inline" style="float:right;">
+		<form method='get' th:action="@{/account/list}" style="display: flex;">
+			<select class="form-control" id="category" name="category">
+				<option value="">전체</option>
+				<option value="acaddress">주소</option>
+				<option value="accompany">상호명</option>
+				<option value="acitem">품목명</option>
+				<option value="acdate">거래날짜</option>
+			</select>
+			<div class="input-group">
+				<input type="text" id="search_kw" name="kw" class="form-control bg-light border-primary small"
+					th:value="${kw}" placeholder="검색어를 입력하세요.">
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="submit" id="btn_search">
+						<i class="fas fa-search fa-sm" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
 	<table class="table table-bordered table-hover-td">
-	    <thead class="table-primary">
-	        <tr class="text-center">
+		<thead class="table-primary">
+			<tr class="text-center">
 				<th>번호</th>
 				<th>거래처 회사코드</th>
 				<th>거래처 상호명</th>
@@ -17,7 +37,8 @@
 				<th>첫 거래날짜</th>
 			</tr>
 		</thead>
-		<tbody class="table-group-divider">
+
+		<tbody>
 			<tr class="text-center" th:each="Account, loop:${paging}">
 				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
 				<td th:text="${Account.accode}"></td>
@@ -26,34 +47,54 @@
 				</td>
 				<td th:text="${Account.acname}"></td>
 				<td th:text="${Account.acitem}"></td>
-				<td th:text="${Account.acdate}"></td>	
+				<td th:text="${Account.acdate}"></td>
 			</tr>
 		</tbody>
 	</table>
-	 <div th:if="${!paging.isEmpty()}">
-      <ul class="pagination justify-content-center">
-         <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-            <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
-               <span>이전</span>
-            </a>
-         </li>
-         <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-            th:if="${page >= paging.number-5 and page <= paging.number+5}"
-            th:classappend="${page == paging.number} ? 'active'" class="page-item">
-            <a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
-         </li>
-         <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-            <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
-               <span>다음</span>
-            </a>
-         </li>
-      </ul>
-   </div>
+
+	<!-- 검색 결과가 비어 있을 때 -->
+	<div th:if="${paging.isEmpty()}">
+		<p th:if="${kw}">"<span th:text="${kw}"></span>"에 대한 데이터가 존재하지 않습니다.</p>
+		<p th:unless="${kw}">입력한 값에 대한 데이터가 존재하지 않습니다.</p>
+	</div>
+
+	<!-- 검색 결과가 비어 있지 않을 때 -->
+	<div th:if="${!paging.isEmpty()}">
+		<p th:if="${kw}">"<span th:text="${kw}"></span>"에 대한 데이터가 <span th:text="${paging.totalElements}"></span>건
+			존재합니다.</p>
+		<p th:unless="${kw}">데이터가 <span th:text="${paging.totalElements}"></span>건 존재합니다.</p>
+	</div>
+	
+	<!-- 페이징처리 시작 -->
+	<div th:if="${!paging.isEmpty()}" class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+		<ul class="pagination justify-content-center">
+			<li class="paginate_button page-item previous" id="dataTable_previous"
+				th:classappend="${!paging.hasPrevious} ? 'disabled'">
+				<a class="page-link" th:href="@{/account/list(page=0, kw=${kw}, category=${category})}">
+					<span>이전</span>
+				</a>
+			</li>
+			<li th:each="page: ${#numbers.sequence(1, paging.totalPages)}"
+				th:if="${page >= paging.number-5 and page <= paging.number+5}"
+				th:classappend="${page == (paging.number+1)} ? 'active'" class="paginate_button page-item">
+				<a th:text="${page}" class="page-link"
+					th:href="@{/account/list(page=${page-1}, kw=${kw}, category=${category})}"></a>
+			</li>
+			<li class="paginate_button page-item next" id="dataTable_next"
+				th:classappend="${!paging.hasNext} ? 'disabled'">
+				<a class="page-link"
+					th:href="@{/account/list(page=${paging.number+1}, kw=${kw}, category=${category})}">
+					<span>다음</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 페이징처리 끝 -->
 
 	<div>
 		<a th:href="@{/account/create}" class="btn btn-primary">거래처 추가</a>
 	</div>
 
 </div>
-	
+
 </html>
