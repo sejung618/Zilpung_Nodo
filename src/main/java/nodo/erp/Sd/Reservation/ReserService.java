@@ -124,12 +124,6 @@ public class ReserService {
 		return this.RR.findByRvitemContaining(pageable, kw);
 	}
 	
-	public Page<Reservation> findByRvdate(int page, String kw) {
-		List<Sort.Order> sorts = new ArrayList<>();
-		sorts.add(Sort.Order.desc("Id"));
-		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
-		return this.RR.findByRvdateContaining(pageable, kw);
-	}
 	
 	public Page<Reservation> findByRvnum(int page, String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
@@ -142,6 +136,7 @@ public class ReserService {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("Id"));
 		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
-		return this.RR.findByRvitemContainingOrRvdateContainingOrRvnumContaining(pageable, kw, kw, kw);
+		return this.RR.findByRvnumContainingOrRvitemContaining(pageable, kw, kw);
 	}
+	
 }

@@ -1,9 +1,14 @@
 package nodo.erp.Sd.Sales;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManager;
@@ -96,6 +101,39 @@ public class SalesService {
 		this.SR.delete(sales);
 	}
 	
-	//search 추가 예정
+	public Page<Sales> getList(int page, String kw){
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.SR.findAll(pageable);
+	}
+	
+	public Page<Sales> findBySanum(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.SR.findBySanumContaining(pageable, kw);
+	}
+	
+	public Page<Sales> findBySaitem(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.SR.findBySaitemContaining(pageable, kw);
+	}
+	
+	public Page<Sales> findBySamethod(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.SR.findBySamethodContaining(pageable, kw);
+	}
+	
+	public Page<Sales> searchAll(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.SR.findBySanumContainingOrSaitemContainingOrSamethodContaining(pageable, kw, kw, kw);
+	}
 	
 }

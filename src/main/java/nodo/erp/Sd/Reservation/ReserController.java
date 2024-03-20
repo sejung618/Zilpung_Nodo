@@ -43,12 +43,8 @@ public class ReserController {
 	        @RequestParam(value = "category", defaultValue = "") String category) {
 		Page<Reservation> paging = this.rs.searchAll(page, kw);
 		
-		if(category == null && category.isEmpty()) {
-			paging = this.rs.searchAll(page, kw);
-		} else if ("rvitem".equals(category)) {
+		if ("rvitem".equals(category)) {
 			paging = this.rs.findByRvitem(page, kw);
-		} else if ("rvdate".equals(category)) {
-			paging = this.rs.findByRvdate(page, kw);
 		} else if ("rvnum".equals(category)) {
 			paging = this.rs.findByRvnum(page, kw);
 		} else {
