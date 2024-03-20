@@ -124,9 +124,7 @@ public class PurService {
 		 List<Sort.Order> sorts = new ArrayList<>();
 		 sorts.add(Sort.Order.desc("Id"));
 		 Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
-		 return this.purRepositroy.findByPcnumContainingrPcdateContainingOrPccompanyContainingOrPcitemContaining(pageable, kw, kw, kw, kw);
+		 return this.purRepositroy.findByPcnumContainingOrPcdateContainingOrPccompanyContainingOrPcitemContaining(pageable, kw, kw, kw, kw);
 	 }
-	
-	 
 	 
 }

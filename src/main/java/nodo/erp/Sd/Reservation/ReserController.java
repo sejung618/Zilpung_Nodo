@@ -3,6 +3,7 @@ package nodo.erp.Sd.Reservation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +29,38 @@ public class ReserController {
 	private final ReserService rs;
 	private final ItemService itemService;
 	private final InventoryService invenService;
-	
+	/*
 	@GetMapping("/list")
 	public String list(Model model) {
 		List<Reservation> ResList = this.rs.getList();
 		model.addAttribute("ResList", ResList);
 		return "Sd/Res_List";
 	}
+	*/
+	@GetMapping("/list")
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+	        @RequestParam(value = "kw", defaultValue = "") String kw,
+	        @RequestParam(value = "category", defaultValue = "") String category) {
+		Page<Reservation> paging = this.rs.searchAll(page, kw);
+		
+		if(category == null && category.isEmpty()) {
+			paging = this.rs.searchAll(page, kw);
+		} else if ("rvitem".equals(category)) {
+			paging = this.rs.findByRvitem(page, kw);
+		} else if ("rvdate".equals(category)) {
+			paging = this.rs.findByRvdate(page, kw);
+		} else if ("rvnum".equals(category)) {
+			paging = this.rs.findByRvnum(page, kw);
+		} else {
+			paging = this.rs.searchAll(page, kw);
+		}
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("kw", kw);
+		
+		return "Sd/Res_List";
+	}
+	
 	
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {

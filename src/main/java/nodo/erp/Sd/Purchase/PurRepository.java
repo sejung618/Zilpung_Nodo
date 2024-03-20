@@ -21,7 +21,5 @@ public interface PurRepository extends JpaRepository<Purchase, Integer>{
 	Page<Purchase> findByPcitemContaining(Pageable pageable, String kw);
 	
 	//전체 옵션에서 검색
-	Page<Purchase> findByPcnumContainingrPcdateContainingOrPccompanyContainingOrPcitemContaining(Pageable pageable, String kw1, String kw2, String kw3, String kw4);
-	
-	
+	Page<Purchase> findByPcnumContainingOrPcdateContainingOrPccompanyContainingOrPcitemContaining(Pageable pageable, String kw1, String kw2, String kw3, String kw4);	
 }

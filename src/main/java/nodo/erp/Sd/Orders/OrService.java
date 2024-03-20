@@ -1,8 +1,13 @@
 package nodo.erp.Sd.Orders;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.PersistenceContext;
@@ -48,4 +53,46 @@ public class OrService {
 	    this.orRepository.save(or);
 	}
 
+	public Page<Orders> getList(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.orRepository.findAll(pageable);
+	}
+	
+	public Page<Orders> findByOrdate(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.orRepository.findByOrdateContaining(pageable, kw);
+	}
+	
+	public Page<Orders> findByOritem(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.orRepository.findByOritemContaining(pageable, kw);
+	}
+	
+	public Page<Orders> findByOrcompany(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.orRepository.findByOrcompanyContaining(pageable, kw);
+	}
+	
+	public Page<Orders> findByOrnum(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.orRepository.findByOrnumContaining(pageable, kw);
+	}
+	
+	public Page<Orders> searchAll(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.orRepository.findByOrdateContainingOrOritemContainingOrOrcompanyContainingOrOrnumContaining(pageable, kw, kw, kw, kw);
+	}
+	
 }

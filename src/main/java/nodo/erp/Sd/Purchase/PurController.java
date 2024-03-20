@@ -37,31 +37,28 @@ public class PurController {
 	*/
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "kw", defaultValue = "") String kw,
-			@RequestParam(value = "category", defaultValue = "") String category) {
-		Page<Purchase> paging = this.purService.searchAll(page, kw);
-		
-		if(category == null && category.isEmpty()) {
-			paging = this.purService.searchAll(page, kw);
-		}
-		if ("pcnum".equals(category)) {
-			paging = this.purService.findByPcnum(page, kw);
-		}
-		if ("pcdate".equals(category)) {
-			paging = this.purService.findByPcdate(page, kw);
-		}
-		if ("pcitem".equals(category)) {
-			paging = this.purService.findByPcitem(page, kw);
-		}
-		
-		if ("pccompany".equals(category)) {
-			paging = this.purService.findByPccompany(page, kw);
-		}
-		
-		model.addAttribute("paging", paging);
-		model.addAttribute("kw", kw);
-		
-		return "Sd/Pcc_List";
+	        @RequestParam(value = "kw", defaultValue = "") String kw,
+	        @RequestParam(value = "category", defaultValue = "") String category) {
+	    Page<Purchase> paging = this.purService.searchAll(page, kw);
+
+	    if (category == null && category.isEmpty()) {
+	        paging = this.purService.searchAll(page, kw);
+	    } else if ("pcnum".equals(category)) {
+	        paging = this.purService.findByPcnum(page, kw);
+	    } else if ("pcdate".equals(category)) {
+	        paging = this.purService.findByPcdate(page, kw);
+	    } else if ("pcitem".equals(category)) {
+	        paging = this.purService.findByPcitem(page, kw);
+	    } else if ("pccompany".equals(category)) {
+	        paging = this.purService.findByPccompany(page, kw);
+	    } else {
+	        paging = this.purService.searchAll(page, kw); // Default case
+	    }
+
+	    model.addAttribute("paging", paging);
+	    model.addAttribute("kw", kw);
+
+	    return "Sd/Pur_List";
 	}
 	
 	@GetMapping(value = "/detail/{id}")

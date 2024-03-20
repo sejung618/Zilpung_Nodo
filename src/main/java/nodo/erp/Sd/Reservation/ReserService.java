@@ -1,9 +1,14 @@
 package nodo.erp.Sd.Reservation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManager;
@@ -105,7 +110,38 @@ public class ReserService {
 		this.RR.delete(res);
 	}
 	
+	public Page<Reservation> getList(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.RR.findAll(pageable);
+	}
 	
-	//예약 정보 검색 메소드 추가예정
+	public Page<Reservation> findByRvitem(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.RR.findByRvitemContaining(pageable, kw);
+	}
 	
+	public Page<Reservation> findByRvdate(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.RR.findByRvdateContaining(pageable, kw);
+	}
+	
+	public Page<Reservation> findByRvnum(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.RR.findByRvnumContaining(pageable, kw);
+	}
+	
+	public Page<Reservation> searchAll(int page, String kw) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("Id"));
+		Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		return this.RR.findByRvitemContainingOrRvdateContainingOrRvnumContaining(pageable, kw, kw, kw);
+	}
 }
