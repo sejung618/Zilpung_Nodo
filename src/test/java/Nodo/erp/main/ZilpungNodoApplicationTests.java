@@ -46,10 +46,10 @@ class ZilpungNodoApplicationTests {
 //			spotService.create(strb, strb);
 //			posiService.create(strc, strc);
 //		}
-        for (int i = 1; i <= 500; i++) {
-        	int a =(int)(Math.random()*29) +1;
-        	int b =(int)(Math.random()*29) +1;
-        	int c =(int)(Math.random()*29) +1;
+        for (int i = 1; i <= 200; i++) {
+        	int a =(int)(Math.random()*9) +1;
+        	int b =(int)(Math.random()*9) +1;
+        	int c =(int)(Math.random()*5) +1;
         	int d =(int)(Math.random()*9999);
         	int e =(int)(Math.random()*9999);
         	int f =(int)(Math.random()*9999);

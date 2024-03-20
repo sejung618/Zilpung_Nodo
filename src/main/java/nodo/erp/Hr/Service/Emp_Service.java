@@ -54,12 +54,12 @@ public class Emp_Service {
 	}
 
 
-	public Page<Employee> getList(int page, String num, String name, String month,String spot,String posi,String depart) {
+	public List<Employee> getList(int page, String num, String name, String month,String spot,String posi,String depart) {
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("id")); // asc오름차순
 		Pageable pageable = PageRequest.of(page, 10,Sort.by(sorts));
 		Specification<Employee> spec = search(num, name,month,spot,posi,depart);
-		return this.emp_Repository.findAll(spec, pageable);
+		return this.emp_Repository.findAll(spec);
 	}
 	
 	public Employee getfindById(Integer id) {
