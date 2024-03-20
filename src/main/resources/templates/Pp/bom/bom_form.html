@@ -46,7 +46,7 @@
 		    <thead class="table-primary">
 		        <tr class="text-center">
 					<th>#</th>
-					<th>품목코드</th>
+					<th style="min-width:250px;">품목코드</th>
 		            <th>품목명</th>
 		            <th>수량</th>
 		            <th>삭제</th>
@@ -55,9 +55,9 @@
 		    <tbody class="table-group-divider text-center" id="tableBody_bcItem">
 		        <tr>
 					<td>1</td>
-					<td id="bcItemCode"></td>
+					<td class="bcItemCode" style="min-width:250px;"></td>
 					<td>
-						<select id="bcItemName" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
+						<select class="bcItemName form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 							<option value="">-</option>
 							<option th:each="item:${itemList}" th:value="${item.itmId}" th:text="${item.itmName}" th:bcItemId="${item.itmId}" th:bcItemCode="${item.itmCode}"></option>
 						</select>
@@ -66,8 +66,8 @@
 						<input type="number" min="0" id="bcCount" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 					</td>
 					<td>
-						<a class="delete_bcItem" data-index="1">
-							<img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px">
+						<a class="delete_bcItem" data-index="1" onclick="delete_bcItem_event(this)">
+							<img src="/img/trash-can-solid.svg" alt="삭제" style="height:18px">
 						</a>
 					</td>
 				</tr>
@@ -138,36 +138,6 @@
 			});
 		});
 		
-		// 초기 행에 대한 이벤트 처리
-		$(document).ready(function () {
-			$('#bcItemName').change(function () {
-	            let bcItemName = $(this).find(':selected').text();
-	            let bcItemId = $(this).find(':selected').attr("bcItemId");
-				let bcItemCode = $(this).find(':selected').attr("bcItemCode");
-				$('#bcItemCode').text(bcItemCode);
-			});
-		});
-		
-		// 동적으로 생성된 행에 대한 이벤트 처리
-        $(document).on('change', '.bcItemName_add', function () {
-		    const table = document.getElementById('table_bcItem');
-			let bcItemId = $(this).find(':selected').attr("bcItemId");
-			let bcItemCode = $(this).find(':selected').attr("bcItemCode");
-			//$(this).closest('tr')[1]
-        });
-		
-		document.querySelector('#table_bcItem').addEventListener('click', function(event) {
-			console.log("1")
-			if(event.target.matches('.delete_bcItem')) {
-				console.log("2");
-				const row = event.target.closest('tr');
-				if(row) {
-					console.log("3");
-					row.remove();
-				}
-			}
-		});
-
 		// '소모품 추가' 클릭 시, 테이블의 행이 추가되는 스크립트
 		document.getElementById('add_bcItem').addEventListener('click', () => {
 		    const table = document.getElementById('table_bcItem');
@@ -181,10 +151,10 @@
 		        if(i === 0) {
 		        	temp_html = `<td>${new_row.rowIndex}</td>`;
 		        } else if(i === 1) {
-					temp_html = `<td class="bcItemCode_add"></td>`;
+					temp_html = `<td class="bcItemCode" style="min-width:250px;"></td>`;
 		        } else if(i === 2) {
 					temp_html = `<td>
-									<select class="form-control bcItemName_add" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
+									<select class="bcItemName form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;">
 										<option value="">-</option>
 								`;
 					[# th:each="item:${itemList}"]
@@ -196,8 +166,8 @@
 					temp_html += `<td><input type="number" min="0" class="form-control" style="width:100%; height:100%; border:1px solid #e3e6f0; background-color:transparent;"></td>`;
 				} else {
 					temp_html += `<td>
-									<a class="delete_bcItem" data-index="${new_row.rowIndex}">
-										<img src="/img/trash-can-solid.svg" alt="삭제" style="height:15px">
+									<a class="delete_bcItem" data-index="${new_row.rowIndex}" onclick="delete_bcItem_event(this)">
+										<img src="/img/trash-can-solid.svg" alt="삭제" style="height:18px">
 									</a>
 								</td>`;
 				};
@@ -205,8 +175,18 @@
 			}
 		});
 		
+		// 동적으로 생성된 행에 대한 이벤트 처리
+        $(document).on('change', '.bcItemName', function () {
+		    const table = document.getElementById('table_bcItem');
+		    let bcItemName = $(this).find(':selected').text();
+			let bcItemId = $(this).find(':selected').attr("bcItemId");
+			let bcItemCode = $(this).find(':selected').attr("bcItemCode");
+			let index = $(this).closest('tr').prevAll().length + 1;
+			table.rows[index].cells[1].innerText=bcItemCode;
+		});
+		
 		// 삭제 아이콘 클릭 시, 해당 행을 삭제하는 스크립트
-/*		const delete_bcItem_event = (delete_icon) => {
+		const delete_bcItem_event = (delete_icon) => {
 			const table = document.getElementById('table_bcItem');
 			const row_index = delete_icon.getAttribute('data-index');
 			if(table.rows.length === 2) {
@@ -219,7 +199,21 @@
 		        table.rows[i].cells[0].innerHTML = i;
 		        table.rows[i].querySelector('.delete_bcItem').setAttribute('data-index', i);
 		    }
-		};*/
+		};
+		
+/*		document.querySelector('#table_bcItem').addEventListener('click', function(event) {
+			console.log("1")
+			const target = event.target.matches('.delete_bcItem')
+			console.log(target)
+			if(target) {
+				console.log("2");
+				const row = event.target.closest('tr');
+				if(row) {
+					console.log("3");
+					row.remove();
+				}
+			}
+		}); */
 
 	</script>
 	
