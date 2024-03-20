@@ -58,7 +58,7 @@ public class Emp_Controller {
 			@RequestParam(value = "spot", defaultValue = "") String spot,
 			@RequestParam(value = "posi", defaultValue = "") String posi,
 			@RequestParam(value = "depart", defaultValue = "") String depart) {
-		Page<Employee> paging = this.emp_Service.getList(page, num, name, month, spot, posi, depart);
+		List<Employee> paging = this.emp_Service.getList(page, num, name, month, spot, posi, depart);
 		model.addAttribute("paging", paging);
 		model.addAttribute("num", num);
 		model.addAttribute("name", name);
