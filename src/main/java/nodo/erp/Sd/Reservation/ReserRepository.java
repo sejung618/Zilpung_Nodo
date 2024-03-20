@@ -15,8 +15,10 @@ public interface ReserRepository extends JpaRepository<Reservation, Integer> {
 	
 	// 검색 옵션으로 페이지
 	Page<Reservation> findByRvitemContaining(Pageable pageable, String kw);
-	Page<Reservation> findByRvdateContaining(Pageable pageable, String kw);
+	
 	Page<Reservation> findByRvnumContaining(Pageable pageable, String kw);
 	
-	Page<Reservation> findByRvitemContainingOrRvdateContainingOrRvnumContaining(Pageable pageable, String kw1, String kw2, String kw3); 
+	Page<Reservation> findByRvnumContainingOrRvitemContaining(Pageable pageable, String kw1, String kw2); 
+	
+	 
 }

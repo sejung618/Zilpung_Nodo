@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,19 +36,47 @@ public class SalesController {
 	/*
 	@GetMapping("/list")
 	public String list(Model model) {
-		List<Sales> SalesList = this.SS.getList();
+		List<Sales> SalesList = this.ss.getList();
 		model.addAttribute("SalesList", SalesList);
 		return "Sd/Sales_List";
 	}
 	*/
 	
 	@GetMapping("/list")
-	public String list(Model model) {
-		List<Sales> SalesList = this.ss.getList();
-		model.addAttribute("SalesList", SalesList);
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+	        @RequestParam(value = "kw", defaultValue = "") String kw,
+	        @RequestParam(value = "category", defaultValue = "") String category) {
+		Page<Sales> paging = this.ss.searchAll(page, kw);
+		
+		int totalPrice = 0;
+		for(Sales sales : paging) {
+			totalPrice += sales.getSasum();
+		}
+		
+		int totalQuantity = 0;
+		for(Sales sales : paging) {
+			totalQuantity += sales.getSacount();
+		}
+		
+		if ("sanum".equals(category)) {
+			paging = this.ss.findBySanum(page, kw);
+		} else if ("saitem".equals(category)) {
+			paging = this.ss.findBySaitem(page, kw);
+		} else if ("samethod".equals(category)) {
+			paging = this.ss.findBySamethod(page, kw);
+		} else {
+			paging = this.ss.searchAll(page, kw);
+		}
+		
+		
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("kw", kw);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("totalQuantity", totalQuantity);
+		
 		return "Sd/Sales_List";
 	}
-	
 	
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
