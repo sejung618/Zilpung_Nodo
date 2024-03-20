@@ -17,7 +17,7 @@
 			</thead>
 			
 			<tbody>
-				<tr class="text-center table-active" th:each="Orders, loop:${OrList}">
+				<tr class="text-center" th:each="Orders, loop:${OrList}">
 					<td th:text="${loop.count}"></td>
 					<td th:text="${Orders.ornum}"></td>
 					<td th:text="${Orders.orcompany + '(' + Orders.orcode + ')'}"></td>

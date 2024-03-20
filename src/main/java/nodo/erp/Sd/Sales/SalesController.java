@@ -51,7 +51,7 @@ public class SalesController {
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
 		Sales sales = this.ss.getSales(id);
-		model.addAttribute(sales);
+		model.addAttribute("sales", sales);
 		return "Sd/Sal_detail";
 	}
 	

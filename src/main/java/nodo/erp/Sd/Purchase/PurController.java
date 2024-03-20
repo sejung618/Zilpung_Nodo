@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -25,12 +27,41 @@ public class PurController {
 	
 	private final PurService purService;
 	private final AccService accService;
-	
+	/*
 	@GetMapping("/list")
 	public String list(Model model) {
 		List<Purchase> PurList = this.purService.getList();
 		model.addAttribute("PurList", PurList);
 		return "Sd/Pur_List";
+	}
+	*/
+	@GetMapping("/list")
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw", defaultValue = "") String kw,
+			@RequestParam(value = "category", defaultValue = "") String category) {
+		Page<Purchase> paging = this.purService.searchAll(page, kw);
+		
+		if(category == null && category.isEmpty()) {
+			paging = this.purService.searchAll(page, kw);
+		}
+		if ("pcnum".equals(category)) {
+			paging = this.purService.findByPcnum(page, kw);
+		}
+		if ("pcdate".equals(category)) {
+			paging = this.purService.findByPcdate(page, kw);
+		}
+		if ("pcitem".equals(category)) {
+			paging = this.purService.findByPcitem(page, kw);
+		}
+		
+		if ("pccompany".equals(category)) {
+			paging = this.purService.findByPccompany(page, kw);
+		}
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("kw", kw);
+		
+		return "Sd/Pcc_List";
 	}
 	
 	@GetMapping(value = "/detail/{id}")

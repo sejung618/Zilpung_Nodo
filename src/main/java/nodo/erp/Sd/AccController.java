@@ -38,8 +38,8 @@ public class AccController {
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "kw", defaultValue = "") String kw,
 			@RequestParam(value = "category", defaultValue = "") String category) {
-		Page<Account> paging = this.accService.getList(page, kw);
-		//Page<Account> paging = this.accService.searchAll(page, kw);
+		//Page<Account> paging = this.accService.getList(page, kw);
+		Page<Account> paging = this.accService.searchAll(page, kw);
 		
 		
 		if(category == null && category.isEmpty()) {

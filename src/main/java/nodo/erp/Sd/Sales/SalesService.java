@@ -80,12 +80,12 @@ public class SalesService {
 	
 	private int generateMaxNum(String ymd) {
 	    TypedQuery<Integer> query = entity.createQuery(
-	            "SELECT MAX(CAST(SUBSTRING(s.sanum, -4) AS int)) " +
+	            "SELECT MAX(CAST(SUBSTRING(s.sanum, 9) AS int)) " +
 	                    "FROM Sales s WHERE SUBSTRING(s.sanum, 1, 6) = :ymd", Integer.class);
 	    query.setParameter("ymd", ymd);
 
 	    Integer maxNum = query.getSingleResult();
-	    return (maxNum == null) ? 0 : maxNum;
+	    return (maxNum == null) ? 1 : maxNum+1;
 	}
 	
 	

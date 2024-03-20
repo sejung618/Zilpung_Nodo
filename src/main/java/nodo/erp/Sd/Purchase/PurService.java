@@ -1,8 +1,13 @@
 package nodo.erp.Sd.Purchase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -80,5 +85,48 @@ public class PurService {
 		 this.purRepositroy.delete(pur);
 	 }
 	
+	 public Page<Purchase> getList(int page, String kw) {
+		 List<Sort.Order> sorts = new ArrayList<>();
+			sorts.add(Sort.Order.desc("Id"));
+			Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+			return this.purRepositroy.findAll(pageable);
+	 }
+	 
+	 public Page<Purchase> findByPcnum(int page, String kw){
+		 List<Sort.Order> sorts = new ArrayList<>();
+		 sorts.add(Sort.Order.desc("Id"));
+		 Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		 return this.purRepositroy.findByPcnumContaining(pageable, kw);
+	 }
+	 
+	 public Page<Purchase> findByPcdate(int page, String kw){
+		 List<Sort.Order> sorts = new ArrayList<>();
+		 sorts.add(Sort.Order.desc("Id"));
+		 Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		 return this.purRepositroy.findByPcdateContaining(pageable, kw);
+	 }
+	 
+	 public Page<Purchase> findByPccompany(int page, String kw){
+		 List<Sort.Order> sorts = new ArrayList<>();
+		 sorts.add(Sort.Order.desc("Id"));
+		 Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		 return this.purRepositroy.findByPccompanyContaining(pageable, kw);
+	 }
 	
+	 public Page<Purchase> findByPcitem(int page, String kw){
+		 List<Sort.Order> sorts = new ArrayList<>();
+		 sorts.add(Sort.Order.desc("Id"));
+		 Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		 return this.purRepositroy.findByPcitemContaining(pageable, kw);
+	 }
+	
+	 public Page<Purchase> searchAll(int page, String kw){
+		 List<Sort.Order> sorts = new ArrayList<>();
+		 sorts.add(Sort.Order.desc("Id"));
+		 Pageable pageable = PageRequest.of(page, 20, Sort.by(sorts));
+		 return this.purRepositroy.findByPcnumContainingrPcdateContainingOrPccompanyContainingOrPcitemContaining(pageable, kw, kw, kw, kw);
+	 }
+	
+	 
+	 
 }
