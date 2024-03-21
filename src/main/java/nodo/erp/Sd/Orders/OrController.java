@@ -40,6 +40,21 @@ public class OrController {
 	        @RequestParam(value = "category", defaultValue = "") String category) {
 		Page<Orders> paging = this.orService.searchAll(page, kw);
 		
+		int totalPrice = 0; // 총 액을 나타내는 변수
+		for(Orders orders : paging) {
+			totalPrice += orders.getOrvatsum();
+		}
+		
+		int totalQuantity = 0; // 발주물품 갯수를 나타내는 변수
+		for(Orders orders : paging) {
+			totalQuantity += orders.getOrcount();
+		}
+		
+		int totalCP = 0; // 공급가액을 나타내는 변수
+		for(Orders orders : paging) {
+			totalCP += orders.getOrcp();
+		}
+		
 		if(category == null && category.isEmpty()) {
 			paging = this.orService.searchAll(page, kw);
 		} else if ("ordate".equals(category)) {
@@ -54,6 +69,10 @@ public class OrController {
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("totalQuantity", totalQuantity);
+		model.addAttribute("totalCP", totalCP);
+		
 		
 		return "Sd/Or_List";
 	}

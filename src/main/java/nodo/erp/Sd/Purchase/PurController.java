@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import nodo.erp.Sd.AccService;
 import nodo.erp.Sd.Account;
+import nodo.erp.Sd.Sales.Sales;
 
 @RequestMapping("/purchase")
 
@@ -41,6 +42,16 @@ public class PurController {
 	        @RequestParam(value = "category", defaultValue = "") String category) {
 	    Page<Purchase> paging = this.purService.searchAll(page, kw);
 
+	    int totalPrice = 0;
+	    for(Purchase purchase : paging) {
+	    	totalPrice += purchase.getPcvatsum();
+	    }
+	    
+	    int totalQuantity = 0;
+		for(Purchase purchase : paging) {
+			totalQuantity += purchase.getPccount();
+		}
+	    
 	    if (category == null && category.isEmpty()) {
 	        paging = this.purService.searchAll(page, kw);
 	    } else if ("pcnum".equals(category)) {
@@ -57,7 +68,9 @@ public class PurController {
 
 	    model.addAttribute("paging", paging);
 	    model.addAttribute("kw", kw);
-
+	    model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("totalQuantity", totalQuantity);
+		
 	    return "Sd/Pur_List";
 	}
 	
