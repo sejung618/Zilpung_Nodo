@@ -19,6 +19,7 @@ import nodo.erp.Mm.Inventory.Inventory;
 import nodo.erp.Mm.Inventory.InventoryService;
 import nodo.erp.Pp.Item.Item;
 import nodo.erp.Pp.Item.ItemService;
+import nodo.erp.Sd.Purchase.Purchase;
 
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
@@ -43,6 +44,16 @@ public class ReserController {
 	        @RequestParam(value = "category", defaultValue = "") String category) {
 		Page<Reservation> paging = this.rs.searchAll(page, kw);
 		
+		int totalPrice = 0;
+	    for(Reservation reservation : paging) {
+	    	totalPrice += reservation.getRvsum();
+	    }
+	    
+	    int totalQuantity = 0;
+		for(Reservation reservation : paging) {
+			totalQuantity += reservation.getRvcount();
+		}
+		
 		if ("rvitem".equals(category)) {
 			paging = this.rs.findByRvitem(page, kw);
 		} else if ("rvnum".equals(category)) {
@@ -53,6 +64,8 @@ public class ReserController {
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("totalQuantity", totalQuantity);
 		
 		return "Sd/Res_List";
 	}

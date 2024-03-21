@@ -64,6 +64,15 @@
 	<!-- 페이징처리 시작 -->
 	<div th:if="${!paging.isEmpty()}" class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
 		<ul class="pagination justify-content-center">
+			<li class="paginate_button page-item previous" id="dataTable_first"
+				th:classappend="${!paging.hasPrevious} ? 'disabled'">
+				<a class="page-link" th:if="${paging.hasPrevious}"
+					th:href="@{/purchase/list(page=0, kw=${kw}, category=${category})}">
+					<span>처음으로</span>
+				</a>
+			</li>
+			
+			
 			<li class="paginate_button page-item previous" id="dataTable_previous"
 				th:classappend="${!paging.hasPrevious} ? 'disabled'">
 				<a class="page-link" th:href="@{/purchase/list(page=0, kw=${kw}, category=${category})}">
@@ -83,14 +92,38 @@
 					<span>다음</span>
 				</a>
 			</li>
+			<li class="paginate_button page-item next" id="dataTable_last" th:classappend="${paging.last} ? 'disabled'">
+				<a class="page-link" th:if="${!paging.last}"
+					th:href="@{/purchase/list(page=${paging.totalPages - 1}, kw=${kw}, category=${category})}">
+					<span>마지막으로</span>
+				</a>
+			</li>
+
 		</ul>
 	</div>
 	<!-- 페이징처리 끝 -->
-	<p class="text-gray-600">총 구매 데이터: <span
-			th:text="${paging.totalElements != null ? paging.totalElements : 0}">0</span>건</p>
+	
+	<div style="float: right;">
+		<table class="table table-bordered table-hover-td">
+			<tr>
+				<td style="text-align: right; background-color: skyblue; color: black;">총 구매 건수:</td>
+				<td colspan="2"><span th:text="${paging.totalElements != null ? paging.totalElements : 0}"
+						style="color: black">0</span>건</td>
+			</tr>
+			<tr>
+				<td style="text-align: right; background-color:skyblue; color: black;">페이지 데이터의 총 액수:</td>
+				<td><span th:text="${totalPrice + '원'}" style="color: black;"></span></td>
+			</tr>
+			<tr>
+				<td style="text-align: right; background-color: skyblue; color: black;">페이지 데이터의 물품 총 수량:</td>
+				<td><span th:text="${totalQuantity + '개'}" style="color: black;"></span></td>
+			</tr>
+		</table>
+	</div>
 
+	
+	
 	<div>
-
 		<a th:href="@{/purchase/create}" class="btn btn-primary">구매 입력</a>
 	</div>
 </div>
